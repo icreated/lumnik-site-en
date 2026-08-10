@@ -69,19 +69,19 @@
     <p class="lede">
       Orders, customers, inventory, service calls — it all exists somewhere, inside an aging ERP
       nobody wants to migrate and nobody is allowed to connect anything to. So two people know how
-      to query it, questions wait until they're back from vacation, and every new report is a paid
-      ticket with the vendor. <strong>The data isn't scarce. It's locked up.</strong>
+      to query it, questions wait until they're back from vacation, and every new report is a
+      billable ticket to the vendor. <strong>The data isn't scarce. It's locked up.</strong>
     </p>
     <div class="systemes">
       <div class="systeme"><div class="nom">Dynamics GP</div><div class="depuis">end of support announced — the data stays</div></div>
-      <div class="systeme"><div class="nom">Dynamics NAV</div><div class="depuis">customized past the point of upgrading</div></div>
+      <div class="systeme"><div class="nom">Dynamics NAV</div><div class="depuis">customized past any upgrade path</div></div>
       <div class="systeme"><div class="nom">Sage 50 / Sage 100</div><div class="depuis">Peachtree and MAS 90, still posting</div></div>
       <div class="systeme"><div class="nom">QuickBooks Desktop</div><div class="depuis">fifteen years of company files</div></div>
       <div class="systeme"><div class="nom">AS/400 (IBM i)</div><div class="depuis">green screen, one expert left</div></div>
       <div class="systeme"><div class="nom">The Access / FoxPro app</div><div class="depuis">its author retired in 2019</div></div>
     </div>
     <p class="lede" style="margin-top:34px">
-      Same story on Epicor and JD Edwards, in the folder of 900 CSV exports the last Excel wizard
+      Same story with Epicor and JD Edwards, in the folder of 900 CSV exports the last Excel wizard
       left behind, and one floor up in SAP ECC, Oracle E-Business Suite and Siebel. And the clock is
       public now: Microsoft has announced the end of support for Dynamics GP — 2029 for the product,
       2031 for the last security updates. A migration is a multi-year program.
@@ -109,8 +109,8 @@
       </div>
       <div class="geste">
         <h3>Meaning — ask in plain English</h3>
-        <p>Each team gets its own assistant, bounded to <strong>its own</strong> scope. Warehouse
-        asks inventory from a phone; finance can't see what finance shouldn't. Generated SQL runs
+        <p>Each team gets its own assistant, bounded to <strong>its own</strong> scope. The warehouse
+        checks inventory from a phone; finance can't see what finance shouldn't. Generated SQL runs
         over a <strong>read-only connection</strong>, and every answer cites where it came from.</p>
       </div>
       <div class="geste">
@@ -127,7 +127,7 @@
         <p class="lede">
           Everyone has an AI now. Ours was raised differently: deterministic guards check each
           answer before it ever reaches you. A confident "there aren't any" that turns out to be
-          wrong is, here, the cardinal sin — <strong>Lumnik would rather admit it doesn't know</strong>.
+          wrong is the cardinal sin around here — <strong>Lumnik would rather admit it doesn't know</strong>.
           That is what makes an answer usable by someone who has to act on it.
         </p>
       </div>
@@ -160,7 +160,7 @@
     <h2>Your data isn't only cold.<br>It has lost its <em>memory</em>.</h2>
     <p class="lede">
       An ERP tells you what <em>is</em>. Never since when. Tonight's export overwrites last night's;
-      the status column reads "open" — it read "open" forty days ago too, but nobody kept that.
+      the status column reads "open" — it read "open" forty days ago too, but nobody wrote that down.
       <strong>Time is the first thing a legacy system destroys.</strong>
     </p>
 
@@ -179,7 +179,7 @@
           the exact observation that fired the alert.
         </p>
         <p class="serment" style="margin-top:26px">
-          <b>Nothing happening triggers nothing.</b> No system warns you about a non-event.
+          <b>When nothing happens, nothing fires.</b> No system warns you about a non-event.
           This is the one place where Lumnik doesn't merely show you your data — it finds
           something in it.
         </p>
@@ -227,20 +227,20 @@
     <h2>Your modern tools want events.<br>Your ERP has <em>never emitted one</em>.</h2>
     <p class="lede">
       Shared calendars, dashboards, metric stores, rule engines — the entire modern stack runs on
-      events. The old system emits none: no webhook, no stream, no socket. Lumnik breathes,
-      compares and timestamps, so every observed change becomes an event your tools consume through
-      ordinary plugs: a webhook into <strong>Make, n8n or Power Automate</strong>, an export, a SQL
+      events. The old system emits none: no webhook, no stream, no socket. Lumnik breathes — reads,
+      compares, timestamps — so every observed change becomes an event your tools consume through
+      ordinary sockets: a webhook into <strong>Make, n8n or Power Automate</strong>, an export, a SQL
       query. <strong>And every silence too</strong>: "unmoved for thirty days" is an alert no
       event-driven system can send you, precisely because nothing happened.
     </p>
     <div class="cas-grille">
       <article class="cas">
         <div class="contexte">No access to the legacy</div>
-        <h3>Plug in the modern without touching the old</h3>
+        <h3>Plug in the new without touching the old</h3>
         <p>Every conventional integration asks for an account, a network path, sometimes a write
         into a fragile ERP — and the admin says no, usually for good reason.</p>
         <p class="lumen">With Lumnik, your modern tools never get access to the old system at all:
-        read-only on one side, standard plugs on the other. Day one's zero-risk posture extends to
+        read-only on one side, standard sockets on the other. Day one's zero-risk posture extends to
         the whole ecosystem.</p>
       </article>
       <article class="cas">
@@ -249,8 +249,8 @@
         <p>Every tool wired straight into the ERP makes that ERP a little harder to remove.
         The day it is finally replaced, everything downstream is rework.</p>
         <p class="lumen">Your tools plug into Lumnik, not into the ERP. When the old system does go,
-        you swap one connector — and nothing downstream notices. Invest in the modern without
-        marrying the legacy.</p>
+        you swap one connector — and nothing downstream notices. Invest in the modern stack without
+        marrying the legacy one.</p>
       </article>
       <article class="cas">
         <div class="contexte">Time series</div>
@@ -258,7 +258,7 @@
         <p>A dashboard wants trend lines; the legacy holds only current state, overwritten on
         every update.</p>
         <p class="lumen">The observation log manufactures the time series the source destroyed —
-        so your BI tools finally chart trends out of a system with no memory.</p>
+        so your BI tools finally chart trends from a system with no memory.</p>
       </article>
     </div>
     <p class="lede" style="margin-top:38px">
@@ -323,8 +323,8 @@
     <p style="margin-top:52px"><span class="badge-bientot">Open-source edition — September 2026</span></p>
     <p class="lede">
       The hub becomes open source in September 2026. There is no link here yet, on purpose: the
-      repository is still private, and a dead link would be worse than a promise. When it opens,
-      this line becomes one.
+      repository is still private, and a dead link would be worse than a promise. The day it opens,
+      this line becomes the link.
     </p>
   </div>
 </section>
@@ -337,7 +337,7 @@
     <div class="contact-grille">
       <div>
         <p class="lede">
-          Tell us which system is keeping your data cold, and we'll come back with a concrete thaw
+          Name the system that's keeping your data cold, and we'll come back with a concrete thaw
           scenario — usually one we can demonstrate on a sample of <strong>your</strong> data
           rather than ours.
         </p>

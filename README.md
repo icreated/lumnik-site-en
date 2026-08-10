@@ -34,8 +34,8 @@ and cheaper than a shared build.
 ## Deployment
 
 GitHub Pages serves `main` from the repository root: zero build, zero workflow — a push to
-`main` is deployed as-is. `CNAME` pins the apex domain; DNS side, four A records point at the
-GitHub Pages addresses.
+`main` is deployed as-is. `CNAME` pins the apex domain. On the DNS side, four A records point at
+the GitHub Pages addresses.
 
 Test locally: `python3 -m http.server 8000`, then http://localhost:8000
 
