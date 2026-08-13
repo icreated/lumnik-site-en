@@ -311,6 +311,161 @@ h2 em { font-style: italic; color: var(--lumiere); }
 .lede { color: var(--brume); font-size: 1.08rem; max-width: 62ch; }
 .lede strong { color: var(--neige); }
 
+/* --- Le schéma du héros : sources → hub → sorties --- */
+.hero-schema {
+  margin-top: 42px;
+  display: grid;
+  grid-template-columns: 1fr auto 1.2fr auto 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+.schema-col {
+  border: 1px solid rgba(143, 168, 189, 0.16);
+  border-radius: var(--radius);
+  background: rgba(10, 20, 32, 0.54);
+  padding: 18px;
+}
+.schema-col.hub {
+  border-color: rgba(255, 210, 74, 0.4);
+  background: rgba(255, 210, 74, 0.06);
+  box-shadow: 0 0 50px rgba(255, 210, 74, 0.08) inset;
+  display: flex;
+  flex-direction: column;
+}
+/* le noyau occupe toute la hauteur : le hub se lit comme un bloc, pas comme une liste tronquée */
+.schema-col.hub .schema-noyau {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.9;
+}
+.schema-etiquette {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brume);
+  margin-bottom: 14px;
+}
+.schema-col.hub .schema-etiquette { color: var(--lumiere); }
+.schema-pile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.schema-pile span,
+.schema-noyau {
+  display: block;
+  border-radius: 12px;
+  padding: 11px 12px;
+  background: rgba(18, 34, 51, 0.64);
+  color: var(--neige);
+  font-size: 0.92rem;
+}
+.schema-noyau {
+  background: rgba(255, 210, 74, 0.1);
+  border: 1px solid rgba(255, 210, 74, 0.24);
+}
+.schema-fleche {
+  align-self: center;
+  color: var(--lumiere);
+  font-size: 1.4rem;
+}
+
+/* --- La preuve de fusion : trois sources → une fiche --- */
+.fusion-preuve {
+  margin-top: 52px;
+  display: grid;
+  grid-template-columns: 1.3fr auto 1fr;
+  gap: 22px;
+  align-items: center;
+}
+.fusion-entrees {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.source-carte,
+.fusion-sortie,
+.payload {
+  border: 1px solid rgba(143, 168, 189, 0.16);
+  border-radius: var(--radius);
+  background: rgba(10, 20, 32, 0.56);
+  padding: 18px;
+}
+.source-carte p,
+.fusion-sortie li,
+.conflit {
+  font-size: 0.9rem;
+  color: var(--brume);
+}
+.source-nom {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lumiere);
+  margin-bottom: 12px;
+}
+.fusion-centre {
+  color: var(--lumiere);
+  font-size: 1.5rem;
+  text-align: center;
+}
+.fusion-sortie {
+  border-color: rgba(255, 210, 74, 0.35);
+  background: rgba(255, 210, 74, 0.06);
+}
+.fusion-sortie ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.fusion-sortie li {
+  color: var(--neige);
+  padding-left: 18px;
+  position: relative;
+}
+.fusion-sortie li::before {
+  content: "☀";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--lumiere);
+  font-size: 0.8em;
+}
+.conflit {
+  border-top: 1px dashed rgba(255, 210, 74, 0.28);
+  padding-top: 12px;
+}
+
+/* --- Le payload d'événement --- */
+.payload { max-width: 46ch; }
+.payload pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--neige);
+}
+
+@media (max-width: 980px) {
+  .hero-schema,
+  .fusion-preuve,
+  .fusion-entrees {
+    grid-template-columns: 1fr;
+  }
+  .schema-fleche,
+  .fusion-centre {
+    transform: rotate(90deg);
+    margin: 0 auto;
+  }
+}
+
 /* --- Le congélateur : la liste des systèmes gelés --- */
 .congelateur { background: linear-gradient(180deg, var(--nuit) 0%, var(--nuit-2) 100%); }
 

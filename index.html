@@ -58,6 +58,32 @@
       <a class="btn btn-givre" href="#how">See how it works</a>
     </div>
     <p class="preuve">read-only by construction · runs <b>on your own servers</b> or in the <b>EU cloud</b> · the AI can stay inside your walls too</p>
+    <div class="hero-schema" role="group" aria-label="What Lumnik does, at a glance">
+      <div class="schema-col sources">
+        <div class="schema-etiquette">Frozen systems</div>
+        <div class="schema-pile">
+          <span>Dynamics GP / NAV</span>
+          <span>AS/400 (IBM i)</span>
+          <span>CSV exports</span>
+          <span>Business APIs</span>
+        </div>
+      </div>
+      <div class="schema-fleche" aria-hidden="true">→</div>
+      <div class="schema-col hub">
+        <div class="schema-etiquette">The Lumnik hub</div>
+        <div class="schema-noyau">Read-only · merge · memory · guards</div>
+      </div>
+      <div class="schema-fleche" aria-hidden="true">→</div>
+      <div class="schema-col sorties">
+        <div class="schema-etiquette">Useful outputs</div>
+        <div class="schema-pile">
+          <span>Sourced answers</span>
+          <span>SQL / dashboards</span>
+          <span>Webhooks</span>
+          <span>Stalled-record alerts</span>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -118,6 +144,34 @@
         <p>Every ingestion leaves a dated observation behind. After a few weeks your hub knows
         something the ERP never knew: <strong>what hasn't moved</strong> — and says so, without
         anyone having to ask.</p>
+      </div>
+    </div>
+
+    <div class="fusion-preuve" aria-label="Example of merged data">
+      <div class="fusion-entrees">
+        <div class="source-carte">
+          <div class="source-nom">Dynamics GP</div>
+          <p>ACME INDUSTRIAL<br>12 Harbor Rd<br>(614) 555-0142</p>
+        </div>
+        <div class="source-carte">
+          <div class="source-nom">Sage 50</div>
+          <p>Acme Indus.<br>12 Harbor Rd, Suite C<br>account on hold</p>
+        </div>
+        <div class="source-carte">
+          <div class="source-nom">CSV</div>
+          <p>ACME INDUSTRIAL<br>purchasing: M. Reyes<br>email on file</p>
+        </div>
+      </div>
+      <div class="fusion-centre" aria-hidden="true">→</div>
+      <div class="fusion-sortie">
+        <div class="source-nom">One record served</div>
+        <ul>
+          <li>One consolidated customer</li>
+          <li>Address chosen, and traced</li>
+          <li>Purchasing contact enriched</li>
+        </ul>
+        <div class="conflit">Conflict logged: GP address ≠ Sage 50 address. The single record is
+        served; the disagreement stays visible instead of being silently picked.</div>
       </div>
     </div>
 
@@ -260,6 +314,16 @@
         <p class="lumen">The observation log manufactures the time series the source destroyed —
         so your BI tools finally chart trends from a system with no memory.</p>
       </article>
+    </div>
+    <div class="payload" style="margin-top:38px">
+      <div class="source-nom">What your tools actually receive</div>
+      <pre>{
+  "type": "quote_unmoved",
+  "reference": "Q-4471",
+  "since": "2026-06-02",
+  "threshold_days": 30,
+  "source": "gp-columbus"
+}</pre>
     </div>
     <p class="lede" style="margin-top:38px">
       Honesty first: these events beat at the rhythm of ingestion — hours, not milliseconds. Fast
