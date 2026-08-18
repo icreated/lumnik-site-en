@@ -24,8 +24,10 @@
   --nuit-2: #0a1420;
   --glace: #122233;
   --givre: #1c3349;
-  --brume: #8fa8bd;
-  --neige: #e9f1f8;
+  /* Softened text (GitHub dark values, ratified 2026-08-18): the near-white
+     #e9f1f8 flashed against the night — #d1d7e0 carries body, #9198a1 muted. */
+  --brume: #9198a1;
+  --neige: #d1d7e0;
 
   /* Le jaune de lumière — unique accent */
   --lumiere: #ffd24a;
