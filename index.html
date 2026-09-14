@@ -50,10 +50,10 @@
     <p class="surtitre">Dynamics GP &amp; NAV · Sage 50 · QuickBooks Desktop · AS/400 — and every system like them</p>
     <h1>Your data isn't lost.<br>It's <span class="gelees">frozen</span>.<br>lumnik <span class="degel">thaws</span> it.</h1>
     <p class="sous">
+      We don't touch what works. <strong>We free what's trapped inside it.</strong><br>
       lumnik reads your existing systems <strong>without ever writing to them</strong> and brings
-      their data into one place.<br>
-      Each team gets an <strong>assistant that answers in plain English</strong> —
-      or says it doesn't know, instead of guessing.
+      their data into one place. Each team gets an <strong>assistant that answers in plain
+      English</strong> — or says it doesn't know, instead of guessing.
     </p>
     <div class="ctas">
       <a class="btn btn-lumiere" href="#contact">Book a walkthrough</a>
@@ -119,6 +119,27 @@
       2029 for the product, 2031 for the last security updates. A migration is a multi-year
       program. <strong>The questions your team has are for this quarter.</strong>
     </p>
+    <p class="lede" style="margin-top:34px">
+      The problem isn't the legacy. <strong>It's what you can no longer do with it.</strong>
+    </p>
+    <div class="impasses" aria-label="The three dead ends">
+      <div class="impasse">
+        <h3>Replace it?</h3>
+        <p>Too critical. Too expensive. Too risky. <strong>Nobody signs.</strong></p>
+      </div>
+      <div class="impasse">
+        <h3>Modify it?</h3>
+        <p>Every change can break a business line — <strong>and you don't own the schema.</strong></p>
+      </div>
+      <div class="impasse">
+        <h3>Connect to it?</h3>
+        <p>Data scattered, locked, heterogeneous. <strong>The admin says no, usually for good reason.</strong></p>
+      </div>
+    </div>
+    <p class="lede" style="margin-top:34px">
+      So you build one more system… around the system. lumnik <strong>is</strong> that system —
+      with one difference: <strong>it asks nothing of yours.</strong>
+    </p>
     <p class="lede" style="margin-top:18px">
       And meanwhile the board is asking the 2026 question: "can't we just ask AI?"
       You can — but not by shipping twenty years of data into someone else's cloud, and not
@@ -137,6 +158,11 @@
       philosophy. lumnik comes in <strong>read-only</strong> — your system of record stays the
       sole owner of its data, and it will never know we were there.
     </p>
+    <ul class="principes" aria-label="The principle, in three refusals">
+      <li>No migration to start</li>
+      <li>No rewrite of what exists</li>
+      <li>No data leaving your walls</li>
+    </ul>
     <div class="geste-grille">
       <div class="geste">
         <h3>Facts — connect, read-only</h3>
@@ -190,8 +216,9 @@
       <div>
         <h2 style="font-size:1.8rem">Every answer cites its sources.<br>Or it <em>doesn't exist</em>.</h2>
         <p class="lede">
-          Everyone has an AI now. Ours was raised differently: deterministic guards check each
-          answer before it ever reaches you.<br>
+          Everyone has an AI now. When it arrives here, it works on data <strong>you</strong>
+          control — and under watch: deterministic guards check each answer before it ever
+          reaches you.<br>
           A confident "there aren't any" that turns out to be wrong is the cardinal sin around
           here — <strong>lumnik would rather admit it doesn't know</strong>. That is what makes
           an answer usable by someone who has to act on it.
@@ -447,6 +474,62 @@
       database itself, not by application code — the layer that cannot be bypassed by a bug in
       the layer above.
     </p>
+    <div class="fenetre terminal" role="group" aria-label="One lm session: sign in, validate, apply, run, ask">
+      <div class="barre">
+        <span class="rond"></span><span class="rond"></span><span class="rond"></span>
+        &nbsp;lm — the integrator's terminal
+      </div>
+      <pre><span class="cmd">$ lm login</span>
+To sign in, open:
+  http://localhost:8180/realms/lumnik/device?user_code=EYQP-LLJN
+and enter code: EYQP-LLJN
+
+<span class="cmd">$ lm validate -f connectors/gp-customers.yaml</span>
+<span class="ok">✓</span> connectors/gp-customers.yaml — valid
+<span class="cmd">$ lm apply -f connectors/gp-customers.yaml</span>
+{"name":"gp-customers","connectorId":"8e01c813-7f57-4222-8d7b-e637dfcc94c3","endpointsApplied":1}
+<span class="cmd">$ lm connector run gp-customers</span>
+run scheduled: e9cd433e-3a57-43ff-9ea7-737f2718be0a
+
+<span class="cmd">$ lm run list</span>
+ID        CONNECTOR      ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED
+e9cd433e  gp-customers   default   Completed  12  12   0        0             2026-09-05 05:38  2026-09-05 05:38
+f0466804  sage50-orders  default   Completed  10  8    2        2             2026-09-05 05:38  2026-09-05 05:38
+
+<span class="cmd">$ lm ask --scope sales "How many GOLD customers in Columbus?"</span>
+There are 2 GOLD customers in Columbus.
+  data as of: 2026-09-13T00:39:29Z (last completed run)
+
+  SQL: SELECT COUNT(*) FROM "connector"."v_customer"
+WHERE city = 'Columbus' AND segment = 'GOLD'</pre>
+    </div>
+    <h3 class="sous-titre" style="margin-top:34px">A complex infrastructure. One command to drive it.</h3>
+    <p class="lede">
+      Connectors, entities, pipelines, APIs, RAG: everything is declared in YAML and driven from
+      <code>lm</code> — a bit like Docker, as an experience. <strong>The plumbing becomes an
+      interface.</strong>
+    </p>
+    <p class="lede" style="margin-top:14px">
+      These screens have the exact shape of what <code>lm</code> prints today; only the connector
+      names are illustrative. Nothing is lost without being counted: <code>IN = OUT + SKIPPED</code>
+      holds on every row.
+    </p>
+    <div class="garanties" aria-label="What a security officer can verify">
+      <p><strong>Isolation lives in the database.</strong> PostgreSQL enforces it row by row
+      (Row-Level Security): a bug in the application cannot cross it — the database refuses.</p>
+      <p><strong>Generated SQL can only read.</strong> It runs under a role with no write
+      permission, whatever the model produces.</p>
+      <p><strong>The audit trail cannot be erased.</strong> The application role holds no UPDATE
+      or DELETE on it — revoked in the database.</p>
+      <p><strong>Reversible.</strong> Plain PostgreSQL tables and a standard pg_dump. There is no
+      vendor copy to reclaim.</p>
+    </div>
+    <p class="lede" style="margin-top:26px">
+      Every claim has a command:
+      <a href="https://docs.lumnik.io/security/" rel="noopener" style="color:var(--lumiere)">verify it yourself, in five minutes</a>.
+      The exit is written down too:
+      <a href="https://docs.lumnik.io/reversibility/" rel="noopener" style="color:var(--lumiere)">reversibility</a>.
+    </p>
   </div>
 </section>
 
@@ -471,6 +554,30 @@
       <a href="https://github.com/icreated/lumnik-open" style="color:var(--lumiere)">github.com/icreated/lumnik-open</a> — the whole
       defrost substrate, Apache-2.0, no feature flags and no stub where the extensions would be.
     </p>
+    <p style="margin-top:52px"><span class="badge-bientot">Beta</span></p>
+    <p class="lede">
+      <strong>Where lumnik stands:</strong> beta. The product no longer grows surfaces; it gets
+      fixed. What is missing is missing on purpose, and the page that says so is public. What we
+      don't know yet: <strong>nobody outside this team has run it in production.</strong> You
+      could be that first — and the first defect you find will be the one we couldn't have
+      predicted.
+    </p>
+    <p class="lede" style="margin-top:14px">
+      <a href="https://docs.lumnik.io/where-lumnik-stands/" rel="noopener" style="color:var(--lumiere)">Where lumnik stands, page by page</a> ·
+      <a href="https://docs.lumnik.io/parcours/" rel="noopener" style="color:var(--lumiere)">the guided path, three half-days</a>
+    </p>
+  </div>
+</section>
+
+<!-- ================= MANIFESTO ================= -->
+<section class="manifeste" id="manifesto">
+  <div class="wrap reveal">
+    <p class="kicker">In one sentence</p>
+    <h2>Your applications can stay frozen.<br>Your data <em>no longer is</em>.</h2>
+    <div class="mots" aria-label="Connect, transform, serve">
+      <span>Connect</span><span aria-hidden="true">·</span><span>Transform</span><span aria-hidden="true">·</span><span>Serve</span>
+    </div>
+    <p class="signature">Defrost your Enterprise.</p>
   </div>
 </section>
 
@@ -487,8 +594,14 @@
           rather than ours.
         </p>
         <p class="direct" style="margin-top:26px">
-          Integrators and consultancies: pick "Integrator / partner" below. The partner program is
-          being built now, and early conversations shape it.
+          Integrators and consultancies: pick "Integrator / partner" below. You write a system's
+          universe <strong>once</strong> — a directory of YAML in your git, reviewed in a pull
+          request, replayed on the next client. <strong>Your second client costs less than your
+          first.</strong>
+          <a href="https://docs.lumnik.io/integration-as-code/" rel="noopener" style="color:var(--lumiere)">Integration as code</a>.
+        </p>
+        <p class="direct" style="margin-top:14px">
+          The partner program is being built now, and early conversations shape it.
         </p>
       </div>
       <form action="https://formspree.io/f/xqpzpwow" method="POST">
