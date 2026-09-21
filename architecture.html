@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architecture — lumnik</title>
+  <meta name="description" content="Read-only by construction, abstention over confident-wrong, on-prem or EU cloud: three commitments a security officer can verify, the lm terminal that drives it, and public docs.">
+  <link rel="canonical" href="https://lumnik.io/architecture.html">
+  <meta property="og:title" content="Architecture — lumnik">
+  <meta property="og:description" content="Three commitments, checkable before you trust us — and the commands that check them.">
+  <meta property="og:url" content="https://lumnik.io/architecture.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='34' fill='%23ffd24a'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<a class="saut" href="#contenu">Skip to content</a>
+
+<div id="thermometre" aria-hidden="true"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="index.html">lumnik<span class="dot" aria-hidden="true"></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <span class="menu-toggle-label">Menu</span>
+    </button>
+    <ul id="menu-principal">
+      <li><a href="freeze.html">Freeze</a></li>
+      <li><a href="thaw.html">Thaw</a></li>
+      <li><a href="motion.html">Motion</a></li>
+      <li><a href="architecture.html" aria-current="page">Architecture</a></li>
+      <li><a class="btn btn-lumiere nav-contact" href="contact.html">Talk to us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="contenu">
+
+<!-- ================= HONESTY ================= -->
+<section class="gestes archi" id="honesty">
+  <div class="wrap reveal">
+    <p class="kicker">What we can be held to</p>
+    <h1>Three commitments, checkable <em>before</em> you trust us.</h1>
+    <p class="lede">
+      None of these are settings. They are properties of how the thing is built — which is why we
+      are comfortable writing them on a marketing page.
+    </p>
+    <nav class="local-nav" aria-label="In Architecture">
+      <a href="#commitments">Commitments</a>
+      <a href="#driving">Driving it</a>
+      <a href="#guarantees">Guarantees</a>
+      <a href="#docs">Code &amp; docs</a>
+    </nav>
+    <div class="geste-grille" id="commitments">
+      <div class="geste">
+        <h3>Read-only by construction</h3>
+        <p>Ingestion runs one way. There is no write path back to your ERP — not behind a flag,
+        not for administrators. The SQL an answer generates executes over a
+        <strong>separate read-only database connection</strong>.</p>
+      </div>
+      <div class="geste">
+        <h3>Abstention over confident-wrong</h3>
+        <p>Deterministic guards sit between the model and you: sources shown, scopes enforced,
+        and a plain <strong>"I don't know"</strong> whenever the ingested data doesn't support an
+        answer. A confidently invented number is worse than no number.</p>
+      </div>
+      <div class="geste">
+        <h3>On-prem or EU cloud</h3>
+        <p>Deploy the whole hub inside your own walls — <strong>including the model</strong>,
+        running locally — or on European infrastructure. Nothing has to leave your perimeter for
+        lumnik to work.</p>
+      </div>
+    </div>
+    <p class="serment">
+      <b>One more, for the architects:</b> isolation between organizations is enforced by the
+      database itself, not by application code — the layer that cannot be bypassed by a bug in
+      the layer above.
+    </p>
+    <div class="fenetre terminal" id="driving" role="group" aria-label="One lm session: sign in, validate, apply, run, ask">
+      <div class="barre">
+        <span class="rond"></span><span class="rond"></span><span class="rond"></span>
+        &nbsp;lm — the integrator's terminal
+      </div>
+      <pre><span class="cmd">$ lm login</span>
+To sign in, open:
+  http://localhost:8180/realms/lumnik/device?user_code=EYQP-LLJN
+and enter code: EYQP-LLJN
+
+<span class="cmd">$ lm validate -f connectors/gp-customers.yaml</span>
+<span class="ok">✓</span> connectors/gp-customers.yaml — valid
+<span class="cmd">$ lm apply -f connectors/gp-customers.yaml</span>
+{"name":"gp-customers","connectorId":"8e01c813-7f57-4222-8d7b-e637dfcc94c3","endpointsApplied":1}
+<span class="cmd">$ lm connector run gp-customers</span>
+run scheduled: e9cd433e-3a57-43ff-9ea7-737f2718be0a
+
+<span class="cmd">$ lm run list</span>
+ID        CONNECTOR      ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED
+e9cd433e  gp-customers   default   Completed  12  12   0        0             2026-09-05 05:38  2026-09-05 05:38
+f0466804  sage50-orders  default   Completed  10  8    2        2             2026-09-05 05:38  2026-09-05 05:38
+
+<span class="cmd">$ lm ask --scope sales "How many GOLD customers in Columbus?"</span>
+There are 2 GOLD customers in Columbus.
+  data as of: 2026-09-13T00:39:29Z (last completed run)
+
+  SQL: SELECT COUNT(*) FROM "connector"."v_customer"
+WHERE city = 'Columbus' AND segment = 'GOLD'</pre>
+    </div>
+    <h3 class="sous-titre" style="margin-top:34px">A complex infrastructure. One command to drive it.</h3>
+    <p class="lede">
+      Connectors, entities, pipelines, APIs, RAG: everything is declared in YAML and driven from
+      <code>lm</code> — a bit like Docker, as an experience. <strong>The plumbing becomes an
+      interface.</strong>
+    </p>
+    <p class="lede" style="margin-top:14px">
+      These screens have the exact shape of what <code>lm</code> prints today; only the connector
+      names are illustrative. Nothing is lost without being counted: <code>IN = OUT + SKIPPED</code>
+      holds on every row.
+    </p>
+    <div class="garanties" id="guarantees" aria-label="What a security officer can verify">
+      <p><strong>Isolation lives in the database.</strong> PostgreSQL enforces it row by row
+      (Row-Level Security): a bug in the application cannot cross it — the database refuses.</p>
+      <p><strong>Generated SQL can only read.</strong> It runs under a role with no write
+      permission, whatever the model produces.</p>
+      <p><strong>The audit trail cannot be erased.</strong> The application role holds no UPDATE
+      or DELETE on it — revoked in the database.</p>
+      <p><strong>Reversible.</strong> Plain PostgreSQL tables and a standard pg_dump. There is no
+      vendor copy to reclaim.</p>
+    </div>
+    <p class="lede" style="margin-top:26px">
+      Every claim has a command:
+      <a href="https://docs.lumnik.io/security/" rel="noopener" style="color:var(--lumiere)">verify it yourself, in five minutes</a>.
+      The exit is written down too:
+      <a href="https://docs.lumnik.io/reversibility/" rel="noopener" style="color:var(--lumiere)">reversibility</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ================= DOCS & OPEN SOURCE ================= -->
+<section id="docs">
+  <div class="wrap reveal">
+    <p class="kicker">Go deeper</p>
+    <h2>The documentation is <em>public</em>. Read it before you trust us.</h2>
+    <p class="lede">
+      Connectors, guards, the data model, the one-command self-host — all of it is written down,
+      in English, and open to anyone who wants to verify before believing. No sales call stands
+      between you and the technical truth.
+    </p>
+    <div class="ctas" style="margin-top:36px; display:flex; gap:16px; flex-wrap:wrap">
+      <a class="btn btn-lumiere" href="https://docs.lumnik.io" rel="noopener">Read the docs</a>
+      <a class="btn btn-givre" href="https://github.com/icreated/lumnik-open" rel="noopener">See the code</a>
+      <a class="btn btn-givre" href="contact.html">Ask us something specific</a>
+    </div>
+    <p style="margin-top:52px"><span class="badge-bientot">Open-source edition — Apache-2.0</span></p>
+    <p class="lede">
+      The hub is open source. We said this line would become the link the day it opened, and it has:
+      <a href="https://github.com/icreated/lumnik-open" style="color:var(--lumiere)">github.com/icreated/lumnik-open</a> — the whole
+      defrost substrate, Apache-2.0, no feature flags and no stub where the extensions would be.
+    </p>
+    <p style="margin-top:52px"><span class="badge-bientot">Beta</span></p>
+    <p class="lede">
+      <strong>Where lumnik stands:</strong> beta. The product no longer grows surfaces; it gets
+      fixed. What is missing is missing on purpose, and the page that says so is public. What we
+      don't know yet: <strong>nobody outside this team has run it in production.</strong> You
+      could be that first — and the first defect you find will be the one we couldn't have
+      predicted.
+    </p>
+    <p class="lede" style="margin-top:14px">
+      <a href="https://docs.lumnik.io/where-lumnik-stands/" rel="noopener" style="color:var(--lumiere)">Where lumnik stands, page by page</a> ·
+      <a href="https://docs.lumnik.io/parcours/" rel="noopener" style="color:var(--lumiere)">the guided path, three half-days</a>
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>lumnik — published by icreated · Châtillon d'Azergues, France</div>
+    <div><a href="legal.html">Legal notice</a> · <a href="https://docs.lumnik.io" rel="noopener">Documentation</a> · <a href="contact.html">Contact</a></div>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>
