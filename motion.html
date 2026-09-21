@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motion — lumnik</title>
+  <meta name="description" content="Every observed change becomes an event your modern tools consume through ordinary sockets — and so does every silence. Five situations you will recognize.">
+  <link rel="canonical" href="https://lumnik.io/motion.html">
+  <meta property="og:title" content="Motion — lumnik">
+  <meta property="og:description" content="Your modern tools can finally act on what your systems already know — webhooks, API, SQL, and alerts on what stopped moving.">
+  <meta property="og:url" content="https://lumnik.io/motion.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='34' fill='%23ffd24a'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<a class="saut" href="#contenu">Skip to content</a>
+
+<div id="thermometre" aria-hidden="true"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="index.html">lumnik<span class="dot" aria-hidden="true"></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <span class="menu-toggle-label">Menu</span>
+    </button>
+    <ul id="menu-principal">
+      <li><a href="freeze.html">Freeze</a></li>
+      <li><a href="thaw.html">Thaw</a></li>
+      <li><a href="motion.html" aria-current="page">Motion</a></li>
+      <li><a href="architecture.html">Architecture</a></li>
+      <li><a class="btn btn-lumiere nav-contact" href="contact.html">Talk to us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="contenu">
+
+<!-- ================= THE ADAPTER ================= -->
+<section id="adapter">
+  <div class="wrap reveal">
+    <p class="kicker">Operational flow</p>
+    <h1>Your modern tools can finally act on what your systems <em>already know</em>.</h1>
+    <p class="lede">
+      Shared calendars, dashboards, metric stores and rule engines depend on usable signals.
+      Many systems — old or simply closed — offer no webhook, stream or socket.
+    </p>
+    <p class="lede" style="margin-top:18px">
+      lumnik breathes — reads, compares, timestamps — so every observed change becomes an event
+      your tools consume through ordinary sockets: a webhook into
+      <strong>Make, n8n or Power Automate</strong>, a plain email to the team, an export, a SQL query.
+    </p>
+    <p class="lede" style="margin-top:18px">
+      <strong>And every silence too</strong>: "unmoved for thirty days" is an alert no
+      event-driven system can send you, precisely because nothing happened.
+    </p>
+    <div class="cas-grille">
+      <article class="cas">
+        <div class="contexte">No access to the legacy</div>
+        <h3>Plug in the new without touching the old</h3>
+        <p>Every conventional integration asks for an account, a network path, sometimes a write
+        into a fragile ERP — and the admin says no, usually for good reason.</p>
+        <p class="lumen">With lumnik, your modern tools never get access to the old system at all:
+        read-only on one side, standard sockets on the other. Day one's zero-risk posture extends to
+        the whole ecosystem.</p>
+      </article>
+      <article class="cas">
+        <div class="contexte">Decoupled in time</div>
+        <h3>Migration insurance</h3>
+        <p>Every tool wired straight into the ERP makes that ERP a little harder to remove.
+        The day it is finally replaced, everything downstream is rework.</p>
+        <p class="lumen">Your tools plug into lumnik, not into the ERP. When the old system does go,
+        you swap one connector — and nothing downstream notices. Invest in the modern stack without
+        marrying the legacy one.</p>
+      </article>
+      <article class="cas">
+        <div class="contexte">Time series</div>
+        <h3>The history the source never kept</h3>
+        <p>A dashboard wants trend lines; the legacy holds only current state, overwritten on
+        every update.</p>
+        <p class="lumen">The observation log manufactures the time series the source destroyed —
+        so your BI tools finally chart trends from a system with no memory.</p>
+      </article>
+    </div>
+    <div class="payload" style="margin-top:38px">
+      <div class="source-nom">What your tools actually receive</div>
+      <pre>{
+  "type": "quote_unmoved",
+  "reference": "Q-4471",
+  "since": "2026-06-02",
+  "threshold_days": 30,
+  "source": "gp-columbus"
+}</pre>
+    </div>
+    <p class="lede" style="margin-top:24px"><strong>And your data becomes an API</strong> — every
+    merged entity readable by your own tools: plain REST, read-only, bounded to each team's scope.</p>
+    <p class="lede" style="margin-top:38px">
+      These events beat at the rhythm of ingestion — hours, not milliseconds. Fast
+      enough for a calendar, a dashboard, a business alert; <strong>this is not real-time, and
+      lumnik will never pretend it is.</strong> And nothing, ever, writes back to the source.
+    </p>
+  </div>
+</section>
+
+<!-- ================= REAL CASES ================= -->
+<section id="cases">
+  <div class="wrap reveal">
+    <p class="kicker">Real cases</p>
+    <h2>Situations you will <em>recognize</em>.</h2>
+    <p class="lede">
+      Each case below exists today. The trigger is almost always the same: an expert leaves,
+      a company is acquired, or a record sits still for too long.
+    </p>
+    <nav class="local-nav" aria-label="In Real cases">
+      <a href="#manufacturing">Manufacturing</a>
+      <a href="#distribution">Distribution</a>
+      <a href="#services">Services</a>
+      <a href="#partners">MSP / integrator</a>
+    </nav>
+    <div class="cas-grille">
+      <article class="cas" id="manufacturing">
+        <div class="contexte">Manufacturer · 4 plants</div>
+        <h3>"Does anyone have this bearing in stock?"</h3>
+        <p>Four plants, four systems (Dynamics GP, NAV, a homegrown app). When a line stops,
+        maintenance phones the other sites — and a stopped line costs four figures an hour.</p>
+        <p class="lumen">One part, one merged record, one question — the answer, plant by plant,
+        in seconds. The first avoided stoppage pays for years of the tool.</p>
+      </article>
+      <article class="cas" id="distribution">
+        <div class="contexte">Distribution · after an acquisition</div>
+        <h3>Two catalogs, two prices for the same product</h3>
+        <p>The buyer discovers 40% duplicate SKUs between its GP and the acquired company's
+        QuickBooks. Sales quotes two different prices for the same item.</p>
+        <p class="lumen">The single product record is served within weeks, while the migration
+        takes its time. The conflict register IS the dedup list the team was waiting for.</p>
+      </article>
+      <article class="cas">
+        <div class="contexte">B2B sales · the silence that costs</div>
+        <h3>The $40,000 quote nobody followed up</h3>
+        <p>Sent on a Friday, marked "pending" — then nothing. The rep is on the road, the status
+        hasn't moved in six weeks, and no system alerts on what doesn't happen. The customer
+        signed elsewhere.</p>
+        <p class="lumen">lumnik observes every record, ingestion after ingestion, and flags the
+        unmoved: "pending for 42 days — business threshold: 15." All that's left is to pick up
+        the phone.</p>
+      </article>
+      <article class="cas" id="services">
+        <div class="contexte">Services · the zombie system</div>
+        <h3>A license paid for software nobody uses</h3>
+        <p>Decommissioned in 2019, kept alive only because retention rules say ten years.
+        License + server + the one admin who knows how to reboot it: five figures a year for a
+        handful of lookups.</p>
+        <p class="lumen">One last ingestion, then the machine powers off. The archive stays
+        queryable forever. The ROI is a subtraction you can do in your head.</p>
+      </article>
+      <article class="cas" id="partners">
+        <div class="contexte">MSP / integrator · shared platform</div>
+        <h3>Fifty clients, one deployment</h3>
+        <p>Small clients will never each budget a tool like this. An MSP or integrator operates
+        <strong>one</strong> — each client sees only its own slice, isolation enforced by the
+        database itself.</p>
+        <p class="lumen">The multi-organization architecture isn't plumbing: it's the product.
+        One deployment, fifty thaws.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>lumnik — published by icreated · Châtillon d'Azergues, France</div>
+    <div><a href="legal.html">Legal notice</a> · <a href="https://docs.lumnik.io" rel="noopener">Documentation</a> · <a href="contact.html">Contact</a></div>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>
