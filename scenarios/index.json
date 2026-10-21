@@ -2,6 +2,27 @@
   "locale": "en",
   "scenarios": [
     {
+      "slug": "deal-in-the-pocket",
+      "title": "The deal moves on during dinner.",
+      "lede": "Five business exports and a catalogue, four entities, three views, one Process. The CRM marks the deal ready; the decision reaches the PWA, « Traiter » (handle) goes out as a webhook and the customer email follows.",
+      "tags": {
+        "domain": [
+          "Manufacturing",
+          "Sales"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "View",
+          "SearchIndex",
+          "App",
+          "Process"
+        ]
+      },
+      "replayedAt": "2026-10-21",
+      "evidenceDigest": "sha256:0b9b8301994e5425be84ff8b380d79290704bb12ee8d2f3c074b4facf7d929b5"
+    },
+    {
       "slug": "gmao-candy-line-incident",
       "title": "A critical unassigned incident reaches the manager's inbox.",
       "lede": "One CMMS CSV export, a Connector, a Workflow, a Process. One decision, only one; the assignment moves it forward.",
@@ -18,6 +39,62 @@
       },
       "replayedAt": "2026-10-21T06:10:35.761813Z",
       "evidenceDigest": "sha256:78d3140e8beca41989b34ca6b83104c42478e42772ccce33f2da14a75a0f63fb"
+    },
+    {
+      "slug": "pwa-chat",
+      "title": "Question 40,000 products, with the SQL shown.",
+      "lede": "Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query; the answer shows its SQL.",
+      "tags": {
+        "domain": [
+          "Retail",
+          "Catalogue"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "App"
+        ]
+      },
+      "replayedAt": "2026-10-21",
+      "evidenceDigest": "sha256:eafd0ad70a2bf076779c7564601762a63957d9210e6aa0a341c973f15c26ee27"
+    },
+    {
+      "slug": "pwa-pagination",
+      "title": "40,000 products, browsed page by page.",
+      "lede": "Two CSV exports, two entities, two linked views, one app. The hub serves the catalogue 50 rows at a time; the PWA never loads more.",
+      "tags": {
+        "domain": [
+          "Retail",
+          "Catalogue"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "View",
+          "App"
+        ]
+      },
+      "replayedAt": "2026-10-21",
+      "evidenceDigest": "sha256:3fef15276b19cf9e8983d01669de4656fcbbe4c9ba4598f0564b36af994beb34"
+    },
+    {
+      "slug": "pwa-search",
+      "title": "Search 40,000 products, facets included.",
+      "lede": "Two CSV exports, one entity, a SearchIndex, an app reduced to search. The hub indexes the declared columns; the PWA filters by facet.",
+      "tags": {
+        "domain": [
+          "Retail",
+          "Catalogue"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "SearchIndex",
+          "App"
+        ]
+      },
+      "replayedAt": "2026-10-21",
+      "evidenceDigest": "sha256:66a82f5e2a774e0fec0a1f34cd31ae7a093cecf939403942db2c932df6afefab"
     }
   ]
 }
