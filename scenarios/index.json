@@ -3,8 +3,8 @@
   "scenarios": [
     {
       "slug": "gmao-candy-line-incident",
-      "title": "A critical incident without an owner no longer goes unseen.",
-      "lede": "A legacy CMMS exports incidents to a CSV file but alerts no one. lumnik reads the export as-is, declares the incident lifecycle, and brings the critical, unassigned incident to the maintenance manager's inbox.",
+      "title": "A critical unassigned incident reaches the manager's inbox.",
+      "lede": "One CMMS CSV export, a Connector, a Workflow, a Process. One decision, only one; the assignment moves it forward.",
       "tags": {
         "domain": [
           "Manufacturing",
