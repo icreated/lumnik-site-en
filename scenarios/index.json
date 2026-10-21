@@ -1,0 +1,41 @@
+{
+  "locale": "en",
+  "scenarios": [
+    {
+      "slug": "gmao-candy-line-incident",
+      "title": "A critical incident does not wait unseen for an owner.",
+      "lede": "A legacy maintenance system (CMMS) exports its incidents as a CSV file and notifies no one. lumnik reads that export as it is, declares the incident lifecycle, and puts the critical, unassigned incident in the maintenance manager's inbox.",
+      "tags": {
+        "domain": [
+          "Manufacturing",
+          "Maintenance"
+        ],
+        "kinds": [
+          "Connector",
+          "Workflow",
+          "Process"
+        ]
+      },
+      "evidence_sha256": {
+        "evidence/01-connector-apply.json": "0c751a79d9beef2474fab629731e791bc28acce792222bace7ce1bd0014c4728",
+        "evidence/02-calibration-run.json": "b949c042ba8c30ae1c2b68ddf46adcaff00a5100dbb7c3ed829eda604d72da91",
+        "evidence/03-workflow-apply.json": "f7e7a6714c69588fcb160309a3b68fd7ac02e5c99dcc313267e193a3b9509ae4",
+        "evidence/04-process-apply.json": "4ca8fe7b4c84bde47ccb47551e680c207bb114d898e4fc7512703877e778d563",
+        "evidence/07-inbox.json": "0fa0064f9a7c6352fa592c68e4d62cc9b89cc43b39305188aa67feffe58d19f3",
+        "evidence/08-transitions.json": "6b97f958389f7f81496888e27ab72a47451ee6cb28d8238e9019ebc24c56fac3",
+        "evidence/09-business-run-ids.txt": "d74127fc68224f69d2e196835acbdbc1c1383099d41eb1ef2769dec97f9e4ba2",
+        "evidence/10-declared-run.json": "6a2b639d28ac2d3c7b470fc59069066226d984b6aeca13e6dee814642d10f9a5",
+        "evidence/11-assigned-run.json": "842cb6182801f2513ecc2c1ad6a208587f5271d38a92283bbbba162a0ad9b666",
+        "evidence/12-observations-declared.json": "194f5adcd0fdd7ec6f6cd279e7cbdf43154f9d4c5a534572ccef88bb7317c5aa",
+        "evidence/13-observations-assigned.json": "48724622276a5e961dea6a521fb5d2c02a6221b8f07a08e4ead77433d2358db7",
+        "evidence/applied-manifests/10-incidents.yaml": "6ab333354947097f4d3077d0dac7d1de6eddf2fd24b793b95c345da40dc0bebf",
+        "evidence/applied-manifests/20-incident-workflow.yaml": "82e8f82e24ce2f9886ef52ff687a5683da4d5a2386b6d170187b3ff81ccf274a",
+        "evidence/applied-manifests/30-unassigned-critical-process.yaml": "5ef82404da9f38e6be10e9df3735e09ba754d14f58540d019e8091c8af05459a",
+        "evidence/commands.jsonl": "07bed4478711e8c534040d875e1bde1a929389fde46f67c2399f4a10d40fd200",
+        "evidence/sources/calibration.csv": "e8aa3f923cba900a2dabe2f8261923817fcaaeed395171b7dcedc9ee6978d439",
+        "evidence/sources/incidents-assigned.csv": "c073b311dfa240f4e8a283a30e5c03200ed67fe24c5387dad5c30a8a7aff2cf1",
+        "evidence/sources/incidents-declared.csv": "9faf8ce08191439217d291e60fa0342f7cceeb41f808e86879b9334bc01e74a0"
+      }
+    }
+  ]
+}
