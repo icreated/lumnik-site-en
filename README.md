@@ -20,10 +20,17 @@ legal.html          legal notice, host, personal data (GDPR)
 styles.css          "the light in the freezer" — glacial night + one warm yellow
 site.js             thaw bar (reading progress), reveal on scroll, mobile menu
 CNAME               lumnik.io
+scenarios/          the replayed scenarios — a PUBLICATION ARTEFACT, see below
 ```
 
 The navigation names the three terms of the axis; `architecture.html` is where a security
 officer lands, and every page carries the same bar and the same footer.
+
+## `scenarios/` — never edit it here
+
+It comes from the `lumnik-scenario` repository and is rewritten whole by
+`tools/scenario-site/publish.sh` (one branch, one PR) from each scenario's validated candidate.
+Fix the scenario, replay it, publish again.
 
 ## Tests
 

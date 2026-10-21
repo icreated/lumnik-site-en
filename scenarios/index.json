@@ -1,0 +1,23 @@
+{
+  "locale": "en",
+  "scenarios": [
+    {
+      "slug": "gmao-candy-line-incident",
+      "title": "A critical incident without an owner no longer goes unseen.",
+      "lede": "A legacy CMMS exports incidents to a CSV file but alerts no one. lumnik reads the export as-is, declares the incident lifecycle, and brings the critical, unassigned incident to the maintenance manager's inbox.",
+      "tags": {
+        "domain": [
+          "Manufacturing",
+          "Maintenance"
+        ],
+        "kinds": [
+          "Connector",
+          "Workflow",
+          "Process"
+        ]
+      },
+      "replayedAt": "2026-10-21T06:10:35.761813Z",
+      "evidenceDigest": "sha256:78d3140e8beca41989b34ca6b83104c42478e42772ccce33f2da14a75a0f63fb"
+    }
+  ]
+}

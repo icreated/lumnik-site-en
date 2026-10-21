@@ -291,3 +291,51 @@ class SiteStructureTest(unittest.TestCase):
                     "hreflang=",
                     (ROOT / name).read_text(encoding="utf-8"),
                 )
+
+
+# --- scenarios/: replayed scenarios, a publication artefact of lumnik-scenario -------------------
+#
+# Written only by lumnik-scenario's tools/scenario-site/publish.sh; the site checks what it serves.
+
+import json  # noqa: E402
+import re  # noqa: E402
+
+SCENARIO_PAGES = sorted(p.relative_to(ROOT).as_posix() for p in (ROOT / "scenarios").rglob("*.html"))
+
+
+class ScenarioPagesTest(unittest.TestCase):
+    def test_motion_leads_to_the_replayed_scenarios(self):
+        self.assertIn("scenarios/", load_page("motion.html").links)
+
+    def test_every_published_scenario_has_its_page(self):
+        index = json.loads((ROOT / "scenarios" / "index.json").read_text(encoding="utf-8"))
+        for entry in index["scenarios"]:
+            with self.subTest(slug=entry["slug"]):
+                self.assertIn(f"scenarios/{entry['slug']}/index.html", SCENARIO_PAGES)
+
+    def test_local_links_resolve(self):
+        for name in SCENARIO_PAGES:
+            hrefs = load_page(name).links + re.findall(r'<(?:script|link)[^>]+(?:src|href)="([^"]+)"',
+                                                       (ROOT / name).read_text(encoding="utf-8"))
+            for href in hrefs:
+                if href.startswith(("http://", "https://", "mailto:", "#")):
+                    continue
+                target = (ROOT / name).parent / href.partition("#")[0]
+                with self.subTest(name=name, href=href):
+                    self.assertTrue(target.is_file() or (target / "index.html").is_file())
+
+    def test_every_footer_leads_to_the_replayed_scenarios(self):
+        for path in sorted(ROOT.glob("*.html")):
+            footers = re.findall(r"<footer.*?</footer>", path.read_text(encoding="utf-8"), re.S)
+            for footer in footers:
+                with self.subTest(page=path.name):
+                    self.assertIn('href="scenarios/"', footer)
+
+    def test_the_adapter_section_leads_to_a_published_scenario(self):
+        text = (ROOT / "motion.html").read_text(encoding="utf-8")
+        section = re.search(r'<section id="adapter">.*?</section>', text, re.S).group(0)
+        targets = re.findall(r'href="(scenarios/[a-z0-9-]+/)"', section)
+        self.assertTrue(targets, "the adapter section names no replayed scenario")
+        for href in targets:
+            with self.subTest(href=href):
+                self.assertTrue((ROOT / href / "index.html").is_file())
