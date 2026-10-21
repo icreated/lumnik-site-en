@@ -93,6 +93,23 @@
       "evidenceDigest": "sha256:19279255a1f737e09bb4a5169bc241bba26a6a47c5b0f10017acd3ed6310324c"
     },
     {
+      "slug": "jdbc-merge-oracle-postgresql",
+      "title": "One product record, two databases: PostgreSQL and Oracle stay where they are.",
+      "lede": "Products live in PostgreSQL, their categories in Oracle. Two jdbc connectors read them without writing to either, and one entity joins them: 40,234 products, each with its category when there is one.",
+      "tags": {
+        "domain": [
+          "Catalogue",
+          "Legacy databases"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "replayedAt": "2026-10-21",
+      "evidenceDigest": "sha256:51afbf4edf408443129e50a9843ce31a5623605011aebcb3383756a2cc950fb7"
+    },
+    {
       "slug": "pwa-chat",
       "title": "Question 40,000 products, with the SQL shown.",
       "lede": "Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query; the answer shows its SQL.",
