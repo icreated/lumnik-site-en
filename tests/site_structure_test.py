@@ -323,3 +323,19 @@ class ScenarioPagesTest(unittest.TestCase):
                 target = (ROOT / name).parent / href.partition("#")[0]
                 with self.subTest(name=name, href=href):
                     self.assertTrue(target.is_file() or (target / "index.html").is_file())
+
+    def test_every_footer_leads_to_the_replayed_scenarios(self):
+        for path in sorted(ROOT.glob("*.html")):
+            footers = re.findall(r"<footer.*?</footer>", path.read_text(encoding="utf-8"), re.S)
+            for footer in footers:
+                with self.subTest(page=path.name):
+                    self.assertIn('href="scenarios/"', footer)
+
+    def test_the_adapter_section_leads_to_a_published_scenario(self):
+        text = (ROOT / "motion.html").read_text(encoding="utf-8")
+        section = re.search(r'<section id="adapter">.*?</section>', text, re.S).group(0)
+        targets = re.findall(r'href="(scenarios/[a-z0-9-]+/)"', section)
+        self.assertTrue(targets, "the adapter section names no replayed scenario")
+        for href in targets:
+            with self.subTest(href=href):
+                self.assertTrue((ROOT / href / "index.html").is_file())
