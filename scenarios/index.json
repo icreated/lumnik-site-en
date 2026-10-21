@@ -75,6 +75,24 @@
       "evidenceDigest": "sha256:78d3140e8beca41989b34ca6b83104c42478e42772ccce33f2da14a75a0f63fb"
     },
     {
+      "slug": "import-export",
+      "title": "The catalogue reaches the partner in their format, not ours.",
+      "lede": "Two ERP CSV files, products and categories, are joined in the hub and delivered to S3 in a partner's format: French headers, semicolons, decimal commas, recoded statuses, a masked internal reference. A receipt proves the delivered bytes.",
+      "tags": {
+        "domain": [
+          "Catalogue",
+          "Partner exchange"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Export"
+        ]
+      },
+      "replayedAt": "2026-10-21",
+      "evidenceDigest": "sha256:19279255a1f737e09bb4a5169bc241bba26a6a47c5b0f10017acd3ed6310324c"
+    },
+    {
       "slug": "pwa-chat",
       "title": "Question 40,000 products, with the SQL shown.",
       "lede": "Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query; the answer shows its SQL.",
