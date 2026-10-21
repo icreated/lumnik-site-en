@@ -172,6 +172,24 @@
       "evidenceDigest": "sha256:8dcd8abe1473273c9532c9f71c0fd17542ddbca7124c64ca5a0a1966b8ef38c7"
     },
     {
+      "slug": "legacy-sales-grafana",
+      "title": "A frozen ERP feeds a real Grafana dashboard, with no extra connector.",
+      "lede": "The ERP exports its sales and catalogue as CSV. lumnik joins them, and Grafana reads the entity through a read-only PostgreSQL login bound to its tenant. Monday: EUR 10,450. On Tuesday the export changes: EUR 14,200, and the changed sale appears once.",
+      "tags": {
+        "domain": [
+          "Sales",
+          "BI"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-22",
+      "evidenceDigest": "sha256:c8f311c0fb15458e813e3953b2f5e5ccbcf37311ffc8541d21e8c70a2e594146"
+    },
+    {
       "slug": "pwa-chat",
       "title": "Question 40,000 products, with the SQL shown.",
       "lede": "Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query; the answer shows its SQL.",
