@@ -24,6 +24,24 @@
       "evidenceDigest": "sha256:0b9b8301994e5425be84ff8b380d79290704bb12ee8d2f3c074b4facf7d929b5"
     },
     {
+      "slug": "devops-release-gate",
+      "title": "An unapproved production version blocks the pipeline, through an exit code.",
+      "lede": "The production inventory and the catalogue of approved versions are two CSV exports. lumnik joins them; a CI script reads the entity as JSON and exits 1 while billing-api runs 2.4.0-hotfix. After the fix, the same gate passes.",
+      "tags": {
+        "domain": [
+          "DevOps",
+          "Delivery"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-22",
+      "evidenceDigest": "sha256:ab0cb4769b91e5bee803affc225a4644e5ae58cefc0f94fb1193a5251e224971"
+    },
+    {
       "slug": "entity-resolution",
       "title": "One customer, two systems, no shared identifier.",
       "lede": "An ERP, a CRM, one Entity. Email matches the records; a shared mailbox opens an ambiguity. lumnik does not pick: a person decides, and the decision holds on replay.",
