@@ -79,6 +79,24 @@
       "evidenceDigest": "sha256:78d3140e8beca41989b34ca6b83104c42478e42772ccce33f2da14a75a0f63fb"
     },
     {
+      "slug": "graphql-insurance-bff",
+      "title": "A claim form's lists, without exposing the CRM's GraphQL.",
+      "lede": "Claim type and subtype live in a CRM that speaks GraphQL. lumnik ingests it page by page, turns it into a canonical entity, and a small BFF serves the form stable REST JSON: the CRM's schema never becomes a browser contract.",
+      "tags": {
+        "domain": [
+          "Insurance",
+          "Forms"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-22",
+      "evidenceDigest": "sha256:c4e7cfc5eba9c8095b2da7e7ef871f8de55a2c3121d95d6830fb0313111ac3c7"
+    },
+    {
       "slug": "import-export",
       "title": "The catalogue reaches the partner in their format, not ours.",
       "lede": "Two ERP CSV files, products and categories, are joined in the hub and delivered to S3 in a partner's format: French headers, semicolons, decimal commas, recoded statuses, a masked internal reference. A receipt proves the delivered bytes.",
