@@ -23,6 +23,23 @@
       "evidenceDigest": "sha256:0b9b8301994e5425be84ff8b380d79290704bb12ee8d2f3c074b4facf7d929b5"
     },
     {
+      "slug": "entity-resolution",
+      "title": "One customer, two systems, no shared identifier.",
+      "lede": "An ERP, a CRM, one Entity. Email matches the records; a shared mailbox opens an ambiguity. lumnik does not pick: a person decides, and the decision holds on replay.",
+      "tags": {
+        "domain": [
+          "Master data",
+          "Sales"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "replayedAt": "2026-10-21",
+      "evidenceDigest": "sha256:ff3588a1a38dd6a1a40285a67372b9865266ebf6c7a3265fb8245b9b4396bd67"
+    },
+    {
       "slug": "gmao-candy-line-incident",
       "title": "A critical unassigned incident reaches the manager's inbox.",
       "lede": "One CMMS CSV export, a Connector, a Workflow, a Process. One decision, only one; the assignment moves it forward.",
