@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A critical incident does not wait unseen for an owner. — lumnik</title>
-<meta name="description" content="A legacy maintenance system (CMMS) exports its incidents as a CSV file and notifies no one. lumnik reads that export as it is, declares the incident lifecycle, and puts the critical, unassigned incident in the maintenance manager&#x27;s inbox.">
+<title>A critical incident without an owner no longer goes unseen. — lumnik</title>
+<meta name="description" content="A legacy CMMS exports incidents to a CSV file but alerts no one. lumnik reads the export as-is, declares the incident lifecycle, and brings the critical, unassigned incident to the maintenance manager&#x27;s inbox.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -15,8 +15,8 @@
 <span class="meta"><a href="../">All scenarios</a></span></header>
 <main>
   <section class="hero">
-    <h1>A critical incident does not wait unseen for an owner.</h1>
-    <p class="lede">A legacy maintenance system (CMMS) exports its incidents as a CSV file and notifies no one. lumnik reads that export as it is, declares the incident lifecycle, and puts the critical, unassigned incident in the maintenance manager&#x27;s inbox.</p>
+    <h1>A critical incident without an owner no longer goes unseen.</h1>
+    <p class="lede">A legacy CMMS exports incidents to a CSV file but alerts no one. lumnik reads the export as-is, declares the incident lifecycle, and brings the critical, unassigned incident to the maintenance manager&#x27;s inbox.</p>
     <ul class="tags"><li class="tag">Manufacturing</li><li class="tag">Maintenance</li><li class="tag kind">Connector</li><li class="tag kind">Workflow</li><li class="tag kind">Process</li></ul>
   </section>
   <nav class="steps-nav" aria-label="Steps"><a href="#step-situation" data-step="situation" aria-current="step"><span class="num">1 · Situation</span><span class="sub">The freeze</span></a><a href="#step-import" data-step="import"><span class="num">2 · Import</span><span class="sub">The CSV</span></a><a href="#step-follow" data-step="follow"><span class="num">3 · Follow</span><span class="sub">The lifecycle</span></a><a href="#step-decide" data-step="decide"><span class="num">4 · Decide</span><span class="sub">The alert</span></a><a href="#step-verify" data-step="verify"><span class="num">5 · Verify</span><span class="sub">The proof</span></a></nav>
@@ -50,8 +50,8 @@ f9c7d13d  scenario-gmao-incidents      default   Completed  3   3    0        0 
   </div>
   <aside class="explain">
     <h2 id="import-title">Read the export as it is</h2>
-    <p>A Connector manifest declares the file, its header, and the maintenance scope allowed to read it. lumnik never writes back to the CMMS. The first file landed here is a three-row calibration export: Workflow and Process manifests are checked against data that already exists, so the table must exist first.</p>
-    <ol class="points"><li><span class="n">1</span><div><strong>Declare the source</strong><p>The manifest names the file and the métier scope.</p></div></li><li><span class="n">2</span><div><strong>Apply and run with lm</strong><p>The same commands replay on any hub.</p></div></li><li><span class="n">3</span><div><strong>Full refresh</strong><p>Each export is the CMMS&#x27;s complete state, so rows it no longer holds are removed. This scenario sets refresh.max_removed to off because its exports deliberately shrink; the default 30% guard is the right choice for a real source.</p></div></li></ol>
+    <p>A Connector manifest declares the file and its header, then assigns the imported data to the maintenance business scope. lumnik never writes back to the CMMS. The first file ingested is a three-row calibration export: Workflow and Process manifests are checked against data that already exists, so the table must exist first.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>Declare the source</strong><p>The manifest names the file and the business scope.</p></div></li><li><span class="n">2</span><div><strong>Apply and run with lm</strong><p>The same commands can be run against any hub.</p></div></li><li><span class="n">3</span><div><strong>Full refresh</strong><p>Each export is the CMMS&#x27;s complete state, so rows it no longer holds are removed. This scenario sets refresh.max_removed to off because its exports deliberately shrink; the default 30% guard is the right choice for a real source.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The legacy system can stay in place: its export is enough to put the information back in motion.</p></div>
   </aside>
 </section>
@@ -124,8 +124,8 @@ scenario-gmao-incident-lifecycle      INC-2026-0042  ASSIGNED   2026-10-21 08:10
   </div>
   <aside class="explain">
     <h2 id="verify-title">The assignment moves the incident, without a second alert</h2>
-    <p>The next export carries the same incident, now assigned to the synthetic technician Sophie Martin (TECH-SMARTIN). The Workflow observes the move from DECLARED to ASSIGNED; the Process does not fire again, because the incident is no longer unassigned.</p>
-    <ol class="points"><li><span class="n">1</span><div><strong>Same document</strong><p>The observation keeps its first-seen time: it is the same incident, moved.</p></div></li><li><span class="n">2</span><div><strong>Still one decision</strong><p>The inbox holds exactly the decision raised before the assignment.</p></div></li></ol>
+    <p>The next export carries the same incident, now assigned to the synthetic technician Sophie Martin (TECH-SMARTIN). The Workflow observes the transition from DECLARED to ASSIGNED; the Process does not fire again, because the incident is no longer unassigned.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>Same document</strong><p>The observation keeps its first-seen time: it is the same incident progressing through its lifecycle.</p></div></li><li><span class="n">2</span><div><strong>Still one decision</strong><p>The inbox holds exactly the decision raised before the assignment.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>One decision for a critical unassigned incident, then one observed move to ASSIGNED, and nothing more.</p></div>
   </aside>
 </section>

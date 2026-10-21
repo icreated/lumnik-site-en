@@ -3,8 +3,8 @@
   "scenarios": [
     {
       "slug": "gmao-candy-line-incident",
-      "title": "A critical incident does not wait unseen for an owner.",
-      "lede": "A legacy maintenance system (CMMS) exports its incidents as a CSV file and notifies no one. lumnik reads that export as it is, declares the incident lifecycle, and puts the critical, unassigned incident in the maintenance manager's inbox.",
+      "title": "A critical incident without an owner no longer goes unseen.",
+      "lede": "A legacy CMMS exports incidents to a CSV file but alerts no one. lumnik reads the export as-is, declares the incident lifecycle, and brings the critical, unassigned incident to the maintenance manager's inbox.",
       "tags": {
         "domain": [
           "Manufacturing",
