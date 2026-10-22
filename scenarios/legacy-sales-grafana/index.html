@@ -96,7 +96,7 @@
     <div class="proves"><h3>What this step proves</h3><p>A line changed in the ERP replaces the old one instead of adding to it.</p></div>
   </aside>
 </section>
-  <section class="limits"><h2>Limits</h2><ul><li>Grafana queries PostgreSQL at an interval: near-real-time BI, not streaming.</li><li>The reading login is created for the demonstration; in production its credentials belong in a secret manager, with the same boundary.</li><li>The login reads tables of the connector schema: a change to the view means revisiting its grants.</li><li>Synthetic data.</li></ul></section>
+  <section class="limits"><h2>Limits</h2><ul><li>Grafana queries PostgreSQL at an interval; this is not streaming.</li><li>The reading login is created for the demonstration; in production its credentials belong in a secret manager, with the same boundary.</li><li>The login reads tables of the connector schema: a change to the view means revisiting its grants.</li><li>Synthetic data.</li></ul></section>
 </main>
 <script src="../assets/scenario.js" defer></script>
 </body>

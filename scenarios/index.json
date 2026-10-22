@@ -60,6 +60,24 @@
       "evidenceDigest": "sha256:ab0cb4769b91e5bee803affc225a4644e5ae58cefc0f94fb1193a5251e224971"
     },
     {
+      "slug": "dirty-order-statuses",
+      "title": "Fourteen spellings in one status column.",
+      "lede": "Fifteen years of hand entry left EC, Livré, LIV, ANNUL… in the ERP's order export. lumnik does not touch the ERP: a Workflow declares four statuses and their spellings, and every apply reports what is still undeclared.",
+      "tags": {
+        "domain": [
+          "Distribution",
+          "Orders"
+        ],
+        "kinds": [
+          "Connector",
+          "Workflow"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-22",
+      "evidenceDigest": "sha256:fa8fdc2998822ba787e7ce54cdb8f071d407f8144682ff707b83ce2f1e1e9625"
+    },
+    {
       "slug": "entity-resolution",
       "title": "One customer, two systems, no shared identifier.",
       "lede": "An ERP, a CRM, one Entity. Email matches the records; a shared mailbox opens an ambiguity. lumnik does not pick: a person decides, and the decision holds on replay.",
@@ -224,6 +242,24 @@
       "edition": "open",
       "replayedAt": "2026-10-22",
       "evidenceDigest": "sha256:c8f311c0fb15458e813e3953b2f5e5ccbcf37311ffc8541d21e8c70a2e594146"
+    },
+    {
+      "slug": "orders-where-they-sleep",
+      "title": "Where the orders sleep.",
+      "lede": "The ERP keeps only today's status: In progress yesterday, Delivered today, with nothing on the wait in between. lumnik watches the column, writes each change to a journal, and says how long each order stayed in each state.",
+      "tags": {
+        "domain": [
+          "Distribution",
+          "Orders"
+        ],
+        "kinds": [
+          "Connector",
+          "Workflow"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-22",
+      "evidenceDigest": "sha256:5d627d31ca5cfbc41db716211f8c9bdcc47c856b741b9b3add95e12822d43810"
     },
     {
       "slug": "pwa-chat",
