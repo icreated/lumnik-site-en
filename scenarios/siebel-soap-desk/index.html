@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The CRM&#x27;s SOAP desk: each service read its own way, nothing read twice. — lumnik</title>
+<meta name="description" content="A 2000s CRM exposes its data through custom SOAP web services: a case&#x27;s actions in one call, a customer&#x27;s opportunities page by page on a page number. The password travels inside the envelope. lumnik reads each one the way it reads, carries the service&#x27;s Fault verbatim, and never sends the same request twice.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/siebel-soap-desk/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/siebel-soap-desk/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>The CRM&#x27;s SOAP desk: each service read its own way, nothing read twice.</h1>
+    <p class="lede">A 2000s CRM exposes its data through custom SOAP web services: a case&#x27;s actions in one call, a customer&#x27;s opportunities page by page on a page number. The password travels inside the envelope. lumnik reads each one the way it reads, carries the service&#x27;s Fault verbatim, and never sends the same request twice.</p>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">CRM</li><li class="tag">Integration</li><li class="tag kind">Connector</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-connect" data-step="connect" aria-current="step"><span class="num">1 · Connect</span><span class="sub">Two services</span></a><a href="#step-actions" data-step="actions"><span class="num">2 · Actions</span><span class="sub">One call</span></a><a href="#step-opportunities" data-step="opportunities"><span class="num">3 · Opportunities</span><span class="sub">Page by page</span></a><a href="#step-fault" data-step="fault"><span class="num">4 · Password</span><span class="sub">Changed on the CRM</span></a><a href="#step-night2" data-step="night2"><span class="num">5 · Night 2</span><span class="sub">The case moves on</span></a></nav>
+  <section class="step" id="step-connect" aria-labelledby="connect-title">
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Connect"><button type="button" role="tab" id="connect-manifest-tab" data-view="manifest" aria-controls="connect-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="connect-commands-tab" data-view="commands" aria-controls="connect-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="connect-result-tab" data-view="result" aria-controls="connect-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="connect-manifest" aria-labelledby="connect-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-actions.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-siebel-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [crm]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:8097</span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="comment"># A custom business service: the actions of one request, one answer, no paging.</span></span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: actions</span><span class="line">      <span class="key">kind</span>: soap</span><span class="line">      <span class="key">path</span>: /eai_enu/start.swe?SWEExtSource=CustomUI&amp;SWEExtCmd=Execute</span><span class="line hl">      <span class="key">soap_action</span>: <span class="str">&quot;document/http://siebel.com/CustomUI:getListActions&quot;</span></span><span class="line">      <span class="key">header</span>: |</span><span class="line">        &lt;s1:SessionType xmlns:s1=<span class="str">&quot;http://siebel.com/webservices&quot;</span>&gt;None&lt;/s1:SessionType&gt;</span><span class="line">        &lt;s2:UsernameToken xmlns:s2=<span class="str">&quot;http://siebel.com/webservices&quot;</span>&gt;LAB_SVC&lt;/s2:UsernameToken&gt;</span><span class="line hl">        &lt;s3:PasswordText xmlns:s3=<span class="str">&quot;http://siebel.com/webservices&quot;</span>&gt;{{secret:SCENARIO_SIEBEL_A_PASSWORD}}&lt;/s3:PasswordText&gt;</span><span class="line">      <span class="key">body</span>: |</span><span class="line">        &lt;ns2:getListActions_Input xmlns=<span class="str">&quot;http://crm.example.com/getListActions/Data&quot;</span> xmlns:ns2=<span class="str">&quot;http://siebel.com/CustomUI&quot;</span>&gt;</span><span class="line">          &lt;getListActions&gt;</span><span class="line">            &lt;ListActions&gt;</span><span class="line">              &lt;cdTopOuverture&gt;0&lt;/cdTopOuverture&gt;</span><span class="line">              &lt;dtDebutPeriode&gt;01/01/1900&lt;/dtDebutPeriode&gt;</span><span class="line">              &lt;dtFinPeriode&gt;12/31/9999&lt;/dtFinPeriode&gt;</span><span class="line">              &lt;origine&gt;portail-svc-demandes&lt;/origine&gt;</span><span class="line">              &lt;idGRC&gt;40012345&lt;/idGRC&gt;</span><span class="line">              &lt;idDemande&gt;1-7QX2K4A&lt;/idDemande&gt;</span><span class="line">            &lt;/ListActions&gt;</span><span class="line">          &lt;/getListActions&gt;</span><span class="line">        &lt;/ns2:getListActions_Input&gt;</span><span class="line">      <span class="key">pagination</span>:</span><span class="line">        <span class="key">kind</span>: soap</span><span class="line">        <span class="key">page_size</span>: 1000</span><span class="line">        <span class="key">response_path</span>: <span class="str">&quot;$.Body.getListActions_Output.ListActions.Action&quot;</span></span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.siebel_actions_a</span><span class="line">        <span class="key">unique_key</span>: <span class="str">&quot;$.idAction&quot;</span></span><span class="line">        <span class="key">promote</span>:</span><span class="line">          - { name: id_demande, path: <span class="str">&quot;$.idDemande&quot;</span>, type: text }</span><span class="line">          - { name: type_action, path: <span class="str">&quot;$.typeAction&quot;</span>, type: text }</span><span class="line">          - { name: statut, path: <span class="str">&quot;$.statut&quot;</span>, type: text }</span></code></pre><div class="file"><span class="filename">manifests/20-opportunities.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-siebel-opp-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [crm]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:8097</span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="comment"># A person&#x27;s opportunities, paged by a 1-based page NUMBER; the page says whether it is the last.</span></span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: opportunities</span><span class="line">      <span class="key">kind</span>: soap</span><span class="line">      <span class="key">path</span>: /eai_enu/start.swe?SWEExtSource=CustomUI&amp;SWEExtCmd=Execute</span><span class="line hl">      <span class="key">soap_action</span>: <span class="str">&quot;document/http://siebel.com/CustomUI:getListOpportunity&quot;</span></span><span class="line">      <span class="key">header</span>: |</span><span class="line">        &lt;s1:SessionType xmlns:s1=<span class="str">&quot;http://siebel.com/webservices&quot;</span>&gt;None&lt;/s1:SessionType&gt;</span><span class="line">        &lt;s2:UsernameToken xmlns:s2=<span class="str">&quot;http://siebel.com/webservices&quot;</span>&gt;LAB_SVC&lt;/s2:UsernameToken&gt;</span><span class="line hl">        &lt;s3:PasswordText xmlns:s3=<span class="str">&quot;http://siebel.com/webservices&quot;</span>&gt;{{secret:SCENARIO_SIEBEL_A_PASSWORD}}&lt;/s3:PasswordText&gt;</span><span class="line">      <span class="key">body</span>: |</span><span class="line">        &lt;cus:getListOpportunity_Input xmlns:cus=<span class="str">&quot;http://siebel.com/CustomUI&quot;</span> xmlns:data=<span class="str">&quot;http://crm.example.com/getOpportunity/Data&quot;</span>&gt;</span><span class="line">          &lt;data:getOpportunity&gt;</span><span class="line">            &lt;data:Opportunity&gt;</span><span class="line">              &lt;data:refExtPersonne&gt;40012345&lt;/data:refExtPersonne&gt;</span><span class="line">              &lt;data:cdTopStatutOpportunite&gt;0&lt;/data:cdTopStatutOpportunite&gt;</span><span class="line">              &lt;data:origine&gt;portail-svc-demandes&lt;/data:origine&gt;</span><span class="line hl">              &lt;data:page&gt;{{page}}&lt;/data:page&gt;</span><span class="line">            &lt;/data:Opportunity&gt;</span><span class="line">          &lt;/data:getOpportunity&gt;</span><span class="line">        &lt;/cus:getListOpportunity_Input&gt;</span><span class="line">      <span class="key">pagination</span>:</span><span class="line">        <span class="key">kind</span>: soap</span><span class="line">        <span class="key">page_size</span>: 3</span><span class="line hl">        <span class="key">last_page_path</span>: <span class="str">&quot;$.Body.getListOpportunity_Output.getOpportunity.lastpage&quot;</span></span><span class="line">        <span class="key">response_path</span>: <span class="str">&quot;$.Body.getListOpportunity_Output.getOpportunity.Opportunity&quot;</span></span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.siebel_opportunities_a</span><span class="line">        <span class="key">unique_key</span>: <span class="str">&quot;$.idOpportunite&quot;</span></span><span class="line">        <span class="key">promote</span>:</span><span class="line">          - { name: libelle, path: <span class="str">&quot;$.libelle&quot;</span>, type: text }</span><span class="line">          - { name: statut, path: <span class="str">&quot;$.statut&quot;</span>, type: text }</span></code></pre></div><div role="tabpanel" id="connect-commands" aria-labelledby="connect-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f /var/folders/18/2psk9q652gsflqx5mvzr3nsh0000gn/T//lumnik-siebel.ZaXQ3W/10-actions.yaml</span>
+<span class="out">{&quot;name&quot;:&quot;scenario-siebel-e&quot;,&quot;connectorId&quot;:&quot;158142fc-0f07-40d8-923b-174e6d4ceabf&quot;,&quot;endpointsApplied&quot;:1}</span>
+
+<span class="cmd"><span class="prompt">$</span> lm apply -f /var/folders/18/2psk9q652gsflqx5mvzr3nsh0000gn/T//lumnik-siebel.ZaXQ3W/20-opportunities.yaml</span>
+<span class="out">{&quot;name&quot;:&quot;scenario-siebel-opp-e&quot;,&quot;connectorId&quot;:&quot;2de291fa-c2ee-4ef7-84d4-6736e58a9aa0&quot;,&quot;endpointsApplied&quot;:1}</span>
+
+<span class="cmd"><span class="prompt">$</span> lm source rest test scenario-siebel-e</span>
+<span class="out">ENDPOINT  METHOD  STATUS  ITEMS  VERDICT
+actions   POST    200     4      ok</span>
+
+<span class="cmd"><span class="prompt">$</span> lm source rest test scenario-siebel-opp-e</span>
+<span class="out">ENDPOINT       METHOD  STATUS  ITEMS  VERDICT
+opportunities  POST    200     3      ok</span></code></pre></div><div role="tabpanel" id="connect-result" aria-labelledby="connect-result-tab" tabindex="0" hidden><dl class="facts"><dt>actions</dt><dd>200 · 4 items · ok</dd><dt>opportunities</dt><dd>200 · 3 items · ok</dd></dl><p class="sources">evidence: replay.log, 01-requests-actions.txt, 02-requests-opportunities.txt, 03-fault.txt, 04-requests-fault.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="connect-title">The envelope as it goes out, the password a secret</h2>
+    <p>Two REST connectors in SOAP shape on the same desk. The header carries the service account the way the CRM expects it; the password is a hub secret, resolved when sending. The pre-flight sends the real request and reads the answer.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>SOAPAction</strong><p>Each service named as the CRM exposes it.</p></div></li><li><span class="n">2</span><div><strong>{{page}}</strong><p>The page number, from 1, where the service expects it.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The service answers before the first night.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-actions" aria-labelledby="actions-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Actions"><button type="button" role="tab" id="actions-commands-tab" data-view="commands" aria-controls="actions-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="actions-result-tab" data-view="result" aria-controls="actions-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="actions-commands" aria-labelledby="actions-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-siebel-e</span>
+<span class="out">run scheduled: ea3a8a1e-7ef1-445f-bbf5-782871b6540f</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get ea3a8a1e-7ef1-445f-bbf5-782871b6540f</span>
+<span class="out">ID        CONNECTOR          ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+ea3a8a1e  scenario-siebel-e  actions   Completed  4   4    0        0             2026-10-22 21:54  2026-10-22 21:54  yes</span></code></pre></div><div role="tabpanel" id="actions-result" aria-labelledby="actions-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 4 · OUT 4</dd><dt>CRM</dt><dd>1 request(s)</dd></dl><p class="sources">evidence: replay.log, 01-requests-actions.txt, 02-requests-opportunities.txt, 03-fault.txt, 04-requests-fault.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="actions-title">A case&#x27;s actions, in a single request</h2>
+    <p>The service returns all the case&#x27;s actions at once. The body carries no page number: the next request would be the same, so the hub sends only one.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>Read</strong><p>Four actions, each on its key.</p></div></li><li><span class="n">2</span><div><strong>One call</strong><p>The CRM saw one request.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A service that does not page is read once, not in a loop.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-opportunities" aria-labelledby="opportunities-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Opportunities"><button type="button" role="tab" id="opportunities-commands-tab" data-view="commands" aria-controls="opportunities-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="opportunities-result-tab" data-view="result" aria-controls="opportunities-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="opportunities-commands" aria-labelledby="opportunities-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-siebel-opp-e</span>
+<span class="out">run scheduled: a518e0d4-3779-4b36-a4d4-86b24c2cab69</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get a518e0d4-3779-4b36-a4d4-86b24c2cab69</span>
+<span class="out">ID        CONNECTOR              ENDPOINT       STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+a518e0d4  scenario-siebel-opp-e  opportunities  Completed  7   7    0        0             2026-10-22 21:54  2026-10-22 21:54  no</span></code></pre></div><div role="tabpanel" id="opportunities-result" aria-labelledby="opportunities-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 7 · OUT 7</dd><dt>CRM</dt><dd>3 request(s), pages 1, 2, 3</dd></dl><p class="sources">evidence: replay.log, 01-requests-actions.txt, 02-requests-opportunities.txt, 03-fault.txt, 04-requests-fault.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="opportunities-title">Pages 1, 2, 3, then the stop on lastpage</h2>
+    <p>The service pages by page number and says in an attribute whether the page is the last. The hub asks for 1, 2, 3 and stops when lastpage reads true.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>Page number</strong><p>Not a row offset: 1, 2, 3.</p></div></li><li><span class="n">2</span><div><strong>Stop</strong><p>On the service&#x27;s flag, not on a count.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A service that counts in pages is read whole, no page twice.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-fault" aria-labelledby="fault-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Password"><button type="button" role="tab" id="fault-commands-tab" data-view="commands" aria-controls="fault-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="fault-result-tab" data-view="result" aria-controls="fault-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="fault-commands" aria-labelledby="fault-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-siebel-e</span>
+<span class="out">run scheduled: 8dfa0fb0-b518-471e-afae-303e126996ab</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 8dfa0fb0-b518-471e-afae-303e126996ab</span>
+<span class="out">ID        CONNECTOR          ENDPOINT  STATUS  IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+8dfa0fb0  scenario-siebel-e  actions   Failed  0   0    0        0             2026-10-22 21:54  2026-10-22 21:54  no</span>
+<span class="note">✖ run failed: SOAP Fault: Invalid user name or password (SBL-UIF-00348)</span></code></pre></div><div role="tabpanel" id="fault-result" aria-labelledby="fault-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Failed · IN 0 · OUT 0</dd><dt>refusal</dt><dd>SOAP Fault: Invalid user name or password (SBL-UIF-00348)</dd><dt>CRM</dt><dd>1 request(s)</dd></dl><p class="sources">evidence: replay.log, 01-requests-actions.txt, 02-requests-opportunities.txt, 03-fault.txt, 04-requests-fault.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="fault-title">The service&#x27;s Fault on the run, one attempt</h2>
+    <p>The service account&#x27;s password changed on the CRM side. The run fails with the service&#x27;s own message; it is not retried, and the CRM sees one request.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>The CRM&#x27;s message</strong><p>With its code, not an &quot;HTTP 500&quot;.</p></div></li><li><span class="n">2</span><div><strong>No retry</strong><p>A refusal is not fixed by asking again.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A refused account shows on the run, without hammering the CRM.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-night2" aria-labelledby="night2-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Night 2"><button type="button" role="tab" id="night2-commands-tab" data-view="commands" aria-controls="night2-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="night2-result-tab" data-view="result" aria-controls="night2-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="night2-commands" aria-labelledby="night2-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-siebel-e</span>
+<span class="out">run scheduled: 9c044c65-92a3-42c4-87fe-63eecc31a7b5</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 9c044c65-92a3-42c4-87fe-63eecc31a7b5</span>
+<span class="out">ID        CONNECTOR          ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+9c044c65  scenario-siebel-e  actions   Completed  6   6    0        0             2026-10-22 21:54  2026-10-22 21:54  no</span></code></pre></div><div role="tabpanel" id="night2-result" aria-labelledby="night2-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 6 · OUT 6</dd></dl><p class="sources">evidence: replay.log, 01-requests-actions.txt, 02-requests-opportunities.txt, 03-fault.txt, 04-requests-fault.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="night2-title">Two new actions, two that are closed</h2>
+    <p>With the password restored, the next night reads the case again: two actions added, two moved to &quot;Terminée&quot;. Each row is rewritten on its key.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>Six actions</strong><p>The new ones and the changed ones.</p></div></li><li><span class="n">2</span><div><strong>On the key</strong><p>idAction, no duplicate.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>One more night updates, it does not pile up.</p></div>
+  </aside>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>A SOAP read is one pass, in memory: lm run cancel only takes effect when the read ends.</li><li>The service is called for one case and one customer written in the manifest; one call per case of a list is not covered.</li><li>An incremental import&#x27;s mark travels in the URL, not in the body: a service that filters by period in its body is read whole.</li><li>Simulated CRM; synthetic data.</li></ul></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
