@@ -393,6 +393,24 @@
       "edition": "open",
       "replayedAt": "2026-10-22",
       "evidenceDigest": "sha256:2b3ff54db7df095b8ff9531a6a89d679651c8827fe8bfc48c27c989ddd11501c"
+    },
+    {
+      "slug": "two-systems-one-member",
+      "title": "Two systems, one member: each the reference for its own fields.",
+      "lede": "A mutual insurer keeps its members in its contract system and in its portal. Fused with one source order, one of the two is always wrong. lumnik lets each column name its reference source, and keeps every dispute visible until the source settles it.",
+      "tags": {
+        "domain": [
+          "Insurance",
+          "Integration"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-22",
+      "evidenceDigest": "sha256:34a4686b33cd9ed78ae22b0d2939162db85fb4efea44d82dd7dabaccda305e66"
     }
   ]
 }
