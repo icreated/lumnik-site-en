@@ -114,6 +114,23 @@
       "evidenceDigest": "sha256:783138b77fcaa6c26745e209244f7bc67c3cfce06ecfddd25fb63b25667ac76a"
     },
     {
+      "slug": "export-that-lies",
+      "title": "The export that lies: an unreadable line does not pass in silence.",
+      "lede": "An ERP exports its article catalogue every night as one file. A label holds the delimiter, unquoted. lumnik sets the line aside with its raw values, removes nothing from the catalogue while it is unreadable, and closes the dead letter only on the run that really read it again.",
+      "tags": {
+        "domain": [
+          "Catalogue",
+          "Integration"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-22",
+      "evidenceDigest": "sha256:a610b53bba19b3247c78e657bf9b4edea5e10290471848a5650c09a2ed68710d"
+    },
+    {
       "slug": "gmao-candy-line-incident",
       "title": "A critical unassigned incident reaches the manager's inbox.",
       "lede": "One CMMS CSV export, a Connector, a Workflow, a Process. One decision, only one; the assignment moves it forward.",
