@@ -301,6 +301,24 @@
       "evidenceDigest": "sha256:5d627d31ca5cfbc41db716211f8c9bdcc47c856b741b9b3add95e12822d43810"
     },
     {
+      "slug": "purchasing-ask-abstains",
+      "title": "The question Ask refuses to answer: a margin with no cost, a \"best\" with no criterion.",
+      "lede": "A purchasing director asks a year of supplier orders questions in French. Three get their figure, with the SQL that produced it. Three others have no answer in this data: a margin with no cost price, a best supplier with no criterion, delays with no delivery date. Ask refuses them instead of inventing a figure someone would repeat in a meeting.",
+      "tags": {
+        "domain": [
+          "Purchasing",
+          "AI"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-10-22",
+      "evidenceDigest": "sha256:4fc2a8f4570862eae39d0c4bfd265abf89722596a361e48f0b6173e021168859"
+    },
+    {
       "slug": "pwa-chat",
       "title": "Question 40,000 products, with the SQL shown.",
       "lede": "Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query; the answer shows its SQL.",
