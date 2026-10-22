@@ -445,6 +445,25 @@
       "edition": "open",
       "replayedAt": "2026-10-22",
       "evidenceDigest": "sha256:34a4686b33cd9ed78ae22b0d2939162db85fb4efea44d82dd7dabaccda305e66"
+    },
+    {
+      "slug": "zombie-cmms",
+      "title": "The zombie system: thirty years of work orders, the box switched off, the hub still answers.",
+      "lede": "A CMMS replaced years ago stays on for a handful of compliance reads a year: the licence, the box, and the one person who can restart it. lumnik reads it one last time, archives what it read under a single digest, then the box is switched off. The next run says why it fails, the pause stops the schedule, and the hub gives back the same bytes as before.",
+      "tags": {
+        "domain": [
+          "Maintenance",
+          "Compliance"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Export"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-22",
+      "evidenceDigest": "sha256:b2f4e260daf5ac892a89a3e7c309a3fb8dcff3479cd3ab6b9537ae1a4f577b95"
     }
   ]
 }
