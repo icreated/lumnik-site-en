@@ -394,6 +394,23 @@
       "evidenceDigest": "sha256:149f717d084a87a4d4c5d42f60e5a26365d5bf1dfce59d136546a2117581e7fe"
     },
     {
+      "slug": "siebel-soap-desk",
+      "title": "The CRM's SOAP desk: each service read its own way, nothing read twice.",
+      "lede": "A 2000s CRM exposes its data through custom SOAP web services: a case's actions in one call, a customer's opportunities page by page on a page number. The password travels inside the envelope. lumnik reads each one the way it reads, carries the service's Fault verbatim, and never sends the same request twice.",
+      "tags": {
+        "domain": [
+          "CRM",
+          "Integration"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-22",
+      "evidenceDigest": "sha256:8b3414d2ab1d0ef94f4c6a4721657dea1d3abb8af651b08a2a487f2d5801e5a2"
+    },
+    {
       "slug": "siem-bank-account-change",
       "title": "A supplier bank-account change, silent in the ERP, reaches the SIEM.",
       "lede": "The ERP exports its suppliers as CSV and emits no event. lumnik rereads the export on a schedule, emits a signed decision by webhook, and the SIEM correlates: one account change, one high alert. The inbox never shows the account.",
