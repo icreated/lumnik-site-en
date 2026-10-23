@@ -502,6 +502,24 @@
       "evidenceDigest": "sha256:66a82f5e2a774e0fec0a1f34cd31ae7a093cecf939403942db2c932df6afefab"
     },
     {
+      "slug": "quantity-script-one-in-500",
+      "title": "One unexpected value in 500: that line dead-lettered, the other 499 written.",
+      "lede": "A hand-typed goods receipt: 500 lines, quantities written \"12,5 kg\" or \"3 pce\". An operator's Kotlin script reads them into a number and a unit. Line 317 says \"env. 4 kg\". What happens to the other 499?",
+      "tags": {
+        "domain": [
+          "Logistics",
+          "Receiving"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:c61020779725c30f4b7eb409300a84b2e4aa9869c831175dacdb0a210929f800"
+    },
+    {
       "slug": "rest-incremental-orders",
       "title": "The API that only sends what changed: an order modified while it is being read is not lost.",
       "lede": "An order API can answer \"what changed since this date\". lumnik reads it in full once, then each night only what moved. An order modified while a run is still reading later pages could have slipped between two nights: the next run starts a little before its last mark, and picks it up.",
