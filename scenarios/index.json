@@ -378,6 +378,22 @@
       "evidenceDigest": "sha256:66a82f5e2a774e0fec0a1f34cd31ae7a093cecf939403942db2c932df6afefab"
     },
     {
+      "slug": "rest-incremental-orders",
+      "title": "The API that only sends what changed: an order modified while it is being read is not lost.",
+      "lede": "An order API can answer \"what changed since this date\". lumnik reads it in full once, then each night only what moved. An order modified while a run is still reading later pages could have slipped between two nights: the next run starts a little before its last mark, and picks it up.",
+      "tags": {
+        "domain": [
+          "Commerce"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:4e149714e42f5565513f76d9220f3aa543963653b01b190cfcc233d8772bb9dc"
+    },
+    {
       "slug": "rest-partner-loses-rows",
       "title": "The partner's API loses a page, the run does not lie.",
       "lede": "A partner publishes 2,400 partners and their count. One night a page of 100 vanishes; the count stays right. lumnik compares what it read with the total the source declares: the run fails naming the endpoint and both numbers, instead of turning green.",
