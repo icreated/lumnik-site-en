@@ -2,6 +2,24 @@
   "locale": "en",
   "scenarios": [
     {
+      "slug": "app-inventory-urls",
+      "title": "An inventory of hand-typed URLs: server, port and environment, without touching the export.",
+      "lede": "The IT team takes over an application inventory kept for years in a spreadsheet. One column holds each application's URL, typed by hand: capitals, pasted spaces, ports sometimes there, sometimes not. They want to know what runs on a server and what is still in staging. The manifest cuts the URL into columns, no code.",
+      "tags": {
+        "domain": [
+          "IT",
+          "Inventory"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:16f88a482fa660e16e18b58296e8a94f33821b483b7a3d86f763f3c5d161e310"
+    },
+    {
       "slug": "business-log-orders",
       "title": "Yesterday's log, read as a source: which orders the errors hit.",
       "lede": "Customers call: their order \"never went through\". The server writes a plain-text log, one file per day. The hub reads it line by line, keeps the warnings and errors, pulls out the order, and joins it to the customer and status it already holds. A business log, not a monitoring tool.",
