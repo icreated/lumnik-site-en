@@ -335,6 +335,24 @@
       "evidenceDigest": "sha256:4fc2a8f4570862eae39d0c4bfd265abf89722596a361e48f0b6173e021168859"
     },
     {
+      "slug": "purchasing-follow-up",
+      "title": "\"Et SUP-004 ?\": a follow-up question, answered as the whole question.",
+      "lede": "A buyer asks how many orders were cancelled, then \"Et pour le fournisseur SUP-003 ?\", then \"Et SUP-004 ?\". Nobody retypes the question. Ask reads each follow-up with the question before it, answers the full question and shows the one it understood.",
+      "tags": {
+        "domain": [
+          "Purchasing",
+          "AI"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:e78e1e66fedf9e58c79861c1caa836eadde835862d626e93e1be6b167302d6cf"
+    },
+    {
       "slug": "pwa-chat",
       "title": "Question 40,000 products, with the SQL shown.",
       "lede": "Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query; the answer shows its SQL.",
