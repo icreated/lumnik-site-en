@@ -203,6 +203,24 @@
       "evidenceDigest": "sha256:19279255a1f737e09bb4a5169bc241bba26a6a47c5b0f10017acd3ed6310324c"
     },
     {
+      "slug": "invoices-dead-letters",
+      "title": "An unreadable amount does not get in: the invoice waits, fixed at the source.",
+      "lede": "A supplier-invoice export carries two mistyped amounts and a test invoice. Instead of writing invoices without an amount, the hub sets them aside with the row as it was read. The test invoice is discarded, the source is fixed, and each letter is closed by the run that brought the right row.",
+      "tags": {
+        "domain": [
+          "Purchasing",
+          "Data quality"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:7bde61b7ab56d003546f3cf2465acde53578b2a40c5f09b6e093bde26c93d22b"
+    },
+    {
       "slug": "jdbc-merge-oracle-postgresql",
       "title": "One product record, two databases: PostgreSQL and Oracle stay where they are.",
       "lede": "Products live in PostgreSQL, their categories in Oracle. Two jdbc connectors read them without writing to either, and one entity joins them: 40,234 products, each with its category when there is one.",
