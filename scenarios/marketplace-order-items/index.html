@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A marketplace&#x27;s orders, one line per item to pick: model, colour, size. — lumnik</title>
+<meta name="description" content="The marketplace export gives one line per order, the items packed into one cell, and an item reference that packs model, colour and size in turn. Logistics wants one line per item, to count what to take out of stock. The manifest splits the order, then the reference, and refuses a file whose column was renamed.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/marketplace-order-items/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/marketplace-order-items/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>A marketplace&#x27;s orders, one line per item to pick: model, colour, size.</h1>
+    <p class="lede">The marketplace export gives one line per order, the items packed into one cell, and an item reference that packs model, colour and size in turn. Logistics wants one line per item, to count what to take out of stock. The manifest splits the order, then the reference, and refuses a file whose column was renamed.</p>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Logistics</li><li class="tag">E-commerce</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-refused" data-step="refused" aria-current="step"><span class="num">1 · Refused</span><span class="sub">before any run</span></a><a href="#step-load" data-step="load"><span class="num">2 · Load</span><span class="sub">7 orders read</span></a><a href="#step-read" data-step="read"><span class="num">3 · Read</span><span class="sub">11 items</span></a><a href="#step-renamed" data-step="renamed"><span class="num">4 · Refuse</span><span class="sub">renamed column</span></a></nav>
+  <section class="step" id="step-refused" aria-labelledby="refused-title">
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Refused"><button type="button" role="tab" id="refused-manifest-tab" data-view="manifest" aria-controls="refused-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="refused-commands-tab" data-view="commands" aria-controls="refused-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="refused-result-tab" data-view="result" aria-controls="refused-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="refused-manifest" aria-labelledby="refused-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/90-dlq-beside-split-row.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-order-items-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [logistics-b]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/marketplace-order-items/b/orders.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line hl">    on-error:</span><span class="line">      <span class="key">fields</span>: { items: dlq }                              <span class="comment"># refused: a split order has no single row to dead-letter</span></span><span class="line">    <span class="key">row</span>:</span><span class="line">      - split-row: { by: items, sep: <span class="str">&quot;|&quot;</span> }</span><span class="line hl">      - validate-row: { required: [items] }               <span class="comment"># refused: it would drop items, not orders</span></span><span class="line">    <span class="key">cell</span>:</span><span class="line">      <span class="dash">-</span> <span class="key">split</span>: { column: items, by: <span class="str">&quot;-&quot;</span>, into: [model, colour, size] }</span></code></pre></div><div role="tabpanel" id="refused-commands" aria-labelledby="refused-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm validate -f 90-dlq-beside-split-row.yaml</span>
+<span class="out">✗ 90-dlq-beside-split-row.yaml — 2 error(s), 0 warning(s)
+
+  ERROR    spec.mapping.row[1].validate-row
+          validate-row after split-row is not supported — validation would drop fanned fragments and corrupt the run arithmetic. Validate before splitting.
+          → Validate before splitting, or drop the validate-row hook
+
+  ERROR    spec.mapping.on-error
+          on-error: dlq with split-row is not supported — it would dead-letter fanned fragments, not source rows, and the run would stop on it
+          → use soft or fail, or drop the split-row hook
+
+Fix errors above before running &#x27;lm apply -f 90-dlq-beside-split-row.yaml&#x27;.</span>
+<span class="note">Error: validation failed: 2 error(s)</span></code></pre></div><div role="tabpanel" id="refused-result" aria-labelledby="refused-result-tab" tabindex="0" hidden><dl class="facts"><dt>spec.mapping.on-error</dt><dd>dlq + split-row</dd><dt>spec.mapping.row[1]</dt><dd>validate-row + split-row</dd></dl><p class="sources">evidence: replay.log, 00-refused.txt, load-run.txt, 01-pick-lines.txt, 01-pick-lines.json, renamed-run.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="refused-title">What the hub refuses beside split-row</h2>
+    <p>An order split into three items is no longer one row: on-error: dlq would dead-letter fragments, not the order, and validate-row after the split would drop items one by one. lm validate refuses both, with the reason, before anything runs.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>Validate first</strong><p>validate-row goes before split-row.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A composition that would skew the run&#x27;s count is never applied.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-load" aria-labelledby="load-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Load"><button type="button" role="tab" id="load-manifest-tab" data-view="manifest" aria-controls="load-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="load-commands-tab" data-view="commands" aria-controls="load-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="load-result-tab" data-view="result" aria-controls="load-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="load-manifest" aria-labelledby="load-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-order-items.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-order-items-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [logistics-b]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/marketplace-order-items/b/orders.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">dataset</span>:</span><span class="line hl">      - require-headers: { columns: [order_no, items] }    <span class="comment"># a file whose items column was renamed fails the run</span></span><span class="line hl">      - skip-empty-rows: {}                               <span class="comment"># the separator lines the export adds</span></span><span class="line">    <span class="key">row</span>:</span><span class="line hl">      - split-row: { by: items, sep: <span class="str">&quot;|&quot;</span>, position: item_no }   <span class="comment"># one row per item; item_no keeps two identical items apart</span></span><span class="line">    <span class="key">cell</span>:</span><span class="line">      <span class="dash">-</span> <span class="key">upper</span>: { columns: [items] }                       <span class="comment"># tsh-vert-s typed in lower case</span></span><span class="line hl">      <span class="dash">-</span> <span class="key">split</span>: { column: items, by: <span class="str">&quot;-&quot;</span>, into: [model, colour, size] }</span></code></pre><div class="file"><span class="filename">manifests/20-pick-line.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">kind</span>: Entity</span><span class="line"><span class="key">name</span>: pick_line_b</span><span class="line"><span class="key">label</span>: Ligne à préparer</span><span class="line"><span class="key">description</span>: <span class="str">&quot;One ordered item to pick: the order, its customer, and the item&#x27;s model, colour and size.&quot;</span></span><span class="line"><span class="key">match</span>: [order_no, item_no]</span><span class="line"><span class="key">scopes</span>: [logistics-b]</span><span class="line"><span class="key">columns</span>:</span><span class="line">  <span class="key">order_no</span>: { label: <span class="str">&quot;Commande&quot;</span> }</span><span class="line">  <span class="key">item_no</span>: { label: <span class="str">&quot;Article n°&quot;</span> }</span><span class="line">  <span class="key">customer</span>: { label: <span class="str">&quot;Client&quot;</span> }</span><span class="line">  <span class="key">items</span>: { label: <span class="str">&quot;Référence&quot;</span> }</span><span class="line">  <span class="key">model</span>: { label: <span class="str">&quot;Modèle&quot;</span> }</span><span class="line">  <span class="key">colour</span>: { label: <span class="str">&quot;Couleur&quot;</span> }</span><span class="line">  <span class="key">size</span>: { label: <span class="str">&quot;Taille&quot;</span> }</span><span class="line"><span class="key">sources</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_order_items_b</span><span class="line">    <span class="key">map</span>: { order_no: order_no, item_no: item_no, customer: customer, items: items, model: model, colour: colour, size: size }</span></code></pre></div><div role="tabpanel" id="load-commands" aria-labelledby="load-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-order-items.yaml</span>
+<span class="out">{&quot;name&quot;:&quot;scenario-order-items-b&quot;,&quot;connectorId&quot;:&quot;b9c5147d-2264-4bf0-b63a-e8122d330b41&quot;,&quot;endpointsApplied&quot;:1}</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-order-items-b</span>
+<span class="out">run scheduled: c98d2a37-353b-4300-be51-253cd1ed6586</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get c98d2a37-353b-4300-be51-253cd1ed6586</span>
+<span class="out">ID        CONNECTOR               ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+c98d2a37  scenario-order-items-b  default   Completed  7   6    1        0             2026-10-23 19:04  2026-10-23 19:04  no</span>
+<span class="note">⚠ 2 cell(s) a hook did not deliver as declared — the rows were still written</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity apply -f 20-pick-line.yaml</span>
+<span class="out">Applied entity &quot;pick_line_b&quot; → connector.&quot;v_pick_line_b&quot;</span></code></pre></div><div role="tabpanel" id="load-result" aria-labelledby="load-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 7 · OUT 6 · SKIPPED 1</dd><dt>cell_errors</dt><dd>2</dd></dl><p class="sources">evidence: replay.log, 00-refused.txt, load-run.txt, 01-pick-lines.txt, 01-pick-lines.json, renamed-run.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="load-title">The export, split on the way in</h2>
+    <p>require-headers checks that order_no and items are there; skip-empty-rows drops the separator line the export adds. split-row makes one row per item and position numbers them; upper writes tsh-vert-s in capitals; split cuts the reference into model, colour and size.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>2 cells</strong><p>CASQ-NOIR with no size, SWEAT-BLEU-MARINE-L with one dash too many.</p></div></li><li><span class="n">2</span><div><strong>Blank line</strong><p>A truly blank line is not read: it is in no count.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>7 = 6 + 1: six orders written, the separator skipped and counted. OUT counts orders, not items.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-read" aria-labelledby="read-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="read-commands-tab" data-view="commands" aria-controls="read-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="read-result-tab" data-view="result" aria-controls="read-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="read-commands" aria-labelledby="read-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm entity get pick_line_b</span>
+<span class="out">ORDER_NO  ITEM_NO  CUSTOMER  ITEMS                MODEL  COLOUR  SIZE    _CONFLICTS
+CMD-1001  1        Durand    TSH-BLEU-M           TSH    BLEU    M       {}
+CMD-1001  2        Durand    TSH-ROUGE-L          TSH    ROUGE   L       {}
+CMD-1001  3        Durand    CASQ-NOIR-U          CASQ   NOIR    U       {}
+CMD-1002  1        Morel     SWEAT-GRIS-XL        SWEAT  GRIS    XL      {}
+CMD-1003  1        Nguyen    TSH-BLEU-M           TSH    BLEU    M       {}
+CMD-1003  2        Nguyen    TSH-BLEU-M           TSH    BLEU    M       {}
+CMD-1004  1        Faure     TSH-VERT-S           TSH    VERT    S       {}
+CMD-1004  2        Faure     SWEAT-GRIS-M         SWEAT  GRIS    M       {}
+CMD-1005  1        Roux      CASQ-NOIR            CASQ   NOIR            {}
+CMD-1006  1        Garnier   TSH-ROUGE-L          TSH    ROUGE   L       {}
+CMD-1006  2        Garnier   SWEAT-BLEU-MARINE-L  SWEAT  BLEU    MARINE  {}</span></code></pre></div><div role="tabpanel" id="read-result" aria-labelledby="read-result-tab" tabindex="0" hidden><dl class="facts"><dt>CMD-1003 #1</dt><dd>TSH · BLEU · M</dd><dt>CMD-1003 #2</dt><dd>TSH · BLEU · M</dd><dt>CMD-1005 #1</dt><dd>CASQ · NOIR · —</dd><dt>CMD-1006 #2</dt><dd>SWEAT · BLEU · MARINE</dd></dl><p class="sources">evidence: replay.log, 00-refused.txt, load-run.txt, 01-pick-lines.txt, 01-pick-lines.json, renamed-run.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="read-title">One line per item to pick</h2>
+    <p>Eleven items for seven orders. CMD-1003 orders the same T-shirt twice: item_no 1 and 2 make them two lines. Without position, the two lines would have the same content, and the table keeps only one. CASQ-NOIR has no size: the cell stays empty. SWEAT-BLEU-MARINE-L gives colour BLEU and size MARINE: the value is written as split, and counted.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>item_no</strong><p>The item&#x27;s place in the order.</p></div></li><li><span class="n">2</span><div><strong>MARINE</strong><p>A colour with a dash breaks the split: counted, not corrected.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Every ordered item is a line, even when two are identical.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-renamed" aria-labelledby="renamed-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Refuse"><button type="button" role="tab" id="renamed-commands-tab" data-view="commands" aria-controls="renamed-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="renamed-result-tab" data-view="result" aria-controls="renamed-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="renamed-commands" aria-labelledby="renamed-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-order-items-b</span>
+<span class="out">run scheduled: 622721dd-e372-4437-bde0-1f7f4d6f05c1</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 622721dd-e372-4437-bde0-1f7f4d6f05c1</span>
+<span class="out">ID        CONNECTOR               ENDPOINT  STATUS  IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+622721dd  scenario-order-items-b  default   Failed  0   0    0        0             2026-10-23 19:04  2026-10-23 19:04  no</span>
+<span class="note">✖ run failed: required header missing: items</span></code></pre></div><div role="tabpanel" id="renamed-result" aria-labelledby="renamed-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Failed · required header missing: items</dd></dl><p class="sources">evidence: replay.log, 00-refused.txt, load-run.txt, 01-pick-lines.txt, 01-pick-lines.json, renamed-run.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="renamed-title">Next day, items is called articles</h2>
+    <p>The next day&#x27;s export renames the items column. require-headers fails the run, naming the missing column. Nothing is written: yesterday&#x27;s eleven lines stay.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>items</strong><p>The missing column, named.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A file that changed shape is refused, not misread.</p></div>
+  </aside>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>A colour holding a dash, like BLEU-MARINE, shifts the size: split counts the cell but does not correct it.</li><li>OUT counts the orders written; the number of items is read in the table.</li><li>Two identical lines in the file itself land as one row.</li><li>Synthetic orders.</li></ul></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
