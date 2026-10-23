@@ -532,6 +532,24 @@
       "evidenceDigest": "sha256:34a4686b33cd9ed78ae22b0d2939162db85fb4efea44d82dd7dabaccda305e66"
     },
     {
+      "slug": "two-tenants-one-hub",
+      "title": "Two customers, one hub, one table: each reads only its own rows.",
+      "lede": "Two integrators of two customers apply the same files to the same hub. Same connector, same entity, same table. Each loads its orders, under the same numbers. Each reads, asks and counts: it sees only its own.",
+      "tags": {
+        "domain": [
+          "Security",
+          "Purchasing"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:e808faa5e8409fe3ba7856e1ca3367048ba088ffb10e54e7fe2006eea1383d15"
+    },
+    {
       "slug": "zombie-cmms",
       "title": "The zombie system: thirty years of work orders, the box switched off, the hub still answers.",
       "lede": "A CMMS replaced years ago stays on for a handful of compliance reads a year: the licence, the box, and the one person who can restart it. lumnik reads it one last time, archives what it read under a single digest, then the box is switched off. The next run says why it fails, the pause stops the schedule, and the hub gives back the same bytes as before.",
