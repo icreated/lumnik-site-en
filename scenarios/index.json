@@ -204,6 +204,24 @@
       "evidenceDigest": "sha256:f03dace78e160c92d14797bd736750879805033594453db69da05dae10b2acb2"
     },
     {
+      "slug": "edifact-orders",
+      "title": "An EDIFACT ORDERS message: one line, split into segments, the escaped apostrophe kept.",
+      "lede": "Retail and industry still exchange EDIFACT: a buyer's ORDERS message, often written on one single line, its segments ended by an apostrophe, its elements split by + and :. An apostrophe in a label is written ?'. The buyer wants to read the message segment by segment.",
+      "tags": {
+        "domain": [
+          "Purchasing",
+          "EDI"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:3a52bff2d8eee8f58169a888cdacd7d5420404f13478d5c6d65eedb26da8119a"
+    },
+    {
       "slug": "entity-resolution",
       "title": "One customer, two systems, no shared identifier.",
       "lede": "An ERP, a CRM, one Entity. Email matches the records; a shared mailbox opens an ambiguity. lumnik does not pick: a person decides, and the decision holds on replay.",
