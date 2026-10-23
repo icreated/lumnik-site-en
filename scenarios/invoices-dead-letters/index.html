@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An unreadable amount does not get in: the invoice waits, fixed at the source. — lumnik</title>
+<meta name="description" content="A supplier-invoice export carries two mistyped amounts and a test invoice. Instead of writing invoices without an amount, the hub sets them aside with the row as it was read. The test invoice is discarded, the source is fixed, and each letter is closed by the run that brought the right row.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/invoices-dead-letters/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/invoices-dead-letters/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>An unreadable amount does not get in: the invoice waits, fixed at the source.</h1>
+    <p class="lede">A supplier-invoice export carries two mistyped amounts and a test invoice. Instead of writing invoices without an amount, the hub sets them aside with the row as it was read. The test invoice is discarded, the source is fixed, and each letter is closed by the run that brought the right row.</p>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Purchasing</li><li class="tag">Data quality</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-load" data-step="load" aria-current="step"><span class="num">1 · Day 1</span><span class="sub">41 read, 38 written</span></a><a href="#step-read" data-step="read"><span class="num">2 · Read</span><span class="sub">3 letters</span></a><a href="#step-discard" data-step="discard"><span class="num">3 · Discard</span><span class="sub">test invoice</span></a><a href="#step-fix" data-step="fix"><span class="num">4 · Day 2</span><span class="sub">40 read, 40 written</span></a><a href="#step-close" data-step="close"><span class="num">5 · Close</span><span class="sub">0 open</span></a></nav>
+  <section class="step" id="step-load" aria-labelledby="load-title">
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Day 1"><button type="button" role="tab" id="load-manifest-tab" data-view="manifest" aria-controls="load-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="load-commands-tab" data-view="commands" aria-controls="load-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="load-result-tab" data-view="result" aria-controls="load-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="load-manifest" aria-labelledby="load-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-invoices.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-invoices-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [invoices-b]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/invoices-dead-letters/b/invoices.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line hl">    on-error:</span><span class="line">      <span class="key">fields</span>: { amount_eur: dlq }   <span class="comment"># an unreadable amount: the invoice goes to the dead letters</span></span><span class="line">    <span class="key">row</span>:</span><span class="line hl">      - validate-row: { required: [invoice_no, supplier_id] }</span><span class="line">    <span class="key">cell</span>:</span><span class="line">      - parse-date: { column: invoice_date, formats: [<span class="str">&quot;yyyy-MM-dd&quot;</span>] }</span><span class="line">      - parse-number: { column: amount_eur, decimal-separator: <span class="str">&quot;.&quot;</span> }</span></code></pre><div class="file"><span class="filename">manifests/20-invoice.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">kind</span>: Entity</span><span class="line"><span class="key">name</span>: invoice_b</span><span class="line"><span class="key">label</span>: Facture fournisseur</span><span class="line"><span class="key">description</span>: <span class="str">&quot;A supplier invoice received in March 2025. One row is one invoice; the amount excludes VAT.&quot;</span></span><span class="line"><span class="key">match</span>: [invoice_no]</span><span class="line"><span class="key">scopes</span>: [invoices-b]</span><span class="line"><span class="key">columns</span>:</span><span class="line">  <span class="key">invoice_no</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Numéro de facture&quot;</span></span><span class="line">    <span class="key">example</span>: <span class="str">&quot;FA-2025-0001&quot;</span></span><span class="line">  <span class="key">supplier_id</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Code fournisseur&quot;</span></span><span class="line">    <span class="key">example</span>: <span class="str">&quot;SUP-201&quot;</span></span><span class="line">  <span class="key">invoice_date</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Date de facture&quot;</span></span><span class="line">  <span class="key">amount_eur</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Montant HT, en euros&quot;</span></span><span class="line"><span class="key">sources</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_invoices_b</span><span class="line">    <span class="key">map</span>:</span><span class="line">      <span class="key">invoice_no</span>: invoice_no</span><span class="line">      <span class="key">supplier_id</span>: supplier_id</span><span class="line">      <span class="key">invoice_date</span>: invoice_date</span><span class="line">      <span class="key">amount_eur</span>: amount_eur</span></code></pre></div><div role="tabpanel" id="load-commands" aria-labelledby="load-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-invoices.yaml</span>
+<span class="out">{&quot;name&quot;:&quot;scenario-invoices-e&quot;,&quot;connectorId&quot;:&quot;d61dea62-8693-459f-88c4-d80e59f745c3&quot;,&quot;endpointsApplied&quot;:1}</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-invoices-e</span>
+<span class="out">run scheduled: c05a9976-5c32-4b9d-b26c-616695486808</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get c05a9976-5c32-4b9d-b26c-616695486808</span>
+<span class="out">ID        CONNECTOR            ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+c05a9976  scenario-invoices-e  default   Completed  41  38   3        3             2026-10-23 16:59  2026-10-23 16:59  no</span>
+<span class="note">⚠ 3 rows quarantined — see: lm dlq list --run c05a9976-5c32-4b9d-b26c-616695486808</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity apply -f 20-invoice.yaml</span>
+<span class="out">Applied entity &quot;invoice_e&quot; → connector.&quot;v_invoice_e&quot;</span></code></pre></div><div role="tabpanel" id="load-result" aria-labelledby="load-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 41 · OUT 38 · DEAD-LETTERS 3</dd></dl><p class="sources">evidence: replay.log, load-run.txt, fix-run.txt, 01-letters.txt, 02-letter-0013.txt, 02-letter-0013.json, 04-closed.txt, 04-letter-0013-closed.txt, 04-letter-test-closed.txt, 05-written.txt, 05-entity.json · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="load-title">Day 1&#x27;s export: 38 invoices written, 3 set aside</h2>
+    <p>The CSV connector declares on-error: dlq on the amount. FA-2025-0013 holds 1.250.00 and FA-2025-0027 holds 87.5O: the amount cannot be read, so the invoice goes to the dead letters instead of being written without an amount. The test invoice has no supplier: validate-row refuses it.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>41 = 38 + 3</strong><p>Nothing lost on the way.</p></div></li><li><span class="n">2</span><div><strong>on-error: dlq</strong><p>Per column; by default the cell would be written blank.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An unreadable value is not written blank: the row is set aside, and read = written + skipped.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-read" aria-labelledby="read-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="read-commands-tab" data-view="commands" aria-controls="read-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="read-result-tab" data-view="result" aria-controls="read-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="read-commands" aria-labelledby="read-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm dlq list --run c05a9976-5c32-4b9d-b26c-616695486808</span>
+<span class="out">ID        CONNECTOR            RUN       REASON            ATTEMPTS  RESOLUTION  MESSAGE
+71398a09  scenario-invoices-e  c05a9976  MappingFailed     1                     amount_eur: parse-number could not read the value
+807b6c41  scenario-invoices-e  c05a9976  MappingFailed     1                     amount_eur: parse-number could not read the value
+4d4ecccf  scenario-invoices-e  c05a9976  ValidationFailed  1                     required column &#x27;supplier_id&#x27; is missing or blank</span>
+
+<span class="cmd"><span class="prompt">$</span> lm dlq get 807b6c41-1eda-41c3-b255-a57b41e61c62</span>
+<span class="out">ID:        807b6c41-1eda-41c3-b255-a57b41e61c62
+Connector: scenario-invoices-e (d61dea62-8693-459f-88c4-d80e59f745c3)
+Run:       c05a9976-5c32-4b9d-b26c-616695486808
+Reason:    MappingFailed
+Attempts:  1
+Message:   amount_eur: parse-number could not read the value
+Detail:    {&quot;field&quot;:&quot;amount_eur&quot;,&quot;message&quot;:&quot;parse-number could not read the value&quot;}
+Payload:   {&quot;amount_eur&quot;:&quot;1.250.00&quot;,&quot;invoice_no&quot;:&quot;FA-2025-0013&quot;,&quot;supplier_id&quot;:&quot;SUP-203&quot;,&quot;invoice_date&quot;:&quot;2025-03-09&quot;}
+Resolution: open</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity get invoice_e --filter invoice_no=FA-2025-0013</span>
+<span class="note">no rows</span></code></pre></div><div role="tabpanel" id="read-result" aria-labelledby="read-result-tab" tabindex="0" hidden><dl class="facts"><dt>MappingFailed</dt><dd>amount_eur: parse-number could not read the value</dd><dt>MappingFailed</dt><dd>amount_eur: parse-number could not read the value</dd><dt>ValidationFailed</dt><dd>required column &#x27;supplier_id&#x27; is missing or blank</dd><dt>FA-2025-0013 as read</dt><dd>1.250.00</dd><dt>FA-2025-0013 in the table</dt><dd>no rows</dd></dl><p class="sources">evidence: replay.log, load-run.txt, fix-run.txt, 01-letters.txt, 02-letter-0013.txt, 02-letter-0013.json, 04-closed.txt, 04-letter-0013-closed.txt, 04-letter-test-closed.txt, 05-written.txt, 05-entity.json · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="read-title">Each letter says why, and keeps the row as read</h2>
+    <p>lm dlq list gives three letters: two MappingFailed on amount_eur, one ValidationFailed on supplier_id. lm dlq get shows FA-2025-0013 with its amount as it arrived, 1.250.00. The invoice is not in the table.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>1.250.00</strong><p>The source value, intact.</p></div></li><li><span class="n">2</span><div><strong>no rows</strong><p>No invoice without an amount.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>You know what to fix, and where: the faulty value is in the letter, not lost.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-discard" aria-labelledby="discard-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Discard"><button type="button" role="tab" id="discard-commands-tab" data-view="commands" aria-controls="discard-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="discard-result-tab" data-view="result" aria-controls="discard-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="discard-commands" aria-labelledby="discard-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm dlq discard 4d4ecccf-1b5a-4fc0-999c-ee0797e95c2a</span>
+<span class="out">discarded: 4d4ecccf-1b5a-4fc0-999c-ee0797e95c2a</span></code></pre></div><div role="tabpanel" id="discard-result" aria-labelledby="discard-result-tab" tabindex="0" hidden><dl class="facts"><dt>FA-TEST-0001</dt><dd>DISCARDED, 2026-10-23 16:59</dd></dl><p class="sources">evidence: replay.log, load-run.txt, fix-run.txt, 01-letters.txt, 02-letter-0013.txt, 02-letter-0013.json, 04-closed.txt, 04-letter-0013-closed.txt, 04-letter-test-closed.txt, 05-written.txt, 05-entity.json · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="discard-title">The test invoice is closed without a run</h2>
+    <p>FA-TEST-0001 does not belong in the hub: it is deleted in the ERP, and its letter is closed with lm dlq discard. It stays visible, marked DISCARDED, with its date.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>DISCARDED</strong><p>Not deleted: closed.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Closing a letter without replaying it is a separate gesture, and it leaves a trace.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-fix" aria-labelledby="fix-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Day 2"><button type="button" role="tab" id="fix-commands-tab" data-view="commands" aria-controls="fix-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="fix-result-tab" data-view="result" aria-controls="fix-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="fix-commands" aria-labelledby="fix-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-invoices-e</span>
+<span class="out">run scheduled: eed8a709-d9f6-4896-a80a-61e15575758c</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get eed8a709-d9f6-4896-a80a-61e15575758c</span>
+<span class="out">ID        CONNECTOR            ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+eed8a709  scenario-invoices-e  default   Completed  40  40   0        0             2026-10-23 16:59  2026-10-23 16:59  no</span></code></pre></div><div role="tabpanel" id="fix-result" aria-labelledby="fix-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 40 · OUT 40 · DEAD-LETTERS 0</dd></dl><p class="sources">evidence: replay.log, load-run.txt, fix-run.txt, 01-letters.txt, 02-letter-0013.txt, 02-letter-0013.json, 04-closed.txt, 04-letter-0013-closed.txt, 04-letter-test-closed.txt, 05-written.txt, 05-entity.json · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="fix-title">Day 2&#x27;s export: both amounts corrected</h2>
+    <p>The file is the ERP&#x27;s whole export: both amounts were retyped, the test invoice deleted. 40 read, 40 written, no letter.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>0 letters</strong><p>The source is clean.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The fix happens at the source; the hub never rewrites a row it set aside.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-close" aria-labelledby="close-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Close"><button type="button" role="tab" id="close-commands-tab" data-view="commands" aria-controls="close-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="close-result-tab" data-view="result" aria-controls="close-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="close-commands" aria-labelledby="close-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm dlq replayed 807b6c41-1eda-41c3-b255-a57b41e61c62 --new-run-id eed8a709-d9f6-4896-a80a-61e15575758c</span>
+<span class="out">marked replayed: 807b6c41-1eda-41c3-b255-a57b41e61c62</span>
+
+<span class="cmd"><span class="prompt">$</span> lm dlq replayed 71398a09-4a20-49ed-b3a3-2d71442d21ce --new-run-id eed8a709-d9f6-4896-a80a-61e15575758c</span>
+<span class="out">marked replayed: 71398a09-4a20-49ed-b3a3-2d71442d21ce</span>
+
+<span class="cmd"><span class="prompt">$</span> lm dlq list --connector scenario-invoices-e</span>
+<span class="out">ID  CONNECTOR  RUN  REASON  ATTEMPTS  RESOLUTION  MESSAGE</span>
+
+<span class="cmd"><span class="prompt">$</span> lm dlq get 807b6c41-1eda-41c3-b255-a57b41e61c62</span>
+<span class="out">ID:        807b6c41-1eda-41c3-b255-a57b41e61c62
+Connector: scenario-invoices-e (d61dea62-8693-459f-88c4-d80e59f745c3)
+Run:       c05a9976-5c32-4b9d-b26c-616695486808
+Reason:    MappingFailed
+Attempts:  1
+Message:   amount_eur: parse-number could not read the value
+Detail:    {&quot;field&quot;:&quot;amount_eur&quot;,&quot;message&quot;:&quot;parse-number could not read the value&quot;}
+Payload:   {&quot;amount_eur&quot;:&quot;1.250.00&quot;,&quot;invoice_no&quot;:&quot;FA-2025-0013&quot;,&quot;supplier_id&quot;:&quot;SUP-203&quot;,&quot;invoice_date&quot;:&quot;2025-03-09&quot;}
+Resolution: REPLAYED by run eed8a709-d9f6-4896-a80a-61e15575758c, 2026-10-23 16:59</span>
+
+<span class="cmd"><span class="prompt">$</span> lm dlq get 4d4ecccf-1b5a-4fc0-999c-ee0797e95c2a</span>
+<span class="out">ID:        4d4ecccf-1b5a-4fc0-999c-ee0797e95c2a
+Connector: scenario-invoices-e (d61dea62-8693-459f-88c4-d80e59f745c3)
+Run:       c05a9976-5c32-4b9d-b26c-616695486808
+Reason:    ValidationFailed
+Attempts:  1
+Message:   required column &#x27;supplier_id&#x27; is missing or blank
+Detail:    {&quot;violations&quot;:[&quot;required column &#x27;supplier_id&#x27; is missing or blank&quot;]}
+Payload:   {&quot;amount_eur&quot;:&quot;0.00&quot;,&quot;invoice_no&quot;:&quot;FA-TEST-0001&quot;,&quot;supplier_id&quot;:null,&quot;invoice_date&quot;:&quot;2025-03-13&quot;}
+Resolution: DISCARDED, 2026-10-23 16:59</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity get invoice_e --filter invoice_no=FA-2025-0013</span>
+<span class="out">INVOICE_NO    SUPPLIER_ID  INVOICE_DATE  AMOUNT_EUR  _CONFLICTS
+FA-2025-0013  SUP-203      2025-03-09    1250        {}</span></code></pre></div><div role="tabpanel" id="close-result" aria-labelledby="close-result-tab" tabindex="0" hidden><dl class="facts"><dt>FA-2025-0013</dt><dd>REPLAYED by run eed8a709-d9f6-4896-a80a-61e15575758c, 2026-10-23 16:59</dd><dt>invoices</dt><dd>40 · FA-2025-0013 = 1250</dd></dl><p class="sources">evidence: replay.log, load-run.txt, fix-run.txt, 01-letters.txt, 02-letter-0013.txt, 02-letter-0013.json, 04-closed.txt, 04-letter-0013-closed.txt, 04-letter-test-closed.txt, 05-written.txt, 05-entity.json · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="close-title">Each letter is closed by the run that brought the row</h2>
+    <p>lm dlq replayed --new-run-id closes both letters, naming day 2&#x27;s run. lm dlq get says by which run and when. No letter is left open; the table holds 40 invoices, FA-2025-0013 at 1250.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>REPLAYED</strong><p>By day 2&#x27;s run.</p></div></li><li><span class="n">2</span><div><strong>40 invoices</strong><p>All with an amount.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Every invoice set aside has a known end: replayed by a named run, or discarded.</p></div>
+  </aside>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>on-error applies to CSV connectors; dlq is refused beside split-row.</li><li>The hub checks the named run could have carried the row (same connector, completed, later), not that it wrote it.</li><li>Synthetic invoices.</li></ul></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
