@@ -94,6 +94,24 @@
       "evidenceDigest": "sha256:0b9b8301994e5425be84ff8b380d79290704bb12ee8d2f3c074b4facf7d929b5"
     },
     {
+      "slug": "delivery-date-two-warehouses",
+      "title": "One delivery-date rule, two warehouses: each its lead time, its holidays, its closed days.",
+      "lede": "The date promised to a customer is the order date plus a number of working days, without weekends, public holidays or the days the warehouse is closed. The operator writes the rule once, in a Kotlin script. Each warehouse sets it its own way: Lyon in France, 3 days, two inventory days; Liège in Belgium, 5 days.",
+      "tags": {
+        "domain": [
+          "Logistics",
+          "Sales"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:0c815961842dd09ffe69c48f144e01f6f2ff4c8b4ce00c9ee4c287f5ff98c8d7"
+    },
+    {
       "slug": "devops-ai-pod-triage",
       "title": "Which pods first? The model translates the question; it does not invent the priority.",
       "lede": "Inventory, metrics and health of ten pods arrive as three exports. lumnik fuses them with a deterministic priority; Ask turns the question into read-only SQL. Seven pods, from critical to medium, each with its signals.",
