@@ -54,6 +54,24 @@
       "evidenceDigest": "sha256:7601cd1c0784a3622900254c1c6bb8e44fd336774836e31c0c3d051ca55d44b0"
     },
     {
+      "slug": "crm-contacts-reachable",
+      "title": "An old CRM's contacts made reachable: names repaired, one phone, a valid email.",
+      "lede": "The sales team leaves an old CRM. Its contact export mixes capitals, accents broken by an encoding round trip, two phone columns of which one is often empty, and mistyped emails. The manifest turns it into a usable list, and names the contacts that cannot be reached.",
+      "tags": {
+        "domain": [
+          "Sales",
+          "CRM"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:ad98251130ee5f08373937d5fdfd0a3d030450d15289a5ae0816d3602945c732"
+    },
+    {
       "slug": "deal-in-the-pocket",
       "title": "The deal moves on during dinner.",
       "lede": "Five business exports and a catalogue, four entities, three views, one Process. The CRM marks the deal ready; the decision reaches the PWA, « Traiter » (handle) goes out as a webhook and the customer email follows.",
