@@ -184,6 +184,26 @@
       "evidenceDigest": "sha256:22d0e049052a29719d6ec0d48efcf410afde361223d9683819502906f2a1efc2"
     },
     {
+      "slug": "edi-order-cycle",
+      "title": "Where is each order line: order, acknowledgement, confirmed date and delivery reconciled.",
+      "lede": "A manufacturer and its logistics partner exchange four flat files around the same order line: the order, the acknowledgement, the confirmed delivery date, the delivery note. Sales administration asks, line by line, where the order stands: never acknowledged, confirmed but not delivered, delivered in a different quantity.",
+      "tags": {
+        "domain": [
+          "Logistics",
+          "EDI",
+          "Sales admin"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Workflow"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:f03dace78e160c92d14797bd736750879805033594453db69da05dae10b2acb2"
+    },
+    {
       "slug": "entity-resolution",
       "title": "One customer, two systems, no shared identifier.",
       "lede": "An ERP, a CRM, one Entity. Email matches the records; a shared mailbox opens an ambiguity. lumnik does not pick: a person decides, and the decision holds on replay.",
