@@ -2,6 +2,22 @@
   "locale": "en",
   "scenarios": [
     {
+      "slug": "catalogue-ean-check",
+      "title": "The wrong bar code caught at import: an operator-provided Kotlin script, named by the manifest.",
+      "lede": "A catalogue export carries EAN-13 codes, some of them wrong. No built-in transformer computes a check digit. The hub's operator drops a Kotlin script into the hub's hooks directory; the manifest names it and carries no code. A draft that does not compile is refused at validate, with its line and column.",
+      "tags": {
+        "domain": [
+          "Commerce"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:7601cd1c0784a3622900254c1c6bb8e44fd336774836e31c0c3d051ca55d44b0"
+    },
+    {
       "slug": "deal-in-the-pocket",
       "title": "The deal moves on during dinner.",
       "lede": "Five business exports and a catalogue, four entities, three views, one Process. The CRM marks the deal ready; the decision reaches the PWA, « Traiter » (handle) goes out as a webhook and the customer email follows.",
