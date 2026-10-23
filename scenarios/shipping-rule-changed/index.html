@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The rule changed on 1 January: every order says which version computed it. — lumnik</title>
+<meta name="description" content="The shipping fee is computed by a Kotlin script the hub&#x27;s operator provides: free shipping from 150.00 in December, from 200.00 from January. The operator replaces the script. Months later, an auditor asks why an order of 172.50 shipped free in December and paid shipping in January.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/shipping-rule-changed/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/shipping-rule-changed/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>The rule changed on 1 January: every order says which version computed it.</h1>
+    <p class="lede">The shipping fee is computed by a Kotlin script the hub&#x27;s operator provides: free shipping from 150.00 in December, from 200.00 from January. The operator replaces the script. Months later, an auditor asks why an order of 172.50 shipped free in December and paid shipping in January.</p>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Sales</li><li class="tag">Audit</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-rule-v1" data-step="rule-v1" aria-current="step"><span class="num">1 · Rule v1</span><span class="sub">free from 150.00</span></a><a href="#step-december" data-step="december"><span class="num">2 · December</span><span class="sub">4 orders</span></a><a href="#step-rule-v2" data-step="rule-v2"><span class="num">3 · Rule v2</span><span class="sub">free from 200.00</span></a><a href="#step-january" data-step="january"><span class="num">4 · January</span><span class="sub">3 orders</span></a><a href="#step-audit" data-step="audit"><span class="num">5 · Audit</span><span class="sub">172.50 twice</span></a></nav>
+  <section class="step" id="step-rule-v1" aria-labelledby="rule-v1-title">
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Rule v1"><button type="button" role="tab" id="rule-v1-manifest-tab" data-view="manifest" aria-controls="rule-v1-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="rule-v1-commands-tab" data-view="commands" aria-controls="rule-v1-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="rule-v1-result-tab" data-view="result" aria-controls="rule-v1-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="rule-v1-manifest" aria-labelledby="rule-v1-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/shipping-fee-v1.kts</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line">// Operator-provided: the shipping fee of an order. Free shipping from 150.00 of goods.</span><span class="line">@Suppress(<span class="str">&quot;UNCHECKED_CAST&quot;</span>)</span><span class="line">val cells = bindings[<span class="str">&quot;cells&quot;</span>] as MutableMap&lt;String, Any?&gt;</span><span class="line">val total = (cells[<span class="str">&quot;goods_total&quot;</span>] as String).toBigDecimal()</span><span class="line">cells[<span class="str">&quot;shipping_fee&quot;</span>] = if (total &gt;= <span class="str">&quot;150.00&quot;</span>.toBigDecimal()) <span class="str">&quot;0.00&quot;</span> else <span class="str">&quot;12.90&quot;</span></span></code></pre></div><div role="tabpanel" id="rule-v1-commands" aria-labelledby="rule-v1-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm hook scripts</span>
+<span class="out">NAME                SIZE  SHA256
+shipping-fee-c.kts  316   23ba31c1b1827ff86228f4f7f36ffd2b73b7ab77ef155598bf05ef12c4b1273e</span></code></pre></div><div role="tabpanel" id="rule-v1-result" aria-labelledby="rule-v1-result-tab" tabindex="0" hidden><dl class="facts"><dt>shipping-fee-c.kts</dt><dd>sha256 23ba31c1b182…</dd></dl><p class="sources">evidence: replay.log, rule-v1-scripts.txt, december-run.txt, rule-v2-scripts.txt, january-run.txt, audit-orders.txt, audit-orders.json, audit-december-run.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="rule-v1-title">The operator puts the rule in place</h2>
+    <p>The script is a file of the hub&#x27;s scripts directory, which only the operator fills. lm hook scripts shows its SHA-256 fingerprint: that is what identifies the version of the rule.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>Fingerprint</strong><p>SHA-256 of the script&#x27;s text.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The rule has a fingerprint the integrator reads without seeing the server.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-december" aria-labelledby="december-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="December"><button type="button" role="tab" id="december-manifest-tab" data-view="manifest" aria-controls="december-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="december-commands-tab" data-view="commands" aria-controls="december-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="december-result-tab" data-view="result" aria-controls="december-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="december-manifest" aria-labelledby="december-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-orders.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-shipping-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [sales-b]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/shipping-rule-changed/b/orders-*.csv   <span class="comment"># one export per month</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line hl">      <span class="dash">-</span> <span class="key">kotlin</span>:</span><span class="line">          <span class="key">script</span>: hooks:shipping-fee-b.kts   <span class="comment"># the operator&#x27;s rule, in the hub&#x27;s hooks directory</span></span></code></pre></div><div role="tabpanel" id="december-commands" aria-labelledby="december-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-orders.yaml</span>
+<span class="out">{&quot;name&quot;:&quot;scenario-shipping-c&quot;,&quot;connectorId&quot;:&quot;2b00073d-d666-477f-9cfd-acd257c1f567&quot;,&quot;endpointsApplied&quot;:1}</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-shipping-c</span>
+<span class="out">run scheduled: 06a128d5-d9c5-4d9b-8a2f-2e7277b470e2</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 06a128d5-d9c5-4d9b-8a2f-2e7277b470e2</span>
+<span class="out">ID        CONNECTOR            ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+06a128d5  scenario-shipping-c  default   Completed  4   4    0        0             2026-10-23 20:14  2026-10-23 20:14  no</span>
+<span class="note">• script hooks:shipping-fee-c.kts  sha256 23ba31c1b1827ff86228f4f7f36ffd2b73b7ab77ef155598bf05ef12c4b1273e</span></code></pre></div><div role="tabpanel" id="december-result" aria-labelledby="december-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>06a128d5 · Completed · IN 4 · OUT 4</dd><dt>script</dt><dd>hooks:shipping-fee-c.kts · sha256 23ba31c1b182…</dd></dl><p class="sources">evidence: replay.log, rule-v1-scripts.txt, december-run.txt, rule-v2-scripts.txt, january-run.txt, audit-orders.txt, audit-orders.json, audit-december-run.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="december-title">December&#x27;s orders, under version 1</h2>
+    <p>The connector names the script, it does not hold it. lm run get says which version ran: the script line carries the same fingerprint as lm hook scripts.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>• script</strong><p>One line per version.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The run keeps the version of the rule it applied.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-rule-v2" aria-labelledby="rule-v2-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Rule v2"><button type="button" role="tab" id="rule-v2-manifest-tab" data-view="manifest" aria-controls="rule-v2-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="rule-v2-commands-tab" data-view="commands" aria-controls="rule-v2-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="rule-v2-result-tab" data-view="result" aria-controls="rule-v2-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="rule-v2-manifest" aria-labelledby="rule-v2-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/shipping-fee-v2.kts</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line">// Operator-provided: the shipping fee of an order. Free shipping from 200.00 of goods (from 1 January).</span><span class="line">@Suppress(<span class="str">&quot;UNCHECKED_CAST&quot;</span>)</span><span class="line">val cells = bindings[<span class="str">&quot;cells&quot;</span>] as MutableMap&lt;String, Any?&gt;</span><span class="line">val total = (cells[<span class="str">&quot;goods_total&quot;</span>] as String).toBigDecimal()</span><span class="line">cells[<span class="str">&quot;shipping_fee&quot;</span>] = if (total &gt;= <span class="str">&quot;200.00&quot;</span>.toBigDecimal()) <span class="str">&quot;0.00&quot;</span> else <span class="str">&quot;12.90&quot;</span></span></code></pre></div><div role="tabpanel" id="rule-v2-commands" aria-labelledby="rule-v2-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm hook scripts</span>
+<span class="out">NAME                SIZE  SHA256
+shipping-fee-c.kts  333   c1c59e5c7b81302d5a284c9c722ca8cacaca0fe859c8ae1c393cd1d54a1ad9ad</span></code></pre></div><div role="tabpanel" id="rule-v2-result" aria-labelledby="rule-v2-result-tab" tabindex="0" hidden><dl class="facts"><dt>shipping-fee-c.kts</dt><dd>sha256 c1c59e5c7b81…</dd></dl><p class="sources">evidence: replay.log, rule-v1-scripts.txt, december-run.txt, rule-v2-scripts.txt, january-run.txt, audit-orders.txt, audit-orders.json, audit-december-run.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="rule-v2-title">On 1 January, the operator replaces the script</h2>
+    <p>Same file name, new text: lm hook scripts shows a new fingerprint. The connector&#x27;s manifest does not change.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>Same name</strong><p>Another fingerprint.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Replacing the rule leaves the manifest alone; only the fingerprint changes.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-january" aria-labelledby="january-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="January"><button type="button" role="tab" id="january-commands-tab" data-view="commands" aria-controls="january-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="january-result-tab" data-view="result" aria-controls="january-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="january-commands" aria-labelledby="january-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-shipping-c</span>
+<span class="out">run scheduled: 645f047e-afc2-4693-b702-40a33f1e9b54</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 645f047e-afc2-4693-b702-40a33f1e9b54</span>
+<span class="out">ID        CONNECTOR            ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+645f047e  scenario-shipping-c  default   Completed  3   3    0        0             2026-10-23 20:14  2026-10-23 20:14  no</span>
+<span class="note">• 1 file(s) unchanged since they were last read — not read again</span>
+<span class="note">• script hooks:shipping-fee-c.kts  sha256 c1c59e5c7b81302d5a284c9c722ca8cacaca0fe859c8ae1c393cd1d54a1ad9ad</span></code></pre></div><div role="tabpanel" id="january-result" aria-labelledby="january-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>645f047e · Completed · IN 3 · OUT 3</dd><dt>script</dt><dd>hooks:shipping-fee-c.kts · sha256 c1c59e5c7b81…</dd></dl><p class="sources">evidence: replay.log, rule-v1-scripts.txt, december-run.txt, rule-v2-scripts.txt, january-run.txt, audit-orders.txt, audit-orders.json, audit-december-run.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="january-title">January&#x27;s orders, under version 2</h2>
+    <p>December&#x27;s file has not changed and is not read again; January&#x27;s goes through the new rule. January&#x27;s run names version 2.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>199.99</strong><p>Shipping paid: under 200.00.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Two runs, two versions of the rule, each named by its fingerprint.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-audit" aria-labelledby="audit-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Audit"><button type="button" role="tab" id="audit-manifest-tab" data-view="manifest" aria-controls="audit-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="audit-commands-tab" data-view="commands" aria-controls="audit-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="audit-result-tab" data-view="result" aria-controls="audit-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="audit-manifest" aria-labelledby="audit-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-shipped-order.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">kind</span>: Entity</span><span class="line"><span class="key">name</span>: shipped_order_b</span><span class="line"><span class="key">label</span>: Commande expédiée</span><span class="line"><span class="key">description</span>: <span class="str">&quot;An order with the shipping fee the operator&#x27;s rule computed, and the run that wrote it.&quot;</span></span><span class="line"><span class="key">match</span>: [order_no]</span><span class="line"><span class="key">scopes</span>: [sales-b]</span><span class="line"><span class="key">columns</span>:</span><span class="line">  <span class="key">order_no</span>: { label: <span class="str">&quot;Commande&quot;</span> }</span><span class="line">  <span class="key">order_date</span>: { label: <span class="str">&quot;Date&quot;</span> }</span><span class="line">  <span class="key">customer</span>: { label: <span class="str">&quot;Client&quot;</span> }</span><span class="line">  <span class="key">goods_total</span>: { label: <span class="str">&quot;Marchandises&quot;</span> }</span><span class="line">  <span class="key">shipping_fee</span>: { label: <span class="str">&quot;Port&quot;</span> }</span><span class="line">  <span class="key">run_id</span>: { label: <span class="str">&quot;Run&quot;</span> }</span><span class="line"><span class="key">sources</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_shipping_b</span><span class="line">    <span class="key">map</span>: { order_no: order_no, order_date: order_date, customer: customer, goods_total: goods_total,</span><span class="line hl">           <span class="key">shipping_fee</span>: shipping_fee, _run_id: run_id }   <span class="comment"># _run_id: the run that wrote the row</span></span></code></pre></div><div role="tabpanel" id="audit-commands" aria-labelledby="audit-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm entity apply -f 20-shipped-order.yaml</span>
+<span class="out">Applied entity &quot;shipped_order_c&quot; → connector.&quot;v_shipped_order_c&quot;</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity get shipped_order_c</span>
+<span class="out">ORDER_NO  ORDER_DATE  CUSTOMER  GOODS_TOTAL  SHIPPING_FEE  RUN_ID                                _CONFLICTS
+CMD-2401  2025-12-03  Durand    89.00        12.90         06a128d5-d9c5-4d9b-8a2f-2e7277b470e2  {}
+CMD-2402  2025-12-09  Morel     172.50       0.00          06a128d5-d9c5-4d9b-8a2f-2e7277b470e2  {}
+CMD-2403  2025-12-15  Nguyen    240.00       0.00          06a128d5-d9c5-4d9b-8a2f-2e7277b470e2  {}
+CMD-2404  2025-12-22  Faure     150.00       0.00          06a128d5-d9c5-4d9b-8a2f-2e7277b470e2  {}
+CMD-2501  2026-01-05  Roux      172.50       12.90         645f047e-afc2-4693-b702-40a33f1e9b54  {}
+CMD-2502  2026-01-12  Garnier   199.99       12.90         645f047e-afc2-4693-b702-40a33f1e9b54  {}
+CMD-2503  2026-01-19  Durand    215.00       0.00          645f047e-afc2-4693-b702-40a33f1e9b54  {}</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 06a128d5-d9c5-4d9b-8a2f-2e7277b470e2</span>
+<span class="out">ID        CONNECTOR            ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+06a128d5  scenario-shipping-c  default   Completed  4   4    0        0             2026-10-23 20:14  2026-10-23 20:14  no</span>
+<span class="note">• script hooks:shipping-fee-c.kts  sha256 23ba31c1b1827ff86228f4f7f36ffd2b73b7ab77ef155598bf05ef12c4b1273e</span></code></pre></div><div role="tabpanel" id="audit-result" aria-labelledby="audit-result-tab" tabindex="0" hidden><dl class="facts"><dt>CMD-2402</dt><dd>172.50 → port 0.00 · run 06a128d5</dd><dt>CMD-2501</dt><dd>172.50 → port 12.90 · run 645f047e</dd><dt>run 06a128d5</dt><dd>hooks:shipping-fee-c.kts · sha256 23ba31c1b182…</dd></dl><p class="sources">evidence: replay.log, rule-v1-scripts.txt, december-run.txt, rule-v2-scripts.txt, january-run.txt, audit-orders.txt, audit-orders.json, audit-december-run.txt · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="audit-title">Why the same amount does not ship the same</h2>
+    <p>The entity shows the run that wrote each order. CMD-2402 (December) and CMD-2501 (January) both have 172.50 of goods: shipping 0.00 for one, 12.90 for the other. lm run get on CMD-2402&#x27;s run names version 1 of the rule.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>_run_id</strong><p>The run that wrote the row.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Order, run, version of the rule: the chain reads with lm, without access to the server.</p></div>
+  </aside>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>The run lists the versions it applied, not which rows went through which: a script replaced during a run leaves its rows under both versions.</li><li>A fingerprint identifies a text, not what it says: keeping the script&#x27;s versions remains the operator&#x27;s job.</li><li>Synthetic orders.</li></ul></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>

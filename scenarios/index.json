@@ -569,6 +569,24 @@
       "evidenceDigest": "sha256:149f717d084a87a4d4c5d42f60e5a26365d5bf1dfce59d136546a2117581e7fe"
     },
     {
+      "slug": "shipping-rule-changed",
+      "title": "The rule changed on 1 January: every order says which version computed it.",
+      "lede": "The shipping fee is computed by a Kotlin script the hub's operator provides: free shipping from 150.00 in December, from 200.00 from January. The operator replaces the script. Months later, an auditor asks why an order of 172.50 shipped free in December and paid shipping in January.",
+      "tags": {
+        "domain": [
+          "Sales",
+          "Audit"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:4b95ff1e65a7bab3bb0e57522cc13c138b794ffc58849e66d227c8a355b5d1b2"
+    },
+    {
       "slug": "siebel-soap-desk",
       "title": "The CRM's SOAP desk: each service read its own way, nothing read twice.",
       "lede": "A 2000s CRM exposes its data through custom SOAP web services: a case's actions in one call, a customer's opportunities page by page on a page number. The password travels inside the envelope. lumnik reads each one the way it reads, carries the service's Fault verbatim, and never sends the same request twice.",
@@ -602,6 +620,24 @@
       "edition": "open",
       "replayedAt": "2026-10-22",
       "evidenceDigest": "sha256:2b3ff54db7df095b8ff9531a6a89d679651c8827fe8bfc48c27c989ddd11501c"
+    },
+    {
+      "slug": "supplier-master-edi",
+      "title": "The supplier file sent to EDI: ASCII, upper case, 35 characters, a stable identifier.",
+      "lede": "Purchasing feeds an EDI platform that requires names in ASCII, upper case, 35 characters at most, and one identifier per supplier. The ERP export has accents, long legal names, inactive suppliers, and an id column holding N/A, 0 or nothing. The EDI's constraint is declared once in the manifest.",
+      "tags": {
+        "domain": [
+          "Purchasing",
+          "EDI"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:374c812a51ae0a399c6b06828002a7669b031b381cb10eaf03b472ac84e700a0"
     },
     {
       "slug": "two-systems-one-member",
