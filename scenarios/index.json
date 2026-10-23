@@ -349,6 +349,24 @@
       "evidenceDigest": "sha256:c8f311c0fb15458e813e3953b2f5e5ccbcf37311ffc8541d21e8c70a2e594146"
     },
     {
+      "slug": "marketplace-order-items",
+      "title": "A marketplace's orders, one line per item to pick: model, colour, size.",
+      "lede": "The marketplace export gives one line per order, the items packed into one cell, and an item reference that packs model, colour and size in turn. Logistics wants one line per item, to count what to take out of stock. The manifest splits the order, then the reference, and refuses a file whose column was renamed.",
+      "tags": {
+        "domain": [
+          "Logistics",
+          "E-commerce"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:0c5b83354986a2a80be058fc89dbcfde39ab0775efbfa7b401a72e9317c2bdf5"
+    },
+    {
       "slug": "one-app-per-metier",
       "title": "One hub, one app per métier.",
       "lede": "Maintenance and purchasing share an ERP where everyone sees everything. On one hub, lumnik composes one app per métier; a technician whose only role is scope:maintenance sees its app, its orders and its decisions, and every purchasing door answers with a refusal.",
