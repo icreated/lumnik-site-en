@@ -604,6 +604,24 @@
       "evidenceDigest": "sha256:2b3ff54db7df095b8ff9531a6a89d679651c8827fe8bfc48c27c989ddd11501c"
     },
     {
+      "slug": "supplier-master-edi",
+      "title": "The supplier file sent to EDI: ASCII, upper case, 35 characters, a stable identifier.",
+      "lede": "Purchasing feeds an EDI platform that requires names in ASCII, upper case, 35 characters at most, and one identifier per supplier. The ERP export has accents, long legal names, inactive suppliers, and an id column holding N/A, 0 or nothing. The EDI's constraint is declared once in the manifest.",
+      "tags": {
+        "domain": [
+          "Purchasing",
+          "EDI"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-23",
+      "evidenceDigest": "sha256:374c812a51ae0a399c6b06828002a7669b031b381cb10eaf03b472ac84e700a0"
+    },
+    {
       "slug": "two-systems-one-member",
       "title": "Two systems, one member: each the reference for its own fields.",
       "lede": "A mutual insurer keeps its members in its contract system and in its portal. Fused with one source order, one of the two is always wrong. lumnik lets each column name its reference source, and keeps every dispute visible until the source settles it.",
