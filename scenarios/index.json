@@ -54,6 +54,25 @@
       "evidenceDigest": "sha256:7601cd1c0784a3622900254c1c6bb8e44fd336774836e31c0c3d051ca55d44b0"
     },
     {
+      "slug": "cfonb-bank-statement",
+      "title": "A CFONB 120 bank statement: each movement signed, in its statement, with its complements.",
+      "lede": "French banks still send account statements as CFONB 120 files: fixed-width records of 120 characters, no separator. 01 opens a statement with its old balance, 04 is a movement, 05 completes the movement before it (payer, invoice reference), 07 closes with the new balance. The amount's last character carries both its last digit and its sign. Treasury wants each movement signed, in its statement, with its complements.",
+      "tags": {
+        "domain": [
+          "Treasury",
+          "Banking",
+          "Accounting"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-24",
+      "evidenceDigest": "sha256:c345db6596e6d9b5edf6b22469510693de2950fd964d94569e18ae83444f8d4d"
+    },
+    {
       "slug": "crm-contacts-reachable",
       "title": "An old CRM's contacts made reachable: names repaired, one phone, a valid email.",
       "lede": "The sales team leaves an old CRM. Its contact export mixes capitals, accents broken by an encoding round trip, two phone columns of which one is often empty, and mistyped emails. The manifest turns it into a usable list, and names the contacts that cannot be reached.",
