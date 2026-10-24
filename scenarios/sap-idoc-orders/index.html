@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAP ORDERS05 IDocs as a flat file: every order line with its purchase order. — lumnik</title>
+<meta name="description" content="A customer&#x27;s SAP sends its orders as ORDERS05 IDocs, written to a flat file: one EDI_DC40 control record per IDoc, then fixed-width data records. The PO number sits in E2EDK02, the quantity in the item E2EDP01, our article in the E2EDP19 that follows it. The order desk wants one row per order line.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/sap-idoc-orders/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/sap-idoc-orders/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>SAP ORDERS05 IDocs as a flat file: every order line with its purchase order.</h1>
+    <p class="lede">A customer&#x27;s SAP sends its orders as ORDERS05 IDocs, written to a flat file: one EDI_DC40 control record per IDoc, then fixed-width data records. The PO number sits in E2EDK02, the quantity in the item E2EDP01, our article in the E2EDP19 that follows it. The order desk wants one row per order line.</p>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Order desk</li><li class="tag">EDI</li><li class="tag">SAP</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-load" data-step="load" aria-current="step"><span class="num">1 · Load</span><span class="sub">16 records</span></a><a href="#step-records" data-step="records"><span class="num">2 · Records</span><span class="sub">2 IDocs</span></a><a href="#step-lines" data-step="lines"><span class="num">3 · Lines</span><span class="sub">3 order lines</span></a></nav>
+  <section class="step" id="step-load" aria-labelledby="load-title">
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Load"><button type="button" role="tab" id="load-manifest-tab" data-view="manifest" aria-controls="load-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="load-commands-tab" data-view="commands" aria-controls="load-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="load-result-tab" data-view="result" aria-controls="load-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="load-manifest" aria-labelledby="load-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-idoc.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-idoc-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [order-desk-b]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/sap-idoc-orders/b/*.txt   <span class="comment"># the customer&#x27;s SAP writes ORDERS05 IDocs as flat files</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">lines</span>: true                    <span class="comment"># one record per line, fixed width, no separator</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line hl">      - regex-extract: { column: line, required: true, pattern: <span class="str">&quot;^(\\S+)&quot;</span>, groups: { 1: segment } }   <span class="comment"># EDI_DC40 or E2…</span></span><span class="line hl">      - regex-extract:             <span class="comment"># DOCNUM after TABNAM + MANDT (control record) or SEGNAM + MANDT (data record), then SEGNUM;</span></span><span class="line">          <span class="key">column</span>: line             <span class="comment"># one pattern for both: a second regex-extract would write null where it misses</span></span><span class="line">          <span class="key">pattern</span>: <span class="str">&quot;^(?:EDI_DC40.{5}|E2.{31})(\\d{16})(\\d{6})?&quot;</span></span><span class="line">          <span class="key">groups</span>: { 1: docnum, 2: segnum }</span><span class="line hl">      - regex-extract: { column: line, pattern: <span class="str">&quot;^E2EDK02 {23}.{33}001(.{35})&quot;</span>, groups: { 1: po_number } }   <span class="comment"># the buyer&#x27;s PO</span></span><span class="line hl">      - regex-extract:             <span class="comment"># an item: POSEX, then MENGE and MENEE</span></span><span class="line">          <span class="key">column</span>: line</span><span class="line">          <span class="key">pattern</span>: <span class="str">&quot;^E2EDP01 {23}.{33}(.{6}).{5}(.{15})(.{3})&quot;</span></span><span class="line">          <span class="key">groups</span>: { 1: item, 2: quantity, 3: unit }</span><span class="line hl">      - regex-extract: { column: line, pattern: <span class="str">&quot;^E2EDP19 {23}.{33}(\\d{3})(.{35})&quot;</span>, groups: { 1: qualifier, 2: material } }</span><span class="line">      <span class="dash">-</span> <span class="key">clean</span>: { columns: [po_number, quantity, unit, material], strip: true }</span><span class="line">      <span class="dash">-</span> <span class="key">default</span>: { column: segnum, value: <span class="str">&quot;000000&quot;</span> }                  <span class="comment"># the control record has none</span></span><span class="line">      - parse-number: { column: quantity, decimal-separator: <span class="str">&quot;.&quot;</span> }    <span class="comment"># 120.000 is 120</span></span><span class="line">      - fill-down: { columns: [po_number], reset-when: { column: segment, in: [EDI_DC40] } }                    <span class="comment"># the PO, on its IDoc</span></span><span class="line">      - fill-down: { columns: [item, quantity, unit], reset-when: { column: segment, in: [EDI_DC40, E2EDP01, E2EDS01] } }   <span class="comment"># the item, on its E2EDP19</span></span></code></pre></div><div role="tabpanel" id="load-commands" aria-labelledby="load-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-idoc.yaml</span>
+<span class="out">{&quot;name&quot;:&quot;scenario-idoc-d&quot;,&quot;connectorId&quot;:&quot;c025ba43-9344-480f-81b7-7ba1828a37e6&quot;,&quot;endpointsApplied&quot;:1}</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-idoc-d</span>
+<span class="out">run scheduled: 269ea5eb-bce3-4c52-a415-fee80a8321b1</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 269ea5eb-bce3-4c52-a415-fee80a8321b1</span>
+<span class="out">ID        CONNECTOR        ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+269ea5eb  scenario-idoc-d  default   Completed  16  16   0        0             2026-10-24 19:27  2026-10-24 19:27  no</span></code></pre></div><div role="tabpanel" id="load-result" aria-labelledby="load-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 16 · OUT 16</dd></dl><p class="sources">evidence: replay.log, load-run.txt, records.txt, records.json, lines.txt, lines.json · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="load-title">Fixed-width records, cut by position</h2>
+    <p>lines: true reads each record as a line. regex-extract cuts the fields at their positions: the segment, DOCNUM and SEGNUM, the PO number, the item with its quantity and unit, the qualifier and the article. One pattern reads DOCNUM from both kinds of record.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>120.000</strong><p>120, read with decimal-separator &quot;.&quot;.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A flat IDoc reads without middleware.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-records" aria-labelledby="records-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Records"><button type="button" role="tab" id="records-manifest-tab" data-view="manifest" aria-controls="records-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="records-commands-tab" data-view="commands" aria-controls="records-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="records-result-tab" data-view="result" aria-controls="records-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="records-manifest" aria-labelledby="records-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-idoc-record.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">kind</span>: Entity</span><span class="line"><span class="key">name</span>: idoc_record_b</span><span class="line"><span class="key">label</span>: Enregistrement IDoc</span><span class="line"><span class="key">description</span>: <span class="str">&quot;One record of an ORDERS05 IDoc, in file order: its segment, and the purchase order and item it belongs to.&quot;</span></span><span class="line"><span class="key">match</span>: [docnum, segnum]</span><span class="line"><span class="key">scopes</span>: [order-desk-b]</span><span class="line"><span class="key">columns</span>:</span><span class="line">  <span class="key">docnum</span>: { label: <span class="str">&quot;IDoc&quot;</span> }</span><span class="line">  <span class="key">segnum</span>: { label: <span class="str">&quot;N°&quot;</span> }</span><span class="line">  <span class="key">segment</span>: { label: <span class="str">&quot;Segment&quot;</span> }</span><span class="line">  <span class="key">po_number</span>: { label: <span class="str">&quot;Commande client&quot;</span> }</span><span class="line">  <span class="key">item</span>: { label: <span class="str">&quot;Poste&quot;</span> }</span><span class="line">  <span class="key">qualifier</span>: { label: <span class="str">&quot;Qualifiant&quot;</span> }</span><span class="line">  <span class="key">material</span>: { label: <span class="str">&quot;Article&quot;</span> }</span><span class="line">  <span class="key">quantity</span>: { label: <span class="str">&quot;Quantité&quot;</span> }</span><span class="line">  <span class="key">unit</span>: { label: <span class="str">&quot;Unité&quot;</span> }</span><span class="line"><span class="key">sources</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_idoc_b</span><span class="line">    <span class="key">map</span>: { docnum: docnum, segnum: segnum, segment: segment, po_number: po_number, item: item, qualifier: qualifier, material: material, quantity: quantity, unit: unit }</span></code></pre></div><div role="tabpanel" id="records-commands" aria-labelledby="records-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm entity apply -f 20-idoc-record.yaml</span>
+<span class="out">Applied entity &quot;idoc_record_d&quot; → connector.&quot;v_idoc_record_d&quot;</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity get idoc_record_d</span>
+<span class="out">DOCNUM            SEGNUM  SEGMENT   PO_NUMBER   ITEM    QUALIFIER  MATERIAL     QUANTITY  UNIT  _CONFLICTS
+0000000004711001  000000  EDI_DC40                                                              {}
+0000000004711001  000001  E2EDK01                                                               {}
+0000000004711001  000002  E2EDK02   4500012345                                                  {}
+0000000004711001  000003  E2EDK02   4500012345                                                  {}
+0000000004711001  000004  E2EDP01   4500012345  000010                          120       PCE   {}
+0000000004711001  000005  E2EDP19   4500012345  000010  001        CX-889-BLUE  120       PCE   {}
+0000000004711001  000006  E2EDP19   4500012345  000010  002        ART-10442    120       PCE   {}
+0000000004711001  000007  E2EDP01   4500012345  000020                          48.5      KGM   {}
+0000000004711001  000008  E2EDP19   4500012345  000020  002        ART-20017    48.5      KGM   {}
+0000000004711001  000009  E2EDS01   4500012345                                                  {}
+0000000004711002  000000  EDI_DC40                                                              {}
+0000000004711002  000001  E2EDK01                                                               {}
+0000000004711002  000002  E2EDK02                                                               {}
+0000000004711002  000003  E2EDP01               000010                          6         PCE   {}
+0000000004711002  000004  E2EDP19               000010  002        ART-10442    6         PCE   {}
+0000000004711002  000005  E2EDS01                                                               {}</span></code></pre></div><div role="tabpanel" id="records-result" aria-labelledby="records-result-tab" tabindex="0" hidden><dl class="facts"><dt>IDoc 1001</dt><dd>4500012345</dd><dt>IDoc 1002</dt><dd>—</dd></dl><p class="sources">evidence: replay.log, load-run.txt, records.txt, records.json, lines.txt, lines.json · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="records-title">The PO on every record of its IDoc</h2>
+    <p>fill-down carries the number of the E2EDK02 with qualifier 001 onto the records that follow, and forgets it at each EDI_DC40. The second IDoc has no PO number: its records stay empty, they do not inherit 4500012345.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>reset-when</strong><p>The number starts again at each EDI_DC40.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An IDoc never takes the previous one&#x27;s PO.</p></div>
+  </aside>
+</section>
+<section class="step" id="step-lines" aria-labelledby="lines-title" data-inactive>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Lines"><button type="button" role="tab" id="lines-commands-tab" data-view="commands" aria-controls="lines-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="lines-result-tab" data-view="result" aria-controls="lines-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" id="lines-commands" aria-labelledby="lines-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm entity get idoc_record_d --filter segment=E2EDP19 --filter qualifier=002</span>
+<span class="out">DOCNUM            SEGNUM  SEGMENT  PO_NUMBER   ITEM    QUALIFIER  MATERIAL   QUANTITY  UNIT  _CONFLICTS
+0000000004711001  000006  E2EDP19  4500012345  000010  002        ART-10442  120       PCE   {}
+0000000004711001  000008  E2EDP19  4500012345  000020  002        ART-20017  48.5      KGM   {}
+0000000004711002  000004  E2EDP19              000010  002        ART-10442  6         PCE   {}</span></code></pre></div><div role="tabpanel" id="lines-result" aria-labelledby="lines-result-tab" tabindex="0" hidden><dl class="facts"><dt>IDoc 1001 · 000010</dt><dd>4500012345 · ART-10442 × 120 PCE</dd><dt>IDoc 1001 · 000020</dt><dd>4500012345 · ART-20017 × 48.5 KGM</dd><dt>IDoc 1002 · 000010</dt><dd>— · ART-10442 × 6 PCE</dd></dl><p class="sources">evidence: replay.log, load-run.txt, records.txt, records.json, lines.txt, lines.json · transform v1</p></div>
+  </div>
+  <aside class="explain">
+    <h2 id="lines-title">Each article with its item, quantity and PO</h2>
+    <p>A second fill-down carries each E2EDP01&#x27;s item, quantity and unit onto its E2EDP19, and forgets them at the next item and at the E2EDS01 summary. A filter on the segment and qualifier 002 lists the lines: ART-10442 × 120 PCE and ART-20017 × 48.5 KGM on 4500012345, ART-10442 × 6 PCE on the second IDoc.</p>
+    <ol class="points"><li><span class="n">1</span><div><strong>E2EDP19 002</strong><p>Our article, under its item.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The order reads line by line, without an EDI tool.</p></div>
+  </aside>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>A second regex-extract writing the same column writes null where it does not match: DOCNUM is read by one pattern.</li><li>The lines are a filtered reading of the records: an item with no E2EDP19 002 has no line.</li><li>Synthetic file, simplified layout, fictitious orders and articles.</li></ul></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
