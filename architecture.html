@@ -62,7 +62,7 @@
         <div class="schema-blocs centre">
           <span>Read-only</span>
           <span>Merge</span>
-          <span>Dated memory</span>
+          <span>Timestamped memory</span>
           <span>Isolation</span>
           <span>Guards</span>
           <span>Local AI possible</span>
@@ -83,7 +83,7 @@
       <p><strong>Read-only.</strong> Connectors read. No path writes back to your software.</p>
       <p><strong>Isolation lives in the database.</strong> PostgreSQL walls off row by row (Row-Level Security), by organization.</p>
       <p><strong>Generated SQL can only read.</strong> With Pro, the AI's query runs under a role with no write permission, whatever the model produces.</p>
-      <p><strong>The application cannot rewrite the audit trail.</strong> Its role holds no UPDATE or DELETE on it. A retention purge trims it past 365 days by default, adjustable.</p>
+      <p><strong>The application cannot rewrite the audit trail.</strong> Its role holds no UPDATE or DELETE on it. A retention purge trims it past 365 days; the window is adjustable.</p>
       <p><strong>On your machines.</strong> The hub runs on your servers. With Pro, the AI model can run inside your walls.</p>
       <p><strong>Reversible.</strong> Plain PostgreSQL tables and a standard pg_dump. No vendor copy to reclaim.</p>
     </div>

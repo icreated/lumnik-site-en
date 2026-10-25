@@ -47,6 +47,12 @@ PAGE_FORBIDDEN = SITE_FORBIDDEN + (
     "quote_unmoved",
     "nobody outside",
     "proxy",
+    "a demo",
+    "Request a",
+    # "Dated" reads as outdated in English.
+    "Dated memory",
+    # Transformers repair a file export; a table or an API is read as it is (docs/wow.md).
+    "repairs and merges",
 )
 HOME_SECTIONS = ("situations", "how", "try", "trust")
 # One replayed scenario per kind of problem; each card shows the title the catalogue serves.
@@ -316,6 +322,15 @@ class SiteStructureTest(unittest.TestCase):
                     self.assertNotIn(word, page_text)
 
 
+    def test_the_directory_is_sold_with_enterprise_only(self):
+        """The identity directory is an Enterprise promise on the editions page; a "Pro adds" list
+        that also names it would leave a buyer asking which tier to choose."""
+        self.assertIn("directory", between(text_of("editions.html"), "<h3>Enterprise</h3>", "</ul>"))
+        for name, part in (("index.html", section("index.html", "try")), ("try.html", text_of("try.html"))):
+            with self.subTest(name=name):
+                self.assertNotIn("directory", part)
+
+
 class HomepageTest(unittest.TestCase):
     def home(self):
         return text_of("index.html")
@@ -355,6 +370,10 @@ class HomepageTest(unittest.TestCase):
 
     def test_the_situations_lead_to_the_whole_catalogue(self):
         self.assertIn('<a class="btn btn-givre" href="scenarios/">', section("index.html", "situations"))
+
+    def test_the_repair_move_is_scoped_to_an_export(self):
+        repair = between(section("index.html", "how"), 'id="meaning"', "</div>")
+        self.assertIn("export", repair)
 
     def test_the_five_moves_answer_the_old_thaw_fragments(self):
         how = section("index.html", "how")
