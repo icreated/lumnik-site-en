@@ -58,7 +58,7 @@
       </div>
       <div class="fleche" aria-hidden="true">→</div>
       <div class="colonne hub">
-        <h3>The lumnik hub — on your machines</h3>
+        <h3>The lumnik hub — on your infrastructure</h3>
         <div class="schema-blocs centre">
           <span>Read-only</span>
           <span>Merge</span>
@@ -81,11 +81,11 @@
     </div>
     <div class="garanties" aria-label="What an IT team can verify">
       <p><strong>Read-only.</strong> Connectors read. No path writes back to your software.</p>
-      <p><strong>Isolation lives in the database.</strong> PostgreSQL walls off row by row (Row-Level Security), by organization.</p>
+      <p><strong>The database enforces isolation.</strong> PostgreSQL separates each organization's rows with Row-Level Security.</p>
       <p><strong>Generated SQL can only read.</strong> With Pro, the AI's query runs under a role with no write permission, whatever the model produces.</p>
-      <p><strong>The application cannot rewrite the audit trail.</strong> Its role holds no UPDATE or DELETE on it. A retention purge trims it past 365 days; the window is adjustable.</p>
-      <p><strong>On your machines.</strong> The hub runs on your servers. With Pro, the AI model can run inside your walls.</p>
-      <p><strong>Reversible.</strong> Plain PostgreSQL tables and a standard pg_dump. No vendor copy to reclaim.</p>
+      <p><strong>The application cannot change the audit trail.</strong> Its role has no UPDATE or DELETE permission on the audit table. By default, a retention job deletes entries older than 365 days. You can change this period.</p>
+      <p><strong>Self-hosted.</strong> The hub runs on your servers. With Pro, the AI model can run there too.</p>
+      <p><strong>Reversible.</strong> Plain PostgreSQL tables and a standard pg_dump. You do not need a vendor to export your data.</p>
     </div>
     <p class="confiance-liens">
       <a href="https://docs.lumnik.io/security/" rel="noopener">Verify it in five minutes</a>
