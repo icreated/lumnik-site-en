@@ -9,11 +9,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
 <link rel="canonical" href="https://lumnik.io/scenarios/sap-idoc-orders/">
+<link rel="alternate" hreflang="fr" href="https://lumnik.fr/scenarios/sap-idoc-orders/">
 <link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/sap-idoc-orders/">
+<link rel="alternate" hreflang="x-default" href="https://lumnik.io/scenarios/sap-idoc-orders/">
 </head>
 <body>
 <header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
-<span class="meta"><a href="../">All scenarios</a></span></header>
+<span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/sap-idoc-orders/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
     <h1>SAP ORDERS05 IDocs as a flat file: every order line with its purchase order.</h1>
@@ -90,6 +92,7 @@
   </aside>
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>A second regex-extract writing the same column writes null where it does not match: DOCNUM is read by one pattern.</li><li>The lines are a filtered reading of the records: an item with no E2EDP19 002 has no line.</li><li>Synthetic file, simplified layout, fictitious orders and articles.</li></ul></section>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>
 </body>

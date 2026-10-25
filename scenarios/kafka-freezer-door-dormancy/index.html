@@ -172,6 +172,7 @@ scenario-freezer-door-d  DOOR-17  CLOSED  2026-10-22 00:11  </span></code></pre>
   </aside>
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>The workflow knows the last event received: a lasting OPEN may also be a CLOSED lost before the broker. It detects silence, not the physical door.</li><li>Dormancy counts from lumnik&#x27;s first observation, not from the sensor&#x27;s occurred_at.</li><li>For the demonstration the sweep runs every 5 seconds; it runs every 15 minutes by default. The business threshold stays the minimum accepted, 1 minute.</li><li>Synthetic data.</li></ul></section>
+  <section class="try"><p>This scenario needs lumnik Pro.</p><a class="try-button" href="../../editions.html">See the editions →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>
 </body>
