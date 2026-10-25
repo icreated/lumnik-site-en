@@ -69,7 +69,7 @@
     <p class="sous">lumnik reads your ERP, your exports and your APIs without ever writing to them. It merges their data, repairs the exports and serves it all to your teams and your tools.</p>
     <ul class="heros-preuves">
       <li>Read-only</li>
-      <li>On your machines</li>
+      <li>Self-hosted</li>
       <li>Open source</li>
     </ul>
     <div class="heros-ctas">
@@ -88,19 +88,19 @@
       <a class="porte scenario" href="scenarios/dirty-order-statuses/">
         <span class="scenario-famille">Repair an export <span class="edition">Open</span></span>
         <h3>Fourteen spellings in one status column.</h3>
-        <span class="porte-dit">The business declares four statuses. lumnik lists the spellings still to settle.</span>
+        <span class="porte-dit">The team declares four statuses. lumnik lists the other spellings that need review.</span>
         <span class="porte-lien">Open the scenario →</span>
       </a>
       <a class="porte scenario" href="scenarios/entity-resolution/">
         <span class="scenario-famille">Merge the sources <span class="edition">Open</span></span>
         <h3>One customer, two systems, no shared identifier.</h3>
-        <span class="porte-dit">The email matches the records. A doubt stays a question, settled by a person.</span>
+        <span class="porte-dit">The email matches the records. If the link remains uncertain, a person decides.</span>
         <span class="porte-lien">Open the scenario →</span>
       </a>
       <a class="porte scenario" href="scenarios/export-that-lies/">
-        <span class="scenario-famille">Lose nothing in silence <span class="edition">Open</span></span>
+        <span class="scenario-famille">Track rejected rows <span class="edition">Open</span></span>
         <h3>The export that lies: an unreadable line does not pass in silence.</h3>
-        <span class="porte-dit">The broken line is set aside with its values. The catalog loses nothing.</span>
+        <span class="porte-dit">The unreadable row is set aside with its values and the reason it was rejected.</span>
         <span class="porte-lien">Open the scenario →</span>
       </a>
       <a class="porte scenario" href="scenarios/orders-where-they-sleep/">
@@ -112,13 +112,13 @@
       <a class="porte scenario" href="scenarios/zombie-cmms/">
         <span class="scenario-famille">Serve the teams <span class="edition">Open</span></span>
         <h3>The zombie system: thirty years of work orders, the box switched off, the hub still answers.</h3>
-        <span class="porte-dit">One last read, and the old box can be switched off.</span>
+        <span class="porte-dit">After one final read, the old server can be switched off.</span>
         <span class="porte-lien">Open the scenario →</span>
       </a>
       <a class="porte scenario" href="scenarios/purchasing-ask-abstains/">
         <span class="scenario-famille">Ask your data <span class="edition">Pro</span></span>
         <h3>The question Ask refuses to answer: a margin with no cost, a "best" with no criterion.</h3>
-        <span class="porte-dit">Three figures, each with its SQL. Three refusals instead of an invented number.</span>
+        <span class="porte-dit">Each figure comes with its SQL. When data is missing, Ask refuses to answer.</span>
         <span class="porte-lien">Open the scenario →</span>
       </a>
     </div>
@@ -139,7 +139,7 @@
       </div>
       <div class="geste" id="meaning">
         <h3>Repair</h3>
-        <p>Dates, accents, amounts, old formats in an export: the fix is declared at the door. An unreadable line is set aside, with its reason.</p>
+        <p>In an export, dates, accents, amounts and old formats are corrected during ingestion. An unreadable row is set aside with the reason it was rejected.</p>
       </div>
       <div class="geste" id="facts">
         <h3>Merge</h3>
@@ -147,14 +147,14 @@
       </div>
       <div class="geste" id="time">
         <h3>Watch</h3>
-        <p>Every read is dated. What sleeps past the declared threshold lands in a decision inbox.</p>
+        <p>Every read is timestamped. A record left unchanged past its declared limit appears in the decision inbox.</p>
       </div>
       <div class="geste" id="serve">
         <h3>Serve</h3>
         <p>One app per team on the phone, an API, SQL, webhooks. With Pro, questions in plain language.</p>
       </div>
     </div>
-    <p class="serment"><b>Nothing is lost without being counted.</b> On every run, the lines read equal the lines written plus the lines set aside.</p>
+    <p class="serment"><b>Nothing is lost without being counted.</b> On every run, rows read equal rows written plus rows set aside.</p>
   </div>
 </section>
 
@@ -179,7 +179,7 @@
           <li>Connectors: files, PostgreSQL databases, REST, GraphQL, SOAP</li>
           <li>Merged records and the ledger of disagreements</li>
           <li>Views, processes, workflows and a decision inbox</li>
-          <li>The teams' app, on the phone</li>
+          <li>Team apps for phones</li>
           <li>Signed webhooks and emails</li>
           <li><code>lm</code>, the integrator's command line</li>
         </ul>
@@ -200,8 +200,8 @@
     <h2>What your IT team can verify.</h2>
     <ul class="confiance-liste">
       <li><strong>Read-only.</strong> lumnik never writes to your systems.</li>
-      <li><strong>Isolated by the database.</strong> PostgreSQL walls off every row by organization.</li>
-      <li><strong>On your machines.</strong> The hub runs on your servers. With Pro, the AI model can too.</li>
+      <li><strong>Isolated by the database.</strong> PostgreSQL separates every organization's rows.</li>
+      <li><strong>Self-hosted.</strong> The hub runs on your servers. With Pro, the AI model can too.</li>
       <li><strong>Reversible.</strong> Plain PostgreSQL tables, a standard pg_dump.</li>
     </ul>
     <p class="confiance-liens">
@@ -213,17 +213,17 @@
     <div class="portes-grille">
       <a class="porte" id="business" href="scenarios/">
         <span class="porte-qui">Business teams</span>
-        <span class="porte-dit">Your situation may already be replayed.</span>
+        <span class="porte-dit">We may already have replayed a case like yours.</span>
         <span class="porte-lien">The scenarios →</span>
       </a>
       <a class="porte" id="it" href="architecture.html">
         <span class="porte-qui">IT &amp; security</span>
-        <span class="porte-dit">Read access, on your machines, walled off by the database.</span>
+        <span class="porte-dit">Read-only access, self-hosted, with database isolation.</span>
         <span class="porte-lien">The guarantees →</span>
       </a>
       <a class="porte" id="integrators" href="https://docs.lumnik.io/integration-as-code/" rel="noopener">
         <span class="porte-qui">Integrators &amp; partners</span>
-        <span class="porte-dit">Describe a system once in YAML. Replay it at the next client.</span>
+        <span class="porte-dit">Describe a system in YAML. Reuse the integration for the next customer.</span>
         <span class="porte-lien">Integration as code →</span>
       </a>
     </div>
