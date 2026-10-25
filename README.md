@@ -3,28 +3,31 @@
 The international face of Lumnik: a static site. No framework, no build — seven HTML pages,
 one stylesheet, a 55-line script. It deploys to any static host.
 
-This is deliberately **not** a translation of [lumnik.fr](https://lumnik.fr/), which stays the
-full French commercial site. The two sites point at each other through `hreflang` and otherwise
-evolve independently — but they share one spine: **freeze → thaw → motion**, one page per term.
+Since 2026-10-25 it shares the skeleton of [lumnik.fr](https://lumnik.fr/) — the visitor's path
+is the same: understand on the home, see a replayed scenario, install lumnik Open. The copy is
+composed in English, never translated. No demo is offered. The spec lives in the French repo:
+`lumnik-site/docs/superpowers/specs/2026-10-25-sites-simplification-design.md`.
 
 ## Structure
 
 ```
-index.html          the hero and the manifesto — the axis, then the door to it
-freeze.html         what the freeze is, and the three dead ends around it
-thaw.html           facts, meaning, time — and the observation log
-motion.html         the adapter (events, API) and five real cases
-architecture.html   three commitments, the lm terminal, the guarantees, docs + code
+index.html          the home: the hero (the P-1008 record), six scenarios, five moves, try it, trust
+try.html            install lumnik Open, step by step — no form
+editions.html       Hub (lumnik Open, free) · Pro · Enterprise
+architecture.html   "Security": the guarantees an IT team can verify, and where
+why.html            the manifesto: freeze → thaw → motion, and the name (footer)
 contact.html        the form
 legal.html          legal notice, host, personal data (GDPR)
+freeze.html, thaw.html, motion.html
+                    relays to why.html, the home and the scenarios, fragment included
 styles.css          "the light in the freezer" — glacial night + one warm yellow
 site.js             thaw bar (reading progress), reveal on scroll, mobile menu
 CNAME               lumnik.io
 scenarios/          the replayed scenarios — a PUBLICATION ARTEFACT, see below
 ```
 
-The navigation names the three terms of the axis; `architecture.html` is where a security
-officer lands, and every page carries the same bar and the same footer.
+The six home cards show the titles `scenarios/index.json` serves: a scenario renamed or retired
+fails the structural test.
 
 ## `scenarios/` — never edit it here
 
@@ -41,15 +44,16 @@ dependency, no CI. Run it by hand before a push:
 python3 -m unittest tests/site_structure_test.py
 ```
 
-It pins the navigation, the one-h1-per-page rule, the canonical URLs, the fact that every local
-link and fragment resolves, the anchor geometry that keeps a fragment clear of the sticky bar,
-and the claims the split must not roll back. That last one matters because git cannot flag a
-stale copy: the six pages do not exist upstream, so a merge declares them up to date.
+It pins the pages and the relays, the navigation and the current page, the one-h1-per-page rule,
+the canonical URLs, every local link and fragment, the P-1008 values, the scenario cards, the real
+install commands, the guarantees (with the 365-day audit purge), and the wordings this site once
+used and could not hold ("cites its sources", "EU cloud", "exists today", a demo offer…).
 
 `site.js` is byte-for-byte the lumnik.fr one and `styles.css` shares its visual language: the
 two sites look like one product. Changes are made there and copied here by hand — rare, and
-cheaper than a shared build. The stylesheets have drifted where the two sites carry different
-sections; the navigation, anchor geometry and mobile menu rules are kept identical.
+cheaper than a shared build. The navigation, anchor geometry and mobile menu rules are kept
+identical, and so is the block « Le passage de simplification (2026-10-25) » at the end of both
+sheets: copy the block, never diff the files.
 
 ## Visual direction
 
@@ -69,7 +73,7 @@ Test locally: `python3 -m http.server 8000`, then http://localhost:8000
 
 ## What the site deliberately does not say
 
-No internal stack, no price list, no implementation detail of the honesty guards. The source
+No internal stack, no price list, no implementation detail of the guards. The source
 repository *is* linked now — the open-source edition shipped, and the sentence that promised
 the link became the link. The site sells the *what* and the *why*; the deep *how* lives in
 [docs.lumnik.io](https://docs.lumnik.io).
