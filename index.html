@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>lumnik — Put frozen operational knowledge back in motion</title>
-  <meta name="description" content="lumnik thaws the facts, business meaning and time trapped across your systems — legacy ERPs (Dynamics GP, Sage, AS/400), closed SaaS, spreadsheets. Ask grounded questions, find stalled work and connect modern tools — without writing to the sources.">
+  <title>lumnik — Your software stays put. Your data gets back to work.</title>
+  <meta name="description" content="lumnik reads your ERP, your exports and your APIs without ever writing to them. It repairs and merges their data, then serves it to your teams and your tools. Open source, on your own machines.">
   <link rel="canonical" href="https://lumnik.io/">
   <link rel="alternate" hreflang="en" href="https://lumnik.io/">
   <link rel="alternate" hreflang="fr" href="https://lumnik.fr/">
   <link rel="alternate" hreflang="x-default" href="https://lumnik.io/">
-  <meta property="og:title" content="lumnik — Put frozen operational knowledge back in motion">
-  <meta property="og:description" content="lumnik thaws the facts, business meaning and time trapped across your systems — legacy ERPs, closed SaaS, spreadsheets — without writing to the sources.">
+  <meta property="og:title" content="lumnik — Your software stays put. Your data gets back to work.">
+  <meta property="og:description" content="lumnik reads your software without writing to it, then repairs and merges its data. See it in replayed scenarios, then try lumnik Open on your own machine.">
   <meta property="og:url" content="https://lumnik.io/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
@@ -34,73 +34,200 @@
       <span class="menu-toggle-label">Menu</span>
     </button>
     <ul id="menu-principal">
-      <li><a href="freeze.html">Freeze</a></li>
-      <li><a href="thaw.html">Thaw</a></li>
-      <li><a href="motion.html">Motion</a></li>
-      <li><a href="architecture.html">Architecture</a></li>
-      <li><a class="btn btn-lumiere nav-contact" href="contact.html">Talk to us</a></li>
+      <li><a href="scenarios/">Scenarios</a></li>
+      <li><a href="architecture.html">Security</a></li>
+      <li><a href="editions.html">Editions</a></li>
+      <li><a href="https://docs.lumnik.io" rel="noopener">Docs</a></li>
+      <li><a class="btn btn-lumiere nav-contact" href="try.html">Try it</a></li>
     </ul>
   </div>
 </nav>
 
 <main id="contenu">
 
-<!-- ================= HERO ================= -->
-<header class="hero">
-  <div class="wrap">
-    <p class="surtitre">When operational knowledge stops moving, the enterprise freezes</p>
-    <h1>Your enterprise isn't stuck.<br>It's <span class="gelees">frozen</span>.<br>lumnik <span class="degel">thaws</span> it.</h1>
-    <p class="sous">
-      We don't touch what works. <strong>We free what's trapped inside it.</strong><br>
-      A fact split across three systems. A lifecycle understood by one person.
-      A quote that stopped moving.<br>
-      lumnik turns trapped operational knowledge into something people and tools can use —
-      <strong>without ever writing to the sources</strong>.
-    </p>
-    <div class="ctas">
-      <a class="btn btn-lumiere" href="contact.html">Book a walkthrough</a>
-      <a class="btn btn-givre" href="thaw.html">See how it works</a>
-    </div>
-    <p class="preuve">read-only by construction · grounded answers · <b>on-prem or EU cloud</b> · reversible</p>
-    <p class="preuve" style="margin-top:8px"><b style="font-family:var(--serif)">lum</b> <i>light</i> · <b style="font-family:var(--serif); color:var(--lumiere)">nik</b> — like sputnik: the companion that travels with you</p>
-    <div class="hero-schema" role="group" aria-label="What lumnik does, at a glance">
-      <div class="schema-col sources">
-        <div class="schema-etiquette">What is frozen</div>
-        <div class="schema-pile">
-          <span>Scattered facts</span>
-          <span>Meaning held in heads</span>
-          <span>Work that stopped moving</span>
-          <span>Systems nobody can touch</span>
-        </div>
+<header class="heros">
+  <div class="wrap heros-grille">
+    <p class="surtitre">The read layer for the software you run</p>
+    <h1>Your software stays put.<br>Your data <em>gets back to work</em>.</h1>
+    <!-- record:start -->
+    <figure class="heros-fiche">
+      <div class="heros-sources" aria-hidden="true">
+        <div class="heros-source"><span class="heros-source-nom">ERP</span>Filtration Lyon 1008<br>Lyon · GOLD</div>
+        <div class="heros-source"><span class="heros-source-nom">CRM</span>Filtration Lyon 1008<br>Villeurbanne · contact@…</div>
       </div>
-      <div class="schema-fleche" aria-hidden="true">→</div>
-      <div class="schema-col hub">
-        <div class="schema-etiquette">The lumnik hub</div>
-        <div class="schema-noyau">Read-only · merge · memory · guards</div>
+      <div class="fiche" role="group" aria-label="One customer record merged from the ERP and the CRM">
+        <div class="fiche-tete"><span class="fiche-nom">Filtration Lyon 1008</span><span class="fiche-code">P-1008</span></div>
+        <dl>
+          <div><dt>City</dt><dd>Lyon <span class="origine">ERP</span><span class="desaccord">The CRM says Villeurbanne</span></dd></div>
+          <div><dt>Segment</dt><dd>GOLD <span class="origine">ERP</span></dd></div>
+          <div><dt>Email</dt><dd>contact@filtration-lyon.example <span class="origine">CRM</span></dd></div>
+        </dl>
       </div>
-      <div class="schema-fleche" aria-hidden="true">→</div>
-      <div class="schema-col sorties">
-        <div class="schema-etiquette">Operational flow</div>
-        <div class="schema-pile">
-          <span>Sourced answers</span>
-          <span>API · SQL · dashboards</span>
-          <span>Webhooks</span>
-          <span>Stalled-record alerts</span>
-        </div>
-      </div>
+      <figcaption>Fictional demo data, as lumnik merges it. The ERP and the CRM disagree on the city: the record keeps both. <a href="https://docs.lumnik.io/entities/" rel="noopener">See the documentation</a>.</figcaption>
+    </figure>
+    <!-- record:end -->
+    <p class="sous">lumnik reads your ERP, your exports and your APIs without ever writing to them. It repairs and merges their data, then serves it to your teams and your tools.</p>
+    <ul class="heros-preuves">
+      <li>Read-only</li>
+      <li>On your machines</li>
+      <li>Open source</li>
+    </ul>
+    <div class="heros-ctas">
+      <a class="btn btn-lumiere" href="scenarios/">See the scenarios</a>
+      <a class="btn btn-givre" href="try.html">Try lumnik Open</a>
     </div>
   </div>
 </header>
 
-<!-- ================= MANIFESTO ================= -->
-<section class="manifeste" id="manifesto">
+<section id="situations">
   <div class="wrap reveal">
-    <p class="kicker">In one sentence</p>
-    <h2>Your systems can stay where they are.<br>Your enterprise can <em>move again</em>.</h2>
-    <div class="mots" aria-label="Connect, transform, serve">
-      <span>Connect</span><span aria-hidden="true">·</span><span>Transform</span><span aria-hidden="true">·</span><span>Serve</span>
+    <p class="kicker">Replayed scenarios</p>
+    <h2>Sound <em>familiar</em>?</h2>
+    <p class="lede">Each situation was replayed on a lumnik hub. The scenario shows what was declared, the commands that ran and the results they gave.</p>
+    <div class="portes-grille scenarios-grille">
+      <a class="porte scenario" href="scenarios/dirty-order-statuses/">
+        <span class="scenario-famille">Repair an export <span class="edition">Open</span></span>
+        <h3>Fourteen spellings in one status column.</h3>
+        <span class="porte-dit">The business declares four statuses. lumnik lists the spellings still to settle.</span>
+        <span class="porte-lien">Open the scenario →</span>
+      </a>
+      <a class="porte scenario" href="scenarios/entity-resolution/">
+        <span class="scenario-famille">Merge the sources <span class="edition">Open</span></span>
+        <h3>One customer, two systems, no shared identifier.</h3>
+        <span class="porte-dit">The email matches the records. A doubt stays a question, settled by a person.</span>
+        <span class="porte-lien">Open the scenario →</span>
+      </a>
+      <a class="porte scenario" href="scenarios/export-that-lies/">
+        <span class="scenario-famille">Lose nothing in silence <span class="edition">Open</span></span>
+        <h3>The export that lies: an unreadable line does not pass in silence.</h3>
+        <span class="porte-dit">The broken line is set aside with its values. The catalog loses nothing.</span>
+        <span class="porte-lien">Open the scenario →</span>
+      </a>
+      <a class="porte scenario" href="scenarios/orders-where-they-sleep/">
+        <span class="scenario-famille">Alert and decide <span class="edition">Open</span></span>
+        <h3>Where the orders sleep.</h3>
+        <span class="porte-dit">The ERP keeps only today's status. lumnik remembers since when.</span>
+        <span class="porte-lien">Open the scenario →</span>
+      </a>
+      <a class="porte scenario" href="scenarios/zombie-cmms/">
+        <span class="scenario-famille">Serve the teams <span class="edition">Open</span></span>
+        <h3>The zombie system: thirty years of work orders, the box switched off, the hub still answers.</h3>
+        <span class="porte-dit">One last read, and the old box can be switched off.</span>
+        <span class="porte-lien">Open the scenario →</span>
+      </a>
+      <a class="porte scenario" href="scenarios/purchasing-ask-abstains/">
+        <span class="scenario-famille">Ask your data <span class="edition">Pro</span></span>
+        <h3>The question Ask refuses to answer: a margin with no cost, a "best" with no criterion.</h3>
+        <span class="porte-dit">Three figures, each with its SQL. Three refusals instead of an invented number.</span>
+        <span class="porte-lien">Open the scenario →</span>
+      </a>
     </div>
-    <p class="signature">Defrost the enterprise.</p>
+    <div class="actions">
+      <a class="btn btn-givre" href="scenarios/">All the scenarios</a>
+    </div>
+  </div>
+</section>
+
+<section class="gestes" id="how">
+  <div class="wrap reveal">
+    <p class="kicker">How</p>
+    <h2>Five moves. <em>Nothing written</em> on your side.</h2>
+    <div class="geste-grille cinq">
+      <div class="geste" id="read">
+        <h3>Read</h3>
+        <p>Connectors read your files, your databases and your APIs. Nothing is ever written to your software.</p>
+      </div>
+      <div class="geste" id="meaning">
+        <h3>Repair</h3>
+        <p>Dates, accents, amounts, old formats: the fix is declared at the door. An unreadable line is set aside, with its reason.</p>
+      </div>
+      <div class="geste" id="facts">
+        <h3>Merge</h3>
+        <p>Several sources become one record. Their disagreements stay visible.</p>
+      </div>
+      <div class="geste" id="time">
+        <h3>Watch</h3>
+        <p>Every read is dated. What sleeps past the declared threshold lands in a decision inbox.</p>
+      </div>
+      <div class="geste" id="serve">
+        <h3>Serve</h3>
+        <p>One app per team on the phone, an API, SQL, webhooks. With Pro, questions in plain language.</p>
+      </div>
+    </div>
+    <p class="serment"><b>Nothing is lost without being counted.</b> On every run, the lines read equal the lines written plus the lines set aside.</p>
+  </div>
+</section>
+
+<section id="try">
+  <div class="wrap reveal">
+    <p class="kicker">Try it</p>
+    <h2>lumnik Open installs <em>in one command</em>.</h2>
+    <p class="lede">Free and open source, under the Apache-2.0 license. A machine with Docker is enough.</p>
+    <div class="essayer-grille">
+      <div class="fenetre terminal" role="group" aria-label="Installing lumnik Open">
+        <div class="barre"><span class="rond"></span><span class="rond"></span><span class="rond"></span>&nbsp;install lumnik Open</div>
+        <pre><span class="cmd">$ git clone https://github.com/icreated/lumnik-open.git &amp;&amp; cd lumnik-open</span>
+<span class="cmd">$ ./deploy/selfhost/up.sh --build</span>
+…
+<span class="ok">==&gt; hub is healthy</span>
+  Hub:       http://localhost:8080   (health: /q/health)
+  Keycloak:  http://localhost:8180/realms/lumnik</pre>
+      </div>
+      <div class="editions">
+        <h3>In lumnik Open</h3>
+        <ul>
+          <li>Connectors: files, PostgreSQL databases, REST, GraphQL, SOAP</li>
+          <li>Merged records and the ledger of disagreements</li>
+          <li>Views, processes, workflows and a decision inbox</li>
+          <li>The teams' app, on the phone</li>
+          <li>Signed webhooks and emails</li>
+          <li><code>lm</code>, the integrator's command line</li>
+        </ul>
+        <h3>Pro adds</h3>
+        <ul>
+          <li>Questions in plain language</li>
+          <li>Kafka, Oracle and search</li>
+          <li>Your company directory</li>
+        </ul>
+        <a class="btn btn-lumiere" href="try.html">The full path</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="wrap reveal">
+    <p class="kicker">Trust</p>
+    <h2>What your IT team can verify.</h2>
+    <ul class="confiance-liste">
+      <li><strong>Read-only.</strong> lumnik never writes to your systems.</li>
+      <li><strong>Isolated by the database.</strong> PostgreSQL walls off every row by organization.</li>
+      <li><strong>On your machines.</strong> On your servers. Pro's AI can run inside your walls.</li>
+      <li><strong>Reversible.</strong> Plain PostgreSQL tables, a standard pg_dump.</li>
+    </ul>
+    <p class="confiance-liens">
+      <a href="https://docs.lumnik.io/security/" rel="noopener">Verify it in five minutes</a>
+      <span class="badge-bientot">Beta</span>
+      <a href="https://docs.lumnik.io/where-lumnik-stands/" rel="noopener">Where lumnik stands</a>
+      <a href="https://github.com/icreated/lumnik-open" rel="noopener">lumnik Open · Apache-2.0</a>
+    </p>
+    <div class="portes-grille">
+      <a class="porte" id="business" href="scenarios/">
+        <span class="porte-qui">Business teams</span>
+        <span class="porte-dit">Your situation may already be replayed.</span>
+        <span class="porte-lien">The scenarios →</span>
+      </a>
+      <a class="porte" id="it" href="architecture.html">
+        <span class="porte-qui">IT &amp; security</span>
+        <span class="porte-dit">Read access, on your machines, walled off by the database.</span>
+        <span class="porte-lien">The guarantees →</span>
+      </a>
+      <a class="porte" id="integrators" href="https://docs.lumnik.io/integration-as-code/" rel="noopener">
+        <span class="porte-qui">Integrators &amp; partners</span>
+        <span class="porte-dit">Describe a system once in YAML. Replay it at the next client.</span>
+        <span class="porte-lien">Integration as code →</span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -109,7 +236,7 @@
 <footer>
   <div class="wrap">
     <div>lumnik — published by icreated · Châtillon d'Azergues, France</div>
-    <div><a href="legal.html">Legal notice</a> · <a href="https://docs.lumnik.io" rel="noopener">Documentation</a> · <a href="scenarios/">Replayed scenarios</a> · <a href="contact.html">Contact</a></div>
+    <div><a href="scenarios/">Scenarios</a> · <a href="try.html">Try it</a> · <a href="why.html">Why lumnik</a> · <a href="https://docs.lumnik.io" rel="noopener">Documentation</a> · <a href="contact.html">Contact</a> · <a href="legal.html">Legal notice</a></div>
   </div>
 </footer>
 

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Try lumnik Open — lumnik</title>
+  <meta name="description" content="Install lumnik Open on your own machine: one command starts the hub, its database and its sign-in server. Free and open source, under the Apache-2.0 license.">
+  <link rel="canonical" href="https://lumnik.io/try.html">
+  <meta property="og:title" content="Try lumnik Open — lumnik">
+  <meta property="og:description" content="lumnik Open installs in one command. The full path, from the first export to the first replayed scenario.">
+  <meta property="og:url" content="https://lumnik.io/try.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='34' fill='%23ffd24a'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<a class="saut" href="#contenu">Skip to content</a>
+
+<div id="thermometre" aria-hidden="true"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="index.html">lumnik<span class="dot" aria-hidden="true"></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <span class="menu-toggle-label">Menu</span>
+    </button>
+    <ul id="menu-principal">
+      <li><a href="scenarios/">Scenarios</a></li>
+      <li><a href="architecture.html">Security</a></li>
+      <li><a href="editions.html">Editions</a></li>
+      <li><a href="https://docs.lumnik.io" rel="noopener">Docs</a></li>
+      <li><a class="btn btn-lumiere nav-contact" href="try.html" aria-current="page">Try it</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="contenu">
+
+<header class="essai-hero">
+  <div class="wrap">
+    <div class="badge-bientot">Free · Apache-2.0</div>
+    <h1>Try lumnik Open, <span class="degel">on your machine</span>.</h1>
+    <p class="sous" style="max-width:56ch">One command installs the hub, its database and its sign-in server. Then load a first export.</p>
+
+    <div class="essai-etapes">
+      <div class="essai-etape">
+        <div class="num">1</div>
+        <div>
+          <h2>Prepare the machine</h2>
+          <p>Docker and Docker Compose, with curl, python3, openssl and awk. Linux or macOS. On Windows, go through WSL2.</p>
+          <p class="essai-liens"><a href="https://docs.lumnik.io/quickstart/prerequisites/" rel="noopener">Prerequisites</a> · <a href="https://docs.lumnik.io/deploy-windows/" rel="noopener">On Windows</a></p>
+        </div>
+      </div>
+      <div class="essai-etape">
+        <div class="num">2</div>
+        <div>
+          <h2>Start the hub</h2>
+          <p>The script creates the install's secrets, then starts the hub.</p>
+          <div class="fenetre terminal" role="group" aria-label="Installing lumnik Open">
+            <div class="barre"><span class="rond"></span><span class="rond"></span><span class="rond"></span>&nbsp;install lumnik Open</div>
+            <pre><span class="cmd">$ git clone https://github.com/icreated/lumnik-open.git &amp;&amp; cd lumnik-open</span>
+<span class="cmd">$ ./deploy/selfhost/up.sh --build</span>
+…
+<span class="ok">==&gt; hub is healthy</span>
+  Hub:       http://localhost:8080   (health: /q/health)
+  Keycloak:  http://localhost:8180/realms/lumnik</pre>
+          </div>
+          <p class="essai-liens"><a href="https://docs.lumnik.io/deploy/" rel="noopener">Deployment in detail</a></p>
+        </div>
+      </div>
+      <div class="essai-etape">
+        <div class="num">3</div>
+        <div>
+          <h2>Install <code>lm</code></h2>
+          <p><code>lm</code> drives the hub from the terminal. Take the archive for your system from the releases page.</p>
+          <p class="essai-liens"><a href="https://github.com/icreated/lumnik-open/releases/latest" rel="noopener">The releases page</a></p>
+        </div>
+      </div>
+      <div class="essai-etape">
+        <div class="num">4</div>
+        <div>
+          <h2>Load a first export</h2>
+          <p>The quickstart loads a CSV file and shows its rows. Then the WOW: two systems become one customer, a view, a decision.</p>
+          <p class="essai-liens"><a href="https://docs.lumnik.io/quickstart/installer/" rel="noopener">The quickstart</a> · <a href="https://docs.lumnik.io/wow/" rel="noopener">The WOW</a></p>
+        </div>
+      </div>
+      <div class="essai-etape">
+        <div class="num">5</div>
+        <div>
+          <h2>Replay a scenario</h2>
+          <p>Each scenario shows its manifests, its commands and its results. The Open badge marks the ones that run on this edition.</p>
+          <p class="essai-liens"><a href="scenarios/">The scenarios</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="essai-pro">
+      <h2>What Pro adds</h2>
+      <p>Questions in plain language: the answer shows its query, or abstains. And Kafka, Oracle, search, your company directory.</p>
+      <a class="btn btn-givre" href="editions.html">See the editions</a>
+    </div>
+  </div>
+</header>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>lumnik — published by icreated · Châtillon d'Azergues, France</div>
+    <div><a href="scenarios/">Scenarios</a> · <a href="try.html">Try it</a> · <a href="why.html">Why lumnik</a> · <a href="https://docs.lumnik.io" rel="noopener">Documentation</a> · <a href="contact.html">Contact</a> · <a href="legal.html">Legal notice</a></div>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

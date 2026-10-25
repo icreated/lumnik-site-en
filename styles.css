@@ -1165,3 +1165,338 @@ footer a:hover { color: var(--lumiere); }
   h1, .hero .surtitre, .hero .sous, .hero .ctas, .hero .preuve { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
 }
+
+/* ==========================================================================
+   Blocs portés de lumnik.fr (2026-10-25) — le héros et sa fiche, les portes,
+   la confiance, les blocs du schéma, les relais. Copiés tels quels.
+   ========================================================================== */
+header.heros {
+  position: relative;
+  padding: 72px 0 88px;
+  overflow: hidden;
+}
+/* une lueur discrète derrière la fiche, pas un halo de décor */
+header.heros::before {
+  content: "";
+  position: absolute;
+  top: 40px; right: -120px;
+  width: 560px; height: 560px;
+  background: radial-gradient(circle, rgba(255, 210, 74, 0.08) 0%, transparent 62%);
+  pointer-events: none;
+}
+.heros-grille {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  grid-template-areas:
+    "surtitre fiche"
+    "titre    fiche"
+    "sous     fiche"
+    "preuves  fiche"
+    "ctas     fiche";
+  grid-template-rows: auto auto auto auto 1fr;
+  column-gap: 56px;
+  align-items: start;
+}
+.heros .surtitre {
+  grid-area: surtitre;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brume);
+  margin-bottom: 18px;
+}
+.heros h1 {
+  grid-area: titre;
+  font-size: clamp(2.2rem, 4.4vw, 3.5rem);
+  max-width: 16ch;
+  opacity: 1;
+  animation: heros-entre 0.4s ease both;
+}
+/* une montée courte, sans phase où le texte est presque invisible */
+@keyframes heros-entre { from { transform: translateY(8px); } to { transform: none; } }
+
+.heros .sous {
+  grid-area: sous;
+  margin-top: 22px;
+  font-size: 1.12rem;
+  color: var(--brume);
+  max-width: 44ch;
+}
+.heros-preuves {
+  grid-area: preuves;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+.heros-preuves li {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--neige);
+  border: 1px solid var(--givre);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+.heros-ctas {
+  grid-area: ctas;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* --- la fiche : plusieurs systèmes sombres, une fiche claire, le désaccord gardé --- */
+.heros-fiche {
+  grid-area: fiche;
+  align-self: center;
+  margin: 0;
+}
+.heros-sources {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.heros-source {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--brume);
+  background: rgba(10, 20, 32, 0.7);
+  border: 1px solid rgba(143, 168, 189, 0.14);
+  border-radius: 10px;
+  padding: 10px 12px;
+  overflow-wrap: anywhere;
+}
+.heros-source-nom,
+.origine {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--brume);
+}
+.heros-source-nom { display: block; margin-bottom: 4px; }
+.fiche {
+  background: var(--glace);
+  border: 1px solid rgba(209, 215, 224, 0.22);
+  border-radius: var(--radius);
+  padding: 18px 20px 8px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+}
+.fiche-tete {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--givre);
+}
+.fiche-nom { font-family: var(--serif); font-size: 1.3rem; color: var(--neige); }
+.fiche-code { font-family: var(--mono); font-size: 0.8rem; color: var(--brume); }
+.fiche dl > div {
+  display: grid;
+  grid-template-columns: 5.5em minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(28, 51, 73, 0.6);
+}
+.fiche dl > div:last-child { border-bottom: none; }
+.fiche dt { color: var(--brume); font-size: 0.9rem; }
+.fiche dd { color: var(--neige); overflow-wrap: anywhere; }
+.origine { margin-left: 6px; }
+.desaccord {
+  display: block;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-left: 2px solid var(--lumiere);
+  background: var(--lueur);
+  color: var(--lumiere);
+  font-size: 0.88rem;
+}
+.desaccord::before { content: "⚠ "; }
+.heros-fiche figcaption {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--brume);
+}
+.heros-fiche figcaption a { color: var(--brume); }
+.heros-fiche figcaption a:hover,
+.heros-fiche figcaption a:focus-visible { color: var(--lumiere); }
+
+/* téléphone : l'ordre du document — titre, fiche, phrase, preuves, boutons */
+@media (max-width: 880px) {
+  header.heros { padding: 36px 0 64px; }
+  .heros-grille {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "surtitre" "titre" "fiche" "sous" "preuves" "ctas";
+    grid-template-rows: none;
+  }
+  .heros-fiche { margin-top: 22px; max-width: 560px; }
+  .heros-sources { display: none; }
+}
+@media (max-width: 600px) {
+  .heros .surtitre { font-size: 0.72rem; margin-bottom: 12px; }
+  .heros h1 { font-size: 2rem; }
+  .fiche { padding: 14px 16px 4px; }
+  .fiche dl > div { padding: 8px 0; grid-template-columns: 4.6em minmax(0, 1fr); }
+}
+
+.note { margin-top: 18px; font-size: 0.82rem; color: var(--brume); max-width: 72ch; }
+.sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.edition {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brume);
+  border: 1px solid var(--givre);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+/* --- Trois portes --- */
+.portes-grille {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.porte {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid rgba(143, 168, 189, 0.16);
+  border-radius: var(--radius);
+  background: rgba(18, 34, 51, 0.35);
+  color: var(--neige);
+  text-decoration: none;
+  transition: border-color 0.25s;
+}
+.porte:hover, .porte:focus-visible { border-color: var(--lumiere); }
+.porte-qui { font-family: var(--serif); font-size: 1.3rem; }
+.porte-dit { flex: 1; color: var(--brume); font-size: 0.96rem; }
+.porte-lien { color: var(--lumiere); font-size: 0.9rem; }
+@media (max-width: 880px) { .portes-grille { grid-template-columns: minmax(0, 1fr); } }
+
+/* --- Confiance --- */
+.confiance-liste {
+  list-style: none;
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 40px;
+  max-width: 900px;
+}
+.confiance-liste li {
+  padding: 14px 0;
+  border-bottom: 1px dashed rgba(143, 168, 189, 0.16);
+  color: var(--brume);
+  font-size: 0.96rem;
+}
+.confiance-liste strong { color: var(--neige); }
+.confiance-liens { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
+.confiance-liens a { color: var(--lumiere); }
+@media (max-width: 780px) { .confiance-liste { grid-template-columns: minmax(0, 1fr); } }
+
+.actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 40px; }
+.relais { padding: 120px 0; }
+.relais a { color: var(--lumiere); }
+
+.schema-blocs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.schema-blocs span {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(18, 34, 51, 0.62);
+  color: var(--neige);
+  font-size: 0.92rem;
+}
+.schema-blocs.centre {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.schema-blocs.centre span {
+  background: rgba(255, 210, 74, 0.08);
+  border: 1px solid rgba(255, 210, 74, 0.18);
+}
+
+/* ==========================================================================
+   Le passage de simplification (2026-10-25) — bloc partagé, identique dans les
+   deux feuilles (lumnik.fr et lumnik.io) : le copier, ne pas le retaper.
+   ========================================================================== */
+.heros h1 em { font-style: italic; color: var(--lumiere); }
+h1 + .lede { margin-top: 22px; }
+
+/* --- les scénarios mis en avant : la famille, le titre servi, l'édition --- */
+.scenarios-grille .porte { gap: 12px; }
+.scenario-famille {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brume);
+}
+.porte.scenario h3 {
+  font-family: var(--serif);
+  font-weight: 550;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  color: var(--neige);
+}
+
+/* --- cinq gestes sur une ligne quand la largeur le permet --- */
+.geste-grille.cinq { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+
+/* --- essayer : le terminal à gauche, les éditions à droite --- */
+.essayer-grille {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+.essayer-grille .terminal { margin-top: 0; }
+.editions h3 { font-family: var(--serif); font-weight: 550; font-size: 1.2rem; margin-bottom: 10px; }
+.editions ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; }
+.editions li { color: var(--brume); font-size: 0.94rem; padding-left: 20px; position: relative; }
+.editions li::before { content: "☀"; position: absolute; left: 0; color: var(--lumiere); font-size: 0.8em; top: 3px; }
+.editions code,
+.essai-etape code { font-family: var(--mono); font-size: 0.9em; color: var(--neige); }
+@media (max-width: 880px) { .essayer-grille { grid-template-columns: minmax(0, 1fr); } }
+
+/* --- la page essayer : un pas, un geste --- */
+.essai-etape > div { min-width: 0; }
+.essai-etape .terminal { margin-top: 14px; }
+.essai-etape .terminal pre { font-size: 0.72rem; }
+.essai-liens { margin-top: 8px; font-size: 0.92rem; }
+.essai-liens a,
+.tier a:not(.btn) { color: var(--lumiere); }
+.essai-pro {
+  max-width: 640px;
+  margin: 56px auto 0;
+  text-align: left;
+  padding: 26px 28px;
+  border: 1px solid rgba(255, 210, 74, 0.3);
+  border-radius: var(--radius);
+  background: rgba(10, 20, 32, 0.5);
+}
+.essai-pro h2 { font-family: var(--serif); font-weight: 550; font-size: 1.3rem; max-width: none; margin-bottom: 8px; }
+.essai-pro p { color: var(--brume); font-size: 0.95rem; margin-bottom: 18px; }
+.manifeste .actions { justify-content: center; }
