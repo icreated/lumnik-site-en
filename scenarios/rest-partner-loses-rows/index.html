@@ -24,57 +24,71 @@
   </section>
   <nav class="steps-nav" aria-label="Steps"><a href="#step-connect" data-step="connect" aria-current="step"><span class="num">1 · Connect</span><span class="sub">total_path</span></a><a href="#step-night1" data-step="night1"><span class="num">2 · Night 1</span><span class="sub">Complete</span></a><a href="#step-night2" data-step="night2"><span class="num">3 · Night 2</span><span class="sub">A page lost</span></a><a href="#step-night3" data-step="night3"><span class="num">4 · Night 3</span><span class="sub">Fixed</span></a></nav>
   <section class="step" id="step-connect" aria-labelledby="connect-title">
-  <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Connect"><button type="button" role="tab" id="connect-manifest-tab" data-view="manifest" aria-controls="connect-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="connect-commands-tab" data-view="commands" aria-controls="connect-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="connect-result-tab" data-view="result" aria-controls="connect-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" id="connect-manifest" aria-labelledby="connect-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-partner.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-partner-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [partners]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:9220</span><span class="line"></span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: partners</span><span class="line">      <span class="key">path</span>: /partners</span><span class="line">      <span class="key">method</span>: GET</span><span class="line">      <span class="key">pagination</span>:</span><span class="line">        <span class="key">kind</span>: offset</span><span class="line">        <span class="key">offset_param</span>: offset</span><span class="line">        <span class="key">limit_param</span>: limit</span><span class="line">        <span class="key">limit</span>: 500</span><span class="line">        <span class="key">response_path</span>: <span class="str">&quot;$.data&quot;</span></span><span class="line hl">        <span class="key">total_path</span>: <span class="str">&quot;$.total&quot;</span></span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.scenario_partner_a</span><span class="line">        <span class="key">unique_key</span>: <span class="str">&quot;$.id&quot;</span></span><span class="line">        <span class="key">promote</span>:</span><span class="line">          - { name: name, path: <span class="str">&quot;$.name&quot;</span>, type: text }</span><span class="line">          - { name: city, path: <span class="str">&quot;$.city&quot;</span>, type: text }</span></code></pre></div><div role="tabpanel" id="connect-commands" aria-labelledby="connect-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-partner.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;scenario-partner-a&quot;,&quot;connectorId&quot;:&quot;2a3a43ab-50e3-4cee-90b5-6487e129e17b&quot;,&quot;endpointsApplied&quot;:1}</span></code></pre></div><div role="tabpanel" id="connect-result" aria-labelledby="connect-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-partner-a</dt><dd>1 endpoint, total_path: $.total</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
-  </div>
   <aside class="explain">
-    <h2 id="connect-title">The source&#x27;s own count is the witness</h2>
-    <p>One endpoint paged by offset; total_path points at the total the API publishes with each page.</p>
+    <div class="explain-intro">
+      <h2 id="connect-title">The source&#x27;s own count is the witness</h2>
+      <p>One endpoint paged by offset; total_path points at the total the API publishes with each page.</p>
+    </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Witness</strong><p>A row count the source publishes, never an estimate.</p></div></li><li><span class="n">2</span><div><strong>Declarative</strong><p>One line in the manifest.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The source vouches for its own completeness.</p></div>
   </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Connect"><button type="button" role="tab" id="connect-manifest-tab" data-view="manifest" aria-controls="connect-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="connect-commands-tab" data-view="commands" aria-controls="connect-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="connect-result-tab" data-view="result" aria-controls="connect-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="connect-manifest" aria-labelledby="connect-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-partner.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-partner-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [partners]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:9220</span><span class="line"></span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: partners</span><span class="line">      <span class="key">path</span>: /partners</span><span class="line">      <span class="key">method</span>: GET</span><span class="line">      <span class="key">pagination</span>:</span><span class="line">        <span class="key">kind</span>: offset</span><span class="line">        <span class="key">offset_param</span>: offset</span><span class="line">        <span class="key">limit_param</span>: limit</span><span class="line">        <span class="key">limit</span>: 500</span><span class="line">        <span class="key">response_path</span>: <span class="str">&quot;$.data&quot;</span></span><span class="line hl">        <span class="key">total_path</span>: <span class="str">&quot;$.total&quot;</span></span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.scenario_partner_a</span><span class="line">        <span class="key">unique_key</span>: <span class="str">&quot;$.id&quot;</span></span><span class="line">        <span class="key">promote</span>:</span><span class="line">          - { name: name, path: <span class="str">&quot;$.name&quot;</span>, type: text }</span><span class="line">          - { name: city, path: <span class="str">&quot;$.city&quot;</span>, type: text }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="connect-commands" aria-labelledby="connect-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-partner.yaml</span>
+<span class="out">{&quot;name&quot;:&quot;scenario-partner-a&quot;,&quot;connectorId&quot;:&quot;2a3a43ab-50e3-4cee-90b5-6487e129e17b&quot;,&quot;endpointsApplied&quot;:1}</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="connect-result" aria-labelledby="connect-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-partner-a</dt><dd>1 endpoint, total_path: $.total</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
+  </div>
 </section>
 <section class="step" id="step-night1" aria-labelledby="night1-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="night1-title">2,400 read, 2,400 declared</h2>
+      <p>The run reads every page and ends Completed.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Agreement</strong><p>Read = declared: nothing to say.</p></div></li><li><span class="n">2</span><div><strong>Pages</strong><p>500 per page, to the end.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A complete read passes quietly.</p></div>
+  </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Night 1"><button type="button" role="tab" id="night1-commands-tab" data-view="commands" aria-controls="night1-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="night1-result-tab" data-view="result" aria-controls="night1-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" id="night1-commands" aria-labelledby="night1-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-partner-a</span>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="night1-commands" aria-labelledby="night1-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-partner-a</span>
 <span class="out">run scheduled: c52e04a7-b54d-40d0-8334-e41c1b8f63d4</span>
 
 <span class="cmd"><span class="prompt">$</span> lm run get c52e04a7-b54d-40d0-8334-e41c1b8f63d4</span>
 <span class="out">ID        CONNECTOR           ENDPOINT  STATUS     IN    OUT   SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
-c52e04a7  scenario-partner-a  partners  Completed  2400  2400  0        0             2026-10-22 15:26  2026-10-22 15:26  yes</span></code></pre></div><div role="tabpanel" id="night1-result" aria-labelledby="night1-result-tab" tabindex="0" hidden><dl class="facts"><dt>partners</dt><dd>Completed · IN 2400 · OUT 2400</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
+c52e04a7  scenario-partner-a  partners  Completed  2400  2400  0        0             2026-10-22 15:26  2026-10-22 15:26  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="night1-result" aria-labelledby="night1-result-tab" tabindex="0" hidden><dl class="facts"><dt>partners</dt><dd>Completed · IN 2400 · OUT 2400</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
   </div>
-  <aside class="explain">
-    <h2 id="night1-title">2,400 read, 2,400 declared</h2>
-    <p>The run reads every page and ends Completed.</p>
-    <ol class="points"><li><span class="n">1</span><div><strong>Agreement</strong><p>Read = declared: nothing to say.</p></div></li><li><span class="n">2</span><div><strong>Pages</strong><p>500 per page, to the end.</p></div></li></ol>
-    <div class="proves"><h3>What this step proves</h3><p>A complete read passes quietly.</p></div>
-  </aside>
 </section>
 <section class="step" id="step-night2" aria-labelledby="night2-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="night2-title">2,300 served, 2,400 declared: Failed</h2>
+      <p>The partner&#x27;s page query skips 100 rows; the total stays 2,400. Pagination ends like a complete read, the witness does not.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The message</strong><p>It names the endpoint as the manifest does and gives both numbers.</p></div></li><li><span class="n">2</span><div><strong>No rollback</strong><p>The 2,000 rows already written stay; the next night updates them.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A partial extract does not pass for a complete one.</p></div>
+  </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Night 2"><button type="button" role="tab" id="night2-commands-tab" data-view="commands" aria-controls="night2-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="night2-result-tab" data-view="result" aria-controls="night2-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" id="night2-commands" aria-labelledby="night2-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-partner-a</span>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="night2-commands" aria-labelledby="night2-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-partner-a</span>
 <span class="out">run scheduled: 0473e0ce-457c-4ae2-b3ae-ed89a7e4137c</span>
 
 <span class="cmd"><span class="prompt">$</span> lm run get 0473e0ce-457c-4ae2-b3ae-ed89a7e4137c</span>
 <span class="out">ID        CONNECTOR           ENDPOINT  STATUS  IN    OUT   SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
 0473e0ce  scenario-partner-a  partners  Failed  2000  2000  0        0             2026-10-22 15:26  2026-10-22 15:26  no</span>
-<span class="note">✖ run failed: Endpoint &#x27;partners&#x27;: the source declared 2400 rows but this run returned 2300 — refusing to report a partial extract as a complete one</span></code></pre></div><div role="tabpanel" id="night2-result" aria-labelledby="night2-result-tab" tabindex="0" hidden><dl class="facts"><dt>partners</dt><dd>Failed · IN 2000 · OUT 2000</dd><dt>refusal</dt><dd>Endpoint &#x27;partners&#x27;: the source declared 2400 rows but this run returned 2300 — refusing to report a partial extract as a complete one</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
+<span class="note">✖ run failed: Endpoint &#x27;partners&#x27;: the source declared 2400 rows but this run returned 2300 — refusing to report a partial extract as a complete one</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="night2-result" aria-labelledby="night2-result-tab" tabindex="0" hidden><dl class="facts"><dt>partners</dt><dd>Failed · IN 2000 · OUT 2000</dd><dt>refusal</dt><dd>Endpoint &#x27;partners&#x27;: the source declared 2400 rows but this run returned 2300 — refusing to report a partial extract as a complete one</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
   </div>
-  <aside class="explain">
-    <h2 id="night2-title">2,300 served, 2,400 declared: Failed</h2>
-    <p>The partner&#x27;s page query skips 100 rows; the total stays 2,400. Pagination ends like a complete read, the witness does not.</p>
-    <ol class="points"><li><span class="n">1</span><div><strong>The message</strong><p>It names the endpoint as the manifest does and gives both numbers.</p></div></li><li><span class="n">2</span><div><strong>No rollback</strong><p>The 2,000 rows already written stay; the next night updates them.</p></div></li></ol>
-    <div class="proves"><h3>What this step proves</h3><p>A partial extract does not pass for a complete one.</p></div>
-  </aside>
 </section>
 <section class="step" id="step-night3" aria-labelledby="night3-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="night3-title">The partner fixed, the run passes</h2>
+      <p>The page is back; the run reads 2,400 rows and ends Completed. The history keeps the failed night.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>History</strong><p>lm run list shows the three nights.</p></div></li><li><span class="n">2</span><div><strong>Caught up</strong><p>No manual action on the table.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The next complete run brings the table up to date.</p></div>
+  </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Night 3"><button type="button" role="tab" id="night3-commands-tab" data-view="commands" aria-controls="night3-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="night3-result-tab" data-view="result" aria-controls="night3-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" id="night3-commands" aria-labelledby="night3-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-partner-a</span>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="night3-commands" aria-labelledby="night3-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-partner-a</span>
 <span class="out">run scheduled: 594de7be-cb49-41aa-996a-2e2b853f73a3</span>
 
 <span class="cmd"><span class="prompt">$</span> lm run get 594de7be-cb49-41aa-996a-2e2b853f73a3</span>
@@ -85,14 +99,8 @@ c52e04a7  scenario-partner-a  partners  Completed  2400  2400  0        0       
 <span class="out">ID        CONNECTOR           ENDPOINT  STATUS     IN    OUT   SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
 594de7be  scenario-partner-a  partners  Completed  2400  2400  0        0             2026-10-22 15:26  2026-10-22 15:26  no
 0473e0ce  scenario-partner-a  partners  Failed     2000  2000  0        0             2026-10-22 15:26  2026-10-22 15:26  no
-c52e04a7  scenario-partner-a  partners  Completed  2400  2400  0        0             2026-10-22 15:26  2026-10-22 15:26  yes</span></code></pre></div><div role="tabpanel" id="night3-result" aria-labelledby="night3-result-tab" tabindex="0" hidden><dl class="facts"><dt>partners</dt><dd>Completed · IN 2400 · OUT 2400</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
+c52e04a7  scenario-partner-a  partners  Completed  2400  2400  0        0             2026-10-22 15:26  2026-10-22 15:26  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="night3-result" aria-labelledby="night3-result-tab" tabindex="0" hidden><dl class="facts"><dt>partners</dt><dd>Completed · IN 2400 · OUT 2400</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
   </div>
-  <aside class="explain">
-    <h2 id="night3-title">The partner fixed, the run passes</h2>
-    <p>The page is back; the run reads 2,400 rows and ends Completed. The history keeps the failed night.</p>
-    <ol class="points"><li><span class="n">1</span><div><strong>History</strong><p>lm run list shows the three nights.</p></div></li><li><span class="n">2</span><div><strong>Caught up</strong><p>No manual action on the table.</p></div></li></ol>
-    <div class="proves"><h3>What this step proves</h3><p>The next complete run brings the table up to date.</p></div>
-  </aside>
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>The witness is only as good as a real row count published by the source.</li><li>The check fires when pagination ends: rows already written stay.</li><li>A source that publishes no total has no witness.</li><li>Partner API stand-in; synthetic data.</li></ul></section>
   <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
