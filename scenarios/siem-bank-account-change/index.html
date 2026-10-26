@@ -24,9 +24,17 @@
   </section>
   <nav class="steps-nav" aria-label="Steps"><a href="#step-calibrate" data-step="calibrate" aria-current="step"><span class="num">1 · Calibrate</span><span class="sub">The register</span></a><a href="#step-wire" data-step="wire"><span class="num">2 · Wire</span><span class="sub">Process + webhook</span></a><a href="#step-schedule" data-step="schedule"><span class="num">3 · Schedule</span><span class="sub">Day 1, day 2</span></a><a href="#step-siem" data-step="siem"><span class="num">4 · Correlate</span><span class="sub">The SIEM</span></a><a href="#step-ledgers" data-step="ledgers"><span class="num">5 · Trace</span><span class="sub">The ledgers</span></a></nav>
   <section class="step" id="step-calibrate" aria-labelledby="calibrate-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="calibrate-title">A CSV export reread every minute</h2>
+      <p>The connector carries a schedule; a first technical, inactive row gives the table its shape.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Schedule</strong><p>The next imports are started by the hub, not by the runner.</p></div></li><li><span class="n">2</span><div><strong>ERP untouched</strong><p>Nothing is added on the ERP&#x27;s side.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An export with no events becomes a source that is reread.</p></div>
+  </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Calibrate"><button type="button" role="tab" id="calibrate-manifest-tab" data-view="manifest" aria-controls="calibrate-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="calibrate-commands-tab" data-view="commands" aria-controls="calibrate-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="calibrate-result-tab" data-view="result" aria-controls="calibrate-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" id="calibrate-manifest" aria-labelledby="calibrate-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-suppliers.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-siem-suppliers-e</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [supplier-security]</span><span class="line"><span class="key">spec</span>:</span><span class="line hl">  <span class="key">schedule</span>: <span class="str">&quot;* * * * *&quot;</span></span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line hl">    <span class="key">path</span>: /tmp/lumnik-scenario/siem-bank-account-change/e/suppliers.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line">  <span class="key">after_process</span>: none</span></code></pre></div><div role="tabpanel" id="calibrate-commands" aria-labelledby="calibrate-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-suppliers.yaml</span>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="calibrate-manifest" aria-labelledby="calibrate-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-suppliers.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-siem-suppliers-e</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [supplier-security]</span><span class="line"><span class="key">spec</span>:</span><span class="line hl">  <span class="key">schedule</span>: <span class="str">&quot;* * * * *&quot;</span></span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line hl">    <span class="key">path</span>: /tmp/lumnik-scenario/siem-bank-account-change/e/suppliers.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line">  <span class="key">after_process</span>: none</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="calibrate-commands" aria-labelledby="calibrate-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-suppliers.yaml</span>
 <span class="out">{&quot;name&quot;:&quot;scenario-siem-suppliers-e&quot;,&quot;connectorId&quot;:&quot;442c191b-10dc-49d4-a071-3a9246c8093f&quot;,&quot;endpointsApplied&quot;:1}</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector run scenario-siem-suppliers-e</span>
@@ -34,59 +42,67 @@
 
 <span class="cmd"><span class="prompt">$</span> lm run get cb621230-b39d-42a2-8eea-66dce3c0b323</span>
 <span class="out">ID        CONNECTOR                  ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
-cb621230  scenario-siem-suppliers-e  default   Completed  1   1    0        0             2026-10-22 07:21  2026-10-22 07:21  no</span></code></pre></div><div role="tabpanel" id="calibrate-result" aria-labelledby="calibrate-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-siem-suppliers-e</dt><dd>IN 1 · OUT 1 · manual</dd></dl><p class="sources">evidence: replay.log, 06-run-ledger.json, 08-output-ledger.json, 09-siem-alerts.json, siem-events.jsonl · transform v1</p></div>
+cb621230  scenario-siem-suppliers-e  default   Completed  1   1    0        0             2026-10-22 07:21  2026-10-22 07:21  no</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="calibrate-result" aria-labelledby="calibrate-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-siem-suppliers-e</dt><dd>IN 1 · OUT 1 · manual</dd></dl><p class="sources">evidence: replay.log, 06-run-ledger.json, 08-output-ledger.json, 09-siem-alerts.json, siem-events.jsonl · transform v1</p></div>
   </div>
-  <aside class="explain">
-    <h2 id="calibrate-title">A CSV export reread every minute</h2>
-    <p>The connector carries a schedule; a first technical, inactive row gives the table its shape.</p>
-    <ol class="points"><li><span class="n">1</span><div><strong>Schedule</strong><p>The next imports are started by the hub, not by the runner.</p></div></li><li><span class="n">2</span><div><strong>ERP untouched</strong><p>Nothing is added on the ERP&#x27;s side.</p></div></li></ol>
-    <div class="proves"><h3>What this step proves</h3><p>An export with no events becomes a source that is reread.</p></div>
-  </aside>
 </section>
 <section class="step" id="step-wire" aria-labelledby="wire-title" data-inactive>
-  <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Wire"><button type="button" role="tab" id="wire-manifest-tab" data-view="manifest" aria-controls="wire-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="wire-commands-tab" data-view="commands" aria-controls="wire-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="wire-result-tab" data-view="result" aria-controls="wire-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" id="wire-manifest" aria-labelledby="wire-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-bank-account-process.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-siem-bank-account-observed-e</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: supplier-security</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">event</span>: data.row.changed</span><span class="line">    <span class="key">table</span>: connector.t_scenario_siem_suppliers_e</span><span class="line">  <span class="key">when</span>:</span><span class="line">    - status=ACTIVE</span><span class="line">  <span class="key">emit</span>:</span><span class="line">    <span class="key">type</span>: decision.supplier-bank-account-observed-e</span><span class="line hl">    <span class="key">message</span>: <span class="str">&quot;Bank account observed for supplier {supplier_id} ({supplier_name})&quot;</span></span><span class="line">    <span class="comment"># The account goes to the SIEM in the payload, never into the sentence an inbox reader sees (#1365).</span></span><span class="line hl">    <span class="key">fields</span>: [iban]</span></code></pre></div><div role="tabpanel" id="wire-commands" aria-labelledby="wire-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm process apply -f manifests/20-bank-account-process.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;scenario-siem-bank-account-observed-e&quot;,&quot;table&quot;:&quot;connector.t_scenario_siem_suppliers_e&quot;,&quot;emit&quot;:&quot;decision.supplier-bank-account-observed-e&quot;}</span>
-
-<span class="cmd"><span class="prompt">$</span> lm integration add scenario-siem-e --url http://host.docker.internal:9210/events --events decision.supplier-bank-account-observed-e --secret-stdin</span>
-<span class="out">registered: scenario-siem-e (id 1039) — forwards subscribed events from now on</span></code></pre></div><div role="tabpanel" id="wire-result" aria-labelledby="wire-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-siem-bank-account-observed-e</dt><dd>decision.supplier-bank-account-observed-e</dd><dt>integration</dt><dd>registered: scenario-siem-e (id 1039) — forwards subscribed events from now on</dd></dl><p class="sources">evidence: replay.log, 06-run-ledger.json, 08-output-ledger.json, 09-siem-alerts.json, siem-events.jsonl · transform v1</p></div>
-  </div>
   <aside class="explain">
-    <h2 id="wire-title">The account goes to the SIEM, not into the sentence</h2>
-    <p>A kind:Process observes every active supplier. Its message names the supplier; fields: [iban] has the signed payload carry the account, for the SIEM alone.</p>
+    <div class="explain-intro">
+      <h2 id="wire-title">The account goes to the SIEM, not into the sentence</h2>
+      <p>A kind:Process observes every active supplier. Its message names the supplier; fields: [iban] has the signed payload carry the account, for the SIEM alone.</p>
+    </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Signed</strong><p>The webhook integration signs every delivery with its secret.</p></div></li><li><span class="n">2</span><div><strong>Inbox</strong><p>The reader sees &quot;Bank account observed for supplier SUP-0042&quot;, never the account.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>What a tool needs is not shown to every reader.</p></div>
   </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Wire"><button type="button" role="tab" id="wire-manifest-tab" data-view="manifest" aria-controls="wire-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="wire-commands-tab" data-view="commands" aria-controls="wire-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="wire-result-tab" data-view="result" aria-controls="wire-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="wire-manifest" aria-labelledby="wire-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-bank-account-process.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-siem-bank-account-observed-e</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: supplier-security</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">event</span>: data.row.changed</span><span class="line">    <span class="key">table</span>: connector.t_scenario_siem_suppliers_e</span><span class="line">  <span class="key">when</span>:</span><span class="line">    - status=ACTIVE</span><span class="line">  <span class="key">emit</span>:</span><span class="line">    <span class="key">type</span>: decision.supplier-bank-account-observed-e</span><span class="line hl">    <span class="key">message</span>: <span class="str">&quot;Bank account observed for supplier {supplier_id} ({supplier_name})&quot;</span></span><span class="line">    <span class="comment"># The account goes to the SIEM in the payload, never into the sentence an inbox reader sees (#1365).</span></span><span class="line hl">    <span class="key">fields</span>: [iban]</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="wire-commands" aria-labelledby="wire-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm process apply -f manifests/20-bank-account-process.yaml</span>
+<span class="out">{&quot;name&quot;:&quot;scenario-siem-bank-account-observed-e&quot;,&quot;table&quot;:&quot;connector.t_scenario_siem_suppliers_e&quot;,&quot;emit&quot;:&quot;decision.supplier-bank-account-observed-e&quot;}</span>
+
+<span class="cmd"><span class="prompt">$</span> lm integration add scenario-siem-e --url http://host.docker.internal:9210/events --events decision.supplier-bank-account-observed-e --secret-stdin</span>
+<span class="out">registered: scenario-siem-e (id 1039) — forwards subscribed events from now on</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="wire-result" aria-labelledby="wire-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-siem-bank-account-observed-e</dt><dd>decision.supplier-bank-account-observed-e</dd><dt>integration</dt><dd>registered: scenario-siem-e (id 1039) — forwards subscribed events from now on</dd></dl><p class="sources">evidence: replay.log, 06-run-ledger.json, 08-output-ledger.json, 09-siem-alerts.json, siem-events.jsonl · transform v1</p></div>
+  </div>
 </section>
 <section class="step" id="step-schedule" aria-labelledby="schedule-title" data-inactive>
-  <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Schedule"><button type="button" role="tab" id="schedule-result-tab" data-view="result" aria-controls="schedule-result" aria-selected="true" tabindex="0">Result</button></div>
-    <div role="tabpanel" id="schedule-result" aria-labelledby="schedule-result-tab" tabindex="0"><dl class="facts"><dt>scheduled run 1</dt><dd>IN 2 · OUT 2 · Completed</dd><dt>scheduled run 2</dt><dd>IN 2 · OUT 2 · Completed</dd></dl><p class="sources">evidence: replay.log, 06-run-ledger.json, 08-output-ledger.json, 09-siem-alerts.json, siem-events.jsonl · transform v1</p></div>
-  </div>
   <aside class="explain">
-    <h2 id="schedule-title">Two scheduled reads</h2>
-    <p>The first export sets two suppliers. The second changes SUP-0042&#x27;s account; SUP-0077 stays the same.</p>
+    <div class="explain-intro">
+      <h2 id="schedule-title">Two scheduled reads</h2>
+      <p>The first export sets two suppliers. The second changes SUP-0042&#x27;s account; SUP-0077 stays the same.</p>
+    </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Deduplicated</strong><p>An unchanged row produces no second observation.</p></div></li><li><span class="n">2</span><div><strong>New row</strong><p>The changed account is a new content row, so a new decision.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The hub schedules, deduplicates and emits with no one at the keyboard.</p></div>
   </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Schedule"><button type="button" role="tab" id="schedule-result-tab" data-view="result" aria-controls="schedule-result" aria-selected="true" tabindex="0">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-result" id="schedule-result" aria-labelledby="schedule-result-tab" tabindex="0"><dl class="facts"><dt>scheduled run 1</dt><dd>IN 2 · OUT 2 · Completed</dd><dt>scheduled run 2</dt><dd>IN 2 · OUT 2 · Completed</dd></dl><p class="sources">evidence: replay.log, 06-run-ledger.json, 08-output-ledger.json, 09-siem-alerts.json, siem-events.jsonl · transform v1</p></div>
+  </div>
 </section>
 <section class="step" id="step-siem" aria-labelledby="siem-title" data-inactive>
-  <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Correlate"><button type="button" role="tab" id="siem-result-tab" data-view="result" aria-controls="siem-result" aria-selected="true" tabindex="0">Result</button></div>
-    <div role="tabpanel" id="siem-result" aria-labelledby="siem-result-tab" tabindex="0"><dl class="facts"><dt>SUP-0042</dt><dd>baseline · …0189</dd><dt>SUP-0077</dt><dd>baseline · …0123</dd><dt>SUP-0042</dt><dd>alert · …0458</dd><dt>alert</dt><dd>supplier_bank_account_changed · high · SUP-0042 · …0189 → …0458</dd></dl><p class="sources">evidence: replay.log, 06-run-ledger.json, 08-output-ledger.json, 09-siem-alerts.json, siem-events.jsonl · transform v1</p></div>
-  </div>
   <aside class="explain">
-    <h2 id="siem-title">A baseline, then an alert</h2>
-    <p>The SIEM takes each supplier&#x27;s first account as its baseline, then alerts on a different fingerprint: SUP-0042, …0189 → …0458, high severity.</p>
+    <div class="explain-intro">
+      <h2 id="siem-title">A baseline, then an alert</h2>
+      <p>The SIEM takes each supplier&#x27;s first account as its baseline, then alerts on a different fingerprint: SUP-0042, …0189 → …0458, high severity.</p>
+    </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Fingerprint</strong><p>The SIEM keeps only the account&#x27;s SHA-256 and its last four digits.</p></div></li><li><span class="n">2</span><div><strong>Idempotent</strong><p>A replayed event id does not alert twice.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>lumnik supplies the missing event; the SIEM decides the change.</p></div>
   </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Correlate"><button type="button" role="tab" id="siem-result-tab" data-view="result" aria-controls="siem-result" aria-selected="true" tabindex="0">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-result" id="siem-result" aria-labelledby="siem-result-tab" tabindex="0"><dl class="facts"><dt>SUP-0042</dt><dd>baseline · …0189</dd><dt>SUP-0077</dt><dd>baseline · …0123</dd><dt>SUP-0042</dt><dd>alert · …0458</dd><dt>alert</dt><dd>supplier_bank_account_changed · high · SUP-0042 · …0189 → …0458</dd></dl><p class="sources">evidence: replay.log, 06-run-ledger.json, 08-output-ledger.json, 09-siem-alerts.json, siem-events.jsonl · transform v1</p></div>
+  </div>
 </section>
 <section class="step" id="step-ledgers" aria-labelledby="ledgers-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="ledgers-title">Runs, decisions, deliveries</h2>
+      <p>The run ledger shows the two scheduled reads, the inbox the three observations, the delivery journal three successful webhooks. The connector is then paused.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Filtered inbox</strong><p>lm inbox --process shows this Process only.</p></div></li><li><span class="n">2</span><div><strong>End</strong><p>lm connector pause stops the scheduled reads.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Every step leaves a trace to read.</p></div>
+  </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Trace"><button type="button" role="tab" id="ledgers-commands-tab" data-view="commands" aria-controls="ledgers-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="ledgers-result-tab" data-view="result" aria-controls="ledgers-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" id="ledgers-commands" aria-labelledby="ledgers-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm run list --connector scenario-siem-suppliers-e --limit 20</span>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="ledgers-commands" aria-labelledby="ledgers-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm run list --connector scenario-siem-suppliers-e --limit 20</span>
 <span class="out">ID        CONNECTOR                  ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
 1a70afbd  scenario-siem-suppliers-e  default   Completed  2   2    0        0             2026-10-22 07:23  2026-10-22 07:23  yes
 11a0b21d  scenario-siem-suppliers-e  default   Completed  2   2    0        0             2026-10-22 07:22  2026-10-22 07:22  yes
@@ -99,14 +115,8 @@ cb621230  scenario-siem-suppliers-e  default   Completed  1   1    0        0   
 17548  1min      scenario-siem-bank-account-observed-e  Bank account observed for supplier SUP-0042 (Atelier Orion)     ff679e17955ab06ae141d6d64f706d4cc813ce93b43489f497aa31ba694b3a3e</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector pause scenario-siem-suppliers-e</span>
-<span class="out">paused: scenario-siem-suppliers-e</span></code></pre></div><div role="tabpanel" id="ledgers-result" aria-labelledby="ledgers-result-tab" tabindex="0" hidden><dl class="facts"><dt>inbox</dt><dd>3 decisions, no account in the sentence</dd><dt>deliveries</dt><dd>3 signed, succeeded</dd><dt>connector</dt><dd>paused: scenario-siem-suppliers-e</dd></dl><p class="sources">evidence: replay.log, 06-run-ledger.json, 08-output-ledger.json, 09-siem-alerts.json, siem-events.jsonl · transform v1</p></div>
+<span class="out">paused: scenario-siem-suppliers-e</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="ledgers-result" aria-labelledby="ledgers-result-tab" tabindex="0" hidden><dl class="facts"><dt>inbox</dt><dd>3 decisions, no account in the sentence</dd><dt>deliveries</dt><dd>3 signed, succeeded</dd><dt>connector</dt><dd>paused: scenario-siem-suppliers-e</dd></dl><p class="sources">evidence: replay.log, 06-run-ledger.json, 08-output-ledger.json, 09-siem-alerts.json, siem-events.jsonl · transform v1</p></div>
   </div>
-  <aside class="explain">
-    <h2 id="ledgers-title">Runs, decisions, deliveries</h2>
-    <p>The run ledger shows the two scheduled reads, the inbox the three observations, the delivery journal three successful webhooks. The connector is then paused.</p>
-    <ol class="points"><li><span class="n">1</span><div><strong>Filtered inbox</strong><p>lm inbox --process shows this Process only.</p></div></li><li><span class="n">2</span><div><strong>End</strong><p>lm connector pause stops the scheduled reads.</p></div></li></ol>
-    <div class="proves"><h3>What this step proves</h3><p>Every step leaves a trace to read.</p></div>
-  </aside>
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>The Process sees a new ingested row; it does not compare it with the previous one. The SIEM does the temporal correlation, as in production.</li><li>The full account crosses the signed webhook boundary so the SIEM can compute an exact fingerprint: in production, HTTPS, and restricted access to the delivery journal, which keeps payloads.</li><li>The SIEM is a synthetic stand-in; a real SIEM would apply its own rules.</li><li>Synthetic data.</li></ul></section>
   <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
