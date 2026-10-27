@@ -187,7 +187,7 @@
     {
       "slug": "dirty-order-statuses",
       "title": "Fourteen spellings in one status column.",
-      "lede": "Fifteen years of hand entry left EC, Livré, LIV, ANNUL… in the ERP's order export. lumnik does not touch the ERP: a Workflow declares four statuses and their spellings, and every apply reports what is still undeclared.",
+      "lede": "Fifteen years of hand entry left EC, Livré, LIV, ANNUL… in the ERP's order export. lumnik does not touch the ERP: a Workflow declares four statuses and their spellings, and every import re-checks the column.",
       "tags": {
         "domain": [
           "Distribution",
@@ -199,8 +199,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:fa8fdc2998822ba787e7ce54cdb8f071d407f8144682ff707b83ce2f1e1e9625"
+      "replayedAt": "2026-10-27",
+      "evidenceDigest": "sha256:3d1b98f552378c36f7e7139d2d044cdf2fb736c12bd5e031e6ff390ad0c0e3dd"
     },
     {
       "slug": "edi-flat-order-lines",
@@ -443,7 +443,7 @@
     {
       "slug": "kafka-freezer-door-dormancy",
       "title": "A freezer door that stops speaking is eventually heard.",
-      "lede": "Sensors publish door states on Kafka. FZ-17 opens and goes quiet; FZ-18 opens and closes again. A watched workflow notices the silence: one alert, for the door left open past one minute.",
+      "lede": "Sensors publish door states on Kafka. FZ-17 opens and goes quiet; FZ-18 opens and closes again. A watched workflow notices the silence: one alert, for the door left open past one minute, naming its laboratory and its owner.",
       "tags": {
         "domain": [
           "Cold chain",
@@ -456,8 +456,8 @@
         ]
       },
       "edition": "pro",
-      "replayedAt": "2026-10-21",
-      "evidenceDigest": "sha256:8dcd8abe1473273c9532c9f71c0fd17542ddbca7124c64ca5a0a1966b8ef38c7"
+      "replayedAt": "2026-10-26",
+      "evidenceDigest": "sha256:8d712749fafeff7a28cd05f7ea57a0a8ee531d9a6099d6d65ab15efa9f88bbdd"
     },
     {
       "slug": "legacy-sales-grafana",
