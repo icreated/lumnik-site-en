@@ -186,8 +186,8 @@
     },
     {
       "slug": "dirty-order-statuses",
-      "title": "Fourteen spellings in one status column.",
-      "lede": "Fifteen years of hand entry left EC, Livré, LIV, ANNUL… in the ERP's order export. lumnik does not touch the ERP: a Workflow declares four statuses and their spellings, and every apply reports what is still undeclared.",
+      "title": "One order status, fourteen spellings",
+      "lede": "Fifteen years of hand entry left EC, Livré, LIV, ANNUL… in the ERP's order export. lumnik does not touch the ERP:\n- a Workflow declares four statuses and their spellings\n- every import re-checks the column.",
       "tags": {
         "domain": [
           "Distribution",
@@ -199,8 +199,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:fa8fdc2998822ba787e7ce54cdb8f071d407f8144682ff707b83ce2f1e1e9625"
+      "replayedAt": "2026-10-28",
+      "evidenceDigest": "sha256:5267b7d7ff4f6add37ece37a8f8681d9a40db27b81af171db51123c4aaadc7df"
     },
     {
       "slug": "edi-flat-order-lines",
@@ -442,8 +442,8 @@
     },
     {
       "slug": "kafka-freezer-door-dormancy",
-      "title": "A freezer door that stops speaking is eventually heard.",
-      "lede": "Sensors publish door states on Kafka. FZ-17 opens and goes quiet; FZ-18 opens and closes again. A watched workflow notices the silence: one alert, for the door left open past one minute.",
+      "title": "An open door, a silent sensor",
+      "lede": "Sensors publish freezer door states on Kafka. FZ-17 opens and goes quiet. FZ-18 opens and closes again.\n- a Workflow watches the silence\n- one alert only, for the door left open past one minute\n- it names the laboratory and the owner.",
       "tags": {
         "domain": [
           "Cold chain",
@@ -456,8 +456,8 @@
         ]
       },
       "edition": "pro",
-      "replayedAt": "2026-10-21",
-      "evidenceDigest": "sha256:8dcd8abe1473273c9532c9f71c0fd17542ddbca7124c64ca5a0a1966b8ef38c7"
+      "replayedAt": "2026-10-28",
+      "evidenceDigest": "sha256:011475bb49e03bdfe8a987e15f9e9e98503d0adb249c38a7c2dfca69b03616f6"
     },
     {
       "slug": "legacy-sales-grafana",
