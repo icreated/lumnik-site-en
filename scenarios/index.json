@@ -519,8 +519,8 @@
     },
     {
       "slug": "orders-where-they-sleep",
-      "title": "Where the orders sleep.",
-      "lede": "The ERP keeps only today's status: In progress yesterday, Delivered today, with nothing on the wait in between. lumnik watches the column, writes each change to a journal, and says how long each order stayed in each state.",
+      "title": "Auditing how long orders stay in each status",
+      "lede": "The ERP keeps only today's status: In progress yesterday, Delivered today. Nothing on the wait in between. The ERP cannot be changed.\n- a Workflow follows each order by its key\n- each status change enters a journal, dated\n- an order that stays still too long alerts\n- the journal says how long each order stayed in each state.",
       "tags": {
         "domain": [
           "Distribution",
@@ -532,8 +532,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:5d627d31ca5cfbc41db716211f8c9bdcc47c856b741b9b3add95e12822d43810"
+      "replayedAt": "2026-10-28",
+      "evidenceDigest": "sha256:b480783fa4804a91c2db3b7f6906db0d7983031d81a64149119cbce138306271"
     },
     {
       "slug": "purchasing-ask-abstains",
