@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A critical unassigned incident reaches the manager&#x27;s inbox. — lumnik</title>
-<meta name="description" content="One CMMS CSV export, a Connector, a Workflow, a Process. One decision, only one; the assignment moves it forward.">
+<title>A critical incident, no technician — lumnik</title>
+<meta name="description" content="A CMMS exports its incidents as CSV. The conveyor on the gummy candy line has stopped, with no technician. The CMMS warns no one. A Workflow tracks each incident&#x27;s status. A Process flags the critical unassigned incident. One decision only; the assignment moves it forward.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,16 +18,21 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/gmao-candy-line-incident/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>A critical unassigned incident reaches the manager&#x27;s inbox.</h1>
-    <p class="lede">One CMMS CSV export, a Connector, a Workflow, a Process. One decision, only one; the assignment moves it forward.</p>
+    <h1>A critical incident, no technician</h1>
+    <p class="lede">A CMMS exports its incidents as CSV. The conveyor on the gummy candy line has stopped, with no technician. The CMMS warns no one.</p><ul class="lede-list"><li>a Workflow tracks each incident&#x27;s status</li><li>a Process flags the critical unassigned incident</li><li>one decision only; the assignment moves it forward.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Manufacturing</li><li class="tag">Maintenance</li><li class="tag kind">Connector</li><li class="tag kind">Workflow</li><li class="tag kind">Process</li></ul>
   </section>
+  <div role="tablist" class="page-tabs" aria-label="A critical incident, no technician">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Scenario</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
   <nav class="steps-nav" aria-label="Steps"><a href="#step-situation" data-step="situation" aria-current="step"><span class="num">1 · Situation</span><span class="sub">The export</span></a><a href="#step-import" data-step="import"><span class="num">2 · Import</span><span class="sub">The CSV</span></a><a href="#step-follow" data-step="follow"><span class="num">3 · Follow</span><span class="sub">The lifecycle</span></a><a href="#step-decide" data-step="decide"><span class="num">4 · Decide</span><span class="sub">The alert</span></a><a href="#step-verify" data-step="verify"><span class="num">5 · Verify</span><span class="sub">The proof</span></a></nav>
   <section class="step" id="step-situation" aria-labelledby="situation-title">
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="situation-title">A CSV, no alert</h2>
-      <p>The CMMS writes incident INC-2026-0042 to its export: critical, declared, no technician.</p>
+      <p>The CMMS writes incident INC-2026-0042 to its export.</p><ul class="prose-list"><li>Critical</li><li>Declared</li><li>No technician</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Input</strong><p>The file, as is.</p></div></li><li><span class="n">2</span><div><strong>No event</strong><p>The CMMS notifies nothing.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Everything starts from this row.</p></div>
@@ -41,81 +46,109 @@
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="import-title">One Connector for the export</h2>
-      <p>The Connector reads the file and assigns it to the maintenance scope. A calibration export creates the table first; Workflow and Process need it.</p>
+      <p>Connector reads the file, maintenance scope.</p><ul class="prose-list"><li>First calibration export: creates the table</li><li>Workflow and Process need it</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Read-only</strong><p>lumnik never writes to the CMMS.</p></div></li><li><span class="n">2</span><div><strong>Full refresh</strong><p>refresh.max_removed: off here; keep the 30% guard on a real source.</p></div></li></ol>
-    <div class="proves"><h3>What this step proves</h3><p>The export is enough.</p></div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Read-only</strong><p>lumnik never writes to the CMMS.</p></div></li><li><span class="n">2</span><div><strong>Full refresh</strong><p>refresh.max_removed: off here. On a real source, keep the 30% guard.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Export is enough.</p></div>
   </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Import"><button type="button" role="tab" id="import-manifest-tab" data-view="manifest" aria-controls="import-manifest" aria-selected="true" tabindex="0">Manifest</button><button type="button" role="tab" id="import-commands-tab" data-view="commands" aria-controls="import-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="import-result-tab" data-view="result" aria-controls="import-result" aria-selected="false" tabindex="-1">Result</button></div>
     <div role="tabpanel" class="view-panel view-panel-manifest" id="import-manifest" aria-labelledby="import-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-incidents.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-gmao-incidents</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line hl">  <span class="key">scopes</span>: [maintenance]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line hl">    <span class="key">path</span>: /tmp/lumnik-scenario/gmao-candy-line-incident/incidents.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">refresh</span>:</span><span class="line hl">    <span class="key">max_removed</span>: <span class="str">&quot;off&quot;</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="import-commands" aria-labelledby="import-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm validate -f manifests/10-incidents.yaml</span>
 <span class="out">✓ 10-incidents.yaml — valid</span>
 
-<span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-incidents.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;scenario-gmao-incidents&quot;,&quot;connectorId&quot;:&quot;02b98c4a-c1d0-4c73-9b8a-2307f251a8da&quot;,&quot;endpointsApplied&quot;:1}</span>
+<span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-incidents.yaml -o json</span>
+<span class="out">{
+  &quot;name&quot;: &quot;scenario-gmao-incidents&quot;,
+  &quot;connectorId&quot;: &quot;e9f784ee-d05c-4756-adc4-a0e239684a0d&quot;,
+  &quot;endpointsApplied&quot;: 1
+}</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector run scenario-gmao-incidents</span>
-<span class="out">run scheduled: f9c7d13d-7f8b-4145-8330-f583917f8aa0</span>
+<span class="out">run scheduled: 918c8c2b-f165-4559-86ee-801e290b5d2e</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get f9c7d13d-7f8b-4145-8330-f583917f8aa0</span>
-<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED
-f9c7d13d  scenario-gmao-incidents      default   Completed  3   3    0        0             2026-10-21 08:10  2026-10-21 08:10</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="import-result" aria-labelledby="import-result-tab" tabindex="0" hidden><dl class="facts"><dt>Run status</dt><dd>Completed</dd><dt>Rows read</dt><dd>3</dd><dt>Rows written</dt><dd>3</dd></dl><p class="sources">evidence: 02-calibration-run.json · transform v1</p></div>
+<span class="cmd"><span class="prompt">$</span> lm run get 918c8c2b-f165-4559-86ee-801e290b5d2e</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+918c8c2b  scenario-gmao-incidents      default   Completed  3   3    0        0             2026-10-28 17:14  2026-10-28 17:14  no</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="import-result" aria-labelledby="import-result-tab" tabindex="0" hidden><dl class="facts"><dt>Run status</dt><dd>Completed</dd><dt>Rows read</dt><dd>3</dd><dt>Rows written</dt><dd>3</dd></dl><p class="sources">evidence: 02-calibration-run.json · transform v1</p></div>
   </div>
 </section>
 <section class="step" id="step-follow" aria-labelledby="follow-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="follow-title">Declare the status column</h2>
-      <p>The Workflow gives status a lifecycle; each incident is tracked by incident_id.</p>
+      <p>Workflow gives status a lifecycle.</p><ul class="prose-list"><li>Five states, from DECLARED to CLOSED</li><li>Each incident tracked by incident_id</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Declared graph</strong><p>States and transitions, written once.</p></div></li><li><span class="n">2</span><div><strong>Checked at apply</strong><p>The hub confirms the table and the key.</p></div></li></ol>
-    <div class="proves"><h3>What this step proves</h3><p>The lifecycle is checked against the real table.</p></div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Declared states</strong><p>Written once, in order.</p></div></li><li><span class="n">2</span><div><strong>Checked at apply</strong><p>The hub confirms the table and the key.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Lifecycle checked against the real table.</p></div>
   </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Follow"><button type="button" role="tab" id="follow-manifest-tab" data-view="manifest" aria-controls="follow-manifest" aria-selected="true" tabindex="0">Manifest</button><button type="button" role="tab" id="follow-commands-tab" data-view="commands" aria-controls="follow-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="follow-result-tab" data-view="result" aria-controls="follow-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-manifest" id="follow-manifest" aria-labelledby="follow-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-incident-workflow.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Workflow</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-gmao-incident-lifecycle</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: maintenance</span><span class="line">  <span class="key">provenance</span>: declared</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">table</span>: connector.t_scenario_gmao_incidents</span><span class="line hl">    <span class="key">column</span>: status</span><span class="line hl">    <span class="key">key</span>: incident_id</span><span class="line">  <span class="key">dormancy</span>:</span><span class="line hl">    <span class="key">after</span>: 1m</span><span class="line">  <span class="key">states</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">code</span>: DECLARED</span><span class="line">      <span class="key">label</span>: Declared</span><span class="line">      <span class="key">initial</span>: true</span><span class="line">    <span class="dash">-</span> <span class="key">code</span>: ASSIGNED</span><span class="line">      <span class="key">label</span>: Assigned</span><span class="line">    <span class="dash">-</span> <span class="key">code</span>: IN_PROGRESS</span><span class="line">      <span class="key">label</span>: In progress</span><span class="line">    <span class="dash">-</span> <span class="key">code</span>: RESOLVED</span><span class="line">      <span class="key">label</span>: Resolved</span><span class="line">    <span class="dash">-</span> <span class="key">code</span>: CLOSED</span><span class="line">      <span class="key">label</span>: Closed</span><span class="line">      <span class="key">terminal</span>: true</span><span class="line">  <span class="key">transitions</span>:</span><span class="line">    - { from: [DECLARED], to: ASSIGNED }</span><span class="line">    - { from: [ASSIGNED], to: IN_PROGRESS }</span><span class="line">    - { from: [IN_PROGRESS], to: RESOLVED }</span><span class="line">    - { from: [RESOLVED], to: CLOSED }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="follow-commands" aria-labelledby="follow-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm workflow apply -f manifests/20-incident-workflow.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;scenario-gmao-incident-lifecycle&quot;,&quot;scope&quot;:&quot;maintenance&quot;,&quot;table&quot;:&quot;connector.t_scenario_gmao_incidents&quot;,&quot;column&quot;:&quot;status&quot;,&quot;dataTruth&quot;:{&quot;undeclared&quot;:[],&quot;unobserved&quot;:[&quot;IN_PROGRESS&quot;,&quot;RESOLVED&quot;,&quot;CLOSED&quot;],&quot;nullOrBlank&quot;:0,&quot;tableMissing&quot;:false,&quot;keyColumnMissing&quot;:false,&quot;keyNullOrBlank&quot;:0,&quot;checkUnavailable&quot;:false,&quot;unavailableReason&quot;:null}}</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="follow-result" aria-labelledby="follow-result-tab" tabindex="0" hidden><dl class="facts"><dt>Table</dt><dd>connector.t_scenario_gmao_incidents</dd><dt>Status column</dt><dd>status</dd><dt>Business key found in the data</dt><dd>incident_id</dd><dt>States declared, not yet seen</dt><dd>IN_PROGRESS, RESOLVED, CLOSED</dd></dl><p class="sources">evidence: 03-workflow-apply.json, 20-incident-workflow.yaml · transform v1</p></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="follow-manifest" aria-labelledby="follow-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-incident-workflow.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Workflow</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-gmao-incident-lifecycle</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: maintenance</span><span class="line">  <span class="key">provenance</span>: declared</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">table</span>: connector.t_scenario_gmao_incidents</span><span class="line hl">    <span class="key">column</span>: status</span><span class="line hl">    <span class="key">key</span>: incident_id</span><span class="line">  <span class="key">dormancy</span>:</span><span class="line hl">    <span class="key">after</span>: 1m</span><span class="line">  <span class="key">states</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">code</span>: DECLARED</span><span class="line">      <span class="key">label</span>: Declared</span><span class="line">      <span class="key">initial</span>: true</span><span class="line">    <span class="dash">-</span> <span class="key">code</span>: ASSIGNED</span><span class="line">      <span class="key">label</span>: Assigned</span><span class="line">    <span class="dash">-</span> <span class="key">code</span>: IN_PROGRESS</span><span class="line">      <span class="key">label</span>: In progress</span><span class="line">    <span class="dash">-</span> <span class="key">code</span>: RESOLVED</span><span class="line">      <span class="key">label</span>: Resolved</span><span class="line">    <span class="dash">-</span> <span class="key">code</span>: CLOSED</span><span class="line">      <span class="key">label</span>: Closed</span><span class="line">      <span class="key">terminal</span>: true</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="follow-commands" aria-labelledby="follow-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm workflow apply -f manifests/20-incident-workflow.yaml -o json</span>
+<span class="out">{
+  &quot;name&quot;: &quot;scenario-gmao-incident-lifecycle&quot;,
+  &quot;scope&quot;: &quot;maintenance&quot;,
+  &quot;table&quot;: &quot;connector.t_scenario_gmao_incidents&quot;,
+  &quot;column&quot;: &quot;status&quot;,
+  &quot;dataTruth&quot;: {
+    &quot;undeclared&quot;: [],
+    &quot;unobserved&quot;: [
+      &quot;IN_PROGRESS&quot;,
+      &quot;RESOLVED&quot;,
+      &quot;CLOSED&quot;
+    ],
+    &quot;nullOrBlank&quot;: 0,
+    &quot;tableMissing&quot;: false,
+    &quot;keyColumnMissing&quot;: false,
+    &quot;keyNullOrBlank&quot;: 0,
+    &quot;checkUnavailable&quot;: false,
+    &quot;unavailableReason&quot;: null,
+    &quot;dueProblem&quot;: null,
+    &quot;invalidOrderValues&quot;: null,
+    &quot;keysWithSeveralRows&quot;: null,
+    &quot;columnsUnverified&quot;: []
+  }
+}</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="follow-result" aria-labelledby="follow-result-tab" tabindex="0" hidden><dl class="facts"><dt>Table</dt><dd>connector.t_scenario_gmao_incidents</dd><dt>Status column</dt><dd>status</dd><dt>Business key found in the data</dt><dd>incident_id</dd><dt>States declared, not yet seen</dt><dd>IN_PROGRESS, RESOLVED, CLOSED</dd></dl><p class="sources">evidence: 03-workflow-apply.json, 20-incident-workflow.yaml · transform v1</p></div>
   </div>
 </section>
 <section class="step" id="step-decide" aria-labelledby="decide-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="decide-title">One rule, three conditions</h2>
-      <p>The Process reacts to a CRITICAL, DECLARED, UNASSIGNED row; it emits one decision.</p>
+      <p>Process reacts to a row that meets all three:</p><ul class="prose-list"><li>CRITICAL</li><li>DECLARED</li><li>UNASSIGNED</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Precise</strong><p>Calibration rows never match all three.</p></div></li><li><span class="n">2</span><div><strong>Readable</strong><p>The message names the incident, the equipment, the line.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Precise</strong><p>Calibration rows never meet all three.</p></div></li><li><span class="n">2</span><div><strong>Readable</strong><p>The message names the incident, the equipment, the line.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>One decision, only one.</p></div>
   </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Decide"><button type="button" role="tab" id="decide-manifest-tab" data-view="manifest" aria-controls="decide-manifest" aria-selected="true" tabindex="0">Manifest</button><button type="button" role="tab" id="decide-commands-tab" data-view="commands" aria-controls="decide-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="decide-result-tab" data-view="result" aria-controls="decide-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-manifest" id="decide-manifest" aria-labelledby="decide-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/30-unassigned-critical-process.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-gmao-critical-unassigned</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: maintenance</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">event</span>: data.row.changed</span><span class="line">    <span class="key">table</span>: connector.t_scenario_gmao_incidents</span><span class="line">  <span class="key">when</span>:</span><span class="line hl">    - severity=CRITICAL</span><span class="line hl">    - status=DECLARED</span><span class="line hl">    - technician_id=UNASSIGNED</span><span class="line">  <span class="key">emit</span>:</span><span class="line hl">    <span class="key">type</span>: decision.gmao-critical-unassigned</span><span class="line">    <span class="key">message</span>: <span class="str">&quot;Critical incident {incident_id}: {equipment_name} stopped on {line_name}; no technician is assigned&quot;</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="decide-commands" aria-labelledby="decide-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm process apply -f manifests/30-unassigned-critical-process.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;scenario-gmao-critical-unassigned&quot;,&quot;table&quot;:&quot;connector.t_scenario_gmao_incidents&quot;,&quot;emit&quot;:&quot;decision.gmao-critical-unassigned&quot;}</span>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="decide-manifest" aria-labelledby="decide-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/30-unassigned-critical-process.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-gmao-critical-unassigned</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: maintenance</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">event</span>: data.row.changed</span><span class="line">    <span class="key">table</span>: connector.t_scenario_gmao_incidents</span><span class="line">  <span class="key">when</span>:</span><span class="line hl">    - severity=CRITICAL</span><span class="line hl">    - status=DECLARED</span><span class="line hl">    - technician_id=UNASSIGNED</span><span class="line">  <span class="key">emit</span>:</span><span class="line hl">    <span class="key">type</span>: decision.gmao-critical-unassigned</span><span class="line">    <span class="key">message</span>: <span class="str">&quot;Critical incident {incident_id}: {equipment_name} stopped on {line_name}; no technician is assigned&quot;</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="decide-commands" aria-labelledby="decide-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm process apply -f manifests/30-unassigned-critical-process.yaml -o json</span>
+<span class="out">{
+  &quot;name&quot;: &quot;scenario-gmao-critical-unassigned&quot;,
+  &quot;table&quot;: &quot;connector.t_scenario_gmao_incidents&quot;,
+  &quot;emit&quot;: &quot;decision.gmao-critical-unassigned&quot;
+}</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector run scenario-gmao-incidents</span>
-<span class="out">run scheduled: 06c0b318-aea9-4bd3-b4d8-cd1163b0da47</span>
+<span class="out">run scheduled: 0ce7bdc1-aadf-40b9-83e9-64e15e34149b</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get 06c0b318-aea9-4bd3-b4d8-cd1163b0da47</span>
-<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED
-06c0b318  scenario-gmao-incidents      default   Completed  1   1    0        0             2026-10-21 08:10  2026-10-21 08:10</span>
-<span class="note">• 3 row(s) removed — the source no longer holds them</span>
+<span class="cmd"><span class="prompt">$</span> lm run get 0ce7bdc1-aadf-40b9-83e9-64e15e34149b</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+0ce7bdc1  scenario-gmao-incidents      default   Completed  1   1    0        0             2026-10-28 17:14  2026-10-28 17:14  no</span>
+<span class="note">• 2 row(s) removed — the source no longer holds them</span>
 
 <span class="cmd"><span class="prompt">$</span> lm inbox</span>
-<span class="out">ID     WHEN       PROCESS                                        MESSAGE                                                                                                                                                               ENTITY_KEY
-16898  just now   scenario-gmao-critical-unassigned              Critical incident INC-2026-0042: Transfer conveyor stopped on Gummy candy moulding line; no technician is assigned                                                    eec42296b829179a0aef09aafbd52bd1fb2a72983d66e5b507f2748c393ac404</span>
+<span class="out">ID     WHEN      PROCESS                                MESSAGE                                                                                                             ENTITY_KEY
+20195  just now  scenario-gmao-critical-unassigned      Critical incident INC-2026-0042: Transfer conveyor stopped on Gummy candy moulding line; no technician is assigned  eec42296b829179a0aef09aafbd52bd1fb2a72983d66e5b507f2748c393ac404</span>
 
 <span class="cmd"><span class="prompt">$</span> lm observations list --limit 1000</span>
 <span class="out">WORKFLOW                              DOC            STATE      SINCE             ALERTED
-scenario-gmao-incident-lifecycle      CAL-0001       ASSIGNED   2026-10-21 08:10  
-scenario-gmao-incident-lifecycle      CAL-0002       DECLARED   2026-10-21 08:10  
-scenario-gmao-incident-lifecycle      CAL-0003       ASSIGNED   2026-10-21 08:10  
-scenario-gmao-incident-lifecycle      INC-2026-0042  DECLARED   2026-10-21 08:10  </span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="decide-result" aria-labelledby="decide-result-tab" tabindex="0" hidden><dl class="facts"><dt>Process</dt><dd>scenario-gmao-critical-unassigned</dd><dt>Decision</dt><dd>Critical incident INC-2026-0042: Transfer conveyor stopped on Gummy candy moulding line; no technician is assigned</dd><dt>Observed state</dt><dd>DECLARED</dd></dl><p class="sources">evidence: 07-inbox.json, 12-observations-declared.json · transform v1</p></div>
+scenario-gmao-incident-lifecycle      INC-2026-0042  DECLARED   2026-10-28 17:14  </span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="decide-result" aria-labelledby="decide-result-tab" tabindex="0" hidden><dl class="facts"><dt>Process</dt><dd>scenario-gmao-critical-unassigned</dd><dt>Decision</dt><dd>Critical incident INC-2026-0042: Transfer conveyor stopped on Gummy candy moulding line; no technician is assigned</dd><dt>Observed state</dt><dd>DECLARED</dd></dl><p class="sources">evidence: 07-inbox.json, 12-observations-declared.json · transform v1</p></div>
   </div>
 </section>
 <section class="step" id="step-verify" aria-labelledby="verify-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="verify-title">Assigned, no second alert</h2>
-      <p>The next export assigns the incident to TECH-SMARTIN. The Workflow observes DECLARED then ASSIGNED; the Process stays silent.</p>
+      <p>The next export assigns the incident to TECH-SMARTIN.</p><ul class="prose-list"><li>Workflow observes DECLARED, then ASSIGNED</li><li>Process stays silent</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Same document</strong><p>First-seen time kept.</p></div></li><li><span class="n">2</span><div><strong>One decision</strong><p>The inbox holds no other.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>One decision, then one observed move to ASSIGNED.</p></div>
@@ -123,26 +156,31 @@ scenario-gmao-incident-lifecycle      INC-2026-0042  DECLARED   2026-10-21 08:10
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Verify"><button type="button" role="tab" id="verify-commands-tab" data-view="commands" aria-controls="verify-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="verify-result-tab" data-view="result" aria-controls="verify-result" aria-selected="false" tabindex="-1">Result</button></div>
     <div role="tabpanel" class="view-panel view-panel-commands" id="verify-commands" aria-labelledby="verify-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-gmao-incidents</span>
-<span class="out">run scheduled: abf4a75a-6b11-4334-a01a-cbd7341df189</span>
+<span class="out">run scheduled: efa05ac5-d29f-4cbb-8bab-4f39d84546fe</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get abf4a75a-6b11-4334-a01a-cbd7341df189</span>
-<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED
-abf4a75a  scenario-gmao-incidents      default   Completed  1   1    0        0             2026-10-21 08:10  2026-10-21 08:10</span>
-<span class="note">• 1 row(s) removed — the source no longer holds them</span>
+<span class="cmd"><span class="prompt">$</span> lm run get efa05ac5-d29f-4cbb-8bab-4f39d84546fe</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+efa05ac5  scenario-gmao-incidents      default   Completed  1   1    0        0             2026-10-28 17:14  2026-10-28 17:14  no</span>
 
 <span class="cmd"><span class="prompt">$</span> lm observations list --limit 1000</span>
 <span class="out">WORKFLOW                              DOC            STATE      SINCE             ALERTED
-scenario-gmao-incident-lifecycle      CAL-0001       ASSIGNED   2026-10-21 08:10  
-scenario-gmao-incident-lifecycle      CAL-0002       DECLARED   2026-10-21 08:10  
-scenario-gmao-incident-lifecycle      CAL-0003       ASSIGNED   2026-10-21 08:10  
-scenario-gmao-incident-lifecycle      INC-2026-0042  ASSIGNED   2026-10-21 08:10  </span>
+scenario-gmao-incident-lifecycle      INC-2026-0042  ASSIGNED   2026-10-28 17:15  </span>
 
 <span class="cmd"><span class="prompt">$</span> lm inbox</span>
-<span class="out">ID     WHEN       PROCESS                                        MESSAGE                                                                                                                                                               ENTITY_KEY
-16898  just now   scenario-gmao-critical-unassigned              Critical incident INC-2026-0042: Transfer conveyor stopped on Gummy candy moulding line; no technician is assigned                                                    eec42296b829179a0aef09aafbd52bd1fb2a72983d66e5b507f2748c393ac404</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="verify-result" aria-labelledby="verify-result-tab" tabindex="0" hidden><div class="transition"><span class="doc">Incident INC-2026-0042</span><span class="state">DECLARED</span><span class="arrow" aria-hidden="true">→</span><span class="state now">ASSIGNED</span></div><dl class="facts"><dt>Decisions in the inbox</dt><dd>1</dd></dl><p class="sources">evidence: 12-observations-declared.json, 13-observations-assigned.json, 07-inbox.json · transform v1</p></div>
+<span class="out">ID     WHEN      PROCESS                                MESSAGE                                                                                                             ENTITY_KEY
+20195  just now  scenario-gmao-critical-unassigned      Critical incident INC-2026-0042: Transfer conveyor stopped on Gummy candy moulding line; no technician is assigned  eec42296b829179a0aef09aafbd52bd1fb2a72983d66e5b507f2748c393ac404</span>
+
+<span class="cmd"><span class="prompt">$</span> lm observations transitions --workflow scenario-gmao-incident-lifecycle --doc INC-2026-0042</span>
+<span class="out">WORKFLOW                              DOC            FROM      TO        ENTERED           OBSERVED          IN_FROM_S
+scenario-gmao-incident-lifecycle      INC-2026-0042  DECLARED  ASSIGNED  2026-10-28 17:14  2026-10-28 17:15  5</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="verify-result" aria-labelledby="verify-result-tab" tabindex="0" hidden><div class="transition"><span class="doc">Incident INC-2026-0042</span><span class="state">DECLARED</span><span class="arrow" aria-hidden="true">→</span><span class="state now">ASSIGNED</span></div><dl class="facts"><dt>Decisions in the inbox</dt><dd>1</dd></dl><p class="sources">evidence: 12-observations-declared.json, 13-observations-assigned.json, 07-inbox.json · transform v1</p></div>
   </div>
 </section>
-  <section class="limits"><h2>Limits</h2><ul><li>Read-only; no assignment written back to the CMMS.</li><li>The Process flags; it does not dispatch or remind anyone.</li><li>Dormancy threshold declared, dormancy alert not shown.</li><li>The transition row is checked during the replay; no lm command reads it yet.</li><li>Synthetic data.</li></ul></section>
+  <section class="limits"><h2>Limits</h2><ul><li>Read-only: no assignment written back to the CMMS.</li><li>Process flags. It does not dispatch or remind anyone.</li><li>Dormancy threshold declared, dormancy alert not shown.</li><li>Synthetic data.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Maintenance · CMMS</p><h2>A conveyor stops. The manager is not told.</h2><p class="brief-lead">Critical incident, declared, no technician.</p><p>Gummy candy moulding line.</p><p class="brief-note">Fictional plant · synthetic data</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>The CMMS records. It does not alert.</h2><ul class="brief-list tone-cyan"><li>The incident is in the CSV export.</li><li>No technician is assigned.</li><li>The maintenance manager does not know.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Nothing is changed</p><h2>The CMMS stays as it is.</h2><ul class="brief-list tone-green"><li>lumnik reads the export.</li><li>It does not write to the CMMS.</li><li>The rule is declared in lumnik.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>when:
+  - severity=CRITICAL
+  - status=DECLARED
+  - technician_id=UNASSIGNED</code></pre><h2>Three conditions, one decision.</h2><p>The whole scenario fits in 3 declaration files, 57 lines.</p></section><section class="brief-slide"><p class="brief-kicker">What the manager receives</p><h2>One decision, only one.</h2><figure class="brief-quote"><figcaption>Decision inbox</figcaption><blockquote>Critical incident INC-2026-0042: Transfer conveyor stopped on Gummy candy moulding line; no technician is assigned</blockquote></figure><p class="brief-note">Real message, replay of 28 October 2026.</p></section><section class="brief-slide"><p class="brief-kicker">The next export</p><h2>Technician assigned. No second alert.</h2><ul class="brief-list tone-green"><li>The incident moves from DECLARED to ASSIGNED.</li><li>lumnik observes the move.</li><li>The Process stays silent.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limits</p><h2>lumnik flags. People act.</h2><ul class="brief-list tone-yellow"><li>No assignment written to the CMMS.</li><li>No technician dispatched or reminded.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays end to end.</h2><p>Export, declaration, decision, assignment: each step is published with its output.</p></section></article>
   <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>
