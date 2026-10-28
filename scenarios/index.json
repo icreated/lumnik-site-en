@@ -771,8 +771,8 @@
     },
     {
       "slug": "siem-bank-account-change",
-      "title": "A supplier bank-account change, silent in the ERP, reaches the SIEM.",
-      "lede": "The ERP exports its suppliers as CSV and emits no event. lumnik rereads the export on a schedule, emits a signed decision by webhook, and the SIEM correlates: one account change, one high alert. The inbox never shows the account.",
+      "title": "A changed bank account the SIEM never sees",
+      "lede": "The ERP exports its suppliers as CSV. It emits no event. A bank-account change goes unnoticed until the next payment.\n- lumnik rereads the export every minute\n- a signed decision goes to the SIEM by webhook\n- the SIEM alerts on the account that changes\n- the inbox never shows the account.",
       "tags": {
         "domain": [
           "Security",
