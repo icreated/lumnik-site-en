@@ -331,8 +331,8 @@
     },
     {
       "slug": "gmao-candy-line-incident",
-      "title": "A critical unassigned incident reaches the manager's inbox.",
-      "lede": "One CMMS CSV export, a Connector, a Workflow, a Process. One decision, only one; the assignment moves it forward.",
+      "title": "A critical incident, no technician",
+      "lede": "A CMMS exports its incidents as CSV. The conveyor on the gummy candy line has stopped, with no technician. The CMMS warns no one.\n- a Workflow tracks each incident's status\n- a Process flags the critical unassigned incident\n- one decision only; the assignment moves it forward.",
       "tags": {
         "domain": [
           "Manufacturing",
@@ -345,8 +345,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-21T06:10:35.761813Z",
-      "evidenceDigest": "sha256:78d3140e8beca41989b34ca6b83104c42478e42772ccce33f2da14a75a0f63fb"
+      "replayedAt": "2026-10-28T16:14:59.341079Z",
+      "evidenceDigest": "sha256:e3b4744a0aaed7666d91e0db13cd694b53927c5d601e422bf51dfe8d1752fdae"
     },
     {
       "slug": "graphql-insurance-bff",
