@@ -57,8 +57,8 @@
     },
     {
       "slug": "catalogue-ean-check",
-      "title": "The wrong bar code caught at import: an operator-provided Kotlin script, named by the manifest.",
-      "lede": "A catalogue export carries EAN-13 codes, some of them wrong. No built-in transformer computes a check digit. The hub's operator drops a Kotlin script into the hub's hooks directory; the manifest names it and carries no code. A draft that does not compile is refused at validate, with its line and column.",
+      "title": "The wrong bar code caught at import",
+      "lede": "A catalogue export carries EAN-13 bar codes, some of them wrong. No built-in transformer computes the check digit.\n- the hub's operator drops a Kotlin script\n- the manifest names it, carrying no code\n- a draft that does not compile is refused at validation\n- every code gets a verdict at import.",
       "tags": {
         "domain": [
           "Commerce"
@@ -68,8 +68,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-23",
-      "evidenceDigest": "sha256:7601cd1c0784a3622900254c1c6bb8e44fd336774836e31c0c3d051ca55d44b0"
+      "replayedAt": "2026-10-28",
+      "evidenceDigest": "sha256:6f73d03fb6625de25984e6b2924f6e7c03f5f5cf21edca050c953442f42b7717"
     },
     {
       "slug": "cfonb-bank-statement",
