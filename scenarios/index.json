@@ -222,8 +222,8 @@
     },
     {
       "slug": "edi-order-cycle",
-      "title": "Where is each order line: order, acknowledgement, confirmed date and delivery reconciled.",
-      "lede": "A manufacturer and its logistics partner exchange four flat files around the same order line: the order, the acknowledgement, the confirmed delivery date, the delivery note. Sales administration asks, line by line, where the order stands: never acknowledged, confirmed but not delivered, delivered in a different quantity.",
+      "title": "Four EDI files for a single order line",
+      "lede": "A manufacturer and its logistics partner exchange four flat files around one order line: the order, the acknowledgement, the confirmed date, the delivery note. Sales administration asks, line by line:\n- never acknowledged?\n- confirmed but not delivered?\n- delivered in another quantity?",
       "tags": {
         "domain": [
           "Logistics",
@@ -237,8 +237,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-24",
-      "evidenceDigest": "sha256:73eef16fb8a3e583290dc2c1240962786cdbdd4d1cef0e613e61978beef0d34f"
+      "replayedAt": "2026-10-28",
+      "evidenceDigest": "sha256:bcb26e8c4a56118304fb4ef1c9f102830e5fffe59d4096e08922058f43173165"
     },
     {
       "slug": "edifact-orders",
