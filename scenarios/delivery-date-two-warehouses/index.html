@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>One delivery-date rule, two warehouses: each its lead time, its holidays, its closed days. — lumnik</title>
-<meta name="description" content="The date promised to a customer is the order date plus a number of working days, without weekends, public holidays or the days the warehouse is closed. The operator writes the rule once, in a Kotlin script. Each warehouse sets it its own way: Lyon in France, 3 days, two inventory days; Liège in Belgium, 5 days.">
+<title>A delivery date each warehouse works out differently — lumnik</title>
+<meta name="description" content="Promise the customer the date their warehouse can keep: one calculation rule, set per warehouse (country, lead time, closed days). The promised date = order date plus N working days. But each warehouse counts its own way: Lyon, in France: 3 days, two inventory days; Liège, in Belgium: 5 days, other holidays. The operator writes the rule once; the integrator sets it per warehouse.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,18 +18,24 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/delivery-date-two-warehouses/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>One delivery-date rule, two warehouses: each its lead time, its holidays, its closed days.</h1>
-    <p class="lede">The date promised to a customer is the order date plus a number of working days, without weekends, public holidays or the days the warehouse is closed. The operator writes the rule once, in a Kotlin script. Each warehouse sets it its own way: Lyon in France, 3 days, two inventory days; Liège in Belgium, 5 days.</p>
+    <h1>A delivery date each warehouse works out differently</h1>
+    <p class="goal"><strong>Goal</strong> Promise the customer the date their warehouse can keep: one calculation rule, set per warehouse (country, lead time, closed days).</p>
+    <p class="lede">The promised date = order date plus N working days. But each warehouse counts its own way:</p><ul class="lede-list"><li>Lyon, in France: 3 days, two inventory days;</li><li>Liège, in Belgium: 5 days, other holidays.</li></ul><p class="lede">The operator writes the rule once; the integrator sets it per warehouse.</p>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Logistics</li><li class="tag">Sales</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
   </section>
+  <div role="tablist" class="page-tabs" aria-label="A delivery date each warehouse works out differently">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Scenario</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
   <nav class="steps-nav" aria-label="Steps"><a href="#step-rule" data-step="rule" aria-current="step"><span class="num">1 · The rule</span><span class="sub">one script</span></a><a href="#step-lyon" data-step="lyon"><span class="num">2 · Lyon</span><span class="sub">FR · 3 days</span></a><a href="#step-liege" data-step="liege"><span class="num">3 · Liège</span><span class="sub">BE · 5 days</span></a><a href="#step-promise" data-step="promise"><span class="num">4 · Promises</span><span class="sub">8 dates</span></a></nav>
   <section class="step" id="step-rule" aria-labelledby="rule-title">
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="rule-title">The operator writes the rule once</h2>
-      <p>The script steps day by day from the order date and counts working days only: Monday to Friday, not the country&#x27;s public holidays, not the warehouse&#x27;s closed days. The 2026 holiday calendar is the operator&#x27;s, in the script.</p>
+      <p>A Kotlin script steps day by day from the order date.</p><ul class="prose-list"><li>it counts Monday to Friday only</li><li>it skips the country&#x27;s holidays (country)</li><li>it skips the warehouse&#x27;s closed days (closed)</li><li>it stops after lead_days working days</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Holidays</strong><p>The operator&#x27;s 2026 calendar.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Holidays</strong><p>The operator&#x27;s 2026 calendar, in the script.</p></div></li><li><span class="n">2</span><div><strong>Why a script</strong><p>No shipped rule counts working days.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The rule has one text and one fingerprint, however many warehouses there are.</p></div>
   </aside>
   <div class="views">
@@ -42,15 +48,19 @@ promised-date-b.kts  1407  44ceece5d17c40d337374d02f942aef41b092b6708ff7dbc48efc
 <section class="step" id="step-lyon" aria-labelledby="lyon-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
-      <h2 id="lyon-title">Lyon: France, 3 working days, two inventory days</h2>
-      <p>Lyon&#x27;s connector names the script and passes it its context: the country, the lead time as a number and the inventory days as a list. CMD-3101, ordered on Thursday 30 April, skips 1 May, the weekend and the 5 May inventory: delivery on 7 May.</p>
+      <h2 id="lyon-title">Lyon: France, 3 days, two inventory days</h2>
+      <p>Lyon&#x27;s connector names the script and passes it its settings.</p><ul class="prose-list"><li>kotlin: script: the same script for every warehouse</li><li>context: this warehouse&#x27;s settings: country, lead time, closed days</li><li>lead_days: a number, closed: a list of dates</li></ul><p>CMD-3101, ordered Thursday 30 April, skips 1 May, the weekend and the 5 May inventory: delivery on 7 May.</p>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>7 May</strong><p>Without the inventory, it would be the 6th.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The lead time reaches the script as a number, the closed days as a list.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Lyon"><button type="button" role="tab" id="lyon-manifest-tab" data-view="manifest" aria-controls="lyon-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="lyon-commands-tab" data-view="commands" aria-controls="lyon-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="lyon-result-tab" data-view="result" aria-controls="lyon-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-manifest" id="lyon-manifest" aria-labelledby="lyon-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-lyon.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-promise-lyon-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [sales-b]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/delivery-date-two-warehouses/b/orders.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line">      <span class="dash">-</span> <span class="key">kotlin</span>:</span><span class="line">          <span class="key">script</span>: hooks:promised-date-b.kts   <span class="comment"># one rule, the operator&#x27;s</span></span><span class="line hl">          <span class="key">context</span>:                            <span class="comment"># this warehouse&#x27;s part of it</span></span><span class="line">            <span class="key">warehouse</span>: LYON</span><span class="line">            <span class="key">country</span>: FR</span><span class="line">            <span class="key">lead_days</span>: 3</span><span class="line hl">            <span class="key">closed</span>: [<span class="str">&quot;2026-05-05&quot;</span>, <span class="str">&quot;2026-08-17&quot;</span>]   <span class="comment"># inventory days</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="lyon-commands" aria-labelledby="lyon-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-lyon.yaml</span>
+    <div role="tablist" class="view-tabs" aria-label="Lyon"><button type="button" role="tab" id="lyon-source-tab" data-view="source" aria-controls="lyon-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="lyon-manifest-tab" data-view="manifest" aria-controls="lyon-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="lyon-commands-tab" data-view="commands" aria-controls="lyon-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="lyon-result-tab" data-view="result" aria-controls="lyon-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="lyon-source" aria-labelledby="lyon-source-tab" tabindex="0"><figure class="source"><figcaption>orders.csv</figcaption><pre class="code">order_no;customer;order_date
+CMD-3101;Durand;2026-04-30
+CMD-3102;Morel;2026-05-12
+CMD-3103;Nguyen;2026-07-10
+CMD-3104;Faure;2026-08-13</pre></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="lyon-manifest" aria-labelledby="lyon-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-lyon.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-promise-lyon-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [sales-b]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/delivery-date-two-warehouses/b/orders.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line">      <span class="dash">-</span> <span class="key">kotlin</span>:</span><span class="line">          <span class="key">script</span>: hooks:promised-date-b.kts   <span class="comment"># one rule, the operator&#x27;s</span></span><span class="line hl">          <span class="key">context</span>:                            <span class="comment"># this warehouse&#x27;s part of it</span></span><span class="line">            <span class="key">warehouse</span>: LYON</span><span class="line">            <span class="key">country</span>: FR</span><span class="line">            <span class="key">lead_days</span>: 3</span><span class="line hl">            <span class="key">closed</span>: [<span class="str">&quot;2026-05-05&quot;</span>, <span class="str">&quot;2026-08-17&quot;</span>]   <span class="comment"># inventory days</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="lyon-commands" aria-labelledby="lyon-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-lyon.yaml</span>
 <span class="out">{&quot;name&quot;:&quot;scenario-promise-lyon-b&quot;,&quot;connectorId&quot;:&quot;ffd3a67b-7503-4c57-b3fd-18fec5d82b13&quot;,&quot;endpointsApplied&quot;:1}</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector run scenario-promise-lyon-b</span>
@@ -65,8 +75,8 @@ fad646a2  scenario-promise-lyon-b  default   Completed  4   4    0        0     
 <section class="step" id="step-liege" aria-labelledby="liege-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
-      <h2 id="liege-title">Liège: Belgium, 5 working days, the same rule</h2>
-      <p>Same script, another context: the Belgian calendar, 5 days. 8 May is not a holiday in Belgium: CMD-3101 is promised for 8 May.</p>
+      <h2 id="liege-title">Liège: Belgium, 5 days, the same rule</h2>
+      <p>Same script, another context.</p><ul class="prose-list"><li>country: BE: the Belgian calendar</li><li>lead_days: 5</li><li>no closed: no inventory day</li></ul><p>8 May is not a holiday in Belgium: CMD-3101 is promised for 8 May.</p>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>8 May</strong><p>A working day in Belgium.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>One rule, set per warehouse in the integrator&#x27;s manifest.</p></div>
@@ -88,10 +98,10 @@ fad646a2  scenario-promise-lyon-b  default   Completed  4   4    0        0     
 <section class="step" id="step-promise" aria-labelledby="promise-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
-      <h2 id="promise-title">The same orders, each warehouse&#x27;s date</h2>
-      <p>The entity puts each order&#x27;s two promises side by side. CMD-3102, ordered on 12 May, skips Ascension on 14 May in both countries: 18 May in Lyon, 20 May in Liège.</p>
+      <h2 id="promise-title">Each order, each warehouse&#x27;s date</h2>
+      <p>The entity puts both promises side by side.</p><ul class="prose-list"><li>match: order and warehouse, one row per pair</li><li>sources: Lyon and Liège, read from the same orders file</li></ul><p>CMD-3102, ordered 12 May, crosses Ascension on 14 May in both countries: 18 May in Lyon, 20 May in Liège.</p>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>match</strong><p>Order and warehouse.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Why two keys</strong><p>The same order has one date per warehouse: order_no alone would keep one.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Customer service reads the date each warehouse can keep.</p></div>
   </aside>
   <div class="views">
@@ -111,7 +121,12 @@ CMD-3104  Faure     2026-08-13  LIEGE      2026-08-20     {}
 CMD-3104  Faure     2026-08-13  LYON       2026-08-19     {}</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="promise-result" aria-labelledby="promise-result-tab" tabindex="0" hidden><dl class="facts"><dt>CMD-3101 · LIEGE</dt><dd>2026-05-08</dd><dt>CMD-3101 · LYON</dt><dd>2026-05-07</dd><dt>CMD-3102 · LIEGE</dt><dd>2026-05-20</dd><dt>CMD-3102 · LYON</dt><dd>2026-05-18</dd></dl><p class="sources">evidence: replay.log, rule-scripts.txt, lyon-run.txt, liege-run.txt, promise.txt, promise.json · transform v1</p></div>
   </div>
 </section>
-  <section class="limits"><h2>Limits</h2><ul><li>The holiday calendar is the one the operator writes in the script: they keep it up to date each year.</li><li>The lead time counts working days, not hours: an order placed in the evening leaves like a morning one.</li><li>Synthetic orders.</li></ul></section>
+  <section class="limits"><h2>Limits</h2><ul><li>The holiday calendar is the one the operator writes in the script: they keep it up to date each year.</li><li>The lead time counts working days, not hours: an evening order leaves like a morning one.</li><li>Synthetic orders.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Customer service · delivery</p><h2>When will the customer get it?</h2><p class="brief-lead">It depends on the warehouse.</p><p>Lyon: 3 days and inventories. Liège: 5 days and other holidays.</p><p class="brief-note">Synthetic orders</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>One rule, two calendars.</h2><ul class="brief-list tone-cyan"><li>8 May is a holiday in France, not in Belgium.</li><li>Lyon closes for inventory.</li><li>Each warehouse has its lead time.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Nothing is changed</p><h2>The orders stay as they are.</h2><ul class="brief-list tone-green"><li>The operator writes the rule once.</li><li>The integrator sets it per warehouse.</li><li>Each order gets its date.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What it took to write</p><pre class="brief-code"><code>context:
+  country: FR
+  lead_days: 3
+  closed: [&quot;2026-05-05&quot;]</code></pre><h2>Lyon&#x27;s settings, in four lines.</h2><p>The whole scenario fits in 4 files, 83 lines, including a 23-line script.</p></section><section class="brief-slide"><p class="brief-kicker">The answers</p><h2>One order, two right dates.</h2><ul class="brief-list tone-yellow"><li>CMD-3101: 7 May in Lyon, 8 May in Liège.</li><li>CMD-3102: 18 May in Lyon, 20 May in Liège.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>The calendar needs upkeep.</h2><ul class="brief-list tone-yellow"><li>Holidays live in the operator&#x27;s script.</li><li>Days, not hours.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays end to end.</h2><p>One script, two connectors, one entity: each step is published with its output.</p></section></article>
   <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>
