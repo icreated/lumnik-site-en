@@ -40,7 +40,7 @@
     {
       "slug": "business-log-orders",
       "title": "Failed orders hidden in the logs",
-      "lede": "Customers call: their order \"never went through\".\n- the server writes a text log, one file a day;\n- the ERP knows the orders, their customer, their status;\n- nobody matches the two.\nA business log, not a monitoring tool.",
+      "lede": "Customers call: their order \"never went through\".\n- the server writes a text log, one file a day;\n- the ERP knows the orders, their customer, their status;\n- no tool matches the two.\nA business log, not a monitoring tool.",
       "tags": {
         "domain": [
           "Sales",
