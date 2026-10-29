@@ -92,8 +92,8 @@
     },
     {
       "slug": "crm-contacts-reachable",
-      "title": "An old CRM's contacts made reachable: names repaired, one phone, a valid email.",
-      "lede": "The sales team leaves an old CRM. Its contact export mixes capitals, accents broken by an encoding round trip, two phone columns of which one is often empty, and mistyped emails. The manifest turns it into a usable list, and names the contacts that cannot be reached.",
+      "title": "A CRM export with broken accents and wrong emails",
+      "lede": "The sales team leaves an old CRM. Its contact export mixes:\n- capitals and broken accents (BÃ©nÃ©dicte);\n- two phone columns, one often empty;\n- mistyped emails.\nThe manifest turns it into a usable list.",
       "tags": {
         "domain": [
           "Sales",
