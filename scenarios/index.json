@@ -132,8 +132,8 @@
     },
     {
       "slug": "delivery-date-two-warehouses",
-      "title": "One delivery-date rule, two warehouses: each its lead time, its holidays, its closed days.",
-      "lede": "The date promised to a customer is the order date plus a number of working days, without weekends, public holidays or the days the warehouse is closed. The operator writes the rule once, in a Kotlin script. Each warehouse sets it its own way: Lyon in France, 3 days, two inventory days; Liège in Belgium, 5 days.",
+      "title": "A delivery date each warehouse works out differently",
+      "lede": "The promised date = order date plus N working days. But each warehouse counts its own way:\n- Lyon, in France: 3 days, two inventory days;\n- Liège, in Belgium: 5 days, other holidays.\nThe operator writes the rule once; the integrator sets it per warehouse.",
       "tags": {
         "domain": [
           "Logistics",
