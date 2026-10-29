@@ -73,8 +73,8 @@
     },
     {
       "slug": "cfonb-bank-statement",
-      "title": "A CFONB 120 bank statement: each movement signed, in its statement, with its complements.",
-      "lede": "French banks still send account statements as CFONB 120 files: fixed-width records of 120 characters, no separator. 01 opens a statement with its old balance, 04 is a movement, 05 completes the movement before it (payer, invoice reference), 07 closes with the new balance. The amount's last character carries both its last digit and its sign. Treasury wants each movement signed, in its statement, with its complements.",
+      "title": "A CFONB statement with the sign hidden in the last digit",
+      "lede": "French banks still send statements in CFONB 120.\n- 120 characters per record, no delimiter;\n- 01 opens the statement, 04 is a movement, 05 completes it, 07 closes;\n- the amount's last character holds its last digit and its sign.\nTreasury wants each movement signed, with its complements.",
       "tags": {
         "domain": [
           "Treasury",
