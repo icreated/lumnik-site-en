@@ -150,11 +150,12 @@
     },
     {
       "slug": "devops-ai-pod-triage",
-      "title": "Which pods first? The model translates the question; it does not invent the priority.",
-      "lede": "Inventory, metrics and health of ten pods arrive as three exports. lumnik fuses them with a deterministic priority; Ask turns the question into read-only SQL. Seven pods, from critical to medium, each with its signals.",
+      "title": "The cluster is burning, k9s says Running: which pod first?",
+      "lede": "A real cluster, five teams, five pods broken by Kubernetes itself:\n- the pods API: state, restarts, why the last container died;\n- metrics.k8s.io: what each pod uses now;\n- the Warning events.\nAn on-call Kotlin rule sets the priority; the model translates the question, it decides nothing.",
       "tags": {
         "domain": [
           "DevOps",
+          "Kubernetes",
           "Incident"
         ],
         "kinds": [
@@ -163,8 +164,8 @@
         ]
       },
       "edition": "pro",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:fcfd42682a514b8758106118abbadfa20651739ea341f4f884cade5c67ece2c8"
+      "replayedAt": "2026-10-29",
+      "evidenceDigest": "sha256:fe8da6a85a8aba6b0d58400e32ffc1ac81ceab4c0188347ac769c1804cb18007"
     },
     {
       "slug": "devops-release-gate",
