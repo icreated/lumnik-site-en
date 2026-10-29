@@ -3,8 +3,8 @@
   "scenarios": [
     {
       "slug": "aged-balance-print",
-      "title": "A printed aged balance: every invoice with its client, from one page to the next.",
-      "lede": "The accounting system prints its aged balance to a spool file: a header on each page, then for each client a line with its account and name, its open invoices below, and a total. A client's invoices can run onto the next page. Credit control wants each invoice with its client.",
+      "title": "The aged balance trapped in a print file",
+      "lede": "Accounting prints its aged balance to a spool file.\n- a header on each page;\n- a client, its invoices below, a total;\n- a client's invoices sometimes run onto the next page.\nCredit control wants each invoice with its client.",
       "tags": {
         "domain": [
           "Credit control",
