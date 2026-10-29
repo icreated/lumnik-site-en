@@ -150,7 +150,7 @@
     },
     {
       "slug": "devops-ai-pod-triage",
-      "title": "The cluster is burning, k9s says Running: which pod first?",
+      "title": "k8s is burning, k9s says Running: which pod first?",
       "lede": "A real cluster, five teams, five pods broken by Kubernetes itself:\n- the pods API: state, restarts, why the last container died;\n- metrics.k8s.io: what each pod uses now;\n- the Warning events.\nAn on-call Kotlin rule sets the priority; the model translates the question, it decides nothing.",
       "tags": {
         "domain": [
