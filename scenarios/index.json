@@ -740,6 +740,24 @@
       "evidenceDigest": "sha256:77a360460c6e2c125135a8d28af690c39a297a8307c5ac8f9539bd5826c08b31"
     },
     {
+      "slug": "rest-netbox-inventory",
+      "title": "NetBox, the network inventory: name Django REST, say Token, read it all.",
+      "lede": "NetBox is built on Django REST Framework: count, next and results in every answer, and a token presented by the word Token, not Bearer. lumnik names both:\n- pagination: { kind: drf-limit-offset }: 120 devices in 3 requests;\n- auth: { kind: bearer, scheme: Token }: the word NetBox expects;\n- the next night, the 6 switches taken offline are in the hub.",
+      "tags": {
+        "domain": [
+          "Network",
+          "Inventory",
+          "NetBox"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-30",
+      "evidenceDigest": "sha256:632c333930e7ff453f1e734adcb692485704d643a55656f5e74fc09929abe2f3"
+    },
+    {
       "slug": "rest-partner-loses-rows",
       "title": "The partner's API loses a page, the run does not lie.",
       "lede": "A partner publishes 2,400 partners and their count. One night a page of 100 vanishes; the count stays right. lumnik compares what it read with the total the source declares: the run fails naming the endpoint and both numbers, instead of turning green.",
