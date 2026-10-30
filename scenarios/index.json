@@ -757,6 +757,24 @@
       "evidenceDigest": "sha256:ff802f25c861e69da8c41f507bf5246c63d92698f1131ffd246efd4607b3680f"
     },
     {
+      "slug": "rest-wordpress-total-header",
+      "title": "WordPress announces 46 articles and serves 31: the run fails instead of going green.",
+      "lede": "WordPress's REST API pages by the Link header and publishes its count in X-WP-Total. lumnik follows the one and checks the other:\n- 46 articles announced, 46 read: the run passes;\n- a \"members only\" plugin hides 15 articles, the count stays 46: the run fails and gives both numbers;\n- read as a member, with an application password, the 46 articles are back.",
+      "tags": {
+        "domain": [
+          "Website",
+          "WordPress",
+          "Content"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-30",
+      "evidenceDigest": "sha256:526add1147e6e74509319034349a5f2de316c49349a6b9822524b72bc74580fc"
+    },
+    {
       "slug": "saas-oauth2-orders",
       "title": "The SaaS behind OAuth2: 30-second tokens, a 40-second run, no page lost.",
       "lede": "The ERP no longer moves, but some orders arrive through a recent SaaS. That SaaS no longer takes a fixed token: it hands out a client id and a secret, and wants a short-lived token on every call. lumnik asks for the token, renews it before it expires, absorbs a key rotation in the middle of a run, and says why when the secret is revoked, without ever showing it.",
