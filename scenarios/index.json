@@ -688,6 +688,24 @@
       "evidenceDigest": "sha256:f06eb1403fdec7ae433c77b75ae10bd4fb8dabc1c4b2d321c8c6a7d4a4ec5b01"
     },
     {
+      "slug": "rest-drupal-jsonapi",
+      "title": "Drupal speaks JSON:API: name the standard, one line reads the whole site.",
+      "lede": "Drupal 11 exposes its content through JSON:API, a core module. The next page is in links.next, which Drupal writes as an object {\"href\": …}. lumnik has a preset for that standard:\n- pagination: { kind: json-api }, and the 5 pages are followed;\n- 45 articles read, 45 written to the hub.",
+      "tags": {
+        "domain": [
+          "Website",
+          "Drupal",
+          "Content"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-30",
+      "evidenceDigest": "sha256:a62e250ee1caaf2333b0f07b7cb418de09f31b0158866b2266727cb1d37bfdf2"
+    },
+    {
       "slug": "rest-incremental-orders",
       "title": "The API that only sends what changed: an order modified while it is being read is not lost.",
       "lede": "An order API can answer \"what changed since this date\". lumnik reads it in full once, then each night only what moved. An order modified while a run is still reading later pages could have slipped between two nights: the next run starts a little before its last mark, and picks it up.",
