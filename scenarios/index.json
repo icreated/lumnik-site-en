@@ -670,6 +670,24 @@
       "evidenceDigest": "sha256:c61020779725c30f4b7eb409300a84b2e4aa9869c831175dacdb0a210929f800"
     },
     {
+      "slug": "rest-cursor-in-header",
+      "title": "The carrier reads its cursor from a header: sent elsewhere, the run fails instead of lying.",
+      "lede": "A carrier's tracking API pages by cursor. It reads it from the X-Next-Cursor header, and nowhere else:\n- sent as a query parameter, the default, the cursor never arrives: the API returns the first page and says there are more; the run fails and says why;\n- one line, cursor_binding: header, and the 1,200 events go through, 12 pages.",
+      "tags": {
+        "domain": [
+          "Transport",
+          "Tracking",
+          "Partner API"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-30",
+      "evidenceDigest": "sha256:f06eb1403fdec7ae433c77b75ae10bd4fb8dabc1c4b2d321c8c6a7d4a4ec5b01"
+    },
+    {
       "slug": "rest-incremental-orders",
       "title": "The API that only sends what changed: an order modified while it is being read is not lost.",
       "lede": "An order API can answer \"what changed since this date\". lumnik reads it in full once, then each night only what moved. An order modified while a run is still reading later pages could have slipped between two nights: the next run starts a little before its last mark, and picks it up.",
@@ -701,7 +719,7 @@
       },
       "edition": "open",
       "replayedAt": "2026-10-30",
-      "evidenceDigest": "sha256:a7283d3f6a0861a414d545b36b91ee0d6dbd54a02d9b9f7a4953daedfd8e9ca0"
+      "evidenceDigest": "sha256:77a360460c6e2c125135a8d28af690c39a297a8307c5ac8f9539bd5826c08b31"
     },
     {
       "slug": "rest-partner-loses-rows",
@@ -736,7 +754,7 @@
       },
       "edition": "open",
       "replayedAt": "2026-10-30",
-      "evidenceDigest": "sha256:2a7f38f447c7ed322a5415f39c5bb22250b7299e26a3c16ede06ae53d7eabcad"
+      "evidenceDigest": "sha256:ff802f25c861e69da8c41f507bf5246c63d92698f1131ffd246efd4607b3680f"
     },
     {
       "slug": "saas-oauth2-orders",
