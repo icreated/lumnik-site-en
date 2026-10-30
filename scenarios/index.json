@@ -703,6 +703,24 @@
       "evidenceDigest": "sha256:a4cdc366fbe1e7888345bbde65e66545842441a3b0fc28ff698830687fd06acc"
     },
     {
+      "slug": "rest-spring-behind-proxy",
+      "title": "A Spring app behind a proxy: name the framework, key on the SKU.",
+      "lede": "An earlier provider left a stock application in Spring Data REST, behind nginx. lumnik reads it with the spring-hateoas preset:\n- its links name its internal host: the run refuses to follow them, and says so;\n- one property on the application side, and the 63 pages go through;\n- each product is keyed by its SKU, read from its link: the next night, no second copy.",
+      "tags": {
+        "domain": [
+          "Integration",
+          "Stock",
+          "Spring"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-30",
+      "evidenceDigest": "sha256:2a7f38f447c7ed322a5415f39c5bb22250b7299e26a3c16ede06ae53d7eabcad"
+    },
+    {
       "slug": "saas-oauth2-orders",
       "title": "The SaaS behind OAuth2: 30-second tokens, a 40-second run, no page lost.",
       "lede": "The ERP no longer moves, but some orders arrive through a recent SaaS. That SaaS no longer takes a fixed token: it hands out a client id and a secret, and wants a short-lived token on every call. lumnik asks for the token, renews it before it expires, absorbs a key rotation in the middle of a run, and says why when the secret is revoked, without ever showing it.",

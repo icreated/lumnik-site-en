@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Spring app behind a proxy: name the framework, key on the SKU. — lumnik</title>
+<meta name="description" content="Read a home-grown Spring Data REST application&#x27;s whole stock, page by page, and keep each product under its SKU, whatever host it is reached through. An earlier provider left a stock application in Spring Data REST, behind nginx. lumnik reads it with the spring-hateoas preset: Its links name its internal host: the run refuses to follow them, and says so; One property on the application side, and the 63 pages go through; Each product is keyed by its SKU, read from its link: the next night, no second copy.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/rest-spring-behind-proxy/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/rest-spring-behind-proxy/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>A Spring app behind a proxy: name the framework, key on the SKU.</h1>
+    <p class="goal"><strong>Goal</strong> Read a home-grown Spring Data REST application&#x27;s whole stock, page by page, and keep each product under its SKU, whatever host it is reached through.</p>
+    <p class="lede">An earlier provider left a stock application in Spring Data REST, behind nginx. lumnik reads it with the spring-hateoas preset:</p><ul class="lede-list"><li>its links name its internal host: the run refuses to follow them, and says so;</li><li>one property on the application side, and the 63 pages go through;</li><li>each product is keyed by its SKU, read from its link: the next night, no second copy.</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Integration</li><li class="tag">Stock</li><li class="tag">Spring</li><li class="tag kind">Connector</li></ul>
+  </section>
+  <div role="tablist" class="page-tabs" aria-label="A Spring app behind a proxy: name the framework, key on the SKU.">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-lab" data-step="lab" aria-current="step"><span class="num">1 · Deploy</span><span class="sub">The application</span></a><a href="#step-connect" data-step="connect"><span class="num">2 · Connect</span><span class="sub">The preset</span></a><a href="#step-behind-proxy" data-step="behind-proxy"><span class="num">3 · Refuse</span><span class="sub">Red</span></a><a href="#step-fixed" data-step="fixed"><span class="num">4 · Fix</span><span class="sub">Green</span></a><a href="#step-next-night" data-step="next-night"><span class="num">5 · Reread</span><span class="sub">The next day</span></a></nav>
+  <section class="step" id="step-lab" aria-labelledby="lab-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="lab-title">Spring Data REST behind nginx</h2>
+      <p>A real Spring Boot 3.4 application: a product repository exposed by Spring Data REST, 1,250 products, nginx in front.</p><ul class="prose-list"><li>_embedded.products: the page&#x27;s products</li><li>_links.next.href: the next page</li><li>_links.self.href: the only place the SKU appears</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Why the link</strong><p>Spring Data REST puts no id in the body: it puts it in the product&#x27;s link.</p></div></li><li><span class="n">2</span><div><strong>The trap</strong><p>Left alone, Spring builds its links from the host nginx calls: inventory:8080.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The links returned name the internal host.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Deploy"><button type="button" role="tab" id="lab-manifest-tab" data-view="manifest" aria-controls="lab-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="lab-result-tab" data-view="result" aria-controls="lab-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="lab-manifest" aria-labelledby="lab-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/lab-docker-compose.yml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="comment"># The stock application of an earlier provider: Spring Data REST behind nginx.</span></span><span class="line"><span class="key">name</span>: lumnik-spring-inventory</span><span class="line"><span class="key">services</span>:</span><span class="line">  <span class="key">inventory</span>:</span><span class="line">    <span class="key">build</span>: ../run/inventory-app</span><span class="line">    <span class="key">environment</span>:</span><span class="line">      <span class="comment"># none: Spring builds its links from the host nginx called, inventory:8080.</span></span><span class="line hl">      <span class="comment"># framework: it reads X-Forwarded-Host, the host the caller used — the one-line fix.</span></span><span class="line hl">      <span class="key">SERVER_FORWARD_HEADERS_STRATEGY</span>: ${FORWARD_HEADERS:-none}</span><span class="line">  <span class="key">proxy</span>:</span><span class="line">    <span class="key">image</span>: nginx:1.27-alpine</span><span class="line">    <span class="key">ports</span>: [<span class="str">&quot;${INVENTORY_PORT:-9230}:80&quot;</span>]</span><span class="line">    <span class="key">volumes</span>: [<span class="str">&quot;./lab-nginx.conf:/etc/nginx/conf.d/default.conf:ro&quot;</span>]</span><span class="line">    <span class="key">depends_on</span>: [inventory]</span></code></pre><div class="file"><span class="filename">manifests/lab-nginx.conf</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="comment"># The in-house reverse proxy: it forwards the caller&#x27;s host, as most do.</span></span><span class="line">server {</span><span class="line">  listen 80;</span><span class="line">  location / {</span><span class="line hl">    proxy_pass http://inventory:8080;</span><span class="line hl">    proxy_set_header X-Forwarded-Host $http_host;</span><span class="line">    proxy_set_header X-Forwarded-Proto $scheme;</span><span class="line">  }</span><span class="line">}</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="lab-result" aria-labelledby="lab-result-tab" tabindex="0" hidden><dl class="facts"><dt>_links.next.href</dt><dd>http://inventory:8080/products?page=1&amp;size=2</dd><dt>_links.self.href</dt><dd>http://inventory:8080/products/SKU-00001</dd><dt>page.totalElements</dt><dd>1250</dd></dl><p class="sources">evidence: replay.log, page-behind-proxy.json, page-fixed.json, rows-fixed.txt, count-next-night.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-connect" aria-labelledby="connect-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="connect-title">Name the framework</h2>
+      <p>One rest-generic connector.</p><ul class="prose-list"><li>pagination: spring-hateoas: follows _links.next.href, reads _embedded.products</li><li>total_path: the total the application publishes, a witness of the count</li><li>unique_key: the last segment of the product&#x27;s link, its SKU</li><li>promote: the same SKU as a column</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Stable key</strong><p>The key keeps no host: https or another name does not change it.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The connector is accepted.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Connect"><button type="button" role="tab" id="connect-manifest-tab" data-view="manifest" aria-controls="connect-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="connect-commands-tab" data-view="commands" aria-controls="connect-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="connect-result-tab" data-view="result" aria-controls="connect-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="connect-manifest" aria-labelledby="connect-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-inventory.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-inventory-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [inventory]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:9230</span><span class="line"></span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: products</span><span class="line">      <span class="key">path</span>: /products</span><span class="line">      <span class="key">method</span>: GET</span><span class="line hl">      <span class="key">pagination</span>: { kind: spring-hateoas, items: products, total_path: $.page.totalElements }</span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.scenario_inventory_a</span><span class="line hl">        <span class="key">unique_key</span>: { path: $._links.self.href, transform: last_path_segment }</span><span class="line">        <span class="key">promote</span>:</span><span class="line hl">          - { name: sku, path: $._links.self.href, transform: last_path_segment, type: text }</span><span class="line">          - { name: name, path: $.name, type: text }</span><span class="line">          - { name: warehouse, path: $.warehouse, type: text }</span><span class="line">          - { name: stock, path: $.stock, type: integer }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="connect-commands" aria-labelledby="connect-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-inventory.yaml</span>
+<span class="out">Applied connector &quot;scenario-inventory-a&quot; — 1 endpoint</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="connect-result" aria-labelledby="connect-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-inventory-a</dt><dd>1 endpoint · spring-hateoas</dd></dl><p class="sources">evidence: replay.log, page-behind-proxy.json, page-fixed.json, rows-fixed.txt, count-next-night.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-behind-proxy" aria-labelledby="behind-proxy-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="behind-proxy-title">Page 2 points at the internal host: the run refuses</h2>
+      <p>The next link points at http://inventory:8080. lumnik follows a link only to the connector&#x27;s host: the run fails and names the host.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Why refuse</strong><p>A link read from a response cannot send the hub to another server.</p></div></li><li><span class="n">2</span><div><strong>IN 0</strong><p>No partial list is reported green.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A link leaving the host stops the run, with its reason.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Refuse"><button type="button" role="tab" id="behind-proxy-commands-tab" data-view="commands" aria-controls="behind-proxy-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="behind-proxy-result-tab" data-view="result" aria-controls="behind-proxy-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="behind-proxy-commands" aria-labelledby="behind-proxy-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-inventory-a</span>
+<span class="out">run scheduled: f309dd90-1100-48b5-80ba-8fd11a8d9c33</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get f309dd90-1100-48b5-80ba-8fd11a8d9c33</span>
+<span class="out">ID        CONNECTOR             ENDPOINT  STATUS  IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+f309dd90  scenario-inventory-a  products  Failed  0   0    0        0             2026-10-30 13:51  2026-10-30 13:51  yes</span>
+<span class="note">✖ run failed: Refusing to follow pagination URL &#x27;http://inventory:8080/products&#x27;: host &#x27;inventory&#x27; differs from the connector&#x27;s host &#x27;host.docker.internal&#x27;</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="behind-proxy-result" aria-labelledby="behind-proxy-result-tab" tabindex="0" hidden><dl class="facts"><dt>products</dt><dd>Failed · IN 0 · OUT 0</dd><dt>refusal</dt><dd>Refusing to follow pagination URL &#x27;http://inventory:8080/products&#x27;: host &#x27;inventory&#x27; differs from the connector&#x27;s host &#x27;host.docker.internal&#x27;</dd></dl><p class="sources">evidence: replay.log, page-behind-proxy.json, page-fixed.json, rows-fixed.txt, count-next-night.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-fixed" aria-labelledby="fixed-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="fixed-title">One property, and the 63 pages go through</h2>
+      <p>On the application side: server.forward-headers-strategy=framework. Spring reads X-Forwarded-Host and builds its links with the host the caller used. The run reads 1,250 products; the declared total agrees.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Key</strong><p>external_id is SKU-00001, not the product&#x27;s URL.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The preset reads the whole application, each product under its SKU.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Fix"><button type="button" role="tab" id="fixed-commands-tab" data-view="commands" aria-controls="fixed-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="fixed-result-tab" data-view="result" aria-controls="fixed-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="fixed-commands" aria-labelledby="fixed-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-inventory-a</span>
+<span class="out">run scheduled: 2506d359-e048-4183-9d39-baa67e3f95bb</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 2506d359-e048-4183-9d39-baa67e3f95bb</span>
+<span class="out">ID        CONNECTOR             ENDPOINT  STATUS     IN    OUT   SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+2506d359  scenario-inventory-a  products  Completed  1250  1250  0        0             2026-10-30 13:51  2026-10-30 13:51  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="fixed-result" aria-labelledby="fixed-result-tab" tabindex="0" hidden><dl class="facts"><dt>_links.next.href</dt><dd>http://host.docker.internal:9230/products?page=1&amp;size=2</dd><dt>_links.self.href</dt><dd>http://host.docker.internal:9230/products/SKU-00001</dd><dt>products</dt><dd>Completed · IN 1250 · OUT 1250</dd><dt>SKU-00001</dt><dd>SKU-00001 · Écrou 00001 · LILLE · 37</dd><dt>SKU-00002</dt><dd>SKU-00002 · Rondelle 00002 · NANTES · 74</dd><dt>SKU-00003</dt><dd>SKU-00003 · Joint 00003 · LYON · 111</dd></dl><p class="sources">evidence: replay.log, page-behind-proxy.json, page-fixed.json, rows-fixed.txt, count-next-night.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-next-night" aria-labelledby="next-night-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="next-night-title">Same keys, no copy</h2>
+      <p>The next night&#x27;s run reads the 1,250 products again. Each product finds its row.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Count</strong><p>1,250 rows, 1,250 keys.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The key holds from one night to the next.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Reread"><button type="button" role="tab" id="next-night-commands-tab" data-view="commands" aria-controls="next-night-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="next-night-result-tab" data-view="result" aria-controls="next-night-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="next-night-commands" aria-labelledby="next-night-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-inventory-a</span>
+<span class="out">run scheduled: 5b925538-5a8c-4f67-9478-0bed9ecae001</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 5b925538-5a8c-4f67-9478-0bed9ecae001</span>
+<span class="out">ID        CONNECTOR             ENDPOINT  STATUS     IN    OUT   SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+5b925538  scenario-inventory-a  products  Completed  1250  1250  0        0             2026-10-30 13:51  2026-10-30 13:51  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="next-night-result" aria-labelledby="next-night-result-tab" tabindex="0" hidden><dl class="facts"><dt>products</dt><dd>Completed · IN 1250 · OUT 1250</dd><dt>table</dt><dd>1250 rows, 1250 keys</dd></dl><p class="sources">evidence: replay.log, page-behind-proxy.json, page-fixed.json, rows-fixed.txt, count-next-night.txt · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>The key is the link&#x27;s last segment: the link must end with the id, as Spring Data REST does by default.</li><li>A product whose link has no segment fails the run, naming the key.</li><li>The internal-host refusal needs a fix on the application or proxy side: lumnik does not rewrite links.</li><li>Demo Spring application, synthetic data.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Integration · home-grown app</p><h2>A Spring stock app, left by an earlier provider.</h2><p class="brief-lead">The whole stock must be read, every night.</p><p class="brief-note">Demo application and data</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>The API does not give the id.</h2><ul class="brief-list tone-cyan"><li>The SKU is only in each product&#x27;s link.</li><li>The links name the server&#x27;s internal host.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The application&#x27;s code stays as it is.</h2><ul class="brief-list tone-green"><li>One deployment property: trust the proxy.</li><li>No field added to the API.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>pagination: { kind: spring-hateoas, items: products }
+unique_key: { path: $._links.self.href,
+              transform: last_path_segment }</code></pre><h2>Name the framework, say where the key is.</h2><p>One 24-line connector.</p></section><section class="brief-slide"><p class="brief-kicker">Red</p><h2>Page 2 points at inventory:8080: the run refuses.</h2><ul class="brief-list tone-yellow"><li>It names the internal host.</li><li>No partial list reported green.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Green</p><h2>1,250 products, 63 pages, keyed by SKU.</h2><ul class="brief-list tone-green"><li>The next night: 1,250 rows, 1,250 keys.</li><li>Moving to https would change no key.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>The link must end with the id.</h2><ul class="brief-list tone-cyan"><li>Spring Data REST does so by default.</li><li>A link with no segment fails the run, naming the key.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>A real Spring Boot application, a real nginx, every step published with its output.</p></section></article>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
