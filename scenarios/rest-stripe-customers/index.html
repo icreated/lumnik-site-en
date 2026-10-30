@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stripe&#x27;s API: name it, starting_after does the rest. — lumnik</title>
+<meta name="description" content="Read every customer of a Stripe account, page after page, without writing the paging. Stripe pages by cursor: each page says has_more, the next is asked for with starting_after, the last customer&#x27;s id. lumnik has a preset of the same name: Pagination: { kind: stripe }: 25 customers in 3 requests; The next day, 5 new customers: 30 rows, one per customer.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/rest-stripe-customers/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/rest-stripe-customers/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>Stripe&#x27;s API: name it, starting_after does the rest.</h1>
+    <p class="goal"><strong>Goal</strong> Read every customer of a Stripe account, page after page, without writing the paging.</p>
+    <p class="lede">Stripe pages by cursor: each page says has_more, the next is asked for with starting_after, the last customer&#x27;s id. lumnik has a preset of the same name:</p><ul class="lede-list"><li>pagination: { kind: stripe }: 25 customers in 3 requests;</li><li>the next day, 5 new customers: 30 rows, one per customer.</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Billing</li><li class="tag">Payment</li><li class="tag">Stripe</li><li class="tag kind">Connector</li></ul>
+  </section>
+  <div role="tablist" class="page-tabs" aria-label="Stripe&#x27;s API: name it, starting_after does the rest.">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-lab" data-step="lab" aria-current="step"><span class="num">1 · Deploy</span><span class="sub">The account</span></a><a href="#step-connect" data-step="connect"><span class="num">2 · Connect</span><span class="sub">The preset</span></a><a href="#step-next-day" data-step="next-day"><span class="num">3 · Reread</span><span class="sub">The next day</span></a></nav>
+  <section class="step" id="step-lab" aria-labelledby="lab-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="lab-title">Stripe&#x27;s API, 25 customers</h2>
+      <p>localstripe 1.15, an open-source and stateful Stripe stand-in used in test suites, serves Stripe&#x27;s API. 25 customers created through the API.</p><ul class="prose-list"><li>object: list</li><li>has_more: more pages remain</li><li>data: 10 customers a page</li><li>the next page: starting_after=&lt;the last customer&#x27;s id&gt;</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Why localstripe</strong><p>stripe-mock, the official test server, is stateless: its list always returns the same customer and never pages.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The first page says more remain.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Deploy"><button type="button" role="tab" id="lab-manifest-tab" data-view="manifest" aria-controls="lab-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="lab-result-tab" data-view="result" aria-controls="lab-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="lab-manifest" aria-labelledby="lab-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/lab-docker-compose.yml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="comment"># Stripe&#x27;s API, served by localstripe — an open-source, stateful stand-in used in test suites.</span></span><span class="line"><span class="key">name</span>: lumnik-stripe</span><span class="line"><span class="key">services</span>:</span><span class="line">  <span class="key">localstripe</span>:</span><span class="line">    <span class="key">image</span>: python:3.12-slim</span><span class="line">    <span class="key">command</span>: [<span class="str">&quot;sh&quot;</span>, <span class="str">&quot;-c&quot;</span>, <span class="str">&quot;pip install --quiet localstripe==1.15.10 &amp;&amp; exec localstripe --port 8420&quot;</span>]</span><span class="line">    <span class="key">ports</span>: [<span class="str">&quot;127.0.0.1:${STRIPE_PORT:-8420}:8420&quot;</span>]   <span class="comment"># this machine only</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="lab-result" aria-labelledby="lab-result-tab" tabindex="0" hidden><dl class="facts"><dt>object</dt><dd>list</dd><dt>has_more</dt><dd>true</dd><dt>data</dt><dd>10 customers</dd><dt>last id</dt><dd>cus_rSfRULjh5cGt7e</dd></dl><p class="sources">evidence: replay.log, page-1.json, requests-connect.txt, count.txt, sample.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-connect" aria-labelledby="connect-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="connect-title">One line: pagination: { kind: stripe }</h2>
+      <p>One rest-generic connector.</p><ul class="prose-list"><li>auth: bearer: the account&#x27;s secret key, stored with lm secret</li><li>pagination: stripe: starting_after the last id, until has_more is false</li><li>created: transform from_epoch, Stripe&#x27;s date is in seconds</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>3 requests</strong><p>limit=10, then starting_after twice.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The preset reads Stripe as it is.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Connect"><button type="button" role="tab" id="connect-manifest-tab" data-view="manifest" aria-controls="connect-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="connect-commands-tab" data-view="commands" aria-controls="connect-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="connect-result-tab" data-view="result" aria-controls="connect-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="connect-manifest" aria-labelledby="connect-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-customers.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-stripe-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [billing]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:8420</span><span class="line">  <span class="key">auth</span>: { kind: bearer, token_env: SCENARIO_STRIPE_KEY }   <span class="comment"># a Stripe secret key, test mode</span></span><span class="line"></span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: customers</span><span class="line">      <span class="key">path</span>: /v1/customers?limit=10</span><span class="line">      <span class="key">method</span>: GET</span><span class="line hl">      <span class="key">pagination</span>: { kind: stripe }       <span class="comment"># starting_after the last id, until has_more is false</span></span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.scenario_stripe_a</span><span class="line">        <span class="key">unique_key</span>: $.id</span><span class="line">        <span class="key">promote</span>:</span><span class="line">          - { name: name, path: $.name, type: text }</span><span class="line">          - { name: email, path: $.email, type: text }</span><span class="line hl">          - { name: created, path: $.created, type: timestamptz, transform: from_epoch }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="connect-commands" aria-labelledby="connect-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-customers.yaml</span>
+<span class="out">Applied connector &quot;scenario-stripe-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-stripe-a</span>
+<span class="out">run scheduled: f3545a8a-85c2-4c06-a171-2d7c7f994ea4</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get f3545a8a-85c2-4c06-a171-2d7c7f994ea4</span>
+<span class="out">ID        CONNECTOR          ENDPOINT   STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+f3545a8a  scenario-stripe-a  customers  Completed  25  25   0        0             2026-10-30 22:58  2026-10-30 22:58  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="connect-result" aria-labelledby="connect-result-tab" tabindex="0" hidden><dl class="facts"><dt>customers</dt><dd>Completed · IN 25 · OUT 25</dd><dt>request 1</dt><dd>/v1/customers?limit=10</dd><dt>request 2</dt><dd>/v1/customers?limit=10&amp;starting_after=cus_rSfRULjh5cGt7e</dd><dt>request 3</dt><dd>/v1/customers?limit=10&amp;starting_after=cus_SkiCLQ0j6Sd4NM</dd></dl><p class="sources">evidence: replay.log, page-1.json, requests-connect.txt, count.txt, sample.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-next-day" aria-labelledby="next-day-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="next-day-title">5 new customers: 30 rows</h2>
+      <p>5 customers are created. The next night rereads the account: 30 customers, one row each.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Key</strong><p>The Stripe id: a customer reread updates its row, no duplicate.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The hub follows the account, customer by customer.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Reread"><button type="button" role="tab" id="next-day-commands-tab" data-view="commands" aria-controls="next-day-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="next-day-result-tab" data-view="result" aria-controls="next-day-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="next-day-commands" aria-labelledby="next-day-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-stripe-a</span>
+<span class="out">run scheduled: 21a0f34b-1641-4247-8e32-d56d6ad8d798</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 21a0f34b-1641-4247-8e32-d56d6ad8d798</span>
+<span class="out">ID        CONNECTOR          ENDPOINT   STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+21a0f34b  scenario-stripe-a  customers  Completed  30  30   0        0             2026-10-30 22:58  2026-10-30 22:58  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="next-day-result" aria-labelledby="next-day-result-tab" tabindex="0" hidden><dl class="facts"><dt>customers</dt><dd>Completed · IN 30 · OUT 30</dd><dt>hub</dt><dd>30 customers, 30 ids</dd><dt>Client 30</dt><dd>client30@example.test</dd><dt>Client 29</dt><dd>client29@example.test</dd><dt>Client 28</dt><dd>client28@example.test</dd></dl><p class="sources">evidence: replay.log, page-1.json, requests-connect.txt, count.txt, sample.txt · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>Replayed on localstripe, not Stripe: the real Stripe reads with the same manifest and the account&#x27;s key.</li><li>Each night rereads the whole account.</li><li>Synthetic customers.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Billing · customers</p><h2>The customers are in Stripe.</h2><p class="brief-lead">They must all be read, every night.</p><p class="brief-note">Stripe&#x27;s API served by localstripe, in test</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>Stripe returns its customers in pages of 10.</h2><ul class="brief-list tone-cyan"><li>Each page says whether more remain.</li><li>The next is asked for from the last customer read.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The account stays as it is.</h2><ul class="brief-list tone-green"><li>A test key, stored with lm secret.</li><li>Stripe&#x27;s standard API.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>pagination: { kind: stripe }</code></pre><h2>Name the API.</h2><p>One 24-line connector.</p></section><section class="brief-slide"><p class="brief-kicker">The result</p><h2>25 customers, 3 pages.</h2><ul class="brief-list tone-green"><li>Each customer under its Stripe id.</li><li>The creation date converted from epoch.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The next day</p><h2>5 new customers: 30 rows.</h2><ul class="brief-list tone-green"><li>One row per customer, no duplicate.</li><li>The night rereads the whole account.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>Replayed on localstripe, not Stripe.</h2><ul class="brief-list tone-cyan"><li>An open-source, stateful Stripe stand-in used in tests.</li><li>The real Stripe reads the same, with the account&#x27;s key.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>

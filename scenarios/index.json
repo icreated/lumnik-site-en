@@ -793,6 +793,24 @@
       "evidenceDigest": "sha256:ff802f25c861e69da8c41f507bf5246c63d92698f1131ffd246efd4607b3680f"
     },
     {
+      "slug": "rest-stripe-customers",
+      "title": "Stripe's API: name it, starting_after does the rest.",
+      "lede": "Stripe pages by cursor: each page says has_more, the next is asked for with starting_after, the last customer's id. lumnik has a preset of the same name:\n- pagination: { kind: stripe }: 25 customers in 3 requests;\n- the next day, 5 new customers: 30 rows, one per customer.",
+      "tags": {
+        "domain": [
+          "Billing",
+          "Payment",
+          "Stripe"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-10-30",
+      "evidenceDigest": "sha256:638e39316e577aa9ad5df51260b569b04f3ced7f444964372ace420f624336fe"
+    },
+    {
       "slug": "rest-wordpress-total-header",
       "title": "WordPress announces 46 articles and serves 31: the run fails instead of going green.",
       "lede": "WordPress's REST API pages by the Link header and publishes its count in X-WP-Total. lumnik follows the one and checks the other:\n- 46 articles announced, 46 read: the run passes;\n- a \"members only\" plugin hides 15 articles, the count stays 46: the run fails and gives both numbers;\n- read as a member, with an application password, the 46 articles are back.",
