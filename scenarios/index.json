@@ -809,6 +809,23 @@
       "evidenceDigest": "sha256:a4cdc366fbe1e7888345bbde65e66545842441a3b0fc28ff698830687fd06acc"
     },
     {
+      "slug": "rest-prestashop",
+      "title": "PrestaShop: the XML catalogue read in one line.",
+      "lede": "A real PrestaShop 8.2.8 and its demo catalogue. Its Webservice answers XML.\n- not told, the hub refuses the XML and says what to add;\n- response_format: xml: the hub reads the XML; PrestaShop ignores offset=, and the repeated page is refused;\n- pagination: { kind: prestashop }: the 19 products, their name read from the XML.",
+      "tags": {
+        "domain": [
+          "E-commerce",
+          "PrestaShop"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-02",
+      "evidenceDigest": "sha256:5b8271dff705c942268807d0eb567a6818d9caff55be82364405cbc1a6745c83"
+    },
+    {
       "slug": "rest-spring-behind-proxy",
       "title": "A Spring app behind a proxy: name the framework, key on the SKU.",
       "lede": "An earlier provider left a stock application in Spring Data REST, behind nginx. lumnik reads it with the spring-hateoas preset:\n- its links name its internal host: the run refuses to follow them, and says so;\n- one property on the application side, and the 63 pages go through;\n- each product is keyed by its SKU, read from its link: the next night, no second copy.",
