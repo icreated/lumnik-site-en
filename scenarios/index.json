@@ -722,6 +722,23 @@
       "evidenceDigest": "sha256:4e149714e42f5565513f76d9220f3aa543963653b01b190cfcc233d8772bb9dc"
     },
     {
+      "slug": "rest-legacy-spring-mvc",
+      "title": "An old Spring MVC app: the whole list at once, one line reads it.",
+      "lede": "Spring PetClinic as it was before Spring Boot: a WAR on Tomcat. Its controller answers the whole list at once, no pages.\n- /vets.xml: the hub reads JSON, it refuses the XML by name instead of reading 0 rows;\n- lm source rest probe on /vets.json finds the list and drafts kind: none;\n- pagination: { kind: none }: 6 vets in one request.",
+      "tags": {
+        "domain": [
+          "Clinic",
+          "Spring MVC"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-02",
+      "evidenceDigest": "sha256:541be87e8920960e88ba676f6790d341ba2959091a82ec5aa1fc9a9dfc1be83f"
+    },
+    {
       "slug": "rest-link-header-tickets",
       "title": "A closed ticket stays open in the hub, as long as only open ones are read.",
       "lede": "Support tracks its customer tickets in Gitea. Its API pages like GitHub's: the next page is in the Link header. lumnik follows the header, page after page:\n- reading state=open leaves the tickets closed since open in the hub: they leave the API's filter;\n- reading every state, by what changed since the last run, keeps the hub true: 57 open, as Gitea says.",
