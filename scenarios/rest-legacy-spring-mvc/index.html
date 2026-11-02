@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An old Spring MVC app: the whole list at once, one line reads it. — lumnik</title>
+<meta name="description" content="Read the vets of Spring PetClinic, a Spring MVC app from before Spring Boot, without touching its code. Spring PetClinic as it was before Spring Boot: a WAR on Tomcat. Its controller answers the whole list at once, no pages. /vets.xml: the hub reads JSON, it refuses the XML by name instead of reading 0 rows; Lm source rest probe on /vets.json finds the list and drafts kind: none; Pagination: { kind: none }: 6 vets in one request.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/rest-legacy-spring-mvc/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/rest-legacy-spring-mvc/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>An old Spring MVC app: the whole list at once, one line reads it.</h1>
+    <p class="goal"><strong>Goal</strong> Read the vets of Spring PetClinic, a Spring MVC app from before Spring Boot, without touching its code.</p>
+    <p class="lede">Spring PetClinic as it was before Spring Boot: a WAR on Tomcat. Its controller answers the whole list at once, no pages.</p><ul class="lede-list"><li>/vets.xml: the hub reads JSON, it refuses the XML by name instead of reading 0 rows;</li><li>lm source rest probe on /vets.json finds the list and drafts kind: none;</li><li>pagination: { kind: none }: 6 vets in one request.</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Clinic</li><li class="tag">Spring MVC</li><li class="tag kind">Connector</li></ul>
+  </section>
+  <div role="tablist" class="page-tabs" aria-label="An old Spring MVC app: the whole list at once, one line reads it.">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-lab" data-step="lab" aria-current="step"><span class="num">1 · Deploy</span><span class="sub">The app</span></a><a href="#step-xml" data-step="xml"><span class="num">2 · Try</span><span class="sub">/vets.xml</span></a><a href="#step-probe" data-step="probe"><span class="num">3 · Probe</span><span class="sub">The probe</span></a><a href="#step-json" data-step="json"><span class="num">4 · Read</span><span class="sub">kind: none</span></a></nav>
+  <section class="step" id="step-lab" aria-labelledby="lab-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="lab-title">Spring PetClinic from before Spring Boot</h2>
+      <p>The spring-framework-petclinic project, pinned to one commit: Spring MVC configured in XML, JSP views, a WAR on Tomcat 11.</p><ul class="prose-list"><li>/vets.xml: application/xml</li><li>/vets.json: { vetList: [...] }, 6 vets</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>No pages</strong><p>The answer has no total and no next link: the whole list is there.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The same controller answers two formats, and its whole list at once.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Deploy"><button type="button" role="tab" id="lab-manifest-tab" data-view="manifest" aria-controls="lab-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="lab-result-tab" data-view="result" aria-controls="lab-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="lab-manifest" aria-labelledby="lab-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/lab-docker-compose.yml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="comment"># The clinic&#x27;s application: Spring PetClinic of before Spring Boot, a WAR on Tomcat 11.</span></span><span class="line"><span class="key">name</span>: lumnik-legacy-petclinic</span><span class="line"><span class="key">services</span>:</span><span class="line">  <span class="key">petclinic</span>:</span><span class="line">    <span class="key">build</span>: ../run/petclinic</span><span class="line">    <span class="key">ports</span>: [<span class="str">&quot;127.0.0.1:${PETCLINIC_PORT:-9300}:8080&quot;</span>]   <span class="comment"># this machine only</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="lab-result" aria-labelledby="lab-result-tab" tabindex="0" hidden><dl class="facts"><dt>/vets.xml</dt><dd>Content-Type: application/xml;charset=UTF-8</dd><dt>/vets.json</dt><dd>{vetList}: 6 vets</dd></dl><p class="sources">evidence: replay.log, vets-xml-content-type.txt, vets-json-shape.json, requests-xml.txt, xml-error.txt, probe.txt, requests-json.txt, count.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-xml" aria-labelledby="xml-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="xml-title">The XML is refused by name</h2>
+      <p>The connector points at the address the team knows, /vets.xml. The hub reads JSON.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>No false zero</strong><p>The run fails and names the Content-Type, instead of ending with 0 rows read (#1644).</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An answer the hub cannot read is never an empty source.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Try"><button type="button" role="tab" id="xml-manifest-tab" data-view="manifest" aria-controls="xml-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="xml-commands-tab" data-view="commands" aria-controls="xml-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="xml-result-tab" data-view="result" aria-controls="xml-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="xml-manifest" aria-labelledby="xml-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-vets-xml.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-legacy-petclinic-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [clinic]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:9300/petclinic</span><span class="line"></span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: vets</span><span class="line hl">      <span class="key">path</span>: /vets.xml                                   <span class="comment"># the address the clinic&#x27;s team knows</span></span><span class="line">      <span class="key">method</span>: GET</span><span class="line hl">      <span class="key">pagination</span>: { kind: none, response_path: $.vetList }</span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.scenario_legacy_petclinic_a</span><span class="line">        <span class="key">unique_key</span>: $.id</span><span class="line">        <span class="key">promote</span>:</span><span class="line hl">          - { name: first_name, path: $.firstName, type: text }</span><span class="line hl">          - { name: last_name, path: $.lastName, type: text }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="xml-commands" aria-labelledby="xml-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-vets-xml.yaml</span>
+<span class="out">Applied connector &quot;scenario-legacy-petclinic-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-legacy-petclinic-a</span>
+<span class="out">run scheduled: 5cdc71a3-9e47-4d06-ada9-20462b68b981</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 5cdc71a3-9e47-4d06-ada9-20462b68b981</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS  IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+5cdc71a3  scenario-legacy-petclinic-a  vets      Failed  0   0    0        0             2026-11-02 19:16  2026-11-02 19:16  yes</span>
+<span class="note">✖ run failed: the response is not JSON (Content-Type application/xml;charset=UTF-8) — rest-generic reads JSON</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="xml-result" aria-labelledby="xml-result-tab" tabindex="0" hidden><dl class="facts"><dt>vets</dt><dd>Failed · IN 0 · OUT 0</dd><dt>request 1</dt><dd>/petclinic/vets.xml 200</dd><dt>error</dt><dd>the response is not JSON (Content-Type application/xml;charset=UTF-8) — rest-generic reads JSON</dd></dl><p class="sources">evidence: replay.log, vets-xml-content-type.txt, vets-json-shape.json, requests-xml.txt, xml-error.txt, probe.txt, requests-json.txt, count.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-probe" aria-labelledby="probe-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="probe-title">lm source rest probe finds the list</h2>
+      <p>The probe reads /vets.json once and drafts an endpoint fragment, to review before applying.</p><ul class="prose-list"><li>the list: $.vetList</li><li>no sign of pages: kind: none</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>An absence it saw</strong><p>none is drafted only when a list is found and no key or header speaks of pages (#1650).</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The probe says what it sees, and what it does not.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Probe"><button type="button" role="tab" id="probe-commands-tab" data-view="commands" aria-controls="probe-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="probe-result-tab" data-view="result" aria-controls="probe-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="probe-commands" aria-labelledby="probe-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm source rest probe scenario-legacy-petclinic-a --endpoint /vets.json</span>
+<span class="out"># Drafted by lm source rest probe — review before applying
+- id: vets-json
+  method: GET
+  path: /vets.json
+  pagination: { kind: none, response_path: $.vetList }   # 6 items, no paging signal in the answer: if the source pages, declare how
+  target:
+    kind: hybrid
+    table: ext.scenario_legacy_petclinic_a_vets_json
+    unique_key: $.id
+    promote:
+      - { name: firstname, path: $.firstName, type: text }
+      - { name: id, path: $.id, type: bigint }
+      - { name: lastname, path: $.lastName, type: text }
+      - { name: new, path: $.new, type: boolean }
+      - { name: nrofspecialties, path: $.nrOfSpecialties, type: bigint }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="probe-result" aria-labelledby="probe-result-tab" tabindex="0" hidden><dl class="facts"><dt>draft</dt><dd>pagination: { kind: none, response_path: $.vetList }</dd></dl><p class="sources">evidence: replay.log, vets-xml-content-type.txt, vets-json-shape.json, requests-xml.txt, xml-error.txt, probe.txt, requests-json.txt, count.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-json" aria-labelledby="json-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="json-title">One line: pagination: { kind: none }</h2>
+      <p>The same connector, on /vets.json. kind: none: one request, never a next page; response_path says where the list is.</p>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>1 request</strong><p>GET /vets.json, read in Tomcat&#x27;s access log.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A source that answers everything at once is declared in one line.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="json-manifest-tab" data-view="manifest" aria-controls="json-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="json-commands-tab" data-view="commands" aria-controls="json-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="json-result-tab" data-view="result" aria-controls="json-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="json-manifest" aria-labelledby="json-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-vets-json.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-legacy-petclinic-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [clinic]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:9300/petclinic</span><span class="line"></span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: vets</span><span class="line hl">      <span class="key">path</span>: /vets.json                                  <span class="comment"># the same controller, its JSON view</span></span><span class="line">      <span class="key">method</span>: GET</span><span class="line hl">      <span class="key">pagination</span>: { kind: none, response_path: $.vetList }   <span class="comment"># the whole list in one answer</span></span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.scenario_legacy_petclinic_a</span><span class="line">        <span class="key">unique_key</span>: $.id</span><span class="line">        <span class="key">promote</span>:</span><span class="line hl">          - { name: first_name, path: $.firstName, type: text }</span><span class="line hl">          - { name: last_name, path: $.lastName, type: text }</span><span class="line hl">          - { name: specialties, path: $.nrOfSpecialties, type: integer }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="json-commands" aria-labelledby="json-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/20-vets-json.yaml</span>
+<span class="out">Applied connector &quot;scenario-legacy-petclinic-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-legacy-petclinic-a</span>
+<span class="out">run scheduled: 00ac6a34-2bbd-42fa-ab99-ea58a7b5232b</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 00ac6a34-2bbd-42fa-ab99-ea58a7b5232b</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+00ac6a34  scenario-legacy-petclinic-a  vets      Completed  6   6    0        0             2026-11-02 19:17  2026-11-02 19:17  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="json-result" aria-labelledby="json-result-tab" tabindex="0" hidden><dl class="facts"><dt>vets</dt><dd>Completed · IN 6 · OUT 6</dd><dt>request 1</dt><dd>/petclinic/vets.json 200</dd><dt>hub</dt><dd>6 vets, Carter, Douglas, Jenkins, Leary, Ortega, Stevens</dd></dl><p class="sources">evidence: replay.log, vets-xml-content-type.txt, vets-json-shape.json, requests-xml.txt, xml-error.txt, probe.txt, requests-json.txt, count.txt · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>The hub does not read XML: here, the same app also answers JSON.</li><li>kind: none reads one request: if the source pages, declare how.</li><li>PetClinic&#x27;s demo data: 6 vets.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Clinic · vets</p><h2>The clinic runs on an old Spring app.</h2><p class="brief-lead">Its vets must be read, every night.</p><p class="brief-note">Spring PetClinic, from before Spring Boot</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>The app was written before modern APIs.</h2><ul class="brief-list tone-cyan"><li>It answers XML or JSON.</li><li>The whole list at once, no pages.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The app stays as it is.</h2><ul class="brief-list tone-green"><li>A WAR on Tomcat.</li><li>Spring MVC configured in XML.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The first try</p><h2>The known address answers XML.</h2><ul class="brief-list tone-cyan"><li>The hub reads JSON.</li><li>It refuses and says so, instead of reading 0 rows.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The probe</p><pre class="brief-code"><code>lm source rest probe … --endpoint /vets.json</code></pre><h2>The probe finds the list.</h2><p>It drafts kind: none: no sign of pages in the answer.</p></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>pagination: { kind: none, response_path: $.vetList }</code></pre><h2>One line.</h2><ul class="brief-list tone-green"><li>6 vets, one request.</li><li>A 23-line connector.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>The hub does not read XML.</h2><ul class="brief-list tone-cyan"><li>Here, the same app also answers JSON.</li><li>If the source pages, declare how.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
