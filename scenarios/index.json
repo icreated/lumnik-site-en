@@ -722,6 +722,23 @@
       "evidenceDigest": "sha256:4e149714e42f5565513f76d9220f3aa543963653b01b190cfcc233d8772bb9dc"
     },
     {
+      "slug": "rest-legacy-session-login",
+      "title": "An old app behind a login: lumnik logs in like a user.",
+      "lede": "Spring PetClinic from before Spring Boot, behind the server's login (j_security_check). No API token: a form and a session cookie.\n- without auth, Tomcat answers its login page with 200: the hub refuses it, it is not JSON;\n- auth: { kind: session }: the hub logs in and keeps the session, 6 vets;\n- the app restarts, the session is lost: the hub logs in again on its own, once.",
+      "tags": {
+        "domain": [
+          "Clinic",
+          "Spring MVC"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-02",
+      "evidenceDigest": "sha256:62e05d51dc048247dc2a6b50bfb73fc50a4fbc165a7a02ca40c78ccebb9bdc3a"
+    },
+    {
       "slug": "rest-legacy-spring-mvc",
       "title": "An old Spring MVC app: the whole list at once, one line reads it.",
       "lede": "Spring PetClinic as it was before Spring Boot: a WAR on Tomcat. Its controller answers the whole list at once, no pages.\n- /vets.xml: the hub reads JSON, it refuses the XML by name instead of reading 0 rows;\n- lm source rest probe on /vets.json finds the list and drafts kind: none;\n- pagination: { kind: none }: 6 vets in one request.",
