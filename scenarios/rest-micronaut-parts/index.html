@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Micronaut: the stores&#x27; parts read in three requests — lumnik</title>
+<meta name="description" content="Read every spare part of a Micronaut service through its API, even while the stores work in it. A real Micronaut 4.7 and 130 fictional parts, served as the repository&#x27;s Page. Fifty per page: all 130 in three requests, the total checked; A part deleted mid-read: the total moves, the list is read again, nothing lost.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/rest-micronaut-parts/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/rest-micronaut-parts/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>Micronaut: the stores&#x27; parts read in three requests</h1>
+    <p class="goal"><strong>Goal</strong> Read every spare part of a Micronaut service through its API, even while the stores work in it.</p>
+    <p class="lede">A real Micronaut 4.7 and 130 fictional parts, served as the repository&#x27;s Page.</p><ul class="lede-list"><li>fifty per page: all 130 in three requests, the total checked;</li><li>a part deleted mid-read: the total moves, the list is read again, nothing lost.</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Stores</li><li class="tag">Micronaut</li><li class="tag kind">Connector</li></ul>
+  </section>
+  <div role="tablist" class="page-tabs" aria-label="Micronaut: the stores&#x27; parts read in three requests">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-lab" data-step="lab" aria-current="step"><span class="num">1 · Service</span><span class="sub">Micronaut 4</span></a><a href="#step-quiet" data-step="quiet"><span class="num">2 · Read</span><span class="sub">Fifty per page</span></a><a href="#step-deleted" data-step="deleted"><span class="num">3 · Delete</span><span class="sub">While it is read</span></a></nav>
+  <section class="step" id="step-lab" aria-labelledby="lab-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="lab-title">130 parts behind a Page</h2>
+      <p>A Micronaut 4.7 controller returns the Micronaut Data JDBC Page as is, on H2 in memory. Netty&#x27;s access log shows every request it receives.</p><ul class="prose-list"><li>totalSize: 130</li><li>totalPages: absent</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>A DELETE route</strong><p>To delete a part while the list is read, as the stores would.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The service is read through its API, untouched.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Service"><button type="button" role="tab" id="lab-manifest-tab" data-view="manifest" aria-controls="lab-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="lab-result-tab" data-view="result" aria-controls="lab-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="lab-manifest" aria-labelledby="lab-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/lab-docker-compose.yml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="comment"># A hand-written Micronaut 4 controller returning the repository&#x27;s Page, Micronaut Data JDBC on H2.</span></span><span class="line"><span class="key">name</span>: lumnik-micronaut-parts</span><span class="line"><span class="key">services</span>:</span><span class="line">  <span class="key">parts</span>:</span><span class="line">    <span class="key">build</span>: ../run/parts-app</span><span class="line">    <span class="key">ports</span>: [<span class="str">&quot;127.0.0.1:${PARTS_PORT:-9380}:8080&quot;</span>]   <span class="comment"># this machine only</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="lab-result" aria-labelledby="lab-result-tab" tabindex="0" hidden><dl class="facts"><dt>totalSize</dt><dd>130</dd><dt>totalPages</dt><dd>null</dd><dt>row</dt><dd>PCE-0001 | Pièce 1</dd><dt>row</dt><dd>PCE-0002 | Pièce 2</dd></dl><p class="sources">evidence: replay.log, page-0.json, requests-quiet.txt, count-quiet.txt, deleted.txt, missing.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-quiet" aria-labelledby="quiet-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="quiet-title">All 130 parts in three requests</h2>
+      <p>pagination: { kind: micronaut, size: 50 }. The hub asks ?page=0&amp;size=50, reads content and compares the rows read with totalSize.</p><ul class="prose-list"><li>size: the page size asked</li><li>stops once the rows read reach totalSize (#1800)</li><li>130 of 130</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Before the fix</strong><p>The preset waited for totalPages, which Micronaut 4 never sends: every run asked one empty page more.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>One line reads a Micronaut Page.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="quiet-manifest-tab" data-view="manifest" aria-controls="quiet-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="quiet-commands-tab" data-view="commands" aria-controls="quiet-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="quiet-result-tab" data-view="result" aria-controls="quiet-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="quiet-manifest" aria-labelledby="quiet-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-parts.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-micronaut-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [magasin]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:9380</span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: parts</span><span class="line">      <span class="key">path</span>: /parts</span><span class="line">      <span class="key">method</span>: GET</span><span class="line hl">      <span class="key">pagination</span>: { kind: micronaut, size: 50 }        <span class="comment"># ?page=0&amp;size=50, reads $.content, checks $.totalSize</span></span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.scenario_micronaut_a</span><span class="line">        <span class="key">unique_key</span>: $.ref</span><span class="line">        <span class="key">promote</span>:</span><span class="line">          - { name: label, path: $.label, type: text }</span><span class="line">          - { name: supplier, path: $.supplier, type: text }</span><span class="line">          - { name: stock, path: $.stock, type: integer }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="quiet-commands" aria-labelledby="quiet-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-parts.yaml</span>
+<span class="out">Applied connector &quot;scenario-micronaut-d&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-micronaut-d</span>
+<span class="out">run scheduled: 23ed787a-159a-4f04-9077-104fe0c2d204</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 23ed787a-159a-4f04-9077-104fe0c2d204</span>
+<span class="out">ID        CONNECTOR             ENDPOINT  STATUS     IN   OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+23ed787a  scenario-micronaut-d  parts     Completed  130  130  0        0             2026-11-04 00:35  2026-11-04 00:35  no</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="quiet-result" aria-labelledby="quiet-result-tab" tabindex="0" hidden><dl class="facts"><dt>parts</dt><dd>Completed · IN 130 · OUT 130</dd><dt>request</dt><dd>GET /parts?size=50&amp;page=0 HTTP/1.1 200</dd><dt>request</dt><dd>GET /parts?size=50&amp;page=1 HTTP/1.1 200</dd><dt>request</dt><dd>GET /parts?size=50&amp;page=2 HTTP/1.1 200</dd><dt>hub</dt><dd>130 parts</dd></dl><p class="sources">evidence: replay.log, page-0.json, requests-quiet.txt, count-quiet.txt, deleted.txt, missing.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-deleted" aria-labelledby="deleted-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="deleted-title">A part deleted: the list is read again</h2>
+      <p>Ten per page, one request a second. While the list is read, PCE-0001, already read on page 0, is deleted. Every later part moves up one place. totalSize moves from 130 to 129: the hub reads the list again from page 0 (#1796).</p><ul class="prose-list"><li>default_rate_limit: one request a second</li><li>IN 189: the first read, then the second</li><li>all 129 left are in the table</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Before the fix</strong><p>The run said Completed with one part missing, and nothing said so.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A list that moves is not read by half in silence.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Delete"><button type="button" role="tab" id="deleted-manifest-tab" data-view="manifest" aria-controls="deleted-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="deleted-commands-tab" data-view="commands" aria-controls="deleted-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="deleted-result-tab" data-view="result" aria-controls="deleted-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="deleted-manifest" aria-labelledby="deleted-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-parts-watched.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-micronaut-watched-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [magasin]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:9380</span><span class="line">  <span class="key">default_rate_limit</span>: 1/s                              <span class="comment"># a gentle reader: fourteen pages take fourteen seconds</span></span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: parts</span><span class="line">      <span class="key">path</span>: /parts</span><span class="line">      <span class="key">method</span>: GET</span><span class="line">      <span class="key">pagination</span>: { kind: micronaut, size: 10 }</span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.scenario_micronaut_watched_a</span><span class="line">        <span class="key">unique_key</span>: $.ref</span><span class="line">        <span class="key">promote</span>:</span><span class="line">          - { name: label, path: $.label, type: text }</span><span class="line">          - { name: supplier, path: $.supplier, type: text }</span><span class="line">          - { name: stock, path: $.stock, type: integer }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="deleted-commands" aria-labelledby="deleted-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/20-parts-watched.yaml</span>
+<span class="out">Applied connector &quot;scenario-micronaut-watched-d&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-micronaut-watched-d</span>
+<span class="out">run scheduled: 4ea2b94f-4d31-4b1d-8fe5-e2a92ac9ec46</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 4ea2b94f-4d31-4b1d-8fe5-e2a92ac9ec46</span>
+<span class="out">ID        CONNECTOR                     ENDPOINT  STATUS     IN   OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+4ea2b94f  scenario-micronaut-watched-d  parts     Completed  189  189  0        0             2026-11-04 00:36  2026-11-04 00:36  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="deleted-result" aria-labelledby="deleted-result-tab" tabindex="0" hidden><dl class="facts"><dt>parts</dt><dd>Completed · IN 189 · OUT 189</dd><dt>deleted</dt><dd>PCE-0001, read on page 0</dd><dt>hub</dt><dd>none lost: all 129 parts left are in the hub</dd></dl><p class="sources">evidence: replay.log, page-0.json, requests-quiet.txt, count-quiet.txt, deleted.txt, missing.txt · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>Micronaut serves at most 100 rows per page: a larger size is cut without a word. Declare a size of 100 or less.</li><li>A deleted part stays in the hub&#x27;s table: a full read adds and updates, it does not erase.</li><li>IN counts the rows read twice; the upsert keeps one.</li><li>130 fictional parts, written when the service starts.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Stores · parts</p><h2>The parts live in a Micronaut service.</h2><p class="brief-lead">Every one must be read, through its API.</p><p class="brief-note">Micronaut 4.7, 130 parts</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>The API hands the list out in pages.</h2><ul class="brief-list tone-cyan"><li>A Micronaut Data Page.</li><li>The stores keep working meanwhile.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The service stays as it is.</h2><ul class="brief-list tone-green"><li>Its controller returns the Page as is.</li><li>No module, no setting.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The trap</p><h2>Micronaut 4 sends no page count.</h2><ul class="brief-list tone-cyan"><li>Every page carries totalSize: 130.</li><li>totalPages is absent.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>pagination: { kind: micronaut, size: 50 }</code></pre><h2>One line.</h2><ul class="brief-list tone-green"><li>The hub stops once it has read totalSize.</li><li>Three requests for 130 parts.</li><li>A 22-line connector.</li></ul></section><section class="brief-slide"><p class="brief-kicker">While it is read</p><h2>A part deleted: the list is read again.</h2><ul class="brief-list tone-cyan"><li>The total moves from 130 to 129.</li><li>All 129 left are there.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What was fixed</p><h2>Two gaps found, two fixes.</h2><ul class="brief-list tone-green"><li>The total checked on every page (#1796).</li><li>No empty page at the end of a read (#1800).</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
