@@ -391,9 +391,9 @@
     },
     {
       "slug": "graphql-insurance-bff",
-      "title": "A claim form's lists, without exposing the CRM's GraphQL.",
-      "goal": null,
-      "lede": "Claim type and subtype live in a CRM that speaks GraphQL. lumnik ingests it page by page, turns it into a canonical entity, and a small BFF serves the form stable REST JSON: the CRM's schema never becomes a browser contract.",
+      "title": "A claim form's lists come from the CRM without exposing its GraphQL",
+      "goal": "Feed a form's lists from a GraphQL CRM without the browser depending on the CRM's schema.",
+      "lede": "The claim type and subtype live in a CRM that speaks GraphQL. lumnik ingests it page by page into a canonical entity.\n- a small BFF serves the form stable REST JSON\n- switching from Car to Home replaces the list\n- an unknown type answers 404",
       "tags": {
         "domain": [
           "Insurance",
@@ -405,14 +405,14 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:c4e7cfc5eba9c8095b2da7e7ef871f8de55a2c3121d95d6830fb0313111ac3c7"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:81638f79c0711724f257732f97137d1f82ac49f579adc0b3e542755e2ce3593c"
     },
     {
       "slug": "import-export",
-      "title": "The catalogue reaches the partner in their format, not ours.",
-      "goal": null,
-      "lede": "Two ERP CSV files, products and categories, are joined in the hub and delivered to S3 in a partner's format: French headers, semicolons, decimal commas, recoded statuses, a masked internal reference. A receipt proves the delivered bytes.",
+      "title": "The catalogue leaves for the partner in the partner's format",
+      "goal": "Deliver the product catalogue to a partner in the format it imposes, with no conversion code.",
+      "lede": "Two CSV files from an ERP, products and categories, are joined in the hub and delivered to S3 in a partner's format.\n- French headers, semicolons, decimal commas\n- recoded statuses, masked internal reference\n- a receipt proves the delivered bytes",
       "tags": {
         "domain": [
           "Catalogue",
@@ -425,8 +425,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-21",
-      "evidenceDigest": "sha256:19279255a1f737e09bb4a5169bc241bba26a6a47c5b0f10017acd3ed6310324c"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:400faba3dd0f1e5917b581ab68329cb495867651a8e3e0564af130e8f8eae0e5"
     },
     {
       "slug": "invoices-dead-letters",
@@ -508,9 +508,9 @@
     },
     {
       "slug": "legacy-sales-grafana",
-      "title": "A frozen ERP feeds a real Grafana dashboard, with no extra connector.",
-      "goal": null,
-      "lede": "The ERP exports its sales and catalogue as CSV. lumnik joins them, and Grafana reads the entity through a read-only PostgreSQL login bound to its tenant. Monday: EUR 10,450. On Tuesday the export changes: EUR 14,200, and the changed sale appears once.",
+      "title": "A frozen ERP feeds a real Grafana dashboard",
+      "goal": "Give management an up-to-date sales dashboard from the exports of an ERP nobody touches any more.",
+      "lede": "The ERP exports its sales and its catalogue as CSV. lumnik joins them, and Grafana reads the entity through a read-only PostgreSQL account, bounded to its tenant.\n- Monday: €10,450\n- Tuesday, the export changes: €14,200\n- the changed sale appears once",
       "tags": {
         "domain": [
           "Sales",
@@ -522,8 +522,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:c8f311c0fb15458e813e3953b2f5e5ccbcf37311ffc8541d21e8c70a2e594146"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:8e656db00ebb0aca2931ed304badf23420b48475f36260614a93aa9e561b8677"
     },
     {
       "slug": "marketplace-order-items",
@@ -1152,9 +1152,9 @@
     },
     {
       "slug": "zombie-cmms",
-      "title": "The zombie system: thirty years of work orders, the box switched off, the hub still answers.",
-      "goal": null,
-      "lede": "A CMMS replaced years ago stays on for a handful of compliance reads a year: the licence, the box, and the one person who can restart it. lumnik reads it one last time, archives what it read under a single digest, then the box is switched off. The next run says why it fails, the pause stops the schedule, and the hub gives back the same bytes as before.",
+      "title": "The CMMS is switched off and the hub still returns the same bytes",
+      "goal": "Switch off a replaced CMMS without losing its thirty years of work orders or its compliance reads.",
+      "lede": "A replaced CMMS stays on for a few compliance reads a year. lumnik reads it one last time, archives what it read, and the machine is switched off.\n- 3,600 orders read by the usual schedule\n- one S3 archive under one digest\n- after the switch-off: the same row, the same bytes",
       "tags": {
         "domain": [
           "Maintenance",
@@ -1167,8 +1167,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:b2f4e260daf5ac892a89a3e7c309a3fb8dcff3479cd3ab6b9537ae1a4f577b95"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:f1774f6bbca1bdcba0052954690508c806b9789e7bd67c0bf712d3193398bf38"
     }
   ]
 }
