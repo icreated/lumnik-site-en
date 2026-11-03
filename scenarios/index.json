@@ -237,9 +237,9 @@
     },
     {
       "slug": "edi-flat-order-lines",
-      "title": "A flat EDI file from an ERP: fixed-width order lines, read without a mapping tool.",
-      "goal": null,
-      "lede": "A manufacturer exchanges flat files with its logistics partner, one folder per partner, one prefix per exchange type. No separator: every field has its place and its width, a header line first, ISO-8859-1, and sometimes no line end after the last line. The partner wants the order lines as columns.",
+      "title": "The order lines of a flat EDI file read at their place",
+      "goal": "Read the order lines of a fixed-width EDI file as columns, with no mapping tool.",
+      "lede": "A manufacturer and its logistics provider exchange flat files. No separator: each field has its place and its width.\n- the header set aside and counted;\n- eleven fields cut at their place;\n- accents right, even in a one-line file.",
       "tags": {
         "domain": [
           "Logistics",
@@ -251,8 +251,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-23",
-      "evidenceDigest": "sha256:22d0e049052a29719d6ec0d48efcf410afde361223d9683819502906f2a1efc2"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:0dafa0eaa9eeb3bc7ca21db80e88d4d6e563dd1b37049173e1e164235917d62e"
     },
     {
       "slug": "edi-order-cycle",
@@ -277,9 +277,9 @@
     },
     {
       "slug": "edifact-orders",
-      "title": "An EDIFACT ORDERS message: one line, split into segments, the escaped apostrophe kept.",
-      "goal": null,
-      "lede": "Retail and industry still exchange EDIFACT: a buyer's ORDERS message, often written on one single line, its segments ended by an apostrophe, its elements split by + and :. An apostrophe in a label is written ?'. The buyer wants to read the message segment by segment.",
+      "title": "An EDIFACT ORDERS message read again order line by order line",
+      "goal": "Read an EDIFACT order segment by segment, then line by line, with no EDI tool.",
+      "lede": "The buyer sends an ORDERS message on a single line. Segments end with an apostrophe. An apostrophe in a label is written ?'.\n- fourteen segments, in order;\n- « Bâche d'hiver » whole;\n- two order lines, each with its order and its EAN.",
       "tags": {
         "domain": [
           "Purchasing",
@@ -291,8 +291,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-24",
-      "evidenceDigest": "sha256:aa3aeb186ca03e54605ad9329207707515c823084d60db69975b10a8629d65bb"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:70336c22436e96e4fbc85464a773bb62e4830def557b57dcf444e84337e773c4"
     },
     {
       "slug": "entity-resolution",
@@ -983,9 +983,9 @@
     },
     {
       "slug": "sap-idoc-orders",
-      "title": "SAP ORDERS05 IDocs as a flat file: every order line with its purchase order.",
-      "goal": null,
-      "lede": "A customer's SAP sends its orders as ORDERS05 IDocs, written to a flat file: one EDI_DC40 control record per IDoc, then fixed-width data records. The PO number sits in E2EDK02, the quantity in the item E2EDP01, our article in the E2EDP19 that follows it. The order desk wants one row per order line.",
+      "title": "Every line of a SAP ORDERS05 IDoc gets its customer order back",
+      "goal": "Read a SAP customer's order IDocs, one row per order line, with no middleware.",
+      "lede": "A customer's SAP writes its orders as ORDERS05 IDocs, in a flat file. The order sits at the top of the IDoc, the article further down.\n- sixteen records cut at their position;\n- each line with its order, quantity and unit;\n- an IDoc with no order does not take the previous one's.",
       "tags": {
         "domain": [
           "Order desk",
@@ -998,8 +998,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-24",
-      "evidenceDigest": "sha256:6ace3102303eb5e4e6995dc9088505bce1b14c5caaa4392fd00a9f4a6bf2e32c"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:86ec6030a58cdfe8be82890844fb65cb17acab57e785a4a0a83bda5b75817a0f"
     },
     {
       "slug": "sftp-carrier-drop",
@@ -1040,9 +1040,9 @@
     },
     {
       "slug": "siebel-soap-desk",
-      "title": "The CRM's SOAP desk: each service read its own way, nothing read twice.",
-      "goal": null,
-      "lede": "A 2000s CRM exposes its data through custom SOAP web services: a case's actions in one call, a customer's opportunities page by page on a page number. The password travels inside the envelope. lumnik reads each one the way it reads, carries the service's Fault verbatim, and never sends the same request twice.",
+      "title": "The CRM's SOAP desk read service by service with nothing read twice",
+      "goal": "Read an old CRM's SOAP services, each as it reads, without hammering it.",
+      "lede": "A 2000s CRM exposes its data through custom SOAP services. The password travels in the envelope.\n- one service read in one call, another page by page;\n- the CRM's Fault on the run, with no retry;\n- the next night updated on the keys.",
       "tags": {
         "domain": [
           "CRM",
@@ -1053,8 +1053,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:8b3414d2ab1d0ef94f4c6a4721657dea1d3abb8af651b08a2a487f2d5801e5a2"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:271a48f39e34c8347ccd28b7fbf2e0fa91530dd396b712115180766f31d4f804"
     },
     {
       "slug": "siem-bank-account-change",
