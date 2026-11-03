@@ -546,9 +546,9 @@
     },
     {
       "slug": "one-app-per-metier",
-      "title": "One hub, one app per métier.",
-      "goal": null,
-      "lede": "Maintenance and purchasing share an ERP where everyone sees everything. On one hub, lumnik composes one app per métier; a technician whose only role is scope:maintenance sees its app, its orders and its decisions, and every purchasing door answers with a refusal.",
+      "title": "A technician sees only the maintenance app",
+      "goal": "Give each business line its app on the same hub, without a technician being able to read purchasing's data.",
+      "lede": "Maintenance and purchasing share an ERP where everyone sees everything. On the same hub, lumnik composes one app per business line.\n- the technician holds only the Keycloak role scope:maintenance\n- they see their app, their orders and their decisions\n- every purchasing door answers with a refusal",
       "tags": {
         "domain": [
           "Security",
@@ -564,8 +564,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:1731d57291ef750662c646acdaf0559f6076f4774a5f0b2e2486b470458c99ca"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:685bc56997af89e6bdb01b2338fd7620781a5b38fce39ef42ec83a57cec72adb"
     },
     {
       "slug": "orders-where-they-sleep",
@@ -1115,9 +1115,9 @@
     },
     {
       "slug": "two-tenants-one-hub",
-      "title": "Two customers, one hub, one table: each reads only its own rows.",
-      "goal": null,
-      "lede": "Two integrators of two customers apply the same files to the same hub. Same connector, same entity, same table. Each loads its orders, under the same numbers. Each reads, asks and counts: it sees only its own.",
+      "title": "Two customers write to the same table and each reads only their own rows",
+      "goal": "Host two customers on one hub without either being able to read, count or open the other's data.",
+      "lede": "Two integrators of two customers apply the same files on the same hub: same connector, same entity, same table. Each loads their orders, under the same numbers.\n- each reads back 240 or 60 rows, never the other's\n- the same question gives the same SQL and two answers\n- the other's run answers 404",
       "tags": {
         "domain": [
           "Security",
@@ -1129,8 +1129,8 @@
         ]
       },
       "edition": "pro",
-      "replayedAt": "2026-10-23",
-      "evidenceDigest": "sha256:e808faa5e8409fe3ba7856e1ca3367048ba088ffb10e54e7fe2006eea1383d15"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:a7606c4a38ca66439c86c2ac8750ba35c026ff5a2461acca4170b7f64cefa132"
     },
     {
       "slug": "windev-hfsql-export",
