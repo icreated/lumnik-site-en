@@ -334,9 +334,9 @@
     },
     {
       "slug": "excel-merged-cells",
-      "title": "An Excel export with merged cells: every line with its region and client.",
-      "goal": null,
-      "lede": "Sales send a monthly Excel report: one group per client, the region and the client in merged cells, a subtotal under each group. Saved as CSV, a merged cell keeps its value on the group's first row only; the rows below are empty. Sales want every line with its region and client.",
+      "title": "Every line of the Excel export gets its region and its client back",
+      "goal": "Read an Excel report with merged cells as a table, one row per sale.",
+      "lede": "Sales send an Excel report every month. One group per client, region and client in merged cells, a subtotal under each group. As CSV, a merged cell keeps its value on the first row only.\n- the 15 subtotals set aside and counted;\n- each row gets its group's region and client;\n- nothing crosses from one file to the next.",
       "tags": {
         "domain": [
           "Sales",
@@ -348,8 +348,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-24",
-      "evidenceDigest": "sha256:9515b1197282ecae8ac5fa281f972d4d5b45b212249b9472452b4421a770da36"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:69baebe77cc02e0641159af568d6cb3897f3c3e2f41cd1c345260e8603f55a03"
     },
     {
       "slug": "export-that-lies",
@@ -527,9 +527,9 @@
     },
     {
       "slug": "marketplace-order-items",
-      "title": "A marketplace's orders, one line per item to pick: model, colour, size.",
-      "goal": null,
-      "lede": "The marketplace export gives one line per order, the items packed into one cell, and an item reference that packs model, colour and size in turn. Logistics wants one line per item, to count what to take out of stock. The manifest splits the order, then the reference, and refuses a file whose column was renamed.",
+      "title": "One row per item to pick with model colour and size",
+      "goal": "Turn a marketplace export into one row per item, to pick the stock.",
+      "lede": "The marketplace export gives one row per order. The items are packed into one cell, and each reference packs model, colour and size.\n- one row per item, even when two are identical;\n- the reference cut into model, colour and size;\n- a file whose column was renamed is refused.",
       "tags": {
         "domain": [
           "Logistics",
@@ -541,8 +541,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-23",
-      "evidenceDigest": "sha256:0c5b83354986a2a80be058fc89dbcfde39ab0775efbfa7b401a72e9317c2bdf5"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:69ef587c0021ffa045f4e926ee84334d73dd1ec689ec4ea45b27d1b1ad66f639"
     },
     {
       "slug": "one-app-per-metier",
@@ -1077,9 +1077,9 @@
     },
     {
       "slug": "supplier-master-edi",
-      "title": "The supplier file sent to EDI: ASCII, upper case, 35 characters, a stable identifier.",
-      "goal": null,
-      "lede": "Purchasing feeds an EDI platform that requires names in ASCII, upper case, 35 characters at most, and one identifier per supplier. The ERP export has accents, long legal names, inactive suppliers, and an id column holding N/A, 0 or nothing. The EDI's constraint is declared once in the manifest.",
+      "title": "The supplier file goes to EDI in ASCII with a stable id",
+      "goal": "Send EDI the suppliers in the form it requires, with an id that does not change.",
+      "lede": "Purchasing's EDI platform requires names in ASCII, upper case, at most 35 characters, and one id per supplier. The ERP's export has accents, long company names, inactive suppliers, and ids that read N/A, 0 or nothing.\n- names put in the EDI's form;\n- N/A and 0 emptied and counted, a missing id derived from the code;\n- the next day, the same ids.",
       "tags": {
         "domain": [
           "Purchasing",
@@ -1091,8 +1091,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-23",
-      "evidenceDigest": "sha256:374c812a51ae0a399c6b06828002a7669b031b381cb10eaf03b472ac84e700a0"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:da72848c7a8284282d09de7dff01b18683d12ec376bf6ef77aa57f80a195948a"
     },
     {
       "slug": "two-systems-one-member",
