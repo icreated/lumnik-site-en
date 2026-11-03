@@ -33,9 +33,9 @@
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="look-title">The file in EDI format, ids left as they came</h2>
-      <p>filter-where keeps active suppliers; map-columns renames the FOURN_* columns; defaults puts FR in an empty country. In the cell tier, remove-diacritics then upper write ELECTRICITE MENARD; regex-replace turns &amp; into ET and replaces the punctuation the EDI refuses; truncate cuts at 35. to-uuid with on-invalid: keep leaves N/A and 0 as they are, to look at them before choosing.</p>
+      <p>filter-where keeps the active ones. Names go to ASCII, upper case, cut at 35. to-uuid with on-invalid: keep leaves the ids as they came, to look at them.</p><ul class="prose-list"><li>IN 8, OUT 6: two inactive set aside</li><li>N/A and 0 still there</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>35 characters</strong><p>F0001 and F0005 have the same name once cut.</p></div></li><li><span class="n">2</span><div><strong>on-invalid: keep</strong><p>Look before deciding.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>35 characters</strong><p>F0001 and F0005 share a name once cut.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>8 = 6 + 2: the two inactive suppliers skipped and counted. The EDI&#x27;s constraint shows on every row.</p></div>
   </aside>
   <div class="views">
@@ -67,7 +67,7 @@ F0007  IMPRIMERIE COTE S A                                                      
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="policy-title">The chosen rule: empty what is wrong, derive what is missing</h2>
-      <p>N/A and 0 are not identifiers: on-invalid: &quot;null&quot; empties and counts them. A missing id is derived from the supplier code by generate-from: F0004 and F0007 get one. It is not another system&#x27;s id: it joins to nothing else, it is the EDI&#x27;s key. The rule changes four rows: the run reports none removed, the file still holds them.</p>
+      <p>N/A and 0 are emptied and counted. A missing id is derived from the code: F0004 and F0007 get one.</p><ul class="prose-list"><li>2 cells counted</li><li>no row removed</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>generate-from</strong><p>The same code gives the same id.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>An invented id is asked for by name, and counted when it replaces a received value.</p></div>
@@ -101,7 +101,7 @@ F0007  IMPRIMERIE COTE S A                  4a515c7a-0e97-3802-b74d-7e5c916331b5
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="night-title">The next day&#x27;s export, the same ids</h2>
-      <p>The next day the export has one more supplier, F0009. F0004 and F0007 keep yesterday&#x27;s id, F0009 gets its own, and no row is removed. With generate: true alone, the id changed on every run, and the run reported rows removed that the source still held.</p>
+      <p>The next day, one more supplier: F0009.</p><ul class="prose-list"><li>F0004 and F0007 keep their id</li><li>F0009 gets its own</li><li>no row removed</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>0 removed</strong><p>Nothing changes for known suppliers.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The EDI gets the same id every night for the same supplier.</p></div>

@@ -33,7 +33,7 @@
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="refused-title">What the hub refuses beside split-row</h2>
-      <p>An order split into three items is no longer one row: on-error: dlq would dead-letter fragments, not the order, and validate-row after the split would drop items one by one. lm validate refuses both, with the reason, before anything runs.</p>
+      <p>A split order is no longer one row. A dead letter or a validate-row after split-row would skew the count. lm validate refuses both, before anything runs.</p>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Validate first</strong><p>validate-row goes before split-row.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A composition that would skew the run&#x27;s count is never applied.</p></div>
@@ -59,9 +59,9 @@ Fix errors above before running &#x27;lm apply -f 90-dlq-beside-split-row.yaml&#
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="load-title">The export, split on the way in</h2>
-      <p>require-headers checks that order_no and items are there; skip-empty-rows drops the separator line the export adds. split-row makes one row per item and position numbers them; upper writes tsh-vert-s in capitals; split cuts the reference into model, colour and size.</p>
+      <p>require-headers checks the columns. skip-empty-rows sets the separator line aside. split-row makes one row per item, split cuts the reference.</p><ul class="prose-list"><li>IN 7: six orders and the separator</li><li>OUT 6: OUT counts orders</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>2 cells</strong><p>CASQ-NOIR with no size, SWEAT-BLEU-MARINE-L with one dash too many.</p></div></li><li><span class="n">2</span><div><strong>Blank line</strong><p>A truly blank line is not read: it is in no count.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>2 cells</strong><p>CASQ-NOIR with no size, SWEAT-BLEU-MARINE-L with one hyphen too many.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>7 = 6 + 1: six orders written, the separator skipped and counted. OUT counts orders, not items.</p></div>
   </aside>
   <div class="views">
@@ -85,9 +85,9 @@ Fix errors above before running &#x27;lm apply -f 90-dlq-beside-split-row.yaml&#
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="read-title">One line per item to pick</h2>
-      <p>Eleven items for seven orders. CMD-1003 orders the same T-shirt twice: item_no 1 and 2 make them two lines. Without position, the two lines would have the same content, and the table keeps only one. CASQ-NOIR has no size: the cell stays empty. SWEAT-BLEU-MARINE-L gives colour BLEU and size MARINE: the value is written as split, and counted.</p>
+      <p>Eleven items for seven orders. CMD-1003 orders the same T-shirt twice: item_no makes two rows.</p><ul class="prose-list"><li>CASQ-NOIR: no size, the cell stays empty</li><li>BLEU-MARINE: the size becomes MARINE, counted</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>item_no</strong><p>The item&#x27;s place in the order.</p></div></li><li><span class="n">2</span><div><strong>MARINE</strong><p>A colour with a dash breaks the split: counted, not corrected.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>item_no</strong><p>The item&#x27;s rank in the order.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Every ordered item is a line, even when two are identical.</p></div>
   </aside>
   <div class="views">
@@ -111,7 +111,7 @@ CMD-1006  2        Garnier   SWEAT-BLEU-MARINE-L  SWEAT  BLEU    MARINE  {}</spa
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="renamed-title">Next day, items is called articles</h2>
-      <p>The next day&#x27;s export renames the items column. require-headers fails the run, naming the missing column. Nothing is written: yesterday&#x27;s eleven lines stay.</p>
+      <p>The next day&#x27;s export renames items. The run fails and names the column. Nothing is written.</p><ul class="prose-list"><li>yesterday&#x27;s eleven rows stay</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>items</strong><p>The missing column, named.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A file that changed shape is refused, not misread.</p></div>

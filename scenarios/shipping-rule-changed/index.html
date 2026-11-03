@@ -109,7 +109,7 @@ shipping-fee-b.kts  333   c1c59e5c7b81302d5a284c9c722ca8cacaca0fe859c8ae1c393cd1
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="audit-title">The same amount does not ship the same</h2>
-      <p>The entity shows the run that wrote each order. CMD-2402 (December) and CMD-2501 (January) both have 172.50 of goods. Shipping 0.00 for one, 12.90 for the other. lm run get on CMD-2402&#x27;s run names version 1.</p>
+      <p>The entity shows the run that wrote each order.</p><ul class="prose-list"><li>CMD-2402, December: 172.50, shipping 0.00</li><li>CMD-2501, January: 172.50, shipping 12.90</li><li>CMD-2402&#x27;s run names version 1</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>_run_id</strong><p>The run that wrote the row.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Order, run, version of the rule: the chain reads with lm, without access to the server.</p></div>
