@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paperless-ngx: a list that moves while it is read is read again — lumnik</title>
+<meta name="description" content="Read every correspondent of a Paperless-ngx archive through its API, even while someone works in it. A real Paperless-ngx 2.13 and 100 correspondents, read ten per page. Quiet: all 100, each page&#x27;s count checked; A correspondent deleted mid-read: the pages shift, the list is read again; New correspondents all the time: the run refuses to call itself complete.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/rest-paperless-drf/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/rest-paperless-drf/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>Paperless-ngx: a list that moves while it is read is read again</h1>
+    <p class="goal"><strong>Goal</strong> Read every correspondent of a Paperless-ngx archive through its API, even while someone works in it.</p>
+    <p class="lede">A real Paperless-ngx 2.13 and 100 correspondents, read ten per page.</p><ul class="lede-list"><li>quiet: all 100, each page&#x27;s count checked;</li><li>a correspondent deleted mid-read: the pages shift, the list is read again;</li><li>new correspondents all the time: the run refuses to call itself complete.</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Documents</li><li class="tag">Paperless-ngx</li><li class="tag kind">Connector</li></ul>
+  </section>
+  <div role="tablist" class="page-tabs" aria-label="Paperless-ngx: a list that moves while it is read is read again">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-lab" data-step="lab" aria-current="step"><span class="num">1 · Archive</span><span class="sub">Paperless-ngx</span></a><a href="#step-quiet" data-step="quiet"><span class="num">2 · Read</span><span class="sub">Quiet</span></a><a href="#step-deleted" data-step="deleted"><span class="num">3 · Delete</span><span class="sub">Mid-read</span></a><a href="#step-moving" data-step="moving"><span class="num">4 · Refuse</span><span class="sub">Never still</span></a></nav>
+  <section class="step" id="step-lab" aria-labelledby="lab-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="lab-title">100 correspondents, ten per page</h2>
+      <p>The official Paperless-ngx 2.13 image, with Redis. The script creates 100 correspondents through the API. Each Django REST Framework page gives the total (count) and the next page&#x27;s address (next).</p><ul class="prose-list"><li>count: 100</li><li>next: ?page=2&amp;page_size=10</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>A throwaway password</strong><p>Given to Paperless and to the hub as an lm secret. It is never written into the evidence.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The archive is read through its API, untouched.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Archive"><button type="button" role="tab" id="lab-manifest-tab" data-view="manifest" aria-controls="lab-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="lab-result-tab" data-view="result" aria-controls="lab-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="lab-manifest" aria-labelledby="lab-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/lab-docker-compose.yml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="comment"># Paperless-ngx, a document management system on Django REST Framework, with its broker. SQLite, the default.</span></span><span class="line"><span class="key">name</span>: lumnik-paperless</span><span class="line"><span class="key">services</span>:</span><span class="line">  <span class="key">broker</span>:</span><span class="line">    <span class="key">image</span>: redis:7</span><span class="line">  <span class="key">paperless</span>:</span><span class="line">    <span class="key">image</span>: ghcr.io/paperless-ngx/paperless-ngx:2.13.5</span><span class="line">    <span class="key">depends_on</span>: [broker]</span><span class="line">    <span class="key">environment</span>:</span><span class="line">      <span class="key">PAPERLESS_REDIS</span>: redis://broker:6379</span><span class="line">      <span class="key">PAPERLESS_ADMIN_USER</span>: lumnik</span><span class="line">      <span class="key">PAPERLESS_ADMIN_PASSWORD</span>: ${PAPERLESS_PASSWORD:-paperless-lab-password}</span><span class="line">      <span class="key">PAPERLESS_URL</span>: http://host.docker.internal:${PAPERLESS_PORT:-9330}</span><span class="line">      <span class="key">PAPERLESS_SECRET_KEY</span>: lab-only-secret-key</span><span class="line">    <span class="key">ports</span>: [<span class="str">&quot;127.0.0.1:${PAPERLESS_PORT:-9330}:8000&quot;</span>]   <span class="comment"># this machine only</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="lab-result" aria-labelledby="lab-result-tab" tabindex="0" hidden><dl class="facts"><dt>count</dt><dd>100</dd><dt>next</dt><dd>http://host.docker.internal:9330/api/correspondents/?page=2&amp;page_size=10</dd><dt>row</dt><dd>1 | Correspondant 001</dd><dt>row</dt><dd>2 | Correspondant 002</dd></dl><p class="sources">evidence: replay.log, page-1.json, deleted.txt, count-after-delete.txt, moving-error.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-quiet" aria-labelledby="quiet-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="quiet-title">All 100 correspondents in one line</h2>
+      <p>pagination: { kind: drf-page }. The hub follows next, reads results and compares the rows read with the count.</p><ul class="prose-list"><li>10 pages, one a second</li><li>100 of 100</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>A witness</strong><p>If the hub reads fewer rows than the count declares, the run fails instead of calling itself complete.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>One line reads a Django REST API.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="quiet-manifest-tab" data-view="manifest" aria-controls="quiet-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="quiet-commands-tab" data-view="commands" aria-controls="quiet-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="quiet-result-tab" data-view="result" aria-controls="quiet-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="quiet-manifest" aria-labelledby="quiet-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-correspondents.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-paperless-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [archive]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:9330/api</span><span class="line">  <span class="key">auth</span>:</span><span class="line">    <span class="key">kind</span>: basic</span><span class="line">    <span class="key">username</span>: lumnik</span><span class="line">    <span class="key">password_env</span>: SCENARIO_PAPERLESS_A_PASSWORD</span><span class="line">  <span class="key">default_rate_limit</span>: 1/s                              <span class="comment"># a gentle reader: ten pages take ten seconds</span></span><span class="line"></span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: correspondents</span><span class="line">      <span class="key">path</span>: /correspondents/?page_size=10</span><span class="line">      <span class="key">method</span>: GET</span><span class="line hl">      <span class="key">pagination</span>: { kind: drf-page }                   <span class="comment"># follows $.next, reads $.results, checks $.count</span></span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: ext.scenario_paperless_a</span><span class="line">        <span class="key">unique_key</span>: $.id</span><span class="line">        <span class="key">promote</span>:</span><span class="line">          - { name: name, path: $.name, type: text }</span><span class="line">          - { name: documents, path: $.document_count, type: integer }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="quiet-commands" aria-labelledby="quiet-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-correspondents.yaml</span>
+<span class="out">Applied connector &quot;scenario-paperless-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-paperless-a</span>
+<span class="out">run scheduled: 6e2bd8bf-5e6e-40fd-8b50-0433ef05e8df</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 6e2bd8bf-5e6e-40fd-8b50-0433ef05e8df</span>
+<span class="out">ID        CONNECTOR             ENDPOINT        STATUS     IN   OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+6e2bd8bf  scenario-paperless-a  correspondents  Completed  100  100  0        0             2026-11-03 14:46  2026-11-03 14:46  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="quiet-result" aria-labelledby="quiet-result-tab" tabindex="0" hidden><dl class="facts"><dt>correspondents</dt><dd>Completed · IN 100 · OUT 100</dd></dl><p class="sources">evidence: replay.log, page-1.json, deleted.txt, count-after-delete.txt, moving-error.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-deleted" aria-labelledby="deleted-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="deleted-title">A correspondent deleted: the list is read again</h2>
+      <p>While the list is read, Correspondant 001, already read on page 1, is deleted. Every later row moves up one place: one row is on no page. The count goes from 100 to 99, so the hub reads the list again from page 1 (#1771).</p><ul class="prose-list"><li>IN 159: 60 rows, then the 99</li><li>the 99 left are all in the table</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Before the fix</strong><p>The run said Completed with one correspondent missing, and nothing told.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A list that moves is no longer half-read in silence.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Delete"><button type="button" role="tab" id="deleted-commands-tab" data-view="commands" aria-controls="deleted-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="deleted-result-tab" data-view="result" aria-controls="deleted-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="deleted-commands" aria-labelledby="deleted-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-paperless-a</span>
+<span class="out">run scheduled: 849bc650-cac4-4e43-a940-5f8ceb852500</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 849bc650-cac4-4e43-a940-5f8ceb852500</span>
+<span class="out">ID        CONNECTOR             ENDPOINT        STATUS     IN   OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+849bc650  scenario-paperless-a  correspondents  Completed  159  159  0        0             2026-11-03 14:46  2026-11-03 14:46  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="deleted-result" aria-labelledby="deleted-result-tab" tabindex="0" hidden><dl class="facts"><dt>correspondents</dt><dd>Completed · IN 159 · OUT 159</dd><dt>deleted</dt><dd>Correspondant 001, read on page 1</dd><dt>hub</dt><dd>99 correspondents left, every one there</dd></dl><p class="sources">evidence: replay.log, page-1.json, deleted.txt, count-after-delete.txt, moving-error.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-moving" aria-labelledby="moving-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="moving-title">A list that never stops: the run fails</h2>
+      <p>A new correspondent arrives every second. The count moves during the read, then again during the second read. The run fails and gives both totals.</p><ul class="prose-list"><li>101, then 102</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>What to do</strong><p>Run it at a quiet hour (window:), or read larger pages.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The hub never calls complete what it could not read in full.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Refuse"><button type="button" role="tab" id="moving-commands-tab" data-view="commands" aria-controls="moving-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="moving-result-tab" data-view="result" aria-controls="moving-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="moving-commands" aria-labelledby="moving-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-paperless-a</span>
+<span class="out">run scheduled: 2b20a586-1f93-4067-93a7-9f4739abb7ee</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 2b20a586-1f93-4067-93a7-9f4739abb7ee</span>
+<span class="out">ID        CONNECTOR             ENDPOINT        STATUS  IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+2b20a586  scenario-paperless-a  correspondents  Failed  20  20   0        0             2026-11-03 14:46  2026-11-03 14:46  yes</span>
+<span class="note">✖ run failed: Endpoint &#x27;correspondents&#x27;: the list changed while it was read, and again when read a second time (the source declared 101 rows, then 102) — rows may be on no page; refusing to report a partial extract as a complete one (run it when the source is quieter)</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="moving-result" aria-labelledby="moving-result-tab" tabindex="0" hidden><dl class="facts"><dt>correspondents</dt><dd>Failed · IN 20 · OUT 20</dd><dt>error</dt><dd>Endpoint &#x27;correspondents&#x27;: the list changed while it was read, and again when read a second time (the source declared 101 rows, then 102) — rows may be on no page; refusing to report a partial extract as a complete one (run it when the source is quieter)</dd></dl><p class="sources">evidence: replay.log, page-1.json, deleted.txt, count-after-delete.txt, moving-error.txt · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>A deleted correspondent stays in the hub&#x27;s table: a full read adds and updates, it does not erase.</li><li>The second read counts the rows read twice in IN; the upsert keeps one.</li><li>100 fictional correspondents, created by the script.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Archive · documents</p><h2>The correspondents live in Paperless-ngx.</h2><p class="brief-lead">Every one must be read, every night.</p><p class="brief-note">Paperless-ngx 2.13, 100 correspondents</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>The API hands the list out in pages.</h2><ul class="brief-list tone-cyan"><li>Ten per page, numbered.</li><li>Meanwhile, the team works.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The archive stays as it is.</h2><ul class="brief-list tone-green"><li>Its API, a reading account.</li><li>No module, no setting.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The trap</p><h2>A deletion shifts the pages.</h2><ul class="brief-list tone-cyan"><li>A correspondent on page 1 disappears.</li><li>Another one lands on no page.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>pagination: { kind: drf-page }</code></pre><h2>One line.</h2><ul class="brief-list tone-green"><li>Each page&#x27;s count is checked.</li><li>If it moves, the list is read again.</li><li>A 27-line connector.</li></ul></section><section class="brief-slide"><p class="brief-kicker">When it never stops</p><h2>The run fails, it does not lie.</h2><ul class="brief-list tone-cyan"><li>The list moves again on the second read.</li><li>The message gives both totals.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What was fixed</p><h2>One gap found, one fix.</h2><ul class="brief-list tone-green"><li>Before: Completed, a correspondent missing.</li><li>Now: read again, or refused (#1771).</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>

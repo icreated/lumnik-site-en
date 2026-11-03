@@ -792,6 +792,23 @@
       "evidenceDigest": "sha256:632c333930e7ff453f1e734adcb692485704d643a55656f5e74fc09929abe2f3"
     },
     {
+      "slug": "rest-paperless-drf",
+      "title": "Paperless-ngx: a list that moves while it is read is read again",
+      "lede": "A real Paperless-ngx 2.13 and 100 correspondents, read ten per page.\n- quiet: all 100, each page's count checked;\n- a correspondent deleted mid-read: the pages shift, the list is read again;\n- new correspondents all the time: the run refuses to call itself complete.",
+      "tags": {
+        "domain": [
+          "Documents",
+          "Paperless-ngx"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:cf3e4f775b625211bc10695d2752a9fd076cd0c204bd8f55ee329f2f16ed4b63"
+    },
+    {
       "slug": "rest-partner-loses-rows",
       "title": "The partner's API loses a page, the run does not lie.",
       "lede": "A partner publishes 2,400 partners and their count. One night a page of 100 vanishes; the count stays right. lumnik compares what it read with the total the source declares: the run fails naming the endpoint and both numbers, instead of turning green.",
