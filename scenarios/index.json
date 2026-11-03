@@ -96,6 +96,26 @@
       "evidenceDigest": "sha256:8e90b728bc532d5bb7004559d0544c6495c04a864ea55b733c6b95cf44696170"
     },
     {
+      "slug": "chirpstack-freezer-probe",
+      "title": "The freezer probe reads 6.8 °C in the middle of the night",
+      "goal": "Be alerted as soon as an independent HACCP probe sees a freezer above -18 °C, even when the refrigeration controller says nothing.",
+      "lede": "In autumn 2026, supermarket refrigeration controllers were changed remotely. In France, on 11 October, no alarm went off. An independent HACCP probe measures the temperature, and ChirpStack publishes its readings to Kafka.\n- the reading is nested in the event: promote turns it into a column\n- a registry says which cabinet, which aisle, who is on call\n- at 02:30, PROBE-07 reads 6.8 °C: one decision",
+      "tags": {
+        "domain": [
+          "Cold chain",
+          "Retail"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Process"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:182940ec4d12384c857dc8a5957a4cfbd96238300b82af432f7bd9cde39f4d96"
+    },
+    {
       "slug": "crm-contacts-reachable",
       "title": "A CRM export with broken accents and wrong emails",
       "goal": "Take over the old CRM's contacts with a repaired name, an international phone and a valid email, and name those that cannot be reached.",
