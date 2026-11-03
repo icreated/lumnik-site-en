@@ -764,6 +764,24 @@
       "evidenceDigest": "sha256:a62e250ee1caaf2333b0f07b7cb418de09f31b0158866b2266727cb1d37bfdf2"
     },
     {
+      "slug": "rest-fastapi-deliveries",
+      "title": "FastAPI: 130 deliveries read in one line",
+      "goal": "Read every delivery of an in-house FastAPI service through its API, without asking its team for an export.",
+      "lede": "A real FastAPI service on fastapi-pagination 0.16.1 and 130 fictional deliveries.\n- quiet: all 130 in three pages;\n- 500 per page: the library refuses, nothing is ingested;\n- a size written in the path: refused at lm apply (#1789).",
+      "tags": {
+        "domain": [
+          "Logistics",
+          "FastAPI"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-04",
+      "evidenceDigest": "sha256:9f95b58aa1cdf154415055b09bab0a913d8bda9513253a9c591ecd56670a161d"
+    },
+    {
       "slug": "rest-incremental-orders",
       "title": "An order changed during the read is not lost",
       "goal": "Read only what changed each night, without losing what changes during the read.",
@@ -834,6 +852,42 @@
       "edition": "open",
       "replayedAt": "2026-10-30",
       "evidenceDigest": "sha256:77a360460c6e2c125135a8d28af690c39a297a8307c5ac8f9539bd5826c08b31"
+    },
+    {
+      "slug": "rest-micronaut-parts",
+      "title": "Micronaut: the stores' parts read in three requests",
+      "goal": "Read every spare part of a Micronaut service through its API, even while the stores work in it.",
+      "lede": "A real Micronaut 4.7 and 130 fictional parts, served as the repository's Page.\n- fifty per page: all 130 in three requests, the total checked;\n- a part deleted mid-read: the total moves, the list is read again, nothing lost.",
+      "tags": {
+        "domain": [
+          "Stores",
+          "Micronaut"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-04",
+      "evidenceDigest": "sha256:29c2c59e92246df92b5a1521c2e06a6f5d658e1467babaf5103f8c21bde2a365"
+    },
+    {
+      "slug": "rest-nestjs-tickets",
+      "title": "NestJS: a ticket deleted mid-read no longer costs its neighbour",
+      "goal": "Read every ticket of a NestJS service through its API, even while the support team works in it.",
+      "lede": "A NestJS service on nestjs-paginate and 130 tickets, 97 of them open.\n- all: the 130, following the next link;\n- open only: the filter follows every link, 97 read;\n- a ticket deleted mid-read: the total moves, the list is read again.",
+      "tags": {
+        "domain": [
+          "Support",
+          "NestJS"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-04",
+      "evidenceDigest": "sha256:70d1e65fa0913c7fb493f2677bd5d512160a0bc6a41f29eba2da0d94c35ad37e"
     },
     {
       "slug": "rest-netbox-inventory",
@@ -909,6 +963,24 @@
       "evidenceDigest": "sha256:5b8271dff705c942268807d0eb567a6818d9caff55be82364405cbc1a6745c83"
     },
     {
+      "slug": "rest-sequelize-orders",
+      "title": "Sequelize: the service announces 260 orders for 130",
+      "goal": "Read every order of a Node service through its API without believing a wrong total.",
+      "lede": "An Express and Sequelize service, 130 orders and their lines, read by offset and limit.\n- quiet: all 130, each page's count checked;\n- with the lines, no distinct: the count says 260, the run refuses;\n- with distinct: true: 130 of 130;\n- an order deleted mid-read: the list is read again.",
+      "tags": {
+        "domain": [
+          "Sales",
+          "Sequelize"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:1142066c1369b9822f4bc1f384d76a0b1e4c99ae1f8a81d9359fbc660a4a1972"
+    },
+    {
       "slug": "rest-spring-behind-proxy",
       "title": "A Spring app behind a proxy keeps each product under its SKU",
       "goal": "Read a home-grown Spring Data REST application's whole stock, page by page, and keep each product under its SKU, whatever host it is reached through.",
@@ -944,6 +1016,24 @@
       "edition": "open",
       "replayedAt": "2026-10-30",
       "evidenceDigest": "sha256:1d41bdf9efeb026653b67292b537585265c916c79ec5aed6a81bafe2f8578c2e"
+    },
+    {
+      "slug": "rest-spring-slice",
+      "title": "Spring Slice: an article deleted mid-read lands on no page",
+      "goal": "Read every article of a Spring Boot catalogue through its API, and know when one may be missing.",
+      "lede": "A Spring Boot controller returning the repository's Slice, and 130 articles.\n- quiet: all 130, stopped on $.last;\n- 5000 per page asked: Spring serves 2000, the read stays complete;\n- an article deleted mid-read: the Slice has no total, one article is lost without a signal;\n- the same deletion under the Page: the total moves, the list is read again.",
+      "tags": {
+        "domain": [
+          "Catalogue",
+          "Spring Boot"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-04",
+      "evidenceDigest": "sha256:ac9b1b3cb07651ef36202dc10387da1781f29cfc45c8b6cd210457866b0f406c"
     },
     {
       "slug": "rest-stripe-customers",

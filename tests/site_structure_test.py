@@ -4,6 +4,7 @@ from pathlib import Path
 import json
 import re
 import unittest
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 # The visitor's path (lumnik-site spec 2026-10-25): understand on the home, see a replayed
@@ -450,6 +451,24 @@ class SecurityPageTest(unittest.TestCase):
                      "https://github.com/icreated/lumnik-open"):
             with self.subTest(href=href):
                 self.assertIn(f'href="{href}"', page)
+
+
+class DiscoveryTest(unittest.TestCase):
+    def test_the_sitemap_exposes_every_public_entry_page_and_no_relay(self):
+        root = ET.parse(ROOT / "sitemap.xml").getroot()
+        namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+        urls = {node.text for node in root.findall("sm:url/sm:loc", namespace)}
+        expected = {"https://lumnik.io/", "https://lumnik.io/scenarios/"}
+        expected.update(f"https://lumnik.io/{page}" for page in ALL_PAGES if page != "index.html")
+        # The publish writes one entry per scenario page the site serves (lumnik-scenario publish_site).
+        served = json.loads((ROOT / "scenarios" / "index.json").read_text(encoding="utf-8"))["scenarios"]
+        expected.update(f"https://lumnik.io/scenarios/{e['slug']}/" for e in served)
+        self.assertEqual(expected, urls)
+        self.assertTrue(all(f"https://lumnik.io/{relay}" not in urls for relay in RELAYS))
+
+    def test_robots_announces_the_sitemap(self):
+        robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
+        self.assertIn("Sitemap: https://lumnik.io/sitemap.xml", robots.splitlines())
 
 
 class RelayTest(unittest.TestCase):
