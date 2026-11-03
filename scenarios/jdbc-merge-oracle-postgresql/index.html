@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>One product record, two databases: PostgreSQL and Oracle stay where they are. — lumnik</title>
-<meta name="description" content="Products live in PostgreSQL, their categories in Oracle. Two jdbc connectors read them without writing to either, and one entity joins them: 40,234 products, each with its category when there is one.">
+<title>One product record joins PostgreSQL and Oracle with nothing migrated — lumnik</title>
+<meta name="description" content="Show a complete product record when the product lives in PostgreSQL and its category in Oracle, without touching either database. Products live in PostgreSQL, their categories in Oracle. Two jdbc connectors read them without writing anything, and an entity joins them. 40,234 products, 63 categories. Each product carries its category when there is one. The product with no category stays, with empty fields.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,16 +18,22 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/jdbc-merge-oracle-postgresql/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>One product record, two databases: PostgreSQL and Oracle stay where they are.</h1>
-    <p class="lede">Products live in PostgreSQL, their categories in Oracle. Two jdbc connectors read them without writing to either, and one entity joins them: 40,234 products, each with its category when there is one.</p>
+    <h1>One product record joins PostgreSQL and Oracle with nothing migrated</h1>
+    <p class="goal"><strong>Goal</strong> Show a complete product record when the product lives in PostgreSQL and its category in Oracle, without touching either database.</p>
+    <p class="lede">Products live in PostgreSQL, their categories in Oracle. Two jdbc connectors read them without writing anything, and an entity joins them.</p><ul class="lede-list"><li>40,234 products, 63 categories</li><li>each product carries its category when there is one</li><li>the product with no category stays, with empty fields</li></ul>
     <ul class="tags"><li class="tag edition edition-pro"><a href="https://docs.lumnik.io/editions/">lumnik Pro</a></li><li class="tag">Catalogue</li><li class="tag">Legacy databases</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
   </section>
+  <div role="tablist" class="page-tabs" aria-label="One product record joins PostgreSQL and Oracle with nothing migrated">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Scenario</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
   <nav class="steps-nav" aria-label="Steps"><a href="#step-secret" data-step="secret" aria-current="step"><span class="num">1 · Secrets</span><span class="sub">No restart</span></a><a href="#step-import" data-step="import"><span class="num">2 · Read</span><span class="sub">Two dialects</span></a><a href="#step-join" data-step="join"><span class="num">3 · Join</span><span class="sub">The entity</span></a><a href="#step-read" data-step="read"><span class="num">4 · Query</span><span class="sub">The result</span></a></nav>
   <section class="step" id="step-secret" aria-labelledby="secret-title">
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="secret-title">Both database passwords go into lm secret</h2>
-      <p>The manifest names the secret with password_env; the value goes through stdin, never through argv or the manifest.</p>
+      <p>The manifest names the secret with password_env. The value goes through stdin.</p><ul class="prose-list"><li>never in argv</li><li>never in the manifest</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Order</strong><p>The hub looks in its own environment first, then in lm secret.</p></div></li><li><span class="n">2</span><div><strong>No restart</strong><p>No variable to add to the hub: the secret is enough.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A jdbc connector written as a manifest gets its password without touching the hub.</p></div>
@@ -35,49 +41,78 @@
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Secrets"><button type="button" role="tab" id="secret-commands-tab" data-view="commands" aria-controls="secret-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="secret-result-tab" data-view="result" aria-controls="secret-result" aria-selected="false" tabindex="-1">Result</button></div>
     <div role="tabpanel" class="view-panel view-panel-commands" id="secret-commands" aria-labelledby="secret-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm secret set MERGE_DB_POSTGRES_PASSWORD -</span>
-<span class="out">Created secret &quot;MERGE_DB_POSTGRES_PASSWORD&quot;</span>
+<span class="out">Updated secret &quot;MERGE_DB_POSTGRES_PASSWORD&quot;</span>
 
 <span class="cmd"><span class="prompt">$</span> lm secret set MERGE_DB_ORACLE_PASSWORD -</span>
-<span class="out">Created secret &quot;MERGE_DB_ORACLE_PASSWORD&quot;</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="secret-result" aria-labelledby="secret-result-tab" tabindex="0" hidden><dl class="facts"><dt>secret</dt><dd>Created secret &quot;MERGE_DB_POSTGRES_PASSWORD&quot;</dd><dt>secret</dt><dd>Created secret &quot;MERGE_DB_ORACLE_PASSWORD&quot;</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
+<span class="out">Updated secret &quot;MERGE_DB_ORACLE_PASSWORD&quot;</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="secret-result" aria-labelledby="secret-result-tab" tabindex="0" hidden><dl class="facts"><dt>secret</dt><dd>Updated secret &quot;MERGE_DB_POSTGRES_PASSWORD&quot;</dd><dt>secret</dt><dd>Updated secret &quot;MERGE_DB_ORACLE_PASSWORD&quot;</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
   </div>
 </section>
 <section class="step" id="step-import" aria-labelledby="import-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="import-title">PostgreSQL and Oracle, read only</h2>
-      <p>40,234 products in PostgreSQL, 63 categories in Oracle Free 23ai, through the embedded ojdbc17 driver.</p>
+      <p>Two jdbc connectors read both databases, read-only.</p><ul class="prose-list"><li>PostgreSQL: 40,234 products</li><li>Oracle Free 23ai: 63 categories, through the embedded ojdbc17 driver</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Oracle names</strong><p>rename brings the Oracle columns to lower case; target names the hub table.</p></div></li><li><span class="n">2</span><div><strong>Conservation</strong><p>IN = OUT for both sources: no row set aside.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Both databases are read in full, each through its own dialect.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="import-manifest-tab" data-view="manifest" aria-controls="import-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="import-commands-tab" data-view="commands" aria-controls="import-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="import-result-tab" data-view="result" aria-controls="import-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-manifest" id="import-manifest" aria-labelledby="import-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-postgres-products.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: merge-db-postgres-b</span><span class="line">  <span class="key">connector_type</span>: jdbc-generic</span><span class="line">  <span class="key">scopes</span>: [catalogue]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">connection</span>:</span><span class="line">    <span class="key">url</span>: jdbc:postgresql://merge-db-postgres:5432/erp</span><span class="line">    <span class="key">user</span>: erp_reader</span><span class="line hl">    <span class="key">password_env</span>: MERGE_DB_POSTGRES_PASSWORD</span><span class="line hl">    <span class="key">dialect</span>: postgres</span><span class="line">  <span class="key">defaults</span>:</span><span class="line">    <span class="key">schema</span>: public</span><span class="line">  <span class="key">source</span>:</span><span class="line">    <span class="key">tables</span>:</span><span class="line">      <span class="dash">-</span> <span class="key">name</span>: m_product</span><span class="line">        <span class="key">mode</span>: full</span><span class="line">        <span class="key">pk_columns</span>: [m_product_id]</span><span class="line hl">        <span class="key">target</span>: m_product_b</span></code></pre><div class="file"><span class="filename">manifests/20-oracle-categories.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: merge-db-oracle-b</span><span class="line">  <span class="key">connector_type</span>: jdbc-generic</span><span class="line">  <span class="key">scopes</span>: [catalogue]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">connection</span>:</span><span class="line">    <span class="key">url</span>: jdbc:oracle:thin:@//merge-db-oracle:1521/FREEPDB1</span><span class="line">    <span class="key">user</span>: ERP</span><span class="line hl">    <span class="key">password_env</span>: MERGE_DB_ORACLE_PASSWORD</span><span class="line hl">    <span class="key">dialect</span>: oracle</span><span class="line">  <span class="key">defaults</span>:</span><span class="line">    <span class="key">schema</span>: ERP</span><span class="line">  <span class="key">source</span>:</span><span class="line">    <span class="key">tables</span>:</span><span class="line">      <span class="dash">-</span> <span class="key">name</span>: M_PRODUCT_CATEGORY</span><span class="line">        <span class="key">mode</span>: full</span><span class="line">        <span class="key">pk_columns</span>: [M_PRODUCT_CATEGORY_ID]</span><span class="line hl">        <span class="key">target</span>: m_product_category_b</span><span class="line hl">        <span class="key">rename</span>:</span><span class="line">          <span class="key">M_PRODUCT_CATEGORY_ID</span>: m_product_category_id</span><span class="line">          <span class="key">NAME</span>: name</span><span class="line">          <span class="key">DESCRIPTION</span>: description</span><span class="line">          <span class="key">ISACTIVE</span>: isactive</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="import-commands" aria-labelledby="import-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-postgres-products.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;merge-db-postgres-b&quot;,&quot;connectorId&quot;:&quot;2b7d88f0-896f-4ae7-b2a2-9248637789f9&quot;,&quot;endpointsApplied&quot;:1}</span>
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="import-source-tab" data-view="source" aria-controls="import-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="import-manifest-tab" data-view="manifest" aria-controls="import-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="import-commands-tab" data-view="commands" aria-controls="import-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="import-result-tab" data-view="result" aria-controls="import-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="import-source" aria-labelledby="import-source-tab" tabindex="0"><figure class="source"><figcaption>postgres-m_product.sql.txt</figcaption><pre class="code">-- PostgreSQL, database erp, as erp_reader
+SELECT m_product_id, m_product_category_id, name, isactive FROM m_product
+WHERE m_product_id IN (1024944, 1025082, 9999999) ORDER BY m_product_id;
+
+ m_product_id | m_product_category_id |     name     | isactive 
+--------------+-----------------------+--------------+----------
+      1024944 | 1000021               | 4120.300.042 | N
+      1025082 | 1000021               | 160-8487     | Y
+      9999999 | 9999999               | NO-CATEGORY  | Y
+(3 rows)
+
+SELECT count(*) FROM m_product;
+ count 
+-------
+ 40234
+(1 row)</pre></figure><figure class="source"><figcaption>oracle-m_product_category.sql.txt</figcaption><pre class="code">-- Oracle Free 23ai, service FREEPDB1, schema ERP
+SELECT M_PRODUCT_CATEGORY_ID, NAME, ISACTIVE FROM M_PRODUCT_CATEGORY
+WHERE M_PRODUCT_CATEGORY_ID IN (&#x27;1000017&#x27;, &#x27;1000018&#x27;, &#x27;1000021&#x27;, &#x27;9999999&#x27;) ORDER BY M_PRODUCT_CATEGORY_ID;
+
+
+M_PRODUCT_CATEGORY_ID  NAME                           ISACTIVE
+---------------------- ------------------------------ --------
+1000017                Filtration à sable             Y
+1000018                Filtration à cartouche         Y
+1000021                Pompes                         Y
+
+
+  COUNT(*)
+----------
+        63</pre></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="import-manifest" aria-labelledby="import-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-postgres-products.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: merge-db-postgres-b</span><span class="line">  <span class="key">connector_type</span>: jdbc-generic</span><span class="line">  <span class="key">scopes</span>: [catalogue]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">connection</span>:</span><span class="line">    <span class="key">url</span>: jdbc:postgresql://merge-db-postgres:5432/erp</span><span class="line">    <span class="key">user</span>: erp_reader</span><span class="line hl">    <span class="key">password_env</span>: MERGE_DB_POSTGRES_PASSWORD</span><span class="line hl">    <span class="key">dialect</span>: postgres</span><span class="line">  <span class="key">defaults</span>:</span><span class="line">    <span class="key">schema</span>: public</span><span class="line">  <span class="key">source</span>:</span><span class="line">    <span class="key">tables</span>:</span><span class="line">      <span class="dash">-</span> <span class="key">name</span>: m_product</span><span class="line">        <span class="key">mode</span>: full</span><span class="line">        <span class="key">pk_columns</span>: [m_product_id]</span><span class="line hl">        <span class="key">target</span>: m_product_b</span></code></pre><div class="file"><span class="filename">manifests/20-oracle-categories.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: merge-db-oracle-b</span><span class="line">  <span class="key">connector_type</span>: jdbc-generic</span><span class="line">  <span class="key">scopes</span>: [catalogue]</span><span class="line"></span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">connection</span>:</span><span class="line">    <span class="key">url</span>: jdbc:oracle:thin:@//merge-db-oracle:1521/FREEPDB1</span><span class="line">    <span class="key">user</span>: ERP</span><span class="line hl">    <span class="key">password_env</span>: MERGE_DB_ORACLE_PASSWORD</span><span class="line hl">    <span class="key">dialect</span>: oracle</span><span class="line">  <span class="key">defaults</span>:</span><span class="line">    <span class="key">schema</span>: ERP</span><span class="line">  <span class="key">source</span>:</span><span class="line">    <span class="key">tables</span>:</span><span class="line">      <span class="dash">-</span> <span class="key">name</span>: M_PRODUCT_CATEGORY</span><span class="line">        <span class="key">mode</span>: full</span><span class="line">        <span class="key">pk_columns</span>: [M_PRODUCT_CATEGORY_ID]</span><span class="line hl">        <span class="key">target</span>: m_product_category_b</span><span class="line hl">        <span class="key">rename</span>:</span><span class="line">          <span class="key">M_PRODUCT_CATEGORY_ID</span>: m_product_category_id</span><span class="line">          <span class="key">NAME</span>: name</span><span class="line">          <span class="key">DESCRIPTION</span>: description</span><span class="line">          <span class="key">ISACTIVE</span>: isactive</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="import-commands" aria-labelledby="import-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-postgres-products.yaml</span>
+<span class="out">Applied connector &quot;merge-db-postgres-b&quot; — 1 endpoint</span>
 
 <span class="cmd"><span class="prompt">$</span> lm apply -f manifests/20-oracle-categories.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;merge-db-oracle-b&quot;,&quot;connectorId&quot;:&quot;46e03bf0-c747-4bed-b380-e59bbd221b14&quot;,&quot;endpointsApplied&quot;:1}</span>
+<span class="out">Applied connector &quot;merge-db-oracle-b&quot; — 1 endpoint</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector run merge-db-postgres-b</span>
-<span class="out">run scheduled: 9e90105d-1387-4e4e-8bcc-2f7f562b841f</span>
+<span class="out">run scheduled: 7da3763f-085f-4f78-82d9-47bf7eec5aef</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get 9e90105d-1387-4e4e-8bcc-2f7f562b841f</span>
-<span class="out">ID        CONNECTOR            ENDPOINT   STATUS     IN     OUT    SKIPPED  DEAD-LETTERS  STARTED           ENDED
-9e90105d  merge-db-postgres-b  m_product  Completed  40234  40234  0        0             2026-10-21 20:46  2026-10-21 20:46</span>
+<span class="cmd"><span class="prompt">$</span> lm run get 7da3763f-085f-4f78-82d9-47bf7eec5aef</span>
+<span class="out">ID        CONNECTOR            ENDPOINT   STATUS     IN     OUT    SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+7da3763f  merge-db-postgres-b  m_product  Completed  40234  40234  0        0             2026-11-03 22:00  2026-11-03 22:00  yes</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector run merge-db-oracle-b</span>
-<span class="out">run scheduled: d36f3d03-e240-498d-9096-37737b5f741b</span>
+<span class="out">run scheduled: 993c4231-3c9f-4b91-b652-a5b511d18a69</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get d36f3d03-e240-498d-9096-37737b5f741b</span>
-<span class="out">ID        CONNECTOR          ENDPOINT            STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED
-d36f3d03  merge-db-oracle-b  M_PRODUCT_CATEGORY  Completed  63  63   0        0             2026-10-21 20:46  2026-10-21 20:46</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="import-result" aria-labelledby="import-result-tab" tabindex="0" hidden><dl class="facts"><dt>merge-db-postgres-b</dt><dd>m_product · IN 40234 · OUT 40234</dd><dt>merge-db-oracle-b</dt><dd>M_PRODUCT_CATEGORY · IN 63 · OUT 63</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
+<span class="cmd"><span class="prompt">$</span> lm run get 993c4231-3c9f-4b91-b652-a5b511d18a69</span>
+<span class="out">ID        CONNECTOR          ENDPOINT            STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+993c4231  merge-db-oracle-b  M_PRODUCT_CATEGORY  Completed  63  63   0        0             2026-11-03 22:00  2026-11-03 22:00  no</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="import-result" aria-labelledby="import-result-tab" tabindex="0" hidden><dl class="facts"><dt>merge-db-postgres-b</dt><dd>m_product · IN 40234 · OUT 40234</dd><dt>merge-db-oracle-b</dt><dd>M_PRODUCT_CATEGORY · IN 63 · OUT 63</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
   </div>
 </section>
 <section class="step" id="step-join" aria-labelledby="join-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="join-title">The product carries its Oracle category</h2>
-      <p>MergedProductB joins the PostgreSQL products to their Oracle categories on m_product_category_id.</p>
+      <p>MergedProductB joins each PostgreSQL product to its Oracle category.</p><ul class="prose-list"><li>key: m_product_category_id</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Business key</strong><p>The category id is text on both sides: an Oracle NUMBER would not print like a PostgreSQL integer.</p></div></li><li><span class="n">2</span><div><strong>Left join</strong><p>A product without a category stays in the entity.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Two databases from two vendors become one record, declared in a manifest.</p></div>
@@ -92,7 +127,7 @@ d36f3d03  merge-db-oracle-b  M_PRODUCT_CATEGORY  Completed  63  63   0        0 
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="read-title">Every product, exactly once</h2>
-      <p>Two products of the Pompes category both read it; the sentinel product without a category stays, with null fields.</p>
+      <p>Each product appears once.</p><ul class="prose-list"><li>1024944 and 1025082: category Pompes</li><li>9999999: no category, empty fields, the row stays</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Cardinality</strong><p>40,234 rows in the entity, as many as in PostgreSQL.</p></div></li><li><span class="n">2</span><div><strong>Sharing</strong><p>One category enriches several products without merging them.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The join keeps every product and duplicates none.</p></div>
@@ -146,6 +181,9 @@ d36f3d03  merge-db-oracle-b  M_PRODUCT_CATEGORY  Completed  63  63   0        0 
   </div>
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>Product 9999999 is a synthetic sentinel added to prove the left join.</li><li>mode: full does not see a row edited in place: following updates needs a watermark column.</li><li>Synthetic data.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Catalogue · two databases</p><h2>The product is in PostgreSQL.</h2><p class="brief-lead">Its category is in Oracle.</p><p>Two legacy databases, neither sees the other.</p><p class="brief-note">Synthetic catalogue</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>A product record needs both.</h2><ul class="brief-list tone-cyan"><li>Migrating a database is a project.</li><li>A home-made ETL is one more script.</li><li>A failed join makes products disappear.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Nothing is migrated</p><h2>Both databases stay where they are.</h2><ul class="brief-list tone-green"><li>Two read-only accounts.</li><li>The passwords in lm secret.</li><li>No application to build.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>joins:
+  - table: t_m_product_category_b</code></pre><h2>One join across the two databases.</h2><p>A 68-line scenario, three declaration files.</p></section><section class="brief-slide"><p class="brief-kicker">What the record shows</p><h2>4120.300.042, category Pompes.</h2><ul class="brief-list tone-green"><li>The product comes from PostgreSQL.</li><li>Pompes comes from Oracle.</li><li>40,234 products, each once.</li></ul><p class="brief-note">Replay of 3 November 2026.</p></section><section class="brief-slide"><p class="brief-kicker">Nothing disappears</p><h2>A product with no category stays.</h2><ul class="brief-list tone-cyan"><li>9999999 has no category in Oracle.</li><li>It is on the record, category empty.</li><li>The join is a left join.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>Full mode does not see a row changed in place.</h2><ul class="brief-list tone-yellow"><li>It reads what follows the last key.</li><li>To follow updates: a watermark column.</li><li>Oracle is Pro edition only.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays end to end.</h2><p>PostgreSQL, Oracle, entity: every step is published with its output.</p></section></article>
   <section class="try"><p>This scenario needs lumnik Pro.</p><a class="try-button" href="../../editions.html">See the editions →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>

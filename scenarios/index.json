@@ -469,9 +469,9 @@
     },
     {
       "slug": "jdbc-merge-oracle-postgresql",
-      "title": "One product record, two databases: PostgreSQL and Oracle stay where they are.",
-      "goal": null,
-      "lede": "Products live in PostgreSQL, their categories in Oracle. Two jdbc connectors read them without writing to either, and one entity joins them: 40,234 products, each with its category when there is one.",
+      "title": "One product record joins PostgreSQL and Oracle with nothing migrated",
+      "goal": "Show a complete product record when the product lives in PostgreSQL and its category in Oracle, without touching either database.",
+      "lede": "Products live in PostgreSQL, their categories in Oracle. Two jdbc connectors read them without writing anything, and an entity joins them.\n- 40,234 products, 63 categories\n- each product carries its category when there is one\n- the product with no category stays, with empty fields",
       "tags": {
         "domain": [
           "Catalogue",
@@ -483,8 +483,8 @@
         ]
       },
       "edition": "pro",
-      "replayedAt": "2026-10-21",
-      "evidenceDigest": "sha256:51afbf4edf408443129e50a9843ce31a5623605011aebcb3383756a2cc950fb7"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:c15fe72f30eccaa5f7daff0f05e6bf4f06d3c8666424488b79a12572bf31bf2d"
     },
     {
       "slug": "kafka-after-hours-energy",
