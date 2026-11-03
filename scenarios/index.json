@@ -1057,6 +1057,23 @@
       "evidenceDigest": "sha256:e808faa5e8409fe3ba7856e1ca3367048ba088ffb10e54e7fe2006eea1383d15"
     },
     {
+      "slug": "windev-hfsql-export",
+      "title": "WinDev: the client export, with real dates and a real Active flag.",
+      "lede": "A WinDev application exports its clients with HExportCSV. The file is reconstituted from PC SOFT's documentation.\n- read as it is: six clients, but all text, dates 20190312, Actif 0 or 1;\n- three transformers: the dates as dates, the credit as a number, Actif as a real boolean;\n- a question in SQL: the active clients with no purchase since October.",
+      "tags": {
+        "domain": [
+          "Clients",
+          "WinDev"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:42a5b078864cfa5acf89257cf531465aa49cba68fb9a358215b9e0e2d4abbdb8"
+    },
+    {
       "slug": "zombie-cmms",
       "title": "The zombie system: thirty years of work orders, the box switched off, the hub still answers.",
       "lede": "A CMMS replaced years ago stays on for a handful of compliance reads a year: the licence, the box, and the one person who can restart it. lumnik reads it one last time, archives what it read under a single digest, then the box is switched off. The next run says why it fails, the pause stops the schedule, and the hub gives back the same bytes as before.",
