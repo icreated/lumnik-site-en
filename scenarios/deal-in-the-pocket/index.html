@@ -136,7 +136,7 @@ VLV-5216,Îlot de distribution 40 postes,Électrovanne,FL-WRAP 200,Y</pre><p cla
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="model-title">Reconciling the ERP and the field</h2>
-      <p>LumilaitLine merges the ERP record and the after-sales truth.</p><ul class="prose-list"><li>match: line_id, one line for both sources</li><li>sources: the ERP gives the recorded model and formats, after-sales the controller and formats found on site</li><li>label: what the PWA and the chat show</li></ul><p>LumilaitRetrofitPart says which parts fit; PackagingPart gives the catalogue its meaning.</p>
+      <p>LumilaitLine merges the ERP record and the after-sales truth. Two other entities give the catalogue its meaning.</p><ul class="prose-list"><li>match: line_id, one line for both sources</li><li>the ERP gives the record, after-sales what is found on site</li><li>LumilaitRetrofitPart: the parts that fit</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Field</strong><p>After-sales adds the 300x160 format, missing from the ERP.</p></div></li><li><span class="n">2</span><div><strong>Why two columns</strong><p>Recorded and found controllers stay side by side: the gap shows.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>One line, two sources reconciled.</p></div>
@@ -193,7 +193,7 @@ KIT-S7-1500-MF400  Kit automate S7-1500 pour MF-PACK 400  2                    1
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="app-title">Search, then be told</h2>
-      <p>One SearchIndex opens the catalogue to search.</p><ul class="prose-list"><li>titleField: description: the part&#x27;s name becomes the result&#x27;s title</li><li>match: prefix: a reference is found by its start</li><li>match: text: a description is found by its words (language: french)</li><li>facet: true: filters by family and compatible model</li></ul><p>The App gives the PWA its name and colours. The Process watches the CRM:</p><ul class="prose-list"><li>event: data.row.changed: every changed CRM row is evaluated</li><li>when: status=PRET_CONFIRMATION_CLIENT: the only deal that matters</li><li>emit: a decision, with a readable message</li></ul>
+      <p>One SearchIndex opens the catalogue to search. A Process watches the CRM.</p><ul class="prose-list"><li>match: prefix for references, text for descriptions</li><li>facet: true: filters by family and compatible model</li><li>when: status=PRET_CONFIRMATION_CLIENT: the only deal that matters</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>variateur</strong><p>30 drives, 11 for the MF-PACK 400.</p></div></li><li><span class="n">2</span><div><strong>Webhook</strong><p>The lumi-lumilait-automation integration receives decisions and their handling.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The catalogue is indexed and the agreement rule is in place.</p></div>

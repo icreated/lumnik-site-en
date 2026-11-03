@@ -33,7 +33,7 @@
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="lab-title">Five pods broken by Kubernetes itself</h2>
-      <p>Five namespaces, one per team. Every failure is real:</p><ul class="prose-list"><li>payment-api: fills its memory past 64Mi, the kernel kills it (OOMKilled)</li><li>billing-api: failing liveness probe, restarted forever</li><li>checkout-worker: readiness probe on a missing path, never Ready</li><li>storefront: mounts a ConfigMap that does not exist</li><li>catalog-api: a CPU loop under a 100m limit</li></ul><p>lumnik-reader: a ServiceAccount that reads pods, events and metrics, nothing else.</p>
+      <p>Five namespaces, one per team. Every failure is real:</p><ul class="prose-list"><li>payment-api: fills its memory past 64Mi, the kernel kills it (OOMKilled)</li><li>billing-api: failing liveness probe, restarted again and again</li><li>checkout-worker: readiness probe on a missing path, never Ready</li><li>storefront: mounts a ConfigMap that does not exist</li><li>catalog-api: a CPU loop under a 100m limit</li></ul><p>lumnik-reader: a ServiceAccount that reads pods, events and metrics, nothing else.</p>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Why a real cluster</strong><p>A DevOps audience spots made-up data; here every state comes from the kubelet.</p></div></li><li><span class="n">2</span><div><strong>Read-only</strong><p>get and list on three resources: lumnik cannot restart anything.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>kubectl shows four failing pods and one that looks healthy.</p></div>

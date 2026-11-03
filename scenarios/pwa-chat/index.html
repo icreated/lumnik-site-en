@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Question 40,000 products, with the SQL shown. — lumnik</title>
-<meta name="description" content="Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query; the answer shows its SQL.">
+<title>Question 40,000 items in French and see the SQL — lumnik</title>
+<meta name="description" content="Let a user question the catalogue in their own words, without learning the columns or writing SQL. Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query. 40,233 items, each with its category. &quot;How many items in the Pompes category?&quot;: 7,407. The answer shows its SQL.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,16 +18,22 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/pwa-chat/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>Question 40,000 products, with the SQL shown.</h1>
-    <p class="lede">Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query; the answer shows its SQL.</p>
+    <h1>Question 40,000 items in French and see the SQL</h1>
+    <p class="goal"><strong>Goal</strong> Let a user question the catalogue in their own words, without learning the columns or writing SQL.</p>
+    <p class="lede">Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query.</p><ul class="lede-list"><li>40,233 items, each with its category</li><li>&quot;How many items in the Pompes category?&quot;: 7,407</li><li>the answer shows its SQL</li></ul>
     <ul class="tags"><li class="tag edition edition-pro"><a href="https://docs.lumnik.io/editions/">lumnik Pro</a></li><li class="tag">Retail</li><li class="tag">Catalogue</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li><li class="tag kind">App</li></ul>
   </section>
+  <div role="tablist" class="page-tabs" aria-label="Question 40,000 items in French and see the SQL">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Scenario</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
   <nav class="steps-nav" aria-label="Steps"><a href="#step-import" data-step="import" aria-current="step"><span class="num">1 · Import</span><span class="sub">Two CSVs</span></a><a href="#step-model" data-step="model"><span class="num">2 · Model</span><span class="sub">One entity</span></a><a href="#step-app" data-step="app"><span class="num">3 · Publish</span><span class="sub">The app</span></a><a href="#step-ask" data-step="ask"><span class="num">4 · Ask</span><span class="sub">The proof</span></a></nav>
   <section class="step" id="step-import" aria-labelledby="import-title">
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="import-title">One Connector per export</h2>
-      <p>Products and categories, one file each; same pwa-chat business scope.</p>
+      <p>Two CSV connectors, one per export, in the same pwa-chat scope.</p><ul class="prose-list"><li>the items</li><li>the categories</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Order</strong><p>Categories first, then products.</p></div></li><li><span class="n">2</span><div><strong>Scope</strong><p>The chat reads only this scope.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Both exports are read as they are.</p></div>
@@ -38,34 +44,34 @@
 <span class="out">✓ 10-products.yaml — valid</span>
 
 <span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-products.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;pwa-chat-products&quot;,&quot;connectorId&quot;:&quot;e8893df3-e318-4974-80ab-ee7722c669f4&quot;,&quot;endpointsApplied&quot;:1}</span>
+<span class="out">Applied connector &quot;pwa-chat-products&quot; — 1 endpoint</span>
 
 <span class="cmd"><span class="prompt">$</span> lm validate -f manifests/15-product-categories.yaml</span>
 <span class="out">✓ 15-product-categories.yaml — valid</span>
 
 <span class="cmd"><span class="prompt">$</span> lm apply -f manifests/15-product-categories.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;pwa-chat-product-categories&quot;,&quot;connectorId&quot;:&quot;34d48574-6dd7-4e5a-97d5-1efba352d638&quot;,&quot;endpointsApplied&quot;:1}</span>
+<span class="out">Applied connector &quot;pwa-chat-product-categories&quot; — 1 endpoint</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector run pwa-chat-product-categories</span>
-<span class="out">run scheduled: abdf9a63-c6ea-4f46-bfd1-802c11d49221</span>
+<span class="out">run scheduled: d27fd5d6-6853-4949-983a-f782d6bf3ea4</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get abdf9a63-c6ea-4f46-bfd1-802c11d49221</span>
-<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED
-abdf9a63  pwa-chat-product-categories  default   Completed  63  63   0        0             2026-10-21 15:47  2026-10-21 15:47</span>
+<span class="cmd"><span class="prompt">$</span> lm run get d27fd5d6-6853-4949-983a-f782d6bf3ea4</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+d27fd5d6  pwa-chat-product-categories  default   Completed  63  63   0        0             2026-11-03 21:54  2026-11-03 21:54  yes</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector run pwa-chat-products</span>
-<span class="out">run scheduled: 15eb03af-78ef-468f-89f4-67b00d5771c4</span>
+<span class="out">run scheduled: 3389ca6c-41c9-4567-8458-81a1fe27b27d</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get 15eb03af-78ef-468f-89f4-67b00d5771c4</span>
-<span class="out">ID        CONNECTOR          ENDPOINT  STATUS     IN     OUT    SKIPPED  DEAD-LETTERS  STARTED           ENDED
-15eb03af  pwa-chat-products  default   Completed  40233  40233  0        0             2026-10-21 15:47  2026-10-21 15:47</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="import-result" aria-labelledby="import-result-tab" tabindex="0" hidden><dl class="facts"><dt>Connectors applied</dt><dd>pwa-chat-products, pwa-chat-product-categories</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
+<span class="cmd"><span class="prompt">$</span> lm run get 3389ca6c-41c9-4567-8458-81a1fe27b27d</span>
+<span class="out">ID        CONNECTOR          ENDPOINT  STATUS     IN     OUT    SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+3389ca6c  pwa-chat-products  default   Completed  40233  40233  0        0             2026-11-03 21:54  2026-11-03 21:54  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="import-result" aria-labelledby="import-result-tab" tabindex="0" hidden><dl class="facts"><dt>Connectors applied</dt><dd>pwa-chat-products, pwa-chat-product-categories</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div>
   </div>
 </section>
 <section class="step" id="step-model" aria-labelledby="model-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="model-title">One entity, labels for the model</h2>
-      <p>PwaChatProduct joins the category to each product. Its French labels are the contract handed to the model; no SearchIndex.</p>
+      <p>PwaChatProduct joins the category to each item. Its French labels are the contract given to the model.</p><ul class="prose-list"><li>40,233 items</li><li>no SearchIndex</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Join</strong><p>category_name instead of an ID.</p></div></li><li><span class="n">2</span><div><strong>Explicit labels</strong><p>« Article actif (Y pour oui, N pour non) » (active: Y or N) steers the query.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Every product of the export is in the entity, with its category.</p></div>
@@ -80,7 +86,7 @@ abdf9a63  pwa-chat-product-categories  default   Completed  63  63   0        0 
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="app-title">An app reduced to chat</h2>
-      <p>spec.tabs keeps only chat. Pro edition, AI on; the model must answer.</p>
+      <p>spec.tabs keeps chat only. Pro edition, AI on.</p><ul class="prose-list"><li>the pwa-chat app has one tab</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Open</strong><p>/app/?m=pwa-chat</p></div></li><li><span class="n">2</span><div><strong>Follow up</strong><p>« et seulement les actifs ? » (and only the active ones?) reuses the previous question.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The answer shows its freshness and the SQL executed.</p></div>
@@ -89,14 +95,14 @@ abdf9a63  pwa-chat-product-categories  default   Completed  63  63   0        0 
     <div role="tablist" class="view-tabs" aria-label="Publish"><button type="button" role="tab" id="app-manifest-tab" data-view="manifest" aria-controls="app-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="app-commands-tab" data-view="commands" aria-controls="app-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="app-result-tab" data-view="result" aria-controls="app-result" aria-selected="false" tabindex="-1">Result</button><button type="button" role="tab" id="app-screenshots-tab" data-view="screenshots" aria-controls="app-screenshots" aria-selected="false" tabindex="-1">Screenshots</button></div>
     <div role="tabpanel" class="view-panel view-panel-manifest" id="app-manifest" aria-labelledby="app-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/30-pwa-chat-app.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: App</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: pwa-chat</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">title</span>: Assistant catalogue</span><span class="line">  <span class="key">scope</span>: pwa-chat</span><span class="line">  <span class="key">icon</span>: generic</span><span class="line">  <span class="key">theme</span>:</span><span class="line">    <span class="key">accentColor</span>: <span class="str">&quot;#4fd1a5&quot;</span></span><span class="line">    <span class="key">backgroundColor</span>: <span class="str">&quot;#f4f1ea&quot;</span></span><span class="line hl">  <span class="key">tabs</span>: [chat]</span><span class="line">  <span class="key">default</span>: false</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="app-commands" aria-labelledby="app-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm app apply -f manifests/30-pwa-chat-app.yaml</span>
 <span class="out">Applied app &quot;pwa-chat&quot; → scope pwa-chat
-  tabs: chat</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="app-result" aria-labelledby="app-result-tab" tabindex="0" hidden><dl class="facts"><dt>App</dt><dd>pwa-chat</dd><dt>Tabs</dt><dd>chat</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div><div role="tabpanel" class="view-panel view-panel-screenshots" id="app-screenshots" aria-labelledby="app-screenshots-tab" tabindex="0" hidden><figure class="shot"><img src="evidence/screenshots/01-desktop-chat-pompes-with-sql.jpg" alt="Desktop: « Combien d&#x27;articles appartiennent à la catégorie Pompes ? » (how many products in the Pompes category?) 7407, SQL expanded." loading="lazy"><figcaption>Desktop: « Combien d&#x27;articles appartiennent à la catégorie Pompes ? » (how many products in the Pompes category?) 7407, SQL expanded.</figcaption></figure><figure class="shot"><img src="evidence/screenshots/02-phone-chat-followup-active.png" alt="Phone: follow-up « et seulement les actifs ? », 6761." loading="lazy"><figcaption>Phone: follow-up « et seulement les actifs ? », 6761.</figcaption></figure></div>
+  tabs: chat</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="app-result" aria-labelledby="app-result-tab" tabindex="0" hidden><dl class="facts"><dt>App</dt><dd>pwa-chat</dd><dt>Tabs</dt><dd>chat</dd></dl><p class="sources">evidence: replay.log · transform v1</p></div><div role="tabpanel" class="view-panel view-panel-screenshots" id="app-screenshots" aria-labelledby="app-screenshots-tab" tabindex="0" hidden><figure class="shot"><img src="evidence/screenshots/01-desktop-chat-pompes-with-sql.jpg" alt="Desktop: « Combien d&#x27;articles appartiennent à la catégorie Pompes ? » (how many products in the Pompes category?) 7407, SQL expanded (screenshot of 21 October 2026)." loading="lazy"><figcaption>Desktop: « Combien d&#x27;articles appartiennent à la catégorie Pompes ? » (how many products in the Pompes category?) 7407, SQL expanded (screenshot of 21 October 2026).</figcaption></figure><figure class="shot"><img src="evidence/screenshots/02-phone-chat-followup-active.png" alt="Phone: follow-up « et seulement les actifs ? », 6761 (screenshot of 21 October 2026)." loading="lazy"><figcaption>Phone: follow-up « et seulement les actifs ? », 6761 (screenshot of 21 October 2026).</figcaption></figure></div>
   </div>
 </section>
 <section class="step" id="step-ask" aria-labelledby="ask-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="ask-title">One question, one read-only query</h2>
-      <p>run/run.sh asks « Combien d&#x27;articles appartiennent à la catégorie Pompes ? » with lm ask. The runner fails if no SQL is executed.</p>
+      <p>The runner asks through lm ask. It fails if no SQL runs.</p><ul class="prose-list"><li>&quot;How many items belong to the Pompes category?&quot;: 7,407</li><li>the SQL is shown with the answer</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Read-only</strong><p>The query goes through the readonly datasource and its guards.</p></div></li><li><span class="n">2</span><div><strong>Checkable</strong><p>The SQL is shown with the answer.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The answer comes from a query run on the entity, not from the model alone.</p></div>
@@ -105,7 +111,7 @@ abdf9a63  pwa-chat-product-categories  default   Completed  63  63   0        0 
     <div role="tablist" class="view-tabs" aria-label="Ask"><button type="button" role="tab" id="ask-commands-tab" data-view="commands" aria-controls="ask-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="ask-result-tab" data-view="result" aria-controls="ask-result" aria-selected="false" tabindex="-1">Result</button></div>
     <div role="tabpanel" class="view-panel view-panel-commands" id="ask-commands" aria-labelledby="ask-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm ask --scope pwa-chat --lang fr &quot;Combien d&#x27;articles appartiennent à la catégorie Pompes ?&quot;</span>
 <span class="out">Il y a 7407 articles qui appartiennent à la catégorie Pompes.
-  data as of: 2026-10-21T13:47:50.345786Z (last completed run)
+  data as of: 2026-11-03T20:54:10.032192Z (last completed run)
 
   COUNT
   7407
@@ -118,6 +124,9 @@ LIMIT 500</span></code></pre></div><div role="tabpanel" class="view-panel view-p
   </div>
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>Analytic queries over the entity; no semantic search in free text.</li><li>Depends on a reachable model; the replay fails without it.</li><li>Synthetic data.</li><li>The data and the PWA are French: the screenshots show the app as a French user sees it.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Catalogue · questions</p><h2>40,000 items, and one simple question.</h2><p class="brief-lead">How many pumps do we have?</p><p>Without knowing the columns or writing SQL.</p><p class="brief-note">Synthetic catalogue</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>The answer is in the database, out of reach.</h2><ul class="brief-list tone-cyan"><li>Categories sit in another file.</li><li>A query needs someone who knows.</li><li>An answer without SQL cannot be checked.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Nothing is changed</p><h2>Two CSV exports, as they are.</h2><ul class="brief-list tone-green"><li>An entity joins the category.</li><li>An app shows chat only.</li><li>No application to build.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>tabs: [chat]</code></pre><h2>An app reduced to chat.</h2><p>A 100-line scenario, four declaration files.</p></section><section class="brief-slide"><p class="brief-kicker">The answer</p><h2>7,407 items.</h2><pre class="brief-code"><code>SELECT COUNT(*) FROM &quot;connector&quot;.&quot;v_pwachatproduct&quot;
+WHERE &quot;category_name&quot; = &#x27;Pompes&#x27;</code></pre><p class="brief-note">Real answer, replay of 3 November 2026.</p></section><section class="brief-slide"><p class="brief-kicker">Checkable</p><h2>The SQL sits under the answer.</h2><ul class="brief-list tone-green"><li>A read-only query.</li><li>On the entity&#x27;s view.</li><li>The runner fails if no SQL runs.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>Queries, not semantic search.</h2><ul class="brief-list tone-yellow"><li>Chat counts and filters the entity.</li><li>It does not read free text for meaning.</li><li>It needs a reachable model.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays end to end.</h2><p>CSV, entity, app, question: every step is published with its output.</p></section></article>
   <section class="try"><p>This scenario needs lumnik Pro.</p><a class="try-button" href="../../editions.html">See the editions →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>

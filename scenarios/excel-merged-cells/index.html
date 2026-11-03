@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>An Excel export with merged cells: every line with its region and client. — lumnik</title>
-<meta name="description" content="Sales send a monthly Excel report: one group per client, the region and the client in merged cells, a subtotal under each group. Saved as CSV, a merged cell keeps its value on the group&#x27;s first row only; the rows below are empty. Sales want every line with its region and client.">
+<title>Every line of the Excel export gets its region and its client back — lumnik</title>
+<meta name="description" content="Read an Excel report with merged cells as a table, one row per sale. Sales send an Excel report every month. One group per client, region and client in merged cells, a subtotal under each group. As CSV, a merged cell keeps its value on the first row only. The 15 subtotals set aside and counted; Each row gets its group&#x27;s region and client; Nothing crosses from one file to the next.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,38 +18,63 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/excel-merged-cells/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>An Excel export with merged cells: every line with its region and client.</h1>
-    <p class="lede">Sales send a monthly Excel report: one group per client, the region and the client in merged cells, a subtotal under each group. Saved as CSV, a merged cell keeps its value on the group&#x27;s first row only; the rows below are empty. Sales want every line with its region and client.</p>
+    <h1>Every line of the Excel export gets its region and its client back</h1>
+    <p class="goal"><strong>Goal</strong> Read an Excel report with merged cells as a table, one row per sale.</p>
+    <p class="lede">Sales send an Excel report every month. One group per client, region and client in merged cells, a subtotal under each group. As CSV, a merged cell keeps its value on the first row only.</p><ul class="lede-list"><li>the 15 subtotals set aside and counted;</li><li>each row gets its group&#x27;s region and client;</li><li>nothing crosses from one file to the next.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Sales</li><li class="tag">Reporting</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
   </section>
+  <div role="tablist" class="page-tabs" aria-label="Every line of the Excel export gets its region and its client back">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
   <nav class="steps-nav" aria-label="Steps"><a href="#step-load" data-step="load" aria-current="step"><span class="num">1 · Load</span><span class="sub">2 exports, 1,112 rows</span></a><a href="#step-client" data-step="client"><span class="num">2 · One client</span><span class="sub">84 lines</span></a><a href="#step-october" data-step="october"><span class="num">3 · October</span><span class="sub">3 orphan lines</span></a></nav>
   <section class="step" id="step-load" aria-labelledby="load-title">
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="load-title">The sale lines, without the subtotals</h2>
-      <p>filter-where keeps the dated lines only: the 15 subtotals are dropped and counted. map-columns renames the headers, parse-date and parse-number read dates and amounts. fill-down carries the region and client of a group&#x27;s first row onto the rows below.</p>
+      <p>A sale has a date. A subtotal has none: filter-where sets it aside and counts it. fill-down carries region and client over the whole group.</p><ul class="prose-list"><li>1,112 rows read</li><li>15 subtotals set aside</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>15 subtotals</strong><p>Dropped, counted in SKIPPED.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>SKIPPED 15</strong><p>The subtotals, counted.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A report laid out for the eye reads as a table.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Load"><button type="button" role="tab" id="load-manifest-tab" data-view="manifest" aria-controls="load-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="load-commands-tab" data-view="commands" aria-controls="load-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="load-result-tab" data-view="result" aria-controls="load-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-manifest" id="load-manifest" aria-labelledby="load-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-sales.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-excel-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [sales-b]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/excel-merged-cells/b/*.csv   <span class="comment"># one Excel sales export per month</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">dataset</span>:</span><span class="line hl">      - filter-where: { column: Date, regex: <span class="str">&quot;\\d{2}/\\d{2}/\\d{4}&quot;</span> }   <span class="comment"># the sale lines: a subtotal has no date</span></span><span class="line">    <span class="key">row</span>:</span><span class="line">      - map-columns:</span><span class="line">          <span class="key">rename</span>:</span><span class="line">            <span class="key">Région</span>: region</span><span class="line">            <span class="key">Client</span>: client</span><span class="line">            <span class="key">Date</span>: sale_date</span><span class="line">            <span class="key">Pièce</span>: piece</span><span class="line">            <span class="key">Article</span>: article</span><span class="line">            <span class="key">Quantité</span>: quantity</span><span class="line">            Montant HT: amount</span><span class="line">    <span class="key">cell</span>:</span><span class="line">      - regex-extract: { column: sale_date, pattern: <span class="str">&quot;^\\d{2}/(\\d{2})/\\d{4}$&quot;</span>, groups: { 1: month } }</span><span class="line">      - parse-date: { column: sale_date, formats: [<span class="str">&quot;dd/MM/yyyy&quot;</span>] }</span><span class="line">      - parse-number: { column: quantity, integer: true }</span><span class="line">      - parse-number: { column: amount }</span><span class="line hl">      - fill-down: { columns: [region, client] }   <span class="comment"># a merged cell: written on its group&#x27;s first row only</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="load-commands" aria-labelledby="load-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-sales.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;scenario-excel-d&quot;,&quot;connectorId&quot;:&quot;78cde8f0-c605-48d9-a612-edfefa96d056&quot;,&quot;endpointsApplied&quot;:1}</span>
+    <div role="tablist" class="view-tabs" aria-label="Load"><button type="button" role="tab" id="load-source-tab" data-view="source" aria-controls="load-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="load-manifest-tab" data-view="manifest" aria-controls="load-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="load-commands-tab" data-view="commands" aria-controls="load-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="load-result-tab" data-view="result" aria-controls="load-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="load-source" aria-labelledby="load-source-tab" tabindex="0"><figure class="source"><figcaption>ventes_2026-09.csv</figcaption><pre class="code">Région;Client;Date;Pièce;Article;Quantité;Montant HT
+Nord;Boulangerie des Tilleuls;01/09/2026;FA26090001;Farine T65 25 kg;1;18,40
+;;04/09/2026;FA26090002;Sucre semoule 10 kg;8;103,20
+;;07/09/2026;FA26090003;Beurre AOP 5 kg;3;124,50
+;;10/09/2026;FA26090004;Levure fraîche 1 kg;10;32,00
+;;13/09/2026;FA26090005;Chocolat noir 64 % 5 kg;5;290,00
+;;16/09/2026;FA26090006;Crème 35 % 5 L;12;273,00
+;;19/09/2026;FA26090007;Œufs plein air x180;7;277,20
+;;22/09/2026;FA26090008;Amandes effilées 1 kg;2;32,60
+;;25/09/2026;FA26090009;Farine T65 25 kg;9;165,60
+;;28/09/2026;FA26090010;Sucre semoule 10 kg;4;51,60
+;;03/09/2026;FA26090011;Beurre AOP 5 kg;11;456,50
+;;06/09/2026;FA26090012;Levure fraîche 1 kg;6;19,20
+;;09/09/2026;FA26090013;Chocolat noir 64 % 5 kg;1;58,00
+;;12/09/2026;FA26090014;Crème 35 % 5 L;8;182,00
+;;15/09/2026;FA26090015;Œufs plein air x180;3;118,80
+;;18/09/2026;FA26090016;Amandes effilées 1 kg;10;163,00
+;;21/09/2026;FA26090017;Farine T65 25 kg;5;92,00
+;;24/09/2026;FA26090018;Sucre semoule 10 kg;12;154,80
+;;27/09/2026;FA26090019;Beurre AOP 5 kg;7;290,50</pre><p class="source-more">… 1078 more lines</p></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="load-manifest" aria-labelledby="load-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-sales.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-excel-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [sales-b]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/excel-merged-cells/b/*.csv   <span class="comment"># one Excel sales export per month</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">dataset</span>:</span><span class="line hl">      - filter-where: { column: Date, regex: <span class="str">&quot;\\d{2}/\\d{2}/\\d{4}&quot;</span> }   <span class="comment"># the sale lines: a subtotal has no date</span></span><span class="line">    <span class="key">row</span>:</span><span class="line">      - map-columns:</span><span class="line">          <span class="key">rename</span>:</span><span class="line">            <span class="key">Région</span>: region</span><span class="line">            <span class="key">Client</span>: client</span><span class="line">            <span class="key">Date</span>: sale_date</span><span class="line">            <span class="key">Pièce</span>: piece</span><span class="line">            <span class="key">Article</span>: article</span><span class="line">            <span class="key">Quantité</span>: quantity</span><span class="line">            Montant HT: amount</span><span class="line">    <span class="key">cell</span>:</span><span class="line">      - regex-extract: { column: sale_date, pattern: <span class="str">&quot;^\\d{2}/(\\d{2})/\\d{4}$&quot;</span>, groups: { 1: month } }</span><span class="line">      - parse-date: { column: sale_date, formats: [<span class="str">&quot;dd/MM/yyyy&quot;</span>] }</span><span class="line">      - parse-number: { column: quantity, integer: true }</span><span class="line">      - parse-number: { column: amount }</span><span class="line hl">      - fill-down: { columns: [region, client] }   <span class="comment"># a merged cell: written on its group&#x27;s first row only</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="load-commands" aria-labelledby="load-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-sales.yaml</span>
+<span class="out">Applied connector &quot;scenario-excel-b&quot; — 1 endpoint</span>
 
-<span class="cmd"><span class="prompt">$</span> lm connector run scenario-excel-d</span>
-<span class="out">run scheduled: a7e06157-317c-4180-93dc-03d8e32abddd</span>
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-excel-b</span>
+<span class="out">run scheduled: 8c09d868-90c4-437d-af5a-86dbe774afea</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get a7e06157-317c-4180-93dc-03d8e32abddd</span>
-<span class="out">ID        CONNECTOR         ENDPOINT  STATUS     IN    OUT   SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
-a7e06157  scenario-excel-d  default   Completed  1112  1097  15       0             2026-10-24 19:27  2026-10-24 19:27  no</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="load-result" aria-labelledby="load-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 1112 · OUT 1097 · SKIPPED 15</dd></dl><p class="sources">evidence: replay.log, load-run.txt, client.txt, client.json, october.txt, october.json · transform v1</p></div>
+<span class="cmd"><span class="prompt">$</span> lm run get 8c09d868-90c4-437d-af5a-86dbe774afea</span>
+<span class="out">ID        CONNECTOR         ENDPOINT  STATUS     IN    OUT   SKIPPED  DEAD-LETTERS  STARTED           ENDED
+8c09d868  scenario-excel-b  default   Completed  1112  1097  15       0             2026-11-03 15:50  2026-11-03 15:50</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="load-result" aria-labelledby="load-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 1112 · OUT 1097 · SKIPPED 15</dd></dl><p class="sources">evidence: replay.log, load-run.txt, client.txt, client.json, october.txt, october.json · transform v1</p></div>
   </div>
 </section>
 <section class="step" id="step-client" aria-labelledby="client-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="client-title">A client across two 500-row chunks</h2>
-      <p>The hub reads a file in chunks of 500 rows. Biscuiterie de l&#x27;Anse spans rows 461 to 544: its group is cut in two. Its 84 lines all carry Est and the client; 546 units and 13,603.90, the export&#x27;s own subtotal.</p>
+      <p>The hub reads in chunks of 500 rows. Biscuiterie de l&#x27;Anse is cut in two.</p><ul class="prose-list"><li>84 rows, all on the right client</li><li>13,603.90, as the subtotal says</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>13,603.90</strong><p>The export&#x27;s subtotal, found again.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The carried value crosses from one chunk to the next.</p></div>
@@ -57,9 +82,9 @@ a7e06157  scenario-excel-d  default   Completed  1112  1097  15       0         
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="One client"><button type="button" role="tab" id="client-manifest-tab" data-view="manifest" aria-controls="client-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="client-commands-tab" data-view="commands" aria-controls="client-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="client-result-tab" data-view="result" aria-controls="client-result" aria-selected="false" tabindex="-1">Result</button></div>
     <div role="tabpanel" class="view-panel view-panel-manifest" id="client-manifest" aria-labelledby="client-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-sales-line.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">kind</span>: Entity</span><span class="line"><span class="key">name</span>: sales_line_b</span><span class="line"><span class="key">label</span>: Ligne de vente</span><span class="line"><span class="key">description</span>: <span class="str">&quot;One sale line of a monthly Excel export: its region and client, its date, invoice, article, quantity and amount.&quot;</span></span><span class="line"><span class="key">match</span>: [piece]</span><span class="line"><span class="key">scopes</span>: [sales-b]</span><span class="line"><span class="key">columns</span>:</span><span class="line">  <span class="key">piece</span>: { label: <span class="str">&quot;Pièce&quot;</span> }</span><span class="line">  <span class="key">month</span>: { label: <span class="str">&quot;Mois&quot;</span> }</span><span class="line">  <span class="key">region</span>: { label: <span class="str">&quot;Région&quot;</span> }</span><span class="line">  <span class="key">client</span>: { label: <span class="str">&quot;Client&quot;</span> }</span><span class="line">  <span class="key">sale_date</span>: { label: <span class="str">&quot;Date&quot;</span> }</span><span class="line">  <span class="key">article</span>: { label: <span class="str">&quot;Article&quot;</span> }</span><span class="line">  <span class="key">quantity</span>: { label: <span class="str">&quot;Quantité&quot;</span> }</span><span class="line">  <span class="key">amount</span>: { label: <span class="str">&quot;Montant HT&quot;</span> }</span><span class="line"><span class="key">sources</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_excel_b</span><span class="line">    <span class="key">map</span>: { piece: piece, month: month, region: region, client: client, sale_date: sale_date, article: article, quantity: quantity, amount: amount }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="client-commands" aria-labelledby="client-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm entity apply -f 20-sales-line.yaml</span>
-<span class="out">Applied entity &quot;sales_line_d&quot; → connector.&quot;v_sales_line_d&quot;</span>
+<span class="out">Applied entity &quot;sales_line_b&quot; → connector.&quot;v_sales_line_b&quot;</span>
 
-<span class="cmd"><span class="prompt">$</span> lm entity get sales_line_d --filter &quot;client=Biscuiterie de l&#x27;Anse&quot;</span>
+<span class="cmd"><span class="prompt">$</span> lm entity get sales_line_b --filter &quot;client=Biscuiterie de l&#x27;Anse&quot;</span>
 <span class="out">PIECE       MONTH  REGION  CLIENT                 SALE_DATE   ARTICLE                  QUANTITY  AMOUNT  _CONFLICTS
 FA26090456  09     Est     Biscuiterie de l&#x27;Anse  2026-09-06  Crème 35 % 5 L           6         136.5   {}
 FA26090457  09     Est     Biscuiterie de l&#x27;Anse  2026-09-09  Œufs plein air x180      1         39.6    {}
@@ -151,14 +176,29 @@ FA26090539  09     Est     Biscuiterie de l&#x27;Anse  2026-09-03  Farine T65 25
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="october-title">An export copied from a filtered sheet</h2>
-      <p>In October the export was copied from a filtered sheet that hid the first group&#x27;s first row: its first three lines have no region and no client. They stay empty and do not inherit September&#x27;s last client: each file starts with nothing carried.</p>
+      <p>October&#x27;s export comes from a filtered sheet. Its first three rows have no client. They stay empty.</p><ul class="prose-list"><li>no September client by mistake</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>FA26100001</strong><p>No region, no client, as in the export.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>FA26100001</strong><p>No client, as in the export.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A value never crosses from one file to another.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="October"><button type="button" role="tab" id="october-commands-tab" data-view="commands" aria-controls="october-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="october-result-tab" data-view="result" aria-controls="october-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-commands" id="october-commands" aria-labelledby="october-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm entity get sales_line_d --filter month=10</span>
+    <div role="tablist" class="view-tabs" aria-label="October"><button type="button" role="tab" id="october-source-tab" data-view="source" aria-controls="october-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="october-commands-tab" data-view="commands" aria-controls="october-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="october-result-tab" data-view="result" aria-controls="october-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="october-source" aria-labelledby="october-source-tab" tabindex="0"><figure class="source"><figcaption>ventes_2026-10.csv</figcaption><pre class="code">Région;Client;Date;Pièce;Article;Quantité;Montant HT
+;;01/10/2026;FA26100001;Farine T65 25 kg;1;18,40
+;;04/10/2026;FA26100002;Sucre semoule 10 kg;8;103,20
+;;07/10/2026;FA26100003;Beurre AOP 5 kg;3;124,50
+;Total Boulangerie des Tilleuls;;;;12;246,10
+Est;Fromagerie du Val;02/10/2026;FA26100004;Sucre semoule 10 kg;2;25,80
+;;05/10/2026;FA26100005;Beurre AOP 5 kg;9;373,50
+;;08/10/2026;FA26100006;Levure fraîche 1 kg;4;12,80
+;;11/10/2026;FA26100007;Chocolat noir 64 % 5 kg;11;638,00
+;;14/10/2026;FA26100008;Crème 35 % 5 L;6;136,50
+;Total Fromagerie du Val;;;;32;1 186,60
+Ouest;Épicerie Lemoine;03/10/2026;FA26100009;Beurre AOP 5 kg;3;124,50
+;;06/10/2026;FA26100010;Levure fraîche 1 kg;10;32,00
+;;09/10/2026;FA26100011;Chocolat noir 64 % 5 kg;5;290,00
+;;12/10/2026;FA26100012;Crème 35 % 5 L;12;273,00
+;Total Épicerie Lemoine;;;;30;719,50</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="october-commands" aria-labelledby="october-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm entity get sales_line_b --filter month=10</span>
 <span class="out">PIECE       MONTH  REGION  CLIENT             SALE_DATE   ARTICLE                  QUANTITY  AMOUNT  _CONFLICTS
 FA26100001  10                                2026-10-01  Farine T65 25 kg         1         18.4    {}
 FA26100002  10                                2026-10-04  Sucre semoule 10 kg      8         103.2   {}
@@ -175,6 +215,8 @@ FA26100012  10     Ouest   Épicerie Lemoine   2026-10-12  Crème 35 % 5 L      
   </div>
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>fill-down follows the file&#x27;s order: sort-by beside it is refused.</li><li>A line dropped by filter-where carries nothing: a group&#x27;s first row must not be filtered out.</li><li>Synthetic files, fictitious clients.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Sales · Excel</p><h2>The sales report is an Excel file.</h2><p class="brief-lead">Made for the eye, not for a table.</p><p class="brief-note">Two months, 1097 sale lines</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>Merged cells come out empty.</h2><ul class="brief-list tone-cyan"><li>As CSV, only the first row keeps the client.</li><li>The next ones are empty.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The report stays as it is.</h2><ul class="brief-list tone-green"><li>The same export, every month.</li><li>Nobody touches it up by hand.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The trap</p><h2>A group cut in two.</h2><ul class="brief-list tone-cyan"><li>The hub reads in chunks of 500 rows.</li><li>One client straddles two.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>fill-down: { columns: [region, client] }</code></pre><h2>One line.</h2><ul class="brief-list tone-green"><li>The value flows down its group.</li><li>It crosses from one chunk to the next.</li><li>A 50-line scenario, two manifests.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The proof</p><h2>13,603.90, the subtotal found again.</h2><ul class="brief-list tone-cyan"><li>84 rows, all on the right client.</li><li>The 15 subtotals counted apart.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>The file&#x27;s order matters.</h2><ul class="brief-list tone-green"><li>fill-down follows the rows in order.</li><li>A sort beside it is refused.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
   <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>

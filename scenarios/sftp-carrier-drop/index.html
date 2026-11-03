@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The carrier&#x27;s SFTP drop: every night read, put away, and nothing on trust. — lumnik</title>
-<meta name="description" content="A carrier drops livraisons.csv on its SFTP server every night, always under the same name. lumnik reads a night of the same size again, puts each night away under its own name, says on the run a file it could not archive, and refuses a server whose key has changed.">
+<title>The carrier&#x27;s SFTP drop read every night with nothing taken on trust — lumnik</title>
+<meta name="description" content="Read the carrier&#x27;s file every night, file it away, and refuse a server whose key changed. A carrier drops livraisons.csv on its SFTP every night, always under the same name. Each night read, then archived under its name and time; A file not archived said on the run; A changed server key refused until confirmed.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,18 +18,24 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/sftp-carrier-drop/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>The carrier&#x27;s SFTP drop: every night read, put away, and nothing on trust.</h1>
-    <p class="lede">A carrier drops livraisons.csv on its SFTP server every night, always under the same name. lumnik reads a night of the same size again, puts each night away under its own name, says on the run a file it could not archive, and refuses a server whose key has changed.</p>
+    <h1>The carrier&#x27;s SFTP drop read every night with nothing taken on trust</h1>
+    <p class="goal"><strong>Goal</strong> Read the carrier&#x27;s file every night, file it away, and refuse a server whose key changed.</p>
+    <p class="lede">A carrier drops livraisons.csv on its SFTP every night, always under the same name.</p><ul class="lede-list"><li>each night read, then archived under its name and time;</li><li>a file not archived said on the run;</li><li>a changed server key refused until confirmed.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Logistics</li><li class="tag">Integration</li><li class="tag kind">Connector</li></ul>
   </section>
+  <div role="tablist" class="page-tabs" aria-label="The carrier&#x27;s SFTP drop read every night with nothing taken on trust">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
   <nav class="steps-nav" aria-label="Steps"><a href="#step-connect" data-step="connect" aria-current="step"><span class="num">1 · Connect</span><span class="sub">Key pinned</span></a><a href="#step-night1" data-step="night1"><span class="num">2 · Night 1</span><span class="sub">Six shipments</span></a><a href="#step-night2" data-step="night2"><span class="num">3 · Night 2</span><span class="sub">Same name, same size</span></a><a href="#step-night3" data-step="night3"><span class="num">4 · Night 3</span><span class="sub">Read-only archive</span></a><a href="#step-hostkey" data-step="hostkey"><span class="num">5 · Reinstall</span><span class="sub">New key</span></a><a href="#step-repin" data-step="repin"><span class="num">6 · Repin</span><span class="sub">Key confirmed</span></a></nav>
   <section class="step" id="step-connect" aria-labelledby="connect-title">
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="connect-title">The carrier&#x27;s server, its key checked</h2>
-      <p>A CSV connector over the carrier&#x27;s SFTP. Its key fingerprint is read out of band, then pinned; the password is a hub secret, never in the manifest.</p>
+      <p>A CSV connector on the carrier&#x27;s SFTP. Its key&#x27;s fingerprint is pinned. The password is a hub secret.</p>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Trust</strong><p>The hub talks only to the server whose key it knows.</p></div></li><li><span class="n">2</span><div><strong>Archive</strong><p>after_process: archive empties the drop folder.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Trust</strong><p>The hub only talks to the server whose key it knows.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The transport is declared, and so is the trust.</p></div>
   </aside>
   <div class="views">
@@ -42,14 +48,20 @@
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="night1-title">Read, then archived under its name and time</h2>
-      <p>livraisons.csv is read; the file moves to archive/ with its export time in the name.</p>
+      <p>livraisons.csv is read, then archived.</p><ul class="prose-list"><li>IN 6, OUT 6</li><li>archive/livraisons.&lt;time&gt;.csv</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Read</strong><p>IN 6, OUT 6.</p></div></li><li><span class="n">2</span><div><strong>Archived</strong><p>livraisons.&lt;time&gt;.csv, the drop folder empty.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Archived</strong><p>The drop folder is empty.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A night read is a night put away.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Night 1"><button type="button" role="tab" id="night1-commands-tab" data-view="commands" aria-controls="night1-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="night1-result-tab" data-view="result" aria-controls="night1-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-commands" id="night1-commands" aria-labelledby="night1-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-carrier-d</span>
+    <div role="tablist" class="view-tabs" aria-label="Night 1"><button type="button" role="tab" id="night1-source-tab" data-view="source" aria-controls="night1-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="night1-commands-tab" data-view="commands" aria-controls="night1-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="night1-result-tab" data-view="result" aria-controls="night1-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="night1-source" aria-labelledby="night1-source-tab" tabindex="0"><figure class="source"><figcaption>livraisons-night1.csv</figcaption><pre class="code">shipment,status,city
+S-1001,TRA,Lyon
+S-1002,TRA,Vienne
+S-1003,LIV,Givors
+S-1004,TRA,Lyon
+S-1005,RET,Bron
+S-1006,TRA,Lyon</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="night1-commands" aria-labelledby="night1-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-carrier-d</span>
 <span class="out">run scheduled: 6864a207-c4bf-4cdb-a59d-d8cf2117509c</span>
 
 <span class="cmd"><span class="prompt">$</span> lm run get 6864a207-c4bf-4cdb-a59d-d8cf2117509c</span>
@@ -61,14 +73,20 @@
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="night2-title">Read again, archived beside night 1</h2>
-      <p>The carrier rewrites livraisons.csv with other statuses and the same byte count. The file is read again and put away under its own name: night 1 stays in the archive.</p>
+      <p>The carrier rewrites the file, same size, other statuses.</p><ul class="prose-list"><li>read again</li><li>archived beside night 1</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Read again</strong><p>A later time is enough, even at the same size.</p></div></li><li><span class="n">2</span><div><strong>Two archives</strong><p>No night replaces another.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Two archives</strong><p>No night replaces another.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A name that comes back every night is not taken for the night before.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Night 2"><button type="button" role="tab" id="night2-commands-tab" data-view="commands" aria-controls="night2-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="night2-result-tab" data-view="result" aria-controls="night2-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-commands" id="night2-commands" aria-labelledby="night2-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-carrier-d</span>
+    <div role="tablist" class="view-tabs" aria-label="Night 2"><button type="button" role="tab" id="night2-source-tab" data-view="source" aria-controls="night2-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="night2-commands-tab" data-view="commands" aria-controls="night2-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="night2-result-tab" data-view="result" aria-controls="night2-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="night2-source" aria-labelledby="night2-source-tab" tabindex="0"><figure class="source"><figcaption>livraisons-night2.csv</figcaption><pre class="code">shipment,status,city
+S-1001,LIV,Lyon
+S-1002,LIV,Vienne
+S-1003,LIV,Givors
+S-1004,TRA,Lyon
+S-1005,RET,Bron
+S-1006,LIV,Lyon</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="night2-commands" aria-labelledby="night2-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-carrier-d</span>
 <span class="out">run scheduled: 40105895-b8fe-4682-917f-ee7e12ff0e9a</span>
 
 <span class="cmd"><span class="prompt">$</span> lm run get 40105895-b8fe-4682-917f-ee7e12ff0e9a</span>
@@ -80,14 +98,16 @@
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="night3-title">Read, and the run says it could not be archived</h2>
-      <p>On the carrier&#x27;s side the archive folder no longer accepts writes. The rows are read; the file stays in out/, and lm run get says so.</p>
+      <p>The archive folder refuses writes.</p><ul class="prose-list"><li>the rows are read</li><li>the file stays in out/, and lm run get says so</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Said on the run</strong><p>Not only in the hub&#x27;s log.</p></div></li><li><span class="n">2</span><div><strong>Nothing lost</strong><p>The rows are in the hub.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Said on the run</strong><p>Not only in the hub&#x27;s log.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A folder that no longer empties shows.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Night 3"><button type="button" role="tab" id="night3-commands-tab" data-view="commands" aria-controls="night3-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="night3-result-tab" data-view="result" aria-controls="night3-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-commands" id="night3-commands" aria-labelledby="night3-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-carrier-d</span>
+    <div role="tablist" class="view-tabs" aria-label="Night 3"><button type="button" role="tab" id="night3-source-tab" data-view="source" aria-controls="night3-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="night3-commands-tab" data-view="commands" aria-controls="night3-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="night3-result-tab" data-view="result" aria-controls="night3-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="night3-source" aria-labelledby="night3-source-tab" tabindex="0"><figure class="source"><figcaption>livraisons-night3.csv</figcaption><pre class="code">shipment,status,city
+S-1004,LIV,Lyon
+S-1007,TRA,Vénissieux</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="night3-commands" aria-labelledby="night3-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-carrier-d</span>
 <span class="out">run scheduled: 4823633e-f4df-4243-837f-54970c85073c</span>
 
 <span class="cmd"><span class="prompt">$</span> lm run get 4823633e-f4df-4243-837f-54970c85073c</span>
@@ -100,9 +120,9 @@
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="hostkey-title">Refused, both fingerprints named</h2>
-      <p>The carrier reinstalls its server: its key changes. The run fails before any read and names the fingerprint presented and the one declared.</p>
+      <p>The carrier reinstalls its server, its key changes.</p><ul class="prose-list"><li>the run fails before any read</li><li>both fingerprints named</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Refusal</strong><p>Another key may be another server.</p></div></li><li><span class="n">2</span><div><strong>The move</strong><p>Confirm the fingerprint with the carrier, then pin it.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>The gesture</strong><p>Confirm with the carrier, then pin.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The hub does not trust a key it does not know.</p></div>
   </aside>
   <div class="views">
@@ -120,14 +140,15 @@ bc7df8c4  scenario-carrier-d  default   Failed  0   0    0        0             
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="repin-title">The next night read, then archived</h2>
-      <p>The confirmed fingerprint is pinned. Night 4, dropped under the same name as night 3 which was never archived, is read and then archived: it is not put away unread.</p>
+      <p>The confirmed fingerprint is pinned.</p><ul class="prose-list"><li>night 4 is read, then archived</li><li>nothing is filed away unread</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Read first</strong><p>Only the version read is archived.</p></div></li><li><span class="n">2</span><div><strong>Archive</strong><p>livraisons.&lt;time&gt;.csv for night 4.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Read first</strong><p>Only the version read is archived.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A file is never archived without being read.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Repin"><button type="button" role="tab" id="repin-commands-tab" data-view="commands" aria-controls="repin-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="repin-result-tab" data-view="result" aria-controls="repin-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-commands" id="repin-commands" aria-labelledby="repin-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f /var/folders/18/2psk9q652gsflqx5mvzr3nsh0000gn/T//lumnik-carrier.wRuSfT/10-carrier.yaml</span>
+    <div role="tablist" class="view-tabs" aria-label="Repin"><button type="button" role="tab" id="repin-source-tab" data-view="source" aria-controls="repin-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="repin-commands-tab" data-view="commands" aria-controls="repin-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="repin-result-tab" data-view="result" aria-controls="repin-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="repin-source" aria-labelledby="repin-source-tab" tabindex="0"><figure class="source"><figcaption>livraisons-night4.csv</figcaption><pre class="code">shipment,status,city
+S-1007,LIV,Vénissieux</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="repin-commands" aria-labelledby="repin-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f /var/folders/18/2psk9q652gsflqx5mvzr3nsh0000gn/T//lumnik-carrier.wRuSfT/10-carrier.yaml</span>
 <span class="out">{&quot;name&quot;:&quot;scenario-carrier-d&quot;,&quot;connectorId&quot;:&quot;94623382-1c2a-4a4f-a512-490463c3b5eb&quot;,&quot;endpointsApplied&quot;:1}</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector run scenario-carrier-d</span>
@@ -139,6 +160,8 @@ bb6640f7  scenario-carrier-d  default   Completed  1   1    0        0          
   </div>
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>The check before a move is not atomic with it: a file dropped in the milliseconds between them is still moved.</li><li>A carrier that writes under another name and renames it in is never caught in that window.</li><li>Simulated SFTP server; synthetic data.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Transport · SFTP</p><h2>The carrier drops a file every night.</h2><p class="brief-lead">Always under the same name.</p><p class="brief-note">Four nights, simulated server</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>Same name, same size.</h2><ul class="brief-list tone-cyan"><li>One night can look like the last.</li><li>One archive can overwrite another.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The carrier&#x27;s server stays as it is.</h2><ul class="brief-list tone-green"><li>Its drop folder.</li><li>Its SFTP account.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The trap</p><h2>Talking to the wrong server.</h2><ul class="brief-list tone-cyan"><li>The server is reinstalled.</li><li>Its key is no longer the same.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>host_key_fingerprint: &quot;SHA256:…&quot;</code></pre><h2>One line.</h2><ul class="brief-list tone-green"><li>The hub only talks to the known server.</li><li>Each night archived under its time.</li><li>A 20-line scenario, one manifest.</li></ul></section><section class="brief-slide"><p class="brief-kicker">A refusal</p><h2>The key changed: refused.</h2><ul class="brief-list tone-cyan"><li>Both fingerprints named.</li><li>Confirm with the carrier, then pin.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>A drop during the move.</h2><ul class="brief-list tone-green"><li>A few non-atomic milliseconds.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
   <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>
