@@ -588,9 +588,9 @@
     },
     {
       "slug": "purchasing-ask-abstains",
-      "title": "The question Ask refuses to answer: a margin with no cost, a \"best\" with no criterion.",
-      "goal": null,
-      "lede": "A purchasing director asks a year of supplier orders questions in French. Three get their figure, with the SQL that produced it. Three others have no answer in this data: a margin with no cost price, a best supplier with no criterion, delays with no delivery date. Ask refuses them instead of inventing a figure someone would repeat in a meeting.",
+      "title": "Ask refuses a margin with no cost and a best supplier with no criterion",
+      "goal": "Let a purchasing director question their orders in their own words, without being handed a figure the data does not hold.",
+      "lede": "A purchasing director asks questions of a year of supplier orders. Three questions get their figure, with the SQL that produced it.\n- a margin with no cost price: refused\n- a best supplier with no criterion: refused\n- delays with no delivery date: refused",
       "tags": {
         "domain": [
           "Purchasing",
@@ -602,14 +602,14 @@
         ]
       },
       "edition": "pro",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:4fc2a8f4570862eae39d0c4bfd265abf89722596a361e48f0b6173e021168859"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:9a93335740bfba272cddd74a5d33cad5c24221c82b7a28ef7d585e83051edd67"
     },
     {
       "slug": "purchasing-follow-up",
-      "title": "\"Et SUP-004 ?\": a follow-up question, answered as the whole question.",
-      "goal": null,
-      "lede": "A buyer asks how many orders were cancelled, then \"Et pour le fournisseur SUP-003 ?\", then \"Et SUP-004 ?\". Nobody retypes the question. Ask reads each follow-up with the question before it, answers the full question and shows the one it understood.",
+      "title": "And SUP-004? Ask answers the follow-up as the whole question",
+      "goal": "Let a buyer chain questions without retyping them, showing each time the question understood.",
+      "lede": "A buyer asks how many orders were cancelled, then \"And for supplier SUP-003?\", then \"And SUP-004?\". They do not retype the question.\n- Ask reads each follow-up with the question before\n- it answers the full question and shows it\n- a follow-up the data cannot answer is refused",
       "tags": {
         "domain": [
           "Purchasing",
@@ -621,8 +621,8 @@
         ]
       },
       "edition": "pro",
-      "replayedAt": "2026-10-23",
-      "evidenceDigest": "sha256:e78e1e66fedf9e58c79861c1caa836eadde835862d626e93e1be6b167302d6cf"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:9a325fae011c677c7ff72a89629c6e36d3b9002a81bfed76a511bd02ef63ffbc"
     },
     {
       "slug": "pwa-chat",
