@@ -33,9 +33,9 @@
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="load-title">The sale lines, without the subtotals</h2>
-      <p>filter-where keeps the dated lines only: the 15 subtotals are dropped and counted. map-columns renames the headers, parse-date and parse-number read dates and amounts. fill-down carries the region and client of a group&#x27;s first row onto the rows below.</p>
+      <p>A sale has a date. A subtotal has none: filter-where sets it aside and counts it. fill-down carries region and client over the whole group.</p><ul class="prose-list"><li>1,112 rows read</li><li>15 subtotals set aside</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>15 subtotals</strong><p>Dropped, counted in SKIPPED.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>SKIPPED 15</strong><p>The subtotals, counted.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A report laid out for the eye reads as a table.</p></div>
   </aside>
   <div class="views">
@@ -55,7 +55,7 @@
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="client-title">A client across two 500-row chunks</h2>
-      <p>The hub reads a file in chunks of 500 rows. Biscuiterie de l&#x27;Anse spans rows 461 to 544: its group is cut in two. Its 84 lines all carry Est and the client; 546 units and 13,603.90, the export&#x27;s own subtotal.</p>
+      <p>The hub reads in chunks of 500 rows. Biscuiterie de l&#x27;Anse is cut in two.</p><ul class="prose-list"><li>84 rows, all on the right client</li><li>13,603.90, as the subtotal says</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>13,603.90</strong><p>The export&#x27;s subtotal, found again.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The carried value crosses from one chunk to the next.</p></div>
@@ -157,9 +157,9 @@ FA26090539  09     Est     Biscuiterie de l&#x27;Anse  2026-09-03  Farine T65 25
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="october-title">An export copied from a filtered sheet</h2>
-      <p>In October the export was copied from a filtered sheet that hid the first group&#x27;s first row: its first three lines have no region and no client. They stay empty and do not inherit September&#x27;s last client: each file starts with nothing carried.</p>
+      <p>October&#x27;s export comes from a filtered sheet. Its first three rows have no client. They stay empty.</p><ul class="prose-list"><li>no September client by mistake</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>FA26100001</strong><p>No region, no client, as in the export.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>FA26100001</strong><p>No client, as in the export.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A value never crosses from one file to another.</p></div>
   </aside>
   <div class="views">
