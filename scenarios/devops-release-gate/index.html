@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>An unapproved hotfix in k8s prod: the pipeline stops. — lumnik</title>
+<title>An unapproved hotfix in k8s prod stops the pipeline — lumnik</title>
 <meta name="description" content="Block a release when a pod runs a version the release board did not approve, with an exit code a CI understands. The catalogue of approved versions is a CSV. What really runs is in the cluster. lumnik reads each pod&#x27;s image through the Kubernetes API and joins it to the catalogue: The approved version passes; A hotfix pushed with kubectl set image makes the gate return exit code 1: CI stops the pipeline; After the rollback, the same command passes again.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/devops-release-gate/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>An unapproved hotfix in k8s prod: the pipeline stops.</h1>
+    <h1>An unapproved hotfix in k8s prod stops the pipeline</h1>
     <p class="goal"><strong>Goal</strong> Block a release when a pod runs a version the release board did not approve, with an exit code a CI understands.</p>
     <p class="lede">The catalogue of approved versions is a CSV. What really runs is in the cluster. lumnik reads each pod&#x27;s image through the Kubernetes API and joins it to the catalogue:</p><ul class="lede-list"><li>the approved version passes;</li><li>a hotfix pushed with kubectl set image makes the gate return exit code 1: CI stops the pipeline;</li><li>after the rollback, the same command passes again.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">DevOps</li><li class="tag">Kubernetes</li><li class="tag">Delivery</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="An unapproved hotfix in k8s prod: the pipeline stops.">
+  <div role="tablist" class="page-tabs" aria-label="An unapproved hotfix in k8s prod stops the pipeline">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Scenario</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>

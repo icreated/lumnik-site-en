@@ -4,6 +4,7 @@
     {
       "slug": "aged-balance-print",
       "title": "The aged balance trapped in a print file",
+      "goal": "Turn a paginated accounting print file into receivables per invoice, keeping the right client across page breaks and dropping headers and totals.",
       "lede": "Accounting prints its aged balance to a spool file.\n- a header on each page;\n- a client, its invoices below, a total;\n- a client's invoices sometimes run onto the next page.\nCredit control wants each invoice with its client.",
       "tags": {
         "domain": [
@@ -22,6 +23,7 @@
     {
       "slug": "app-inventory-urls",
       "title": "An application inventory with hand-typed URLs",
+      "goal": "Split each URL into server, port and environment, to know what runs on a server and what is still in staging.",
       "lede": "IT takes over an application inventory kept for years in a spreadsheet.\nThe URL column is typed by hand:\n- mixed upper and lower case;\n- stray spaces around it;\n- a port sometimes there, sometimes not.\nThe manifest splits the URL into columns, without code.",
       "tags": {
         "domain": [
@@ -40,6 +42,7 @@
     {
       "slug": "business-log-orders",
       "title": "Failed orders hidden in the logs",
+      "goal": "Tie each error in the application log to its order, its customer and its current status, to know which customers to call back.",
       "lede": "Customers call: their order \"never went through\".\n- the server writes a text log, one file a day;\n- the ERP knows the orders, their customer, their status;\n- no tool matches the two.\nA business log, not a monitoring tool.",
       "tags": {
         "domain": [
@@ -58,6 +61,7 @@
     {
       "slug": "catalogue-ean-check",
       "title": "The wrong bar code caught at import",
+      "goal": "Catch wrong bar codes at import.",
       "lede": "A catalogue export carries EAN-13 bar codes, some of them wrong. No built-in transformer computes the check digit.\n- the hub's operator drops a Kotlin script\n- the manifest names it, carrying no code\n- a draft that does not compile is refused at validation\n- every code gets a verdict at import.",
       "tags": {
         "domain": [
@@ -74,6 +78,7 @@
     {
       "slug": "cfonb-bank-statement",
       "title": "A CFONB statement with the sign hidden in the last digit",
+      "goal": "Read the CFONB 120 bank statement as a table: every movement signed, tied to its statement, with its payer and invoice.",
       "lede": "French banks still send statements in CFONB 120.\n- 120 characters per record, no delimiter;\n- 01 opens the statement, 04 is a movement, 05 completes it, 07 closes;\n- the amount's last character holds its last digit and its sign.\nTreasury wants each movement signed, with its complements.",
       "tags": {
         "domain": [
@@ -93,6 +98,7 @@
     {
       "slug": "crm-contacts-reachable",
       "title": "A CRM export with broken accents and wrong emails",
+      "goal": "Take over the old CRM's contacts with a repaired name, an international phone and a valid email, and name those that cannot be reached.",
       "lede": "The sales team leaves an old CRM. Its contact export mixes:\n- capitals and broken accents (BÃ©nÃ©dicte);\n- two phone columns, one often empty;\n- mistyped emails.\nThe manifest turns it into a usable list.",
       "tags": {
         "domain": [
@@ -111,6 +117,7 @@
     {
       "slug": "deal-in-the-pocket",
       "title": "The €240,000 deal that confirms itself during dinner",
+      "goal": "Tell the sales engineer on their phone as soon as the CRM marks a deal ready to confirm, with the line, the parts and the catalogue at hand, and have one tap on Traiter move the CRM and send the customer email.",
       "lede": "A sales engineer has dinner with Lumilait's managing director. They must answer without opening four tools:\n- the packaging line: ERP and after-sales disagree;\n- the retrofit parts: in stock or not;\n- the catalogue: 360 parts to search.\nMeanwhile, the CRM marks the deal ready to confirm.",
       "tags": {
         "domain": [
@@ -133,6 +140,7 @@
     {
       "slug": "delivery-date-two-warehouses",
       "title": "A delivery date each warehouse works out differently",
+      "goal": "Promise the customer the date their warehouse can keep: one calculation rule, set per warehouse (country, lead time, closed days).",
       "lede": "The promised date = order date plus N working days. But each warehouse counts its own way:\n- Lyon, in France: 3 days, two inventory days;\n- Liège, in Belgium: 5 days, other holidays.\nThe operator writes the rule once; the integrator sets it per warehouse.",
       "tags": {
         "domain": [
@@ -150,7 +158,8 @@
     },
     {
       "slug": "devops-ai-event-memory",
-      "title": "k8s forgot, lumnik remembers: who crashed last night?",
+      "title": "k8s forgot its events and lumnik still knows who crashed last night",
+      "goal": "Ask which deployments crashed in a loop after Kubernetes erased their events, and get the list kubectl gave during the incident.",
       "lede": "Kubernetes keeps its events for one hour. A deployment repaired at dawn has no history by morning:\n- a new pod, Running, 0 restarts;\n- no Warning event left.\nlumnik reads the events while they exist and keeps them; Ask still answers when kubectl no longer knows.",
       "tags": {
         "domain": [
@@ -169,7 +178,8 @@
     },
     {
       "slug": "devops-ai-pod-triage",
-      "title": "k8s is burning, k9s says Running: which pod first?",
+      "title": "k9s says Running while the cluster burns: which pod first?",
+      "goal": "Ask your Kubernetes cluster which pods to handle first, and get the list ordered by the on-call rule, checked against kubectl.",
       "lede": "A real cluster, five teams, five pods broken by Kubernetes itself:\n- the pods API: state, restarts, why the last container died;\n- metrics.k8s.io: what each pod uses now;\n- the Warning events.\nAn on-call Kotlin rule sets the priority; the model translates the question, it decides nothing.",
       "tags": {
         "domain": [
@@ -188,7 +198,8 @@
     },
     {
       "slug": "devops-release-gate",
-      "title": "An unapproved hotfix in k8s prod: the pipeline stops.",
+      "title": "An unapproved hotfix in k8s prod stops the pipeline",
+      "goal": "Block a release when a pod runs a version the release board did not approve, with an exit code a CI understands.",
       "lede": "The catalogue of approved versions is a CSV. What really runs is in the cluster. lumnik reads each pod's image through the Kubernetes API and joins it to the catalogue:\n- the approved version passes;\n- a hotfix pushed with kubectl set image makes the gate return exit code 1: CI stops the pipeline;\n- after the rollback, the same command passes again.",
       "tags": {
         "domain": [
@@ -207,7 +218,8 @@
     },
     {
       "slug": "dirty-order-statuses",
-      "title": "One order status, fourteen spellings",
+      "title": "One order status spelled fourteen ways",
+      "goal": "Count orders by status whatever the spelling, and be told of a new spelling.",
       "lede": "Fifteen years of hand entry left EC, Livré, LIV, ANNUL… in the ERP's order export. lumnik does not touch the ERP:\n- a Workflow declares four statuses and their spellings\n- every import re-checks the column.",
       "tags": {
         "domain": [
@@ -226,6 +238,7 @@
     {
       "slug": "edi-flat-order-lines",
       "title": "A flat EDI file from an ERP: fixed-width order lines, read without a mapping tool.",
+      "goal": null,
       "lede": "A manufacturer exchanges flat files with its logistics partner, one folder per partner, one prefix per exchange type. No separator: every field has its place and its width, a header line first, ISO-8859-1, and sometimes no line end after the last line. The partner wants the order lines as columns.",
       "tags": {
         "domain": [
@@ -244,6 +257,7 @@
     {
       "slug": "edi-order-cycle",
       "title": "Four EDI files for a single order line",
+      "goal": "Merge the four flows to know whether each line is ordered, confirmed or delivered, and be alerted when a confirmed date passes without delivery.",
       "lede": "A manufacturer and its logistics partner exchange four flat files around one order line: the order, the acknowledgement, the confirmed date, the delivery note. Sales administration asks, line by line:\n- never acknowledged?\n- confirmed but not delivered?\n- delivered in another quantity?",
       "tags": {
         "domain": [
@@ -264,6 +278,7 @@
     {
       "slug": "edifact-orders",
       "title": "An EDIFACT ORDERS message: one line, split into segments, the escaped apostrophe kept.",
+      "goal": null,
       "lede": "Retail and industry still exchange EDIFACT: a buyer's ORDERS message, often written on one single line, its segments ended by an apostrophe, its elements split by + and :. An apostrophe in a label is written ?'. The buyer wants to read the message segment by segment.",
       "tags": {
         "domain": [
@@ -282,6 +297,7 @@
     {
       "slug": "entity-resolution",
       "title": "One customer, two systems, no shared identifier.",
+      "goal": null,
       "lede": "An ERP, a CRM, one Entity. Email matches the records; a shared mailbox opens an ambiguity. lumnik does not pick: a person decides, and the decision holds on replay.",
       "tags": {
         "domain": [
@@ -300,6 +316,7 @@
     {
       "slug": "entity-resolution-drift",
       "title": "An established customer does not change records in silence.",
+      "goal": null,
       "lede": "Yesterday, CRM contact CC-42 and ERP account AC-700 both meant Nova Pumps. Today its email points to Helios Valves. lumnik does not move the contact: it makes it ambiguous, and a person decides.",
       "tags": {
         "domain": [
@@ -318,6 +335,7 @@
     {
       "slug": "excel-merged-cells",
       "title": "An Excel export with merged cells: every line with its region and client.",
+      "goal": null,
       "lede": "Sales send a monthly Excel report: one group per client, the region and the client in merged cells, a subtotal under each group. Saved as CSV, a merged cell keeps its value on the group's first row only; the rows below are empty. Sales want every line with its region and client.",
       "tags": {
         "domain": [
@@ -336,6 +354,7 @@
     {
       "slug": "export-that-lies",
       "title": "The export that lies: an unreadable line does not pass in silence.",
+      "goal": null,
       "lede": "An ERP exports its article catalogue every night as one file. A label holds the delimiter, unquoted. lumnik sets the line aside with its raw values, removes nothing from the catalogue while it is unreadable, and closes the dead letter only on the run that really read it again.",
       "tags": {
         "domain": [
@@ -353,6 +372,7 @@
     {
       "slug": "gmao-candy-line-incident",
       "title": "A critical incident, no technician",
+      "goal": "Warn the maintenance manager as soon as a critical incident has no technician.",
       "lede": "A CMMS exports its incidents as CSV. The conveyor on the gummy candy line has stopped, with no technician. The CMMS warns no one.\n- a Workflow tracks each incident's status\n- a Process flags the critical unassigned incident\n- one decision only; the assignment moves it forward.",
       "tags": {
         "domain": [
@@ -372,6 +392,7 @@
     {
       "slug": "graphql-insurance-bff",
       "title": "A claim form's lists, without exposing the CRM's GraphQL.",
+      "goal": null,
       "lede": "Claim type and subtype live in a CRM that speaks GraphQL. lumnik ingests it page by page, turns it into a canonical entity, and a small BFF serves the form stable REST JSON: the CRM's schema never becomes a browser contract.",
       "tags": {
         "domain": [
@@ -390,6 +411,7 @@
     {
       "slug": "import-export",
       "title": "The catalogue reaches the partner in their format, not ours.",
+      "goal": null,
       "lede": "Two ERP CSV files, products and categories, are joined in the hub and delivered to S3 in a partner's format: French headers, semicolons, decimal commas, recoded statuses, a masked internal reference. A receipt proves the delivered bytes.",
       "tags": {
         "domain": [
@@ -409,6 +431,7 @@
     {
       "slug": "invoices-dead-letters",
       "title": "An unreadable amount does not get in: the invoice waits, fixed at the source.",
+      "goal": null,
       "lede": "A supplier-invoice export carries two mistyped amounts and a test invoice. Instead of writing invoices without an amount, the hub sets them aside with the row as it was read. The test invoice is discarded, the source is fixed, and each letter is closed by the run that brought the right row.",
       "tags": {
         "domain": [
@@ -427,6 +450,7 @@
     {
       "slug": "jdbc-merge-oracle-postgresql",
       "title": "One product record, two databases: PostgreSQL and Oracle stay where they are.",
+      "goal": null,
       "lede": "Products live in PostgreSQL, their categories in Oracle. Two jdbc connectors read them without writing to either, and one entity joins them: 40,234 products, each with its category when there is one.",
       "tags": {
         "domain": [
@@ -445,6 +469,7 @@
     {
       "slug": "kafka-after-hours-energy",
       "title": "At 23:15, the same number does not mean the same thing everywhere.",
+      "goal": null,
       "lede": "Three meters publish their power on Kafka. Lyon draws 18.7 kW, the Grenoble laboratory 28.4 kW. Only Lyon breaks its night threshold: one decision, one email to its owner, and a Grafana dashboard that follows the three states.",
       "tags": {
         "domain": [
@@ -463,7 +488,8 @@
     },
     {
       "slug": "kafka-freezer-door-dormancy",
-      "title": "An open door, a silent sensor",
+      "title": "An open freezer door and a silent sensor",
+      "goal": "Be alerted when a freezer door stays open past one minute, with the laboratory and the owner.",
       "lede": "Sensors publish freezer door states on Kafka. FZ-17 opens and goes quiet. FZ-18 opens and closes again.\n- a Workflow watches the silence\n- one alert only, for the door left open past one minute\n- it names the laboratory and the owner.",
       "tags": {
         "domain": [
@@ -483,6 +509,7 @@
     {
       "slug": "legacy-sales-grafana",
       "title": "A frozen ERP feeds a real Grafana dashboard, with no extra connector.",
+      "goal": null,
       "lede": "The ERP exports its sales and catalogue as CSV. lumnik joins them, and Grafana reads the entity through a read-only PostgreSQL login bound to its tenant. Monday: EUR 10,450. On Tuesday the export changes: EUR 14,200, and the changed sale appears once.",
       "tags": {
         "domain": [
@@ -501,6 +528,7 @@
     {
       "slug": "marketplace-order-items",
       "title": "A marketplace's orders, one line per item to pick: model, colour, size.",
+      "goal": null,
       "lede": "The marketplace export gives one line per order, the items packed into one cell, and an item reference that packs model, colour and size in turn. Logistics wants one line per item, to count what to take out of stock. The manifest splits the order, then the reference, and refuses a file whose column was renamed.",
       "tags": {
         "domain": [
@@ -519,6 +547,7 @@
     {
       "slug": "one-app-per-metier",
       "title": "One hub, one app per métier.",
+      "goal": null,
       "lede": "Maintenance and purchasing share an ERP where everyone sees everything. On one hub, lumnik composes one app per métier; a technician whose only role is scope:maintenance sees its app, its orders and its decisions, and every purchasing door answers with a refusal.",
       "tags": {
         "domain": [
@@ -541,6 +570,7 @@
     {
       "slug": "orders-where-they-sleep",
       "title": "Auditing how long orders stay in each status",
+      "goal": "Know how long each order stays in each status, and which ones stop moving.",
       "lede": "The ERP keeps only today's status: In progress yesterday, Delivered today. Nothing on the wait in between. The ERP cannot be changed.\n- a Workflow follows each order by its key\n- each status change enters a journal, dated\n- an order that stays still too long alerts\n- the journal says how long each order stayed in each state.",
       "tags": {
         "domain": [
@@ -559,6 +589,7 @@
     {
       "slug": "purchasing-ask-abstains",
       "title": "The question Ask refuses to answer: a margin with no cost, a \"best\" with no criterion.",
+      "goal": null,
       "lede": "A purchasing director asks a year of supplier orders questions in French. Three get their figure, with the SQL that produced it. Three others have no answer in this data: a margin with no cost price, a best supplier with no criterion, delays with no delivery date. Ask refuses them instead of inventing a figure someone would repeat in a meeting.",
       "tags": {
         "domain": [
@@ -577,6 +608,7 @@
     {
       "slug": "purchasing-follow-up",
       "title": "\"Et SUP-004 ?\": a follow-up question, answered as the whole question.",
+      "goal": null,
       "lede": "A buyer asks how many orders were cancelled, then \"Et pour le fournisseur SUP-003 ?\", then \"Et SUP-004 ?\". Nobody retypes the question. Ask reads each follow-up with the question before it, answers the full question and shows the one it understood.",
       "tags": {
         "domain": [
@@ -595,6 +627,7 @@
     {
       "slug": "pwa-chat",
       "title": "Question 40,000 products, with the SQL shown.",
+      "goal": null,
       "lede": "Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query; the answer shows its SQL.",
       "tags": {
         "domain": [
@@ -614,6 +647,7 @@
     {
       "slug": "pwa-pagination",
       "title": "40,000 products, browsed page by page.",
+      "goal": null,
       "lede": "Two CSV exports, two entities, two linked views, one app. The hub serves the catalogue 50 rows at a time; the PWA never loads more.",
       "tags": {
         "domain": [
@@ -634,6 +668,7 @@
     {
       "slug": "pwa-search",
       "title": "Search 40,000 products, facets included.",
+      "goal": null,
       "lede": "Two CSV exports, one entity, a SearchIndex, an app reduced to search. The hub indexes the declared columns; the PWA filters by facet.",
       "tags": {
         "domain": [
@@ -654,6 +689,7 @@
     {
       "slug": "quantity-script-one-in-500",
       "title": "One unexpected value in 500: that line dead-lettered, the other 499 written.",
+      "goal": null,
       "lede": "A hand-typed goods receipt: 500 lines, quantities written \"12,5 kg\" or \"3 pce\". An operator's Kotlin script reads them into a number and a unit. Line 317 says \"env. 4 kg\". What happens to the other 499?",
       "tags": {
         "domain": [
@@ -671,7 +707,8 @@
     },
     {
       "slug": "rest-cursor-in-header",
-      "title": "The carrier reads its cursor from a header: sent elsewhere, the run fails instead of lying.",
+      "title": "The carrier wants its cursor in a header or the run fails",
+      "goal": "Read every tracking event of a carrier whose API expects the page cursor in a request header.",
       "lede": "A carrier's tracking API pages by cursor. It reads it from the X-Next-Cursor header, and nowhere else:\n- sent as a query parameter, the default, the cursor never arrives: the API returns the first page and says there are more; the run fails and says why;\n- one line, cursor_binding: header, and the 1,200 events go through, 12 pages.",
       "tags": {
         "domain": [
@@ -689,7 +726,8 @@
     },
     {
       "slug": "rest-drupal-jsonapi",
-      "title": "Drupal speaks JSON:API: name the standard, one line reads the whole site.",
+      "title": "Drupal: the whole site read through JSON:API in one line",
+      "goal": "Read every article of a Drupal site through its JSON:API module, without writing the paging.",
       "lede": "Drupal 11 exposes its content through JSON:API, a core module. The next page is in links.next, which Drupal writes as an object {\"href\": …}. lumnik has a preset for that standard:\n- pagination: { kind: json-api }, and the 5 pages are followed;\n- 45 articles read, 45 written to the hub.",
       "tags": {
         "domain": [
@@ -708,6 +746,7 @@
     {
       "slug": "rest-incremental-orders",
       "title": "The API that only sends what changed: an order modified while it is being read is not lost.",
+      "goal": null,
       "lede": "An order API can answer \"what changed since this date\". lumnik reads it in full once, then each night only what moved. An order modified while a run is still reading later pages could have slipped between two nights: the next run starts a little before its last mark, and picks it up.",
       "tags": {
         "domain": [
@@ -723,7 +762,8 @@
     },
     {
       "slug": "rest-legacy-session-login",
-      "title": "An old app behind a login: lumnik logs in like a user.",
+      "title": "An old app behind a login: lumnik logs in like a user",
+      "goal": "Read the vets of Spring PetClinic, protected by the Tomcat server's login, without touching the app.",
       "lede": "Spring PetClinic from before Spring Boot, behind the server's login (j_security_check). No API token: a form and a session cookie.\n- without auth, Tomcat answers its login page with 200: the hub refuses it, it is not JSON;\n- auth: { kind: session }: the hub logs in and keeps the session, 6 vets;\n- the app restarts, the session is lost: the hub logs in again on its own, once.",
       "tags": {
         "domain": [
@@ -740,7 +780,8 @@
     },
     {
       "slug": "rest-legacy-spring-mvc",
-      "title": "An old Spring MVC app: the whole list at once, one line reads it.",
+      "title": "An old Spring MVC app returns the whole list at once and one line reads it",
+      "goal": "Read the vets of Spring PetClinic, a Spring MVC app from before Spring Boot, without touching its code.",
       "lede": "Spring PetClinic as it was before Spring Boot: a WAR on Tomcat. Its controller answers the whole list at once, no pages.\n- /vets.xml: the hub reads JSON, it refuses the XML by name instead of reading 0 rows;\n- lm source rest probe on /vets.json finds the list and drafts kind: none;\n- pagination: { kind: none }: 6 vets in one request.",
       "tags": {
         "domain": [
@@ -757,7 +798,8 @@
     },
     {
       "slug": "rest-link-header-tickets",
-      "title": "A closed ticket stays open in the hub, as long as only open ones are read.",
+      "title": "A ticket closed in Gitea stays open in the hub if only open ones are read",
+      "goal": "Follow a Gitea forge's open tickets, paged by its Link header, without keeping open a ticket support has closed.",
       "lede": "Support tracks its customer tickets in Gitea. Its API pages like GitHub's: the next page is in the Link header. lumnik follows the header, page after page:\n- reading state=open leaves the tickets closed since open in the hub: they leave the API's filter;\n- reading every state, by what changed since the last run, keeps the hub true: 57 open, as Gitea says.",
       "tags": {
         "domain": [
@@ -775,7 +817,8 @@
     },
     {
       "slug": "rest-netbox-inventory",
-      "title": "NetBox, the network inventory: name Django REST, say Token, read it all.",
+      "title": "NetBox: the whole network inventory read with a read-only token",
+      "goal": "Read every device of a NetBox, the network team's source of truth, each night, with a read-only token.",
       "lede": "NetBox is built on Django REST Framework: count, next and results in every answer, and a token presented by the word Token, not Bearer. lumnik names both:\n- pagination: { kind: drf-limit-offset }: 120 devices in 3 requests;\n- auth: { kind: bearer, scheme: Token }: the word NetBox expects;\n- the next night, the 6 switches taken offline are in the hub.",
       "tags": {
         "domain": [
@@ -794,6 +837,7 @@
     {
       "slug": "rest-paperless-drf",
       "title": "Paperless-ngx: a list that moves while it is read is read again",
+      "goal": "Read every correspondent of a Paperless-ngx archive through its API, even while someone works in it.",
       "lede": "A real Paperless-ngx 2.13 and 100 correspondents, read ten per page.\n- quiet: all 100, each page's count checked;\n- a correspondent deleted mid-read: the pages shift, the list is read again;\n- new correspondents all the time: the run refuses to call itself complete.",
       "tags": {
         "domain": [
@@ -811,6 +855,7 @@
     {
       "slug": "rest-partner-loses-rows",
       "title": "The partner's API loses a page, the run does not lie.",
+      "goal": null,
       "lede": "A partner publishes 2,400 partners and their count. One night a page of 100 vanishes; the count stays right. lumnik compares what it read with the total the source declares: the run fails naming the endpoint and both numbers, instead of turning green.",
       "tags": {
         "domain": [
@@ -827,7 +872,8 @@
     },
     {
       "slug": "rest-prestashop",
-      "title": "PrestaShop: the XML catalogue read in one line.",
+      "title": "PrestaShop: the XML catalogue read in one line",
+      "goal": "Read every product of a PrestaShop 8 shop through its Webservice, in XML, as it answers.",
       "lede": "A real PrestaShop 8.2.8 and its demo catalogue. Its Webservice answers XML.\n- not told, the hub refuses the XML and says what to add;\n- response_format: xml: the hub reads the XML; PrestaShop ignores offset=, and the repeated page is refused;\n- pagination: { kind: prestashop }: the 19 products, their name read from the XML.",
       "tags": {
         "domain": [
@@ -844,7 +890,8 @@
     },
     {
       "slug": "rest-spring-behind-proxy",
-      "title": "A Spring app behind a proxy: name the framework, key on the SKU.",
+      "title": "A Spring app behind a proxy keeps each product under its SKU",
+      "goal": "Read a home-grown Spring Data REST application's whole stock, page by page, and keep each product under its SKU, whatever host it is reached through.",
       "lede": "An earlier provider left a stock application in Spring Data REST, behind nginx. lumnik reads it with the spring-hateoas preset:\n- its links name its internal host: the run refuses to follow them, and says so;\n- one property on the application side, and the 63 pages go through;\n- each product is keyed by its SKU, read from its link: the next night, no second copy.",
       "tags": {
         "domain": [
@@ -862,7 +909,8 @@
     },
     {
       "slug": "rest-spring-page",
-      "title": "A Spring Page: when Spring changes its JSON, one line follows.",
+      "title": "Spring changes its page JSON and one line follows",
+      "goal": "Read a Spring Boot app's whole catalogue, page after page, before and after the team changes how its Pages are serialized.",
       "lede": "A Spring controller returns the repository's Page. lumnik reads it with a preset:\n- pagination: { kind: spring-page }: 130 articles in 3 requests;\n- the team follows Spring's warning and switches to VIA_DTO: the total moves under page, the same manifest reads everything, one empty page too many;\n- one line, spring-paged-model: 3 requests again.",
       "tags": {
         "domain": [
@@ -879,7 +927,8 @@
     },
     {
       "slug": "rest-stripe-customers",
-      "title": "Stripe's API: name it, starting_after does the rest.",
+      "title": "Stripe: every customer read without writing the pagination",
+      "goal": "Read every customer of a Stripe account, page after page, without writing the paging.",
       "lede": "Stripe pages by cursor: each page says has_more, the next is asked for with starting_after, the last customer's id. lumnik has a preset of the same name:\n- pagination: { kind: stripe }: 25 customers in 3 requests;\n- the next day, 5 new customers: 30 rows, one per customer.",
       "tags": {
         "domain": [
@@ -897,7 +946,8 @@
     },
     {
       "slug": "rest-wordpress-total-header",
-      "title": "WordPress announces 46 articles and serves 31: the run fails instead of going green.",
+      "title": "WordPress announces 46 articles and serves 31: the run fails",
+      "goal": "Read every article of a WordPress site, and refuse a partial read when a plugin hides some without changing the count.",
       "lede": "WordPress's REST API pages by the Link header and publishes its count in X-WP-Total. lumnik follows the one and checks the other:\n- 46 articles announced, 46 read: the run passes;\n- a \"members only\" plugin hides 15 articles, the count stays 46: the run fails and gives both numbers;\n- read as a member, with an application password, the 46 articles are back.",
       "tags": {
         "domain": [
@@ -916,6 +966,7 @@
     {
       "slug": "saas-oauth2-orders",
       "title": "The SaaS behind OAuth2: 30-second tokens, a 40-second run, no page lost.",
+      "goal": null,
       "lede": "The ERP no longer moves, but some orders arrive through a recent SaaS. That SaaS no longer takes a fixed token: it hands out a client id and a secret, and wants a short-lived token on every call. lumnik asks for the token, renews it before it expires, absorbs a key rotation in the middle of a run, and says why when the secret is revoked, without ever showing it.",
       "tags": {
         "domain": [
@@ -933,6 +984,7 @@
     {
       "slug": "sap-idoc-orders",
       "title": "SAP ORDERS05 IDocs as a flat file: every order line with its purchase order.",
+      "goal": null,
       "lede": "A customer's SAP sends its orders as ORDERS05 IDocs, written to a flat file: one EDI_DC40 control record per IDoc, then fixed-width data records. The PO number sits in E2EDK02, the quantity in the item E2EDP01, our article in the E2EDP19 that follows it. The order desk wants one row per order line.",
       "tags": {
         "domain": [
@@ -952,6 +1004,7 @@
     {
       "slug": "sftp-carrier-drop",
       "title": "The carrier's SFTP drop: every night read, put away, and nothing on trust.",
+      "goal": null,
       "lede": "A carrier drops livraisons.csv on its SFTP server every night, always under the same name. lumnik reads a night of the same size again, puts each night away under its own name, says on the run a file it could not archive, and refuses a server whose key has changed.",
       "tags": {
         "domain": [
@@ -969,6 +1022,7 @@
     {
       "slug": "shipping-rule-changed",
       "title": "The rule changed on 1 January: every order says which version computed it.",
+      "goal": null,
       "lede": "The shipping fee is computed by a Kotlin script the hub's operator provides: free shipping from 150.00 in December, from 200.00 from January. The operator replaces the script. Months later, an auditor asks why an order of 172.50 shipped free in December and paid shipping in January.",
       "tags": {
         "domain": [
@@ -987,6 +1041,7 @@
     {
       "slug": "siebel-soap-desk",
       "title": "The CRM's SOAP desk: each service read its own way, nothing read twice.",
+      "goal": null,
       "lede": "A 2000s CRM exposes its data through custom SOAP web services: a case's actions in one call, a customer's opportunities page by page on a page number. The password travels inside the envelope. lumnik reads each one the way it reads, carries the service's Fault verbatim, and never sends the same request twice.",
       "tags": {
         "domain": [
@@ -1004,6 +1059,7 @@
     {
       "slug": "siem-bank-account-change",
       "title": "A changed bank account the SIEM never sees",
+      "goal": "Let the SIEM see a supplier's IBAN change, without the IBAN showing in the inbox.",
       "lede": "The ERP exports its suppliers as CSV. It emits no event. A bank-account change goes unnoticed until the next payment.\n- lumnik rereads the export every minute\n- a signed decision goes to the SIEM by webhook\n- the SIEM alerts on the account that changes\n- the inbox never shows the account.",
       "tags": {
         "domain": [
@@ -1022,6 +1078,7 @@
     {
       "slug": "supplier-master-edi",
       "title": "The supplier file sent to EDI: ASCII, upper case, 35 characters, a stable identifier.",
+      "goal": null,
       "lede": "Purchasing feeds an EDI platform that requires names in ASCII, upper case, 35 characters at most, and one identifier per supplier. The ERP export has accents, long legal names, inactive suppliers, and an id column holding N/A, 0 or nothing. The EDI's constraint is declared once in the manifest.",
       "tags": {
         "domain": [
@@ -1040,6 +1097,7 @@
     {
       "slug": "two-systems-one-member",
       "title": "Two systems, one member: each the reference for its own fields.",
+      "goal": null,
       "lede": "A mutual insurer keeps its members in its contract system and in its portal. Fused with one source order, one of the two is always wrong. lumnik lets each column name its reference source, and keeps every dispute visible until the source settles it.",
       "tags": {
         "domain": [
@@ -1058,6 +1116,7 @@
     {
       "slug": "two-tenants-one-hub",
       "title": "Two customers, one hub, one table: each reads only its own rows.",
+      "goal": null,
       "lede": "Two integrators of two customers apply the same files to the same hub. Same connector, same entity, same table. Each loads its orders, under the same numbers. Each reads, asks and counts: it sees only its own.",
       "tags": {
         "domain": [
@@ -1075,7 +1134,8 @@
     },
     {
       "slug": "windev-hfsql-export",
-      "title": "WinDev: the client export, with real dates and a real Active flag.",
+      "title": "WinDev: the client export with real dates and a real Active flag",
+      "goal": "Read the client file a WinDev application exports, and turn it into columns a question can use.",
       "lede": "A WinDev application exports its clients with HExportCSV. The file is reconstituted from PC SOFT's documentation.\n- read as it is: six clients, but all text, dates 20190312, Actif 0 or 1;\n- three transformers: the dates as dates, the credit as a number, Actif as a real boolean;\n- a question in SQL: the active clients with no purchase since October.",
       "tags": {
         "domain": [
@@ -1093,6 +1153,7 @@
     {
       "slug": "zombie-cmms",
       "title": "The zombie system: thirty years of work orders, the box switched off, the hub still answers.",
+      "goal": null,
       "lede": "A CMMS replaced years ago stays on for a handful of compliance reads a year: the licence, the box, and the one person who can restart it. lumnik reads it one last time, archives what it read under a single digest, then the box is switched off. The next run says why it fails, the pause stops the schedule, and the hub gives back the same bytes as before.",
       "tags": {
         "domain": [
