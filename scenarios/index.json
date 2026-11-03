@@ -296,9 +296,9 @@
     },
     {
       "slug": "entity-resolution",
-      "title": "One customer, two systems, no shared identifier.",
-      "goal": null,
-      "lede": "An ERP, a CRM, one Entity. Email matches the records; a shared mailbox opens an ambiguity. lumnik does not pick: a person decides, and the decision holds on replay.",
+      "title": "One customer in two systems with no shared id",
+      "goal": "Match ERP customers and CRM contacts, without ever merging by chance.",
+      "lede": "An ERP, a CRM, no shared id. Email matches the records. A shared mailbox points at two customers.\n- matching by a written rule;\n- two candidates: an ambiguity, not a merge;\n- a human decides, and the decision holds on replay.",
       "tags": {
         "domain": [
           "Master data",
@@ -310,14 +310,14 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-21",
-      "evidenceDigest": "sha256:ffe4a8455e06d5f2794d63fd918164cb00ffe45f1d1502fc05dab4f67d68c10d"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:979eebfd6186bb50fbe01e98dead089ea24d8a8f79e6afe1f489de4453d63ddc"
     },
     {
       "slug": "entity-resolution-drift",
-      "title": "An established customer does not change records in silence.",
-      "goal": null,
-      "lede": "Yesterday, CRM contact CC-42 and ERP account AC-700 both meant Nova Pumps. Today its email points to Helios Valves. lumnik does not move the contact: it makes it ambiguous, and a person decides.",
+      "title": "An established customer does not switch records in silence",
+      "goal": "See when a CRM contact starts pointing at another customer, instead of moving it in silence.",
+      "lede": "Yesterday, contact CC-42 and account AC-700 meant Nova Pumps. Today its email points at Helios Valves.\n- yesterday's link does not move by itself;\n- the contact becomes ambiguous;\n- a human decides, and the history names the author.",
       "tags": {
         "domain": [
           "Master data",
@@ -329,8 +329,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-21",
-      "evidenceDigest": "sha256:783138b77fcaa6c26745e209244f7bc67c3cfce06ecfddd25fb63b25667ac76a"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:0781b34d56fc82b39fcb6e8a0c63443db40049849f5b97f45318a4d7956287ac"
     },
     {
       "slug": "excel-merged-cells",
@@ -1096,9 +1096,9 @@
     },
     {
       "slug": "two-systems-one-member",
-      "title": "Two systems, one member: each the reference for its own fields.",
-      "goal": null,
-      "lede": "A mutual insurer keeps its members in its contract system and in its portal. Fused with one source order, one of the two is always wrong. lumnik lets each column name its reference source, and keeps every dispute visible until the source settles it.",
+      "title": "Two systems and one member each one rules its own fields",
+      "goal": "Show each field of a member from the system that rules it, without hiding a disagreement.",
+      "lede": "A health insurer keeps its members in its contract system and in its portal. With one source order, one of them is always wrong.\n- the address comes from the portal, the plan from the contract system;\n- every disagreement stays listed;\n- it leaves the list when the source settles it.",
       "tags": {
         "domain": [
           "Insurance",
@@ -1110,8 +1110,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-22",
-      "evidenceDigest": "sha256:34a4686b33cd9ed78ae22b0d2939162db85fb4efea44d82dd7dabaccda305e66"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:34944829b0e1402c41c0fb2d50d06707aac4eb55a28391689fd52fe4a47fdabb"
     },
     {
       "slug": "two-tenants-one-hub",
