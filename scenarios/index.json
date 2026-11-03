@@ -1021,9 +1021,9 @@
     },
     {
       "slug": "shipping-rule-changed",
-      "title": "The rule changed on 1 January: every order says which version computed it.",
-      "goal": null,
-      "lede": "The shipping fee is computed by a Kotlin script the hub's operator provides: free shipping from 150.00 in December, from 200.00 from January. The operator replaces the script. Months later, an auditor asks why an order of 172.50 shipped free in December and paid shipping in January.",
+      "title": "Every order says which version of the rule computed it",
+      "goal": "Know, months later, which shipping rule computed each order.",
+      "lede": "Shipping is computed by a Kotlin script the hub's operator provides. In December it is free from 150.00. From 1 January, from 200.00. The operator replaces the script.\n- two orders of 172.50: free shipping in December, paid in January;\n- each run names the version of the rule by its fingerprint;\n- each order names its run: lm leads from the order to the rule.",
       "tags": {
         "domain": [
           "Sales",
@@ -1035,8 +1035,8 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-23",
-      "evidenceDigest": "sha256:4b95ff1e65a7bab3bb0e57522cc13c138b794ffc58849e66d227c8a355b5d1b2"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:7fc0f21d8e7f84d321693a17f42afc6b7071ee0b4a8688698fd9d507ef2738a4"
     },
     {
       "slug": "siebel-soap-desk",
