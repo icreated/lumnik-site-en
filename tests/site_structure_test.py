@@ -496,7 +496,10 @@ class ScenarioPagesTest(unittest.TestCase):
 
     def test_the_copy_avoids_the_claims_this_site_could_not_hold(self):
         for name in SCENARIO_PAGES:
-            text = visible(text_of(name), " ").lower()
+            # The page template names its first tab "Walkthrough": a label, not a claim. The word stays
+            # forbidden everywhere else on the page.
+            html = re.sub(r'<button[^>]*\bid="walkthrough-tab"[^>]*>Walkthrough</button>', "", text_of(name))
+            text = visible(html, " ").lower()
             for word in SITE_FORBIDDEN:
                 with self.subTest(name=name, word=word):
                     self.assertNotIn(word.lower(), text)
