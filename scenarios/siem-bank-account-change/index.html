@@ -56,7 +56,7 @@ cb621230  scenario-siem-suppliers-e  default   Completed  1   1    0        0   
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="wire-title">The account goes to the SIEM, not into the sentence</h2>
-      <p>Process reads each row written to the table.</p><ul class="prose-list"><li>event: data.row.changed: the key of the processing. The Process fires on each new or changed row; an unchanged row triggers nothing</li><li>when: status=ACTIVE: only active suppliers count</li><li>emit.message: the inbox sentence, without the account</li><li>emit.fields: [iban]: the account, in the signed payload only</li></ul>
+      <p>A Process reads each new or changed row of the table. An unchanged row triggers nothing.</p><ul class="prose-list"><li>when: status=ACTIVE: active suppliers only</li><li>emit.message: the inbox sentence, without the account</li><li>emit.fields: [iban]: the account, in the signed payload only</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Why ACTIVE</strong><p>The calibration row is INACTIVE: it never reaches the SIEM. An inactive supplier is not paid: its account is no risk.</p></div></li><li><span class="n">2</span><div><strong>Signed</strong><p>The webhook integration signs each delivery with its secret.</p></div></li><li><span class="n">3</span><div><strong>Inbox</strong><p>The reader sees &quot;Bank account observed for supplier SUP-0042 (Atelier Orion)&quot;, never the account.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>What a tool needs is not shown to every reader.</p></div>

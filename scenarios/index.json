@@ -371,7 +371,7 @@
     },
     {
       "slug": "gmao-candy-line-incident",
-      "title": "A critical incident, no technician",
+      "title": "A critical incident is left without a technician",
       "goal": "Warn the maintenance manager as soon as a critical incident has no technician.",
       "lede": "A CMMS exports its incidents as CSV. The conveyor on the gummy candy line has stopped, with no technician. The CMMS warns no one.\n- a Workflow tracks each incident's status\n- a Process flags the critical unassigned incident\n- one decision only; the assignment moves it forward.",
       "tags": {
@@ -468,9 +468,9 @@
     },
     {
       "slug": "kafka-after-hours-energy",
-      "title": "At 23:15, the same number does not mean the same thing everywhere.",
-      "goal": null,
-      "lede": "Three meters publish their power on Kafka. Lyon draws 18.7 kW, the Grenoble laboratory 28.4 kW. Only Lyon breaks its night threshold: one decision, one email to its owner, and a Grafana dashboard that follows the three states.",
+      "title": "Lyon draws 18.7 kW at night and only its owner is alerted",
+      "goal": "Be alerted when a closed site draws more than its night threshold, without alerting the sites where that load is normal.",
+      "lede": "Three meters publish their power to Kafka at 23:15. A CSV registry says what each site is.\n- Lyon draws 18.7 kW against a 10 kW threshold: one decision, one email\n- the laboratory draws 28.4 kW, under its 40 kW threshold: nothing\n- Grafana follows all three states",
       "tags": {
         "domain": [
           "Energy",
@@ -483,8 +483,8 @@
         ]
       },
       "edition": "pro",
-      "replayedAt": "2026-10-21",
-      "evidenceDigest": "sha256:cd8aa75aec35af4ca81fef172bd8802b2cc6f6c98ec7b77542d97417367f0d86"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:534437228df33228dc34ea2647d362d40c9152be7ec6cde1be47c41e111c5671"
     },
     {
       "slug": "kafka-freezer-door-dormancy",
