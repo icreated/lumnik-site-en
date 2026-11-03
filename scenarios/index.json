@@ -646,9 +646,9 @@
     },
     {
       "slug": "pwa-chat",
-      "title": "Question 40,000 products, with the SQL shown.",
-      "goal": null,
-      "lede": "Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query; the answer shows its SQL.",
+      "title": "Question 40,000 items in French and see the SQL",
+      "goal": "Let a user question the catalogue in their own words, without learning the columns or writing SQL.",
+      "lede": "Two CSV exports, one entity, an app reduced to chat. The question becomes a read-only query.\n- 40,233 items, each with its category\n- \"How many items in the Pompes category?\": 7,407\n- the answer shows its SQL",
       "tags": {
         "domain": [
           "Retail",
@@ -661,14 +661,14 @@
         ]
       },
       "edition": "pro",
-      "replayedAt": "2026-10-21",
-      "evidenceDigest": "sha256:eafd0ad70a2bf076779c7564601762a63957d9210e6aa0a341c973f15c26ee27"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:186d1f9f815871ffa1b6098e51c3362e21e4f4e47b24f0558432b25209f91e41"
     },
     {
       "slug": "pwa-pagination",
-      "title": "40,000 products, browsed page by page.",
-      "goal": null,
-      "lede": "Two CSV exports, two entities, two linked views, one app. The hub serves the catalogue 50 rows at a time; the PWA never loads more.",
+      "title": "40,000 items browsed page by page in the PWA",
+      "goal": "Browse a whole catalogue in the PWA without ever loading more than 50 rows at a time.",
+      "lede": "Two CSV exports, two entities, two linked views, one app. The hub serves the catalogue in pages of 50.\n- 40,233 items reached, no duplicate\n- categories linked both ways\n- the Open edition is enough",
       "tags": {
         "domain": [
           "Retail",
@@ -682,14 +682,14 @@
         ]
       },
       "edition": "open",
-      "replayedAt": "2026-10-21",
-      "evidenceDigest": "sha256:3fef15276b19cf9e8983d01669de4656fcbbe4c9ba4598f0564b36af994beb34"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:ef1b020d72b35293b42d2eef88025240bfc8e6fe0aa6241382c95978906ef666"
     },
     {
       "slug": "pwa-search",
-      "title": "Search 40,000 products, facets included.",
-      "goal": null,
-      "lede": "Two CSV exports, one entity, a SearchIndex, an app reduced to search. The hub indexes the declared columns; the PWA filters by facet.",
+      "title": "Search 40,000 items with facets in the PWA",
+      "goal": "Find an item by its words or the start of its reference, and narrow by category, in the PWA.",
+      "lede": "Two CSV exports, one entity, a SearchIndex, an app reduced to search.\n- \"Pompes\": 7,407 items, 6,761 active\n- \"Pompe Badu\": 122 inactive\n- the hub indexes the declared columns only",
       "tags": {
         "domain": [
           "Retail",
@@ -703,8 +703,8 @@
         ]
       },
       "edition": "pro",
-      "replayedAt": "2026-10-21",
-      "evidenceDigest": "sha256:66a82f5e2a774e0fec0a1f34cd31ae7a093cecf939403942db2c932df6afefab"
+      "replayedAt": "2026-11-03",
+      "evidenceDigest": "sha256:7e92771ee39eb576c7c50b0dc3706b6f1b652198b33fd2334a94c9e6a564eecd"
     },
     {
       "slug": "quantity-script-one-in-500",
