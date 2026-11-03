@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The export that lies: an unreadable line does not pass in silence. — lumnik</title>
-<meta name="description" content="An ERP exports its article catalogue every night as one file. A label holds the delimiter, unquoted. lumnik sets the line aside with its raw values, removes nothing from the catalogue while it is unreadable, and closes the dead letter only on the run that really read it again.">
+<title>An unreadable line of the export does not pass in silence — lumnik</title>
+<meta name="description" content="Never write or remove half a catalogue when one of its lines is unreadable. An ERP exports its article catalogue every night. One label holds the separator, unquoted. The line set aside with its raw values; Nothing removed from the catalogue while it is unreadable; The dead letter closed by the run that really read it again.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,41 +18,57 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/export-that-lies/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>The export that lies: an unreadable line does not pass in silence.</h1>
-    <p class="lede">An ERP exports its article catalogue every night as one file. A label holds the delimiter, unquoted. lumnik sets the line aside with its raw values, removes nothing from the catalogue while it is unreadable, and closes the dead letter only on the run that really read it again.</p>
+    <h1>An unreadable line of the export does not pass in silence</h1>
+    <p class="goal"><strong>Goal</strong> Never write or remove half a catalogue when one of its lines is unreadable.</p>
+    <p class="lede">An ERP exports its article catalogue every night. One label holds the separator, unquoted.</p><ul class="lede-list"><li>the line set aside with its raw values;</li><li>nothing removed from the catalogue while it is unreadable;</li><li>the dead letter closed by the run that really read it again.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Catalogue</li><li class="tag">Integration</li><li class="tag kind">Connector</li></ul>
   </section>
+  <div role="tablist" class="page-tabs" aria-label="An unreadable line of the export does not pass in silence">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
   <nav class="steps-nav" aria-label="Steps"><a href="#step-night1" data-step="night1" aria-current="step"><span class="num">1 · Night 1</span><span class="sub">An unreadable line</span></a><a href="#step-night2" data-step="night2"><span class="num">2 · Night 2</span><span class="sub">Nothing removed</span></a><a href="#step-night3" data-step="night3"><span class="num">3 · Night 3</span><span class="sub">The export fixed</span></a><a href="#step-refused" data-step="refused"><span class="num">4 · Refused</span><span class="sub">A proof that is not one</span></a><a href="#step-close" data-step="close"><span class="num">5 · Close</span><span class="sub">On night 3</span></a></nav>
   <section class="step" id="step-night1" aria-labelledby="night1-title">
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="night1-title">A04 goes to the dead letters, the nine others are written</h2>
-      <p>A04&#x27;s label holds a &quot;;&quot; the export does not quote: four values for three columns. The line goes to the dead letters with its raw values, the file and the line number.</p>
+      <p>A04&#x27;s label holds an unquoted « ; ».</p><ul class="prose-list"><li>IN 10, OUT 9</li><li>A04 a dead letter, with its raw values</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Nothing reshaped</strong><p>The extra value is never cut to make the line fit.</p></div></li><li><span class="n">2</span><div><strong>The run goes on</strong><p>IN 10, OUT 9, one dead letter.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Nothing touched up</strong><p>The extra value is never cut.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>An unreadable line is set aside with its reason, not lost.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Night 1"><button type="button" role="tab" id="night1-manifest-tab" data-view="manifest" aria-controls="night1-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="night1-commands-tab" data-view="commands" aria-controls="night1-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="night1-result-tab" data-view="result" aria-controls="night1-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-manifest" id="night1-manifest" aria-labelledby="night1-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-articles.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-export-articles-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [catalogue]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/export-that-lies/b/articles.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line hl">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="night1-commands" aria-labelledby="night1-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f /Users/macspok/eclipse-workspace/lumnik-scenario/scenarios/export-that-lies/manifests/10-articles.yaml</span>
-<span class="out">{&quot;name&quot;:&quot;scenario-export-articles-b&quot;,&quot;connectorId&quot;:&quot;80b92726-879d-416f-973c-b1027d0a605a&quot;,&quot;endpointsApplied&quot;:1}</span>
+    <div role="tablist" class="view-tabs" aria-label="Night 1"><button type="button" role="tab" id="night1-source-tab" data-view="source" aria-controls="night1-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="night1-manifest-tab" data-view="manifest" aria-controls="night1-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="night1-commands-tab" data-view="commands" aria-controls="night1-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="night1-result-tab" data-view="result" aria-controls="night1-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="night1-source" aria-labelledby="night1-source-tab" tabindex="0"><figure class="source"><figcaption>articles-night1.csv</figcaption><pre class="code">article_code;label;unit_price
+A01;Vis inox M6;0.12
+A02;Écrou M6;0.08
+A03;Rondelle plate M6;0.03
+A04;Kit fixation; vis + écrou;1.90
+A05;Cheville nylon 8;0.15
+A06;Tige filetée M8 1 m;2.40
+A07;Équerre 40 mm;0.95
+A08;Charnière laiton;3.10
+A09;Collier serrage 200;0.22
+A10;Patte de scellement;1.35</pre></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="night1-manifest" aria-labelledby="night1-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-articles.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-export-articles-b</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [catalogue]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/export-that-lies/b/articles.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line hl">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="night1-commands" aria-labelledby="night1-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f /Users/macspok/eclipse-workspace/lumnik-scenario/scenarios/export-that-lies/manifests/10-articles.yaml</span>
+<span class="out">Applied connector &quot;scenario-export-articles-b&quot; — 1 endpoint</span>
 
 <span class="cmd"><span class="prompt">$</span> lm connector run scenario-export-articles-b</span>
-<span class="out">run scheduled: eed29e19-5f61-4849-b13f-08cd73667223</span>
+<span class="out">run scheduled: 4a5fbe1b-4057-4436-895e-dd3716b5e30f</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get eed29e19-5f61-4849-b13f-08cd73667223</span>
-<span class="out">ID        CONNECTOR                   ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
-eed29e19  scenario-export-articles-b  default   Completed  10  9    1        1             2026-10-22 17:25  2026-10-22 17:25  no</span>
-<span class="note">⚠ 1 rows quarantined — see: lm dlq list --run eed29e19-5f61-4849-b13f-08cd73667223</span>
+<span class="cmd"><span class="prompt">$</span> lm run get 4a5fbe1b-4057-4436-895e-dd3716b5e30f</span>
+<span class="out">ID        CONNECTOR                   ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED
+4a5fbe1b  scenario-export-articles-b  default   Completed  10  9    1        1             2026-11-03 17:07  2026-11-03 17:07</span>
+<span class="note">⚠ 1 rows quarantined — see: lm dlq list --run 4a5fbe1b-4057-4436-895e-dd3716b5e30f</span>
 
-<span class="cmd"><span class="prompt">$</span> lm dlq list --run eed29e19-5f61-4849-b13f-08cd73667223</span>
+<span class="cmd"><span class="prompt">$</span> lm dlq list --run 4a5fbe1b-4057-4436-895e-dd3716b5e30f</span>
 <span class="out">ID        CONNECTOR                   RUN       REASON           ATTEMPTS  RESOLUTION  MESSAGE
-9d6dea5d  scenario-export-articles-b  eed29e19  MalformedSource  1                     /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Rec…</span>
+ae43ce95  scenario-export-articles-b  4a5fbe1b  MalformedSource  1                     /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Rec…</span>
 
-<span class="cmd"><span class="prompt">$</span> lm dlq get 9d6dea5d-180a-4f54-8822-762c57e4740a</span>
-<span class="out">ID:        9d6dea5d-180a-4f54-8822-762c57e4740a
-Connector: scenario-export-articles-b (80b92726-879d-416f-973c-b1027d0a605a)
-Run:       eed29e19-5f61-4849-b13f-08cd73667223
+<span class="cmd"><span class="prompt">$</span> lm dlq get ae43ce95-ffc5-4736-a36f-df922f93a237</span>
+<span class="out">ID:        ae43ce95-ffc5-4736-a36f-df922f93a237
+Connector: scenario-export-articles-b (d9d43c30-95e4-4d55-8692-ca14569c9fdb)
+Run:       4a5fbe1b-4057-4436-895e-dd3716b5e30f
 Reason:    MalformedSource
 Attempts:  1
 Message:   /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Record has 4 values but only 3 columns are declared
@@ -65,98 +81,117 @@ Resolution: open</span></code></pre></div><div role="tabpanel" class="view-panel
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="night2-title">A09 leaves the catalogue, A04 still unreadable: Failed</h2>
-      <p>The file is the whole table: A09 missing should be removed. But a line of the file is in the dead letters; the run fails and removes nothing.</p>
+      <p>A09 left the file, but A04 is still unreadable.</p><ul class="prose-list"><li>the run fails</li><li>A09 is not removed</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>A09 waits</strong><p>Its last version stays while a line of the file is unreadable.</p></div></li><li><span class="n">2</span><div><strong>Two letters</strong><p>Each night that reads the line adds one.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>A09 waits</strong><p>While a line of the file is unreadable.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>A removal waits until the file has been read in full.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Night 2"><button type="button" role="tab" id="night2-commands-tab" data-view="commands" aria-controls="night2-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="night2-result-tab" data-view="result" aria-controls="night2-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-commands" id="night2-commands" aria-labelledby="night2-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-export-articles-b</span>
-<span class="out">run scheduled: 021bf1c1-1905-4d2c-8b40-e7851649309b</span>
+    <div role="tablist" class="view-tabs" aria-label="Night 2"><button type="button" role="tab" id="night2-source-tab" data-view="source" aria-controls="night2-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="night2-commands-tab" data-view="commands" aria-controls="night2-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="night2-result-tab" data-view="result" aria-controls="night2-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="night2-source" aria-labelledby="night2-source-tab" tabindex="0"><figure class="source"><figcaption>articles-night2.csv</figcaption><pre class="code">article_code;label;unit_price
+A01;Vis inox M6;0.12
+A02;Écrou M6;0.08
+A03;Rondelle plate M6;0.03
+A04;Kit fixation; vis + écrou;1.90
+A05;Cheville nylon 8;0.15
+A06;Tige filetée M8 1 m;2.40
+A07;Équerre 40 mm;0.95
+A08;Charnière laiton;3.10
+A10;Patte de scellement;1.35</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="night2-commands" aria-labelledby="night2-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-export-articles-b</span>
+<span class="out">run scheduled: 459fa0d1-ddc1-4894-8dea-c798e0b39b8a</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get 021bf1c1-1905-4d2c-8b40-e7851649309b</span>
-<span class="out">ID        CONNECTOR                   ENDPOINT  STATUS  IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
-021bf1c1  scenario-export-articles-b  default   Failed  9   8    1        1             2026-10-22 17:25  2026-10-22 17:25  no</span>
-<span class="note">⚠ 1 rows quarantined — see: lm dlq list --run 021bf1c1-1905-4d2c-8b40-e7851649309b</span>
-<span class="note">✖ run failed: 1 row(s) of the file went to the dead letters this run (lm dlq list --run 021bf1c1-1905-4d2c-8b40-e7851649309b): a full refresh removes nothing while a row of the file is in the dead letters, whatever its reason (unreadable, dropped by validate-row…) — nothing was removed. Fix the cause each dead letter reports (lm dlq get &lt;id&gt;) and run again.</span>
+<span class="cmd"><span class="prompt">$</span> lm run get 459fa0d1-ddc1-4894-8dea-c798e0b39b8a</span>
+<span class="out">ID        CONNECTOR                   ENDPOINT  STATUS  IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED
+459fa0d1  scenario-export-articles-b  default   Failed  9   8    1        1             2026-11-03 17:07  2026-11-03 17:07</span>
+<span class="note">⚠ 1 rows quarantined — see: lm dlq list --run 459fa0d1-ddc1-4894-8dea-c798e0b39b8a</span>
+<span class="note">✖ run failed: 1 row(s) of the file went to the dead letters this run (lm dlq list --run 459fa0d1-ddc1-4894-8dea-c798e0b39b8a): a full refresh removes nothing while a row of the file is in the dead letters, whatever its reason (unreadable, dropped by validate-row…) — nothing was removed. Fix the cause each dead letter reports (lm dlq get &lt;id&gt;) and run again.</span>
 
 <span class="cmd"><span class="prompt">$</span> lm dlq list --connector scenario-export-articles-b</span>
 <span class="out">ID        CONNECTOR                   RUN       REASON           ATTEMPTS  RESOLUTION  MESSAGE
-409185fe  scenario-export-articles-b  021bf1c1  MalformedSource  1                     /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Rec…
-9d6dea5d  scenario-export-articles-b  eed29e19  MalformedSource  1                     /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Rec…</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="night2-result" aria-labelledby="night2-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Failed · IN 9 · OUT 8 · DEAD-LETTERS 1</dd><dt>refusal</dt><dd>1 row(s) of the file went to the dead letters this run (lm dlq list --run 021bf1c1-1905-4d2c-8b40-e7851649309b): a full refresh removes nothing while a row of the file is in the dead letters, whatever its reason (unreadable, dropped by validate-row…) — nothing was removed. Fix the cause each dead letter reports (lm dlq get &lt;id&gt;) and run again.</dd><dt>open dead letters</dt><dd>2</dd></dl><p class="sources">evidence: replay.log, 01-open-after-fix.json, 02-closed.json · transform v1</p></div>
+4872e311  scenario-export-articles-b  459fa0d1  MalformedSource  1                     /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Rec…
+ae43ce95  scenario-export-articles-b  4a5fbe1b  MalformedSource  1                     /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Rec…</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="night2-result" aria-labelledby="night2-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Failed · IN 9 · OUT 8 · DEAD-LETTERS 1</dd><dt>refusal</dt><dd>1 row(s) of the file went to the dead letters this run (lm dlq list --run 459fa0d1-ddc1-4894-8dea-c798e0b39b8a): a full refresh removes nothing while a row of the file is in the dead letters, whatever its reason (unreadable, dropped by validate-row…) — nothing was removed. Fix the cause each dead letter reports (lm dlq get &lt;id&gt;) and run again.</dd><dt>open dead letters</dt><dd>2</dd></dl><p class="sources">evidence: replay.log, 01-open-after-fix.json, 02-closed.json · transform v1</p></div>
   </div>
 </section>
 <section class="step" id="step-night3" aria-labelledby="night3-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="night3-title">A04 written, A09 removed</h2>
-      <p>The export quotes the label. The run reads nine lines, removes A09 and ends Completed. Both dead letters stay open: the hub never re-reads a dead letter.</p>
+      <p>The export quotes the label.</p><ul class="prose-list"><li>A04 written</li><li>A09 removed</li><li>the letters stay open</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Removal</strong><p>1 row removed, the source no longer holds it.</p></div></li><li><span class="n">2</span><div><strong>Open letters</strong><p>Closing them is the integrator&#x27;s move.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Open letters</strong><p>Closing them is the integrator&#x27;s gesture.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The fixed night brings the table back without touching the data by hand.</p></div>
   </aside>
   <div class="views">
-    <div role="tablist" class="view-tabs" aria-label="Night 3"><button type="button" role="tab" id="night3-commands-tab" data-view="commands" aria-controls="night3-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="night3-result-tab" data-view="result" aria-controls="night3-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-commands" id="night3-commands" aria-labelledby="night3-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-export-articles-b</span>
-<span class="out">run scheduled: d3d14c8b-6e46-499a-ab4e-9d9028bc370d</span>
+    <div role="tablist" class="view-tabs" aria-label="Night 3"><button type="button" role="tab" id="night3-source-tab" data-view="source" aria-controls="night3-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="night3-commands-tab" data-view="commands" aria-controls="night3-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="night3-result-tab" data-view="result" aria-controls="night3-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="night3-source" aria-labelledby="night3-source-tab" tabindex="0"><figure class="source"><figcaption>articles-night3.csv</figcaption><pre class="code">article_code;label;unit_price
+A01;Vis inox M6;0.12
+A02;Écrou M6;0.08
+A03;Rondelle plate M6;0.03
+A04;&quot;Kit fixation; vis + écrou&quot;;1.90
+A05;Cheville nylon 8;0.15
+A06;Tige filetée M8 1 m;2.40
+A07;Équerre 40 mm;0.95
+A08;Charnière laiton;3.10
+A10;Patte de scellement;1.35</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="night3-commands" aria-labelledby="night3-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-export-articles-b</span>
+<span class="out">run scheduled: a2daaab1-d2c6-4473-baae-81eb8b46af55</span>
 
-<span class="cmd"><span class="prompt">$</span> lm run get d3d14c8b-6e46-499a-ab4e-9d9028bc370d</span>
-<span class="out">ID        CONNECTOR                   ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
-d3d14c8b  scenario-export-articles-b  default   Completed  9   9    0        0             2026-10-22 17:25  2026-10-22 17:25  no</span>
-<span class="note">• 1 row(s) removed — the source no longer holds them</span>
+<span class="cmd"><span class="prompt">$</span> lm run get a2daaab1-d2c6-4473-baae-81eb8b46af55</span>
+<span class="out">ID        CONNECTOR                   ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED
+a2daaab1  scenario-export-articles-b  default   Completed  9   9    0        0             2026-11-03 17:07  2026-11-03 17:07</span>
 
 <span class="cmd"><span class="prompt">$</span> lm dlq list --connector scenario-export-articles-b</span>
 <span class="out">ID        CONNECTOR                   RUN       REASON           ATTEMPTS  RESOLUTION  MESSAGE
-409185fe  scenario-export-articles-b  021bf1c1  MalformedSource  1                     /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Rec…
-9d6dea5d  scenario-export-articles-b  eed29e19  MalformedSource  1                     /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Rec…</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="night3-result" aria-labelledby="night3-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 9 · OUT 9 · DEAD-LETTERS 0</dd><dt>removed</dt><dd>1</dd><dt>open dead letters</dt><dd>2</dd></dl><p class="sources">evidence: replay.log, 01-open-after-fix.json, 02-closed.json · transform v1</p></div>
+4872e311  scenario-export-articles-b  459fa0d1  MalformedSource  1                     /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Rec…
+ae43ce95  scenario-export-articles-b  4a5fbe1b  MalformedSource  1                     /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Rec…</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="night3-result" aria-labelledby="night3-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>Completed · IN 9 · OUT 9 · DEAD-LETTERS 0</dd><dt>open dead letters</dt><dd>2</dd></dl><p class="sources">evidence: replay.log, 01-open-after-fix.json, 02-closed.json · transform v1</p></div>
   </div>
 </section>
 <section class="step" id="step-refused" aria-labelledby="refused-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="refused-title">Closing on night 2: refused</h2>
-      <p>Night 2 put A04 back in the dead letters. Naming it as the proof of the replay is refused, with the reason.</p>
+      <p>Night 2 put A04 back as a dead letter. Giving it as proof is refused, with the reason.</p>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>The run proves</strong><p>Completed, same connector, started after the letter.</p></div></li><li><span class="n">2</span><div><strong>Otherwise</strong><p>discard closes a letter no run carried.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>The run proves</strong><p>Completed, same connector, after the letter.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Closing a dead letter is not taken on trust.</p></div>
   </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Refused"><button type="button" role="tab" id="refused-commands-tab" data-view="commands" aria-controls="refused-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="refused-result-tab" data-view="result" aria-controls="refused-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-commands" id="refused-commands" aria-labelledby="refused-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm dlq replayed 9d6dea5d-180a-4f54-8822-762c57e4740a --new-run-id 021bf1c1-1905-4d2c-8b40-e7851649309b</span>
-<span class="note">Error: API error 400: run 021bf1c1-1905-4d2c-8b40-e7851649309b ended Failed, not Completed</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="refused-result" aria-labelledby="refused-result-tab" tabindex="0" hidden><dl class="facts"><dt>refusal</dt><dd>API error 400: run 021bf1c1-1905-4d2c-8b40-e7851649309b ended Failed, not Completed</dd></dl><p class="sources">evidence: replay.log, 01-open-after-fix.json, 02-closed.json · transform v1</p></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="refused-commands" aria-labelledby="refused-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm dlq replayed ae43ce95-ffc5-4736-a36f-df922f93a237 --new-run-id 459fa0d1-ddc1-4894-8dea-c798e0b39b8a</span>
+<span class="note">Error: API error 400: run 459fa0d1-ddc1-4894-8dea-c798e0b39b8a ended Failed, not Completed</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="refused-result" aria-labelledby="refused-result-tab" tabindex="0" hidden><dl class="facts"><dt>refusal</dt><dd>API error 400: run 459fa0d1-ddc1-4894-8dea-c798e0b39b8a ended Failed, not Completed</dd></dl><p class="sources">evidence: replay.log, 01-open-after-fix.json, 02-closed.json · transform v1</p></div>
   </div>
 </section>
 <section class="step" id="step-close" aria-labelledby="close-title" data-inactive>
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="close-title">Both letters closed by the run that wrote A04</h2>
-      <p>lm dlq replayed --new-run-id with night 3. lm dlq get says by which run and when.</p>
+      <p>lm dlq replayed --new-run-id with night 3.</p><ul class="prose-list"><li>both letters closed</li><li>lm dlq get says by which run and when</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>Once</strong><p>A closed letter refuses a second closing.</p></div></li><li><span class="n">2</span><div><strong>Traceable</strong><p>The run and the time stay on the letter.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>Once only</strong><p>A closed letter refuses a second closing.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Each closed letter says which run carried it again.</p></div>
   </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Close"><button type="button" role="tab" id="close-commands-tab" data-view="commands" aria-controls="close-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="close-result-tab" data-view="result" aria-controls="close-result" aria-selected="false" tabindex="-1">Result</button></div>
-    <div role="tabpanel" class="view-panel view-panel-commands" id="close-commands" aria-labelledby="close-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm dlq replayed 409185fe-554c-4647-981d-16c47b1f67be --new-run-id d3d14c8b-6e46-499a-ab4e-9d9028bc370d</span>
-<span class="out">marked replayed: 409185fe-554c-4647-981d-16c47b1f67be</span>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="close-commands" aria-labelledby="close-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm dlq replayed 4872e311-9f8e-4464-aac6-98a10c065411 --new-run-id a2daaab1-d2c6-4473-baae-81eb8b46af55</span>
+<span class="out">marked replayed: 4872e311-9f8e-4464-aac6-98a10c065411</span>
 
-<span class="cmd"><span class="prompt">$</span> lm dlq replayed 9d6dea5d-180a-4f54-8822-762c57e4740a --new-run-id d3d14c8b-6e46-499a-ab4e-9d9028bc370d</span>
-<span class="out">marked replayed: 9d6dea5d-180a-4f54-8822-762c57e4740a</span>
+<span class="cmd"><span class="prompt">$</span> lm dlq replayed ae43ce95-ffc5-4736-a36f-df922f93a237 --new-run-id a2daaab1-d2c6-4473-baae-81eb8b46af55</span>
+<span class="out">marked replayed: ae43ce95-ffc5-4736-a36f-df922f93a237</span>
 
-<span class="cmd"><span class="prompt">$</span> lm dlq get 9d6dea5d-180a-4f54-8822-762c57e4740a</span>
-<span class="out">ID:        9d6dea5d-180a-4f54-8822-762c57e4740a
-Connector: scenario-export-articles-b (80b92726-879d-416f-973c-b1027d0a605a)
-Run:       eed29e19-5f61-4849-b13f-08cd73667223
+<span class="cmd"><span class="prompt">$</span> lm dlq get ae43ce95-ffc5-4736-a36f-df922f93a237</span>
+<span class="out">ID:        ae43ce95-ffc5-4736-a36f-df922f93a237
+Connector: scenario-export-articles-b (d9d43c30-95e4-4d55-8692-ca14569c9fdb)
+Run:       4a5fbe1b-4057-4436-895e-dd3716b5e30f
 Reason:    MalformedSource
 Attempts:  1
 Message:   /tmp/lumnik-scenario/export-that-lies/b/articles.csv:5 — Record has 4 values but only 3 columns are declared
 Detail:    {&quot;file&quot;:&quot;/tmp/lumnik-scenario/export-that-lies/b/articles.csv&quot;,&quot;line&quot;:5,&quot;message&quot;:&quot;Record has 4 values but only 3 columns are declared&quot;}
 Payload:   {&quot;raw&quot;:[&quot;A04&quot;,&quot;Kit fixation&quot;,&quot; vis + écrou&quot;,&quot;1.90&quot;],&quot;file&quot;:&quot;/tmp/lumnik-scenario/export-that-lies/b/articles.csv&quot;,&quot;line&quot;:5}
-Resolution: REPLAYED by run d3d14c8b-6e46-499a-ab4e-9d9028bc370d, 2026-10-22 17:25</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="close-result" aria-labelledby="close-result-tab" tabindex="0" hidden><dl class="facts"><dt>resolution</dt><dd>REPLAYED by run d3d14c8b, 2026-10-22 17:25</dd></dl><p class="sources">evidence: replay.log, 01-open-after-fix.json, 02-closed.json · transform v1</p></div>
+Resolution: REPLAYED by run a2daaab1-d2c6-4473-baae-81eb8b46af55, 2026-11-03 17:07</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="close-result" aria-labelledby="close-result-tab" tabindex="0" hidden><dl class="facts"><dt>resolution</dt><dd>REPLAYED by run a2daaab1, 2026-11-03 17:07</dd></dl><p class="sources">evidence: replay.log, 01-open-after-fix.json, 02-closed.json · transform v1</p></div>
   </div>
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>The hub checks that the named run could carry the line (Completed, same connector, after the letter), not that it wrote it.</li><li>Each night that reads the line again adds a dead letter: they are closed one by one.</li><li>Synthetic data.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Catalogue · nightly export</p><h2>The ERP exports its catalogue every night.</h2><p class="brief-lead">One line breaks the format.</p><p class="brief-note">Ten articles, three nights</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>A « ; » in a label.</h2><ul class="brief-list tone-cyan"><li>No quotes.</li><li>Four values for three columns.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The export stays as it is.</h2><ul class="brief-list tone-green"><li>No line touched up.</li><li>No value cut to make it fit.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The trap</p><h2>Removing what could not be read.</h2><ul class="brief-list tone-cyan"><li>The file is the whole table.</li><li>An unreadable line looks like a missing one.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>delimiter: &quot;;&quot;</code></pre><h2>Nothing more.</h2><ul class="brief-list tone-green"><li>The unreadable line becomes a dead letter.</li><li>No removal while it is there.</li><li>A 14-line scenario, one manifest.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The proof</p><h2>The letter closed by the right run.</h2><ul class="brief-list tone-cyan"><li>Night 2 is refused as proof.</li><li>Night 3, which wrote A04, is accepted.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>One letter per night.</h2><ul class="brief-list tone-green"><li>Each night that reads the line adds one.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
   <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>
