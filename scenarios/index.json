@@ -1112,6 +1112,27 @@
       "evidenceDigest": "sha256:86ec6030a58cdfe8be82890844fb65cb17acab57e785a4a0a83bda5b75817a0f"
     },
     {
+      "slug": "senaite-culture-plates",
+      "title": "SENAITE: Fleming's plate waiting to be verified",
+      "goal": "Be told when a SENAITE LIMS result goes over its limit, then when nobody verifies it.",
+      "lede": "A real SENAITE 2.6, five research groups, 120 culture plates read through its JSON API.\n- body-link: the 120 analyses in five pages, the total checked;\n- 2400 colonies on Fleming's plate: one decision, key analysisrequest-24;\n- left unverified: the plate goes dormant, a second alert.",
+      "tags": {
+        "domain": [
+          "Laboratory",
+          "LIMS",
+          "SENAITE"
+        ],
+        "kinds": [
+          "Connector",
+          "Process",
+          "Workflow"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-05",
+      "evidenceDigest": "sha256:5f914cf598044a0c200e7459a8d10431a97e2623a266f334a5f0118ad6195424"
+    },
+    {
       "slug": "sftp-carrier-drop",
       "title": "The carrier's SFTP drop read every night with nothing taken on trust",
       "goal": "Read the carrier's file every night, file it away, and refuse a server whose key changed.",
