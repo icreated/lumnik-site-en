@@ -1112,6 +1112,27 @@
       "evidenceDigest": "sha256:86ec6030a58cdfe8be82890844fb65cb17acab57e785a4a0a83bda5b75817a0f"
     },
     {
+      "slug": "sap-odata-v2-sales-orders",
+      "title": "SAP OData v2: the 48,000 EUR order left unprocessed",
+      "goal": "Read SAP's sales orders through the OData v2 Gateway, then be told when a large order stays unprocessed.",
+      "lede": "SAP's Sales Order API, API_SALES_ORDER_SRV, served the way a Gateway serves it: October's 130 orders.\n- odata-v2: three $skiptoken pages, the __count total checked;\n- from_odata_date: the 130 /Date()/ values become dates;\n- 48,000 EUR in status A: one decision, then a dormancy alert.",
+      "tags": {
+        "domain": [
+          "Sales",
+          "SAP",
+          "OData"
+        ],
+        "kinds": [
+          "Connector",
+          "Process",
+          "Workflow"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-05",
+      "evidenceDigest": "sha256:8f092ded88b6a56f611309587aa93bf603b20a90241c7328e4d82864b50e61c3"
+    },
+    {
       "slug": "senaite-culture-plates",
       "title": "SENAITE: Fleming's plate waiting to be verified",
       "goal": "Be told when a SENAITE LIMS result goes over its limit, then when nobody verifies it.",
