@@ -1406,6 +1406,27 @@
       "evidenceDigest": "sha256:a7606c4a38ca66439c86c2ac8750ba35c026ff5a2461acca4170b7f64cefa132"
     },
     {
+      "slug": "wcf-soap-orders",
+      "title": "SOAP WCF and WS-Security: the password rotated, the Fault says so",
+      "goal": "Read a WCF service protected by a UsernameToken, survive the rotation of its password, and be told when an order is confirmed past its promised date.",
+      "lede": "A distributor exposes its open orders through a WCF service: HTTPS under the company's CA, a UsernameToken inside the envelope.\n- the CA and the password live in lm secret, never in the manifest;\n- the password rotates: over HTTP/2 the Fault is lost, over HTTP/1.1 it names the cause;\n- three orders confirmed past their promised date, three decisions.",
+      "tags": {
+        "domain": [
+          "Sales",
+          "SOAP",
+          "WCF",
+          "WS-Security"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-07",
+      "evidenceDigest": "sha256:5a115e5aec7ee44ca83af4a4b0f9202abb7d94aee517e3c68759a0c734178fc4"
+    },
+    {
       "slug": "windev-hfsql-export",
       "title": "WinDev: the client export with real dates and a real Active flag",
       "goal": "Read the client file a WinDev application exports, and turn it into columns a question can use.",
