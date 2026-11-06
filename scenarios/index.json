@@ -449,6 +449,26 @@
       "evidenceDigest": "sha256:81638f79c0711724f257732f97137d1f82ac49f579adc0b3e542755e2ce3593c"
     },
     {
+      "slug": "hl7-analyser-results",
+      "title": "HL7 v2: the analyser result above its range, flagged or not",
+      "goal": "Read the HL7 v2 messages two analysers drop for the LIMS, and be told when a result is above its reference range.",
+      "lede": "Two chemistry analysers, HL7 v2.5.1 ORU^R01: segments ended by a lone carriage return.\n- csv-file reads one segment per row, MSH, PID, OBR, OBX;\n- the sample is carried down onto each result;\n- a Process compares the value with the range sent beside it, whatever the flag.",
+      "tags": {
+        "domain": [
+          "Laboratory",
+          "HL7",
+          "Analysers"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-06",
+      "evidenceDigest": "sha256:de011b8d735c0b7daa0eae0a8d568491da26d4dcaf06ccfcc92d84a486994be8"
+    },
+    {
       "slug": "import-export",
       "title": "The catalogue leaves for the partner in the partner's format",
       "goal": "Deliver the product catalogue to a partner in the format it imposes, with no conversion code.",
