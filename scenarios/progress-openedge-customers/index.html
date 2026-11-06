@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress OpenEdge: the 1999 order that must not become 2099 — lumnik</title>
+<meta name="description" content="Read a Progress ERP&#x27;s EXPORT files, two-digit years included, and be told when a dormant customer is reactivated. A Progress OpenEdge ERP exports its Customer table with ABL&#x27;s EXPORT: a .d file, 40 customers. Spaces, quoted strings, ? for unknown, yes/no, ISO-8859-1; MM/DD/YY: a two-digit year must say its century, or validate refuses; The reactivation campaign: two customers with no order since 1999 and 2003, two decisions.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/progress-openedge-customers/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/progress-openedge-customers/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>Progress OpenEdge: the 1999 order that must not become 2099</h1>
+    <p class="goal"><strong>Goal</strong> Read a Progress ERP&#x27;s EXPORT files, two-digit years included, and be told when a dormant customer is reactivated.</p>
+    <p class="lede">A Progress OpenEdge ERP exports its Customer table with ABL&#x27;s EXPORT: a .d file, 40 customers.</p><ul class="lede-list"><li>spaces, quoted strings, ? for unknown, yes/no, ISO-8859-1;</li><li>MM/DD/YY: a two-digit year must say its century, or validate refuses;</li><li>the reactivation campaign: two customers with no order since 1999 and 2003, two decisions.</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Sales</li><li class="tag">Progress</li><li class="tag">OpenEdge</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
+  </section>
+  <div role="tablist" class="page-tabs" aria-label="Progress OpenEdge: the 1999 order that must not become 2099">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-lab" data-step="lab" aria-current="step"><span class="num">1 · EXPORT</span><span class="sub">.d</span></a><a href="#step-draft" data-step="draft"><span class="num">2 · Draft</span><span class="sub">refused</span></a><a href="#step-read" data-step="read"><span class="num">3 · Read</span><span class="sub">csv-file</span></a><a href="#step-rule" data-step="rule"><span class="num">4 · Declare</span><span class="sub">Process</span></a><a href="#step-campaign" data-step="campaign"><span class="num">5 · Campaign</span><span class="sub">2 decisions</span></a></nav>
+  <section class="step" id="step-lab" aria-labelledby="lab-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="lab-title">The Customer table, as ABL exports it</h2>
+      <p>FOR EACH Customer: EXPORT Customer. One customer per line.</p><ul class="prose-list"><li>one space between fields, strings in quotes, an inner quote doubled</li><li>? for the unknown value</li><li>dates MM/DD/YY, logicals yes/no, ISO-8859-1</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>-yy 1950</strong><p>Progress reads 99 as 1999 and 26 as 2026: its default century window starts in 1950.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The ERP&#x27;s own export is the source, as it comes.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="EXPORT"><button type="button" role="tab" id="lab-result-tab" data-view="result" aria-controls="lab-result" aria-selected="true" tabindex="0">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-result" id="lab-result" aria-labelledby="lab-result-tab" tabindex="0"><dl class="facts"><dt>line</dt><dd>1001 &quot;Garage Martin&quot; &quot;Nîmes&quot; 09/04/89 09/29/26 yes 733.25 &quot;Client depuis 1989, remise 6 %&quot;</dd><dt>line</dt><dd>1002 &quot;Auto Bérard&quot; &quot;Valence&quot; 05/08/92 02/27/16 no 0 &quot;Client depuis 1992, remise 7 %&quot;</dd><dt>line</dt><dd>1003 &quot;Pneus du Sud&quot; &quot;Grenoble&quot; 01/10/95 07/17/26 yes 2199.75 ?</dd><dt>line</dt><dd>1004 &quot;Carrosserie Lefèvre&quot; ? 09/13/97 06/10/26 yes 2932 &quot;Client depuis 1997, remise 9 %&quot;</dd><dt>line</dt><dd>1005 &quot;Moto Évasion&quot; &quot;Annecy&quot; 05/17/00 05/04/26 yes 3665.25 &quot;Client depuis 2000, remise 10 %&quot;</dd><dt>line</dt><dd>1006 &quot;Cycles Gaëtan&quot; &quot;Vienne&quot; 01/19/03 03/28/26 yes 4398.5 &quot;Client depuis 2003, remise 11 %&quot;</dd><dt>line</dt><dd>1007 &quot;Atelier &quot;&quot;Le Piston&quot;&quot;&quot; &quot;Chambéry&quot; 04/08/91 03/14/99 no 0 &quot;Client depuis 1991, remise 12 %&quot;</dd><dt>line</dt><dd>1008 &quot;Dépannage Noël&quot; &quot;Lyon&quot; 05/26/08 01/13/26 yes 5864 &quot;Client depuis 2008, remise 13 %&quot;</dd></dl><p class="sources">evidence: replay.log, export-head.txt, customers.txt, count-read.txt, reactivated.txt, inbox-campaign.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-draft" aria-labelledby="draft-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="draft-title">MM/dd/yy without its century: refused</h2>
+      <p>The first draft reads the dates with MM/dd/yy alone. lm validate refuses both dates before anything is read.</p><ul class="prose-list"><li>century-from is required with yy</li><li>the message names the parameter</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Before #1857</strong><p>The same draft was accepted, and 12/03/98 became 2098-12-03, without a cell error.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An ambiguous date is refused at the door, never guessed.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Draft"><button type="button" role="tab" id="draft-manifest-tab" data-view="manifest" aria-controls="draft-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="draft-commands-tab" data-view="commands" aria-controls="draft-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="draft-result-tab" data-view="result" aria-controls="draft-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="draft-manifest" aria-labelledby="draft-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/09-customers-draft.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="comment"># The first draft: the dates read without saying their century.</span></span><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-progress-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [sales-progress-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="comment"># OUTPUT TO VALUE(&quot;/exports/customer-&quot; + ...) . FOR EACH Customer: EXPORT Customer. END.</span></span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/progress-openedge-customers/a/customer-*.d</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot; &quot;</span>                 <span class="comment"># EXPORT separates fields with one space</span></span><span class="line">    <span class="key">encoding</span>: ISO-8859-1           <span class="comment"># the session&#x27;s -cpstream</span></span><span class="line">    <span class="key">has_header</span>: false</span><span class="line">    <span class="key">columns</span>: [cust_num, name, city, since, last_order, active, balance, comments]</span><span class="line">    <span class="key">null_values</span>: [<span class="str">&quot;?&quot;</span>]             <span class="comment"># ABL&#x27;s unknown value</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line">      - parse-date: { column: since, formats: [<span class="str">&quot;MM/dd/yy&quot;</span>] }</span><span class="line">      - parse-date: { column: last_order, formats: [<span class="str">&quot;MM/dd/yy&quot;</span>] }</span><span class="line">      - parse-boolean: { column: active }                                               <span class="comment"># yes / no</span></span><span class="line">      - parse-number: { column: balance, decimal-separator: <span class="str">&quot;.&quot;</span> }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="draft-commands" aria-labelledby="draft-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm validate -f manifests/09-customers-draft.yaml</span>
+<span class="out">✗ 09-customers-draft.yaml — 2 error(s), 0 warning(s)
+
+  ERROR    spec.mapping.cell[0].parse-date
+          parse-date hook: &#x27;century-from&#x27; is required when a format reads a two-digit year (yy)
+          → The Transformers page lists parse-date&#x27;s parameters
+
+  ERROR    spec.mapping.cell[1].parse-date
+          parse-date hook: &#x27;century-from&#x27; is required when a format reads a two-digit year (yy)
+          → The Transformers page lists parse-date&#x27;s parameters
+
+Fix errors above before running &#x27;lm apply -f manifests/09-customers-draft.yaml&#x27;.</span>
+<span class="note">Error: validation failed: 2 error(s)</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="draft-result" aria-labelledby="draft-result-tab" tabindex="0" hidden><dl class="facts"><dt>spec.mapping.cell[0].parse-date</dt><dd>parse-date hook: &#x27;century-from&#x27; is required when a format reads a two-digit year (yy)</dd><dt>spec.mapping.cell[1].parse-date</dt><dd>parse-date hook: &#x27;century-from&#x27; is required when a format reads a two-digit year (yy)</dd></dl><p class="sources">evidence: replay.log, export-head.txt, customers.txt, count-read.txt, reactivated.txt, inbox-campaign.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-read" aria-labelledby="read-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="read-title">40 customers, every year in its century</h2>
+      <p>csv-file reads the .d file as a delimited file.</p><ul class="prose-list"><li>delimiter: a space, the quotes kept as quotes</li><li>null_values: [&quot;?&quot;]</li><li>century-from: 1950, Progress&#x27;s own window</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Quotes and accents</strong><p>Atelier &quot;&quot;Le Piston&quot;&quot; becomes Atelier &quot;Le Piston&quot;; Mâcon, Hébert, Séverin are intact.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A Progress export is read without a line of 4GL.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="read-manifest-tab" data-view="manifest" aria-controls="read-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="read-commands-tab" data-view="commands" aria-controls="read-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="read-result-tab" data-view="result" aria-controls="read-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="read-manifest" aria-labelledby="read-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-customers.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-progress-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [sales-progress-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="comment"># OUTPUT TO VALUE(&quot;/exports/customer-&quot; + ...) . FOR EACH Customer: EXPORT Customer. END.</span></span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/progress-openedge-customers/a/customer-*.d</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot; &quot;</span>                 <span class="comment"># EXPORT separates fields with one space</span></span><span class="line">    <span class="key">encoding</span>: ISO-8859-1           <span class="comment"># the session&#x27;s -cpstream</span></span><span class="line">    <span class="key">has_header</span>: false</span><span class="line">    <span class="key">columns</span>: [cust_num, name, city, since, last_order, active, balance, comments]</span><span class="line">    <span class="key">null_values</span>: [<span class="str">&quot;?&quot;</span>]             <span class="comment"># ABL&#x27;s unknown value</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line hl">      - parse-date: { column: since, formats: [<span class="str">&quot;MM/dd/yy&quot;</span>], century-from: 1950 }        <span class="comment"># Progress&#x27;s default -yy 1950</span></span><span class="line hl">      - parse-date: { column: last_order, formats: [<span class="str">&quot;MM/dd/yy&quot;</span>], century-from: 1950 }</span><span class="line">      - parse-boolean: { column: active }                                               <span class="comment"># yes / no</span></span><span class="line">      - parse-number: { column: balance, decimal-separator: <span class="str">&quot;.&quot;</span> }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="read-commands" aria-labelledby="read-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-customers.yaml</span>
+<span class="out">Applied connector &quot;scenario-progress-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-progress-a</span>
+<span class="out">run scheduled: c152d122-2a8d-4675-a494-744250cc4e7b</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get c152d122-2a8d-4675-a494-744250cc4e7b</span>
+<span class="out">ID        CONNECTOR            ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+c152d122  scenario-progress-a  default   Completed  40  40   0        0             2026-11-06 23:03  2026-11-06 23:03  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="read-result" aria-labelledby="read-result-tab" tabindex="0" hidden><dl class="facts"><dt>default</dt><dd>Completed · IN 40 · OUT 40</dd><dt>hub</dt><dd>1004 | Carrosserie Lefèvre |  | 1997-09-13 | 2026-06-10 | t | 2932.0000 | Client depuis 1997, remise 9 %</dd><dt>hub</dt><dd>1007 | Atelier &quot;Le Piston&quot; | Chambéry | 1991-04-08 | 1999-03-14 | f | 0.0000 | Client depuis 1991, remise 12 %</dd><dt>hub</dt><dd>1012 | Location Hébert | Mâcon | 1996-10-21 | 2003-09-02 | f | 0.0000 | Client depuis 1996, remise 7 %</dd><dt>hub</dt><dd>1027 | Vitrage Auto Séverin | Grenoble | 1988-01-15 | 2026-06-30 | f | 0.0000 | Client depuis 1988, remise 12 %</dd><dt>hub</dt><dd>40 customers, since 1987-03-22 to 2021-10-10, last orders 1999-03-14 to 2026-10-15, 4 without a city</dd></dl><p class="sources">evidence: replay.log, export-head.txt, customers.txt, count-read.txt, reactivated.txt, inbox-campaign.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-rule" aria-labelledby="rule-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="rule-title">Reactivated, but dormant for a year</h2>
+      <p>The Process listens on the export&#x27;s table.</p><ul class="prose-list"><li>active=true: the customer is active again</li><li>last_order&lt;2025-11-05: no order for a year</li><li>key: cust_num, the decision carries the customer number</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Why the century matters here</strong><p>Read as 2099, the 1999 order would never be &quot;before 2025&quot;.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A rule on dates can be trusted once the dates can.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Declare"><button type="button" role="tab" id="rule-manifest-tab" data-view="manifest" aria-controls="rule-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="rule-commands-tab" data-view="commands" aria-controls="rule-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="rule-result-tab" data-view="result" aria-controls="rule-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="rule-manifest" aria-labelledby="rule-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-reactivated-dormant.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-progress-dormant-a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: sales-progress-a</span><span class="line">  <span class="key">on</span>: { event: data.row.changed, table: connector.t_scenario_progress_a }</span><span class="line">  <span class="key">when</span>:</span><span class="line">    - active=true</span><span class="line hl">    - last_order&lt;2025-11-05          <span class="comment"># no order for a year: check the credit before the first delivery</span></span><span class="line">  <span class="key">emit</span>:</span><span class="line">    <span class="key">type</span>: decision.reactivated-dormant-a</span><span class="line">    <span class="key">message</span>: <span class="str">&quot;{cust_num} {name} reactivated: last order {last_order}, customer since {since} — check its credit first&quot;</span></span><span class="line">    <span class="key">key</span>: cust_num</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="rule-commands" aria-labelledby="rule-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm process apply -f manifests/20-reactivated-dormant.yaml</span>
+<span class="out">Applied process &quot;scenario-progress-dormant-a&quot; → table connector.t_scenario_progress_a, emits decision.reactivated-dormant-a</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="rule-result" aria-labelledby="rule-result-tab" tabindex="0" hidden><dl class="facts"><dt>apply</dt><dd>Applied process &quot;scenario-progress-dormant-a&quot; → table connector.t_scenario_progress_a, emits decision.reactivated-dormant-a</dd></dl><p class="sources">evidence: replay.log, export-head.txt, customers.txt, count-read.txt, reactivated.txt, inbox-campaign.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-campaign" aria-labelledby="campaign-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="campaign-title">The next export: four reactivations, two to check</h2>
+      <p>The reactivation campaign sets four customers active again.</p><ul class="prose-list"><li>1007, last order 1999; 1012, last order 2003</li><li>1027 and 1037 ordered this year</li><li>two decisions</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The message</strong><p>Customer, last order, customer since: what the credit check needs.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A dormant customer brought back reaches the inbox before its first delivery.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Campaign"><button type="button" role="tab" id="campaign-commands-tab" data-view="commands" aria-controls="campaign-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="campaign-result-tab" data-view="result" aria-controls="campaign-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="campaign-commands" aria-labelledby="campaign-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-progress-a</span>
+<span class="out">run scheduled: e1abff2f-c357-4fc7-8812-3c517da9bbe1</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get e1abff2f-c357-4fc7-8812-3c517da9bbe1</span>
+<span class="out">ID        CONNECTOR            ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+e1abff2f  scenario-progress-a  default   Completed  40  40   0        0             2026-11-06 23:03  2026-11-06 23:03  yes</span>
+<span class="note">• 1 file(s) unchanged since they were last read — not read again</span>
+
+<span class="cmd"><span class="prompt">$</span> lm inbox --process scenario-progress-dormant-a</span>
+<span class="out">ID     WHEN      PROCESS                      MESSAGE                                                                                                          ENTITY_KEY
+24881  just now  scenario-progress-dormant-a  1012 Location Hébert reactivated: last order 2003-09-02, customer since 1996-10-21 — check its credit first      1012
+24880  just now  scenario-progress-dormant-a  1007 Atelier &quot;Le Piston&quot; reactivated: last order 1999-03-14, customer since 1991-04-08 — check its credit first  1007</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="campaign-result" aria-labelledby="campaign-result-tab" tabindex="0" hidden><dl class="facts"><dt>default</dt><dd>Completed · IN 40 · OUT 40</dd><dt>hub</dt><dd>1007 | Atelier &quot;Le Piston&quot; | 1999-03-14 | t</dd><dt>hub</dt><dd>1012 | Location Hébert | 2003-09-02 | t</dd><dt>hub</dt><dd>1027 | Vitrage Auto Séverin | 2026-06-30 | t</dd><dt>hub</dt><dd>1037 | Diesel Hugo | 2026-09-18 | t</dd><dt>1007</dt><dd>1007 Atelier &quot;Le Piston&quot; reactivated: last order 1999-03-14, customer since 1991-04-08 — check its credit first</dd><dt>1012</dt><dd>1012 Location Hébert reactivated: last order 2003-09-02, customer since 1996-10-21 — check its credit first</dd></dl><p class="sources">evidence: replay.log, export-head.txt, customers.txt, count-read.txt, reactivated.txt, inbox-campaign.json · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>The rule&#x27;s date is written in the manifest: &quot;a year&quot; is not computed from today.</li><li>Each day&#x27;s export is kept: the table holds one row per customer per export.</li><li>An array field (EXTENT) is exported as several fields: each needs its own column name.</li><li>Synthetic customers, dates and balances.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Sales · Progress</p><h2>The customers live in a Progress ERP.</h2><p class="brief-lead">Its export writes years on two digits.</p><p class="brief-note">03/14/99</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>98 used to become 2098.</h2><ul class="brief-list tone-cyan"><li>Silently, without a cell error.</li><li>A 1999 order was never &quot;over a year old&quot;.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The ERP stays as it is.</h2><ul class="brief-list tone-green"><li>Its EXPORT, as ABL writes it.</li><li>No conversion, no 4GL code.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>formats: [&quot;MM/dd/yy&quot;]
+century-from: 1950</code></pre><h2>The window Progress itself uses.</h2><ul class="brief-list tone-green"><li>Without it, validate refuses.</li><li>With it, 99 is 1999.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What was fixed</p><h2>A two-digit year says its century (#1857).</h2><ul class="brief-list tone-green"><li>Two reactivated customers: two decisions.</li><li>Before, they read 2099 and 2003.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
