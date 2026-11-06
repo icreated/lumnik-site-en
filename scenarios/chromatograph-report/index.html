@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HPLC report: the impurity over its limit, read from the instrument&#x27;s export — lumnik</title>
+<meta name="description" content="Read the injection reports an HPLC exports, units glued and decimal commas, and be told when an impurity exceeds its specification. An HPLC&#x27;s acquisition software exports one report per injection: UTF-16, a header block, then the peaks. Csv-file reads it line by line and carries the sample onto each peak; Regex-extract cuts each value from its unit: 0,21% becomes 0.21 and %; An impurity above 0.15 %: one decision.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/chromatograph-report/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/chromatograph-report/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>HPLC report: the impurity over its limit, read from the instrument&#x27;s export</h1>
+    <p class="goal"><strong>Goal</strong> Read the injection reports an HPLC exports, units glued and decimal commas, and be told when an impurity exceeds its specification.</p>
+    <p class="lede">An HPLC&#x27;s acquisition software exports one report per injection: UTF-16, a header block, then the peaks.</p><ul class="lede-list"><li>csv-file reads it line by line and carries the sample onto each peak;</li><li>regex-extract cuts each value from its unit: 0,21% becomes 0.21 and %;</li><li>an impurity above 0.15 %: one decision.</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Laboratory</li><li class="tag">HPLC</li><li class="tag">Pharmacy</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
+  </section>
+  <div role="tablist" class="page-tabs" aria-label="HPLC report: the impurity over its limit, read from the instrument&#x27;s export">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-lab" data-step="lab" aria-current="step"><span class="num">1 · Report</span><span class="sub">UTF-16</span></a><a href="#step-read" data-step="read"><span class="num">2 · Read</span><span class="sub">csv-file</span></a><a href="#step-rule" data-step="rule"><span class="num">3 · Declare</span><span class="sub">Process</span></a><a href="#step-drop" data-step="drop"><span class="num">4 · Inject</span><span class="sub">1 decision</span></a></nav>
+  <section class="step" id="step-lab" aria-labelledby="lab-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="lab-title">One report per injection</h2>
+      <p>The acquisition software exports each injection to a folder.</p><ul class="prose-list"><li>UTF-16 with a BOM (ff fe), CRLF</li><li>a header block: Sample Name, Injection Date, Instrument, Method</li><li>the peaks: 2,315min, 1 231,1mAU*s, 0,08%</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>UTF-16</strong><p>The hub detects it from the BOM: nothing to declare.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The instrument&#x27;s export is read as it is written.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Report"><button type="button" role="tab" id="lab-result-tab" data-view="result" aria-controls="lab-result" aria-selected="true" tabindex="0">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-result" id="lab-result" aria-labelledby="lab-result-tab" tabindex="0"><dl class="facts"><dt>line</dt><dd>BOM:ff fe </dd><dt>line</dt><dd>Report;Area Percent / External Standard</dd><dt>line</dt><dd>Sample Name;LOT 26-0451 Assay</dd><dt>line</dt><dd>Sample Info;Paracétamol 500 mg, comprimé</dd><dt>line</dt><dd>Injection Date;05/11/2026 09:13:32</dd><dt>line</dt><dd>Instrument;HPLC-02</dd><dt>line</dt><dd>Method;ASSAY-PARA-V3.M</dd><dt>line</dt><dd>Peak;RetTime;Name;Area;Amount</dd><dt>line</dt><dd>1;2,315min;Impurity A;1 231,1mAU*s;0,08%</dd><dt>line</dt><dd>2;4,872min;Paracetamol;1 535 987,4mAU*s;99,81%</dd><dt>line</dt><dd>3;6,103min;Impurity B;1 692,8mAU*s;0,11%</dd></dl><p class="sources">evidence: replay.log, report-0451.txt, peaks-0451.txt, count-read.txt, impurities.txt, inbox-drop.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-read" aria-labelledby="read-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="read-title">The sample on each peak, the unit apart</h2>
+      <p>lines: true reads the report line by line. A regex per line kind:</p><ul class="prose-list"><li>the header lines give sample, instrument, injected_at</li><li>a peak line gives the value and its unit, in two columns</li><li>fill-down, reset at each Report line: one report never leaks into the next</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Why not parse-number alone</strong><p>It removes currency signs and spaces, not min or %. The regex cuts the unit off first; parse-number then reads the decimal comma.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A report made for print becomes one row per peak, typed.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="read-manifest-tab" data-view="manifest" aria-controls="read-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="read-commands-tab" data-view="commands" aria-controls="read-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="read-result-tab" data-view="result" aria-controls="read-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="read-manifest" aria-labelledby="read-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-injection-reports.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-chrom-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [qc-hplc-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/chromatograph-report/a/*.csv   <span class="comment"># the folder the acquisition software exports to</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">lines</span>: true                    <span class="comment"># a report, not a table: a header block, then the peaks</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line">      - regex-extract: { column: line, pattern: <span class="str">&quot;^([^;]+);&quot;</span>, groups: { 1: field } }</span><span class="line">      <span class="comment"># the header block: one key;value per line</span></span><span class="line">      - regex-extract: { column: line, pattern: <span class="str">&quot;^Sample Name;(LOT \\S+)&quot;</span>, groups: { 1: sample } }</span><span class="line">      - regex-extract: { column: line, pattern: <span class="str">&quot;^Injection Date;(.+)$&quot;</span>, groups: { 1: injected_at } }</span><span class="line">      - regex-extract: { column: line, pattern: <span class="str">&quot;^Instrument;(.+)$&quot;</span>, groups: { 1: instrument } }</span><span class="line">      - regex-extract: { column: line, pattern: <span class="str">&quot;^Method;(.+)$&quot;</span>, groups: { 1: method } }</span><span class="line">      <span class="comment"># a peak: the value and its glued unit, cut apart</span></span><span class="line">      - regex-extract:</span><span class="line">          <span class="key">column</span>: line</span><span class="line">          <span class="key">pattern</span>: <span class="str">&quot;^(\\d+);([\\d ,]+)(min);([^;]+);([\\d ,]+)(mAU\\*s);([\\d ,]+)(%)$&quot;</span></span><span class="line hl">          <span class="key">groups</span>: { 1: peak, 2: rt, 3: rt_unit, 4: peak_name, 5: area, 6: area_unit, 7: amount_pct, 8: amount_unit }</span><span class="line">      <span class="comment"># the report&#x27;s header, on each of its peaks; a new report starts empty</span></span><span class="line hl">      - fill-down: { columns: [sample, injected_at, instrument, method], reset-when: { column: field, in: [Report] } }</span><span class="line">      - parse-number: { column: rt, decimal-separator: <span class="str">&quot;,&quot;</span> }</span><span class="line">      - parse-number: { column: area, decimal-separator: <span class="str">&quot;,&quot;</span> }</span><span class="line">      - parse-number: { column: amount_pct, decimal-separator: <span class="str">&quot;,&quot;</span> }</span><span class="line">      - parse-date: { column: injected_at, formats: [<span class="str">&quot;dd/MM/yyyy HH:mm:ss&quot;</span>] }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="read-commands" aria-labelledby="read-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-injection-reports.yaml</span>
+<span class="out">Applied connector &quot;scenario-chrom-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-chrom-a</span>
+<span class="out">run scheduled: dd3dbf5f-a8c7-46f1-91e6-8136eb482b25</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get dd3dbf5f-a8c7-46f1-91e6-8136eb482b25</span>
+<span class="out">ID        CONNECTOR         ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+dd3dbf5f  scenario-chrom-a  default   Completed  60  60   0        0             2026-11-06 17:04  2026-11-06 17:04  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="read-result" aria-labelledby="read-result-tab" tabindex="0" hidden><dl class="facts"><dt>default</dt><dd>Completed · IN 60 · OUT 60</dd><dt>hub</dt><dd>LOT 26-0451 | HPLC-02 | 2026-11-05 09:13:32+00 | 1 | 2.3150 | min | Impurity A | 1231.1000 | mAU*s | 0.0800 | %</dd><dt>hub</dt><dd>LOT 26-0451 | HPLC-02 | 2026-11-05 09:13:32+00 | 2 | 4.8720 | min | Paracetamol | 1535987.4000 | mAU*s | 99.8100 | %</dd><dt>hub</dt><dd>LOT 26-0451 | HPLC-02 | 2026-11-05 09:13:32+00 | 3 | 6.1030 | min | Impurity B | 1692.8000 | mAU*s | 0.1100 | %</dd><dt>hub</dt><dd>18 peaks, 6 samples, 18 with their sample and amount, max impurity 0.1200 %</dd></dl><p class="sources">evidence: replay.log, report-0451.txt, peaks-0451.txt, count-read.txt, impurities.txt, inbox-drop.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-rule" aria-labelledby="rule-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="rule-title">The specification&#x27;s limit</h2>
+      <p>The Process listens on the report&#x27;s table.</p><ul class="prose-list"><li>peak_name~Impurity: the impurity peaks</li><li>amount_pct&gt;0.15: above the limit, not on it</li><li>key: sample, the decision carries the lot</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Applied after the first drop</strong><p>A Process judges new rows only. The first six reports are within specification.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A specification limit is declared on the columns read from the instrument.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Declare"><button type="button" role="tab" id="rule-manifest-tab" data-view="manifest" aria-controls="rule-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="rule-commands-tab" data-view="commands" aria-controls="rule-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="rule-result-tab" data-view="result" aria-controls="rule-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="rule-manifest" aria-labelledby="rule-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-impurity-over-limit.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-chrom-impurity-a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: qc-hplc-a</span><span class="line">  <span class="key">on</span>: { event: data.row.changed, table: connector.t_scenario_chrom_a }</span><span class="line">  <span class="key">when</span>:</span><span class="line">    - peak_name~Impurity</span><span class="line hl">    - amount_pct&gt;0.15                <span class="comment"># the specification&#x27;s limit for a specified impurity</span></span><span class="line">  <span class="key">emit</span>:</span><span class="line">    <span class="key">type</span>: decision.impurity-over-limit-a</span><span class="line">    <span class="key">message</span>: <span class="str">&quot;{sample}: {peak_name} at {amount_pct} % (limit 0.15 %), {instrument}, injected {injected_at}&quot;</span></span><span class="line">    <span class="key">key</span>: sample</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="rule-commands" aria-labelledby="rule-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm process apply -f manifests/20-impurity-over-limit.yaml</span>
+<span class="out">Applied process &quot;scenario-chrom-impurity-a&quot; → table connector.t_scenario_chrom_a, emits decision.impurity-over-limit-a</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="rule-result" aria-labelledby="rule-result-tab" tabindex="0" hidden><dl class="facts"><dt>apply</dt><dd>Applied process &quot;scenario-chrom-impurity-a&quot; → table connector.t_scenario_chrom_a, emits decision.impurity-over-limit-a</dd></dl><p class="sources">evidence: replay.log, report-0451.txt, peaks-0451.txt, count-read.txt, impurities.txt, inbox-drop.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-drop" aria-labelledby="drop-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="drop-title">The next six reports: one impurity over its limit</h2>
+      <p>Six new files land in the folder.</p><ul class="prose-list"><li>LOT 26-0459: impurity B at 0,21 %</li><li>LOT 26-0461: impurity A at 0,15 %, on the limit</li><li>one decision</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The message</strong><p>Lot, peak, amount, limit, instrument and time of injection.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An impurity over its limit reaches the inbox, under its lot.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Inject"><button type="button" role="tab" id="drop-commands-tab" data-view="commands" aria-controls="drop-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="drop-result-tab" data-view="result" aria-controls="drop-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="drop-commands" aria-labelledby="drop-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-chrom-a</span>
+<span class="out">run scheduled: 526b41ae-87dd-4e89-adf3-e1cbd5c90596</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 526b41ae-87dd-4e89-adf3-e1cbd5c90596</span>
+<span class="out">ID        CONNECTOR         ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+526b41ae  scenario-chrom-a  default   Completed  60  60   0        0             2026-11-06 17:04  2026-11-06 17:04  yes</span>
+<span class="note">• 1 file(s) unchanged since they were last read — not read again</span>
+
+<span class="cmd"><span class="prompt">$</span> lm inbox --process scenario-chrom-impurity-a</span>
+<span class="out">ID     WHEN      PROCESS                    MESSAGE                                                                                   ENTITY_KEY
+24660  just now  scenario-chrom-impurity-a  LOT 26-0459: Impurity B at 0.21 % (limit 0.15 %), HPLC-02, injected 2026-11-06T08:57:32Z  LOT 26-0459</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="drop-result" aria-labelledby="drop-result-tab" tabindex="0" hidden><dl class="facts"><dt>default</dt><dd>Completed · IN 60 · OUT 60</dd><dt>hub</dt><dd>LOT 26-0459 | HPLC-02 | Impurity B | 0.2100</dd><dt>hub</dt><dd>LOT 26-0461 | HPLC-02 | Impurity A | 0.1500</dd><dt>LOT 26-0459</dt><dd>LOT 26-0459: Impurity B at 0.21 % (limit 0.15 %), HPLC-02, injected 2026-11-06T08:57:32Z</dd></dl><p class="sources">evidence: replay.log, report-0451.txt, peaks-0451.txt, count-read.txt, impurities.txt, inbox-drop.json · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>The table keeps every line of the report, header lines included: a rule reads the peaks by their columns.</li><li>One limit for every impurity: a limit per impurity is one Process per impurity.</li><li>The regex expects these three units; another unit leaves the line uncut, and the rule does not see it.</li><li>Synthetic lots, peaks and amounts.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Laboratory · HPLC</p><h2>The results sit in the instrument&#x27;s reports.</h2><p class="brief-lead">One file per injection, made to be printed.</p><p class="brief-note">UTF-16, 1 532 117,2mAU*s, 0,21%</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>LOT 26-0459: impurity B at 0,21 %.</h2><ul class="brief-list tone-cyan"><li>The limit is 0,15 %.</li><li>The report is read by eye, when it is read.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The acquisition software stays as it is.</h2><ul class="brief-list tone-green"><li>Its own export, in its own folder.</li><li>No script, no conversion by hand.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>pattern: &quot;([\\d ,]+)(%)&quot;
+fill-down: { reset-when: Report }</code></pre><h2>One regex per line kind, one fill-down.</h2><ul class="brief-list tone-green"><li>The unit in its own column.</li><li>A Process: impurity above 0.15 %.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The result</p><h2>One decision, LOT 26-0459.</h2><ul class="brief-list tone-green"><li>LOT 26-0461 sits on 0,15 %: not above.</li><li>36 peaks, 0 cell error.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
