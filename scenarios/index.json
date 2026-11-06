@@ -708,6 +708,26 @@
       "evidenceDigest": "sha256:b480783fa4804a91c2db3b7f6906db0d7983031d81a64149119cbce138306271"
     },
     {
+      "slug": "progress-openedge-customers",
+      "title": "Progress OpenEdge: the 1999 order that must not become 2099",
+      "goal": "Read a Progress ERP's EXPORT files, two-digit years included, and be told when a dormant customer is reactivated.",
+      "lede": "A Progress OpenEdge ERP exports its Customer table with ABL's EXPORT: a .d file, 40 customers.\n- spaces, quoted strings, ? for unknown, yes/no, ISO-8859-1;\n- MM/DD/YY: a two-digit year must say its century, or validate refuses;\n- the reactivation campaign: two customers with no order since 1999 and 2003, two decisions.",
+      "tags": {
+        "domain": [
+          "Sales",
+          "Progress",
+          "OpenEdge"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-06",
+      "evidenceDigest": "sha256:48410205e01de80341d1f28218cc5e5da5c2d9e81e1dea4bd3d4eb13e99822a2"
+    },
+    {
       "slug": "purchasing-ask-abstains",
       "title": "Ask refuses a margin with no cost and a best supplier with no criterion",
       "goal": "Let a purchasing director question their orders in their own words, without being handed a figure the data does not hold.",
