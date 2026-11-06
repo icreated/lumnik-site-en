@@ -546,6 +546,27 @@
       "evidenceDigest": "sha256:8e656db00ebb0aca2931ed304badf23420b48475f36260614a93aa9e561b8677"
     },
     {
+      "slug": "lims-expired-calibrations",
+      "title": "Expired calibrations: the results measured on an out-of-date instrument",
+      "goal": "Flag every lab result measured outside its instrument's calibration validity (ISO 17025), from the register and the LIMS as they export.",
+      "lede": "A metrology register and a LIMS, two CSV exports: 6 instruments, 144 results.\n- an Entity joins the register onto every result;\n- a Process compares two columns of the joined row: measured_at after valid_until;\n- the register changes: the results already there are judged again.",
+      "tags": {
+        "domain": [
+          "Laboratory",
+          "ISO 17025",
+          "Metrology"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-06",
+      "evidenceDigest": "sha256:fc46f83260ffc482e80ae0b19ad93aac0d6fafd4b69a18994ea87b6a0e1da7d7"
+    },
+    {
       "slug": "marketplace-order-items",
       "title": "One row per item to pick with model colour and size",
       "goal": "Turn a marketplace export into one row per item, to pick the stock.",
