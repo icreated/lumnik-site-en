@@ -116,6 +116,26 @@
       "evidenceDigest": "sha256:182940ec4d12384c857dc8a5957a4cfbd96238300b82af432f7bd9cde39f4d96"
     },
     {
+      "slug": "chromatograph-report",
+      "title": "HPLC report: the impurity over its limit, read from the instrument's export",
+      "goal": "Read the injection reports an HPLC exports, units glued and decimal commas, and be told when an impurity exceeds its specification.",
+      "lede": "An HPLC's acquisition software exports one report per injection: UTF-16, a header block, then the peaks.\n- csv-file reads it line by line and carries the sample onto each peak;\n- regex-extract cuts each value from its unit: 0,21% becomes 0.21 and %;\n- an impurity above 0.15 %: one decision.",
+      "tags": {
+        "domain": [
+          "Laboratory",
+          "HPLC",
+          "Pharmacy"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-06",
+      "evidenceDigest": "sha256:18872fe713e49ae8f6f57150ad67f8f2f66a2df6e68080ddd00426700c52724f"
+    },
+    {
       "slug": "crm-contacts-reachable",
       "title": "A CRM export with broken accents and wrong emails",
       "goal": "Take over the old CRM's contacts with a repaired name, an international phone and a valid email, and name those that cannot be reached.",
