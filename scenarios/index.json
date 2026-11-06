@@ -390,6 +390,26 @@
       "evidenceDigest": "sha256:99d22064292dcb6ead4b52f4aad94bc309eba96a715569fa6118df21f934095f"
     },
     {
+      "slug": "firebird-delphi-stock",
+      "title": "Firebird (Delphi): refused over JDBC, read through its export",
+      "goal": "Read a Delphi application's Firebird database, and be told when an article falls under its reorder threshold.",
+      "lede": "A Delphi stock application on Firebird 5: 40 articles, a WIN1252 database.\n- jdbc-generic has no Firebird dialect: the apply refuses, and says what is installed;\n- the export the shop already schedules, isql, is read by csv-file;\n- a day of sales: three articles under their threshold, three reorder decisions.",
+      "tags": {
+        "domain": [
+          "Stock",
+          "Delphi",
+          "Firebird"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-06",
+      "evidenceDigest": "sha256:5b2f3d1ea47906c01eda88d0bed52191261bee44baa0f91460bd3266f46ceaaa"
+    },
+    {
       "slug": "gmao-candy-line-incident",
       "title": "A critical incident is left without a technician",
       "goal": "Warn the maintenance manager as soon as a critical incident has no technician.",
