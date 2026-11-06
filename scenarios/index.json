@@ -40,6 +40,26 @@
       "evidenceDigest": "sha256:16f88a482fa660e16e18b58296e8a94f33821b483b7a3d86f763f3c5d161e310"
     },
     {
+      "slug": "as400-customer-credit",
+      "title": "AS/400: the customer over its credit limit, read in EBCDIC",
+      "goal": "Read an IBM i customer master in its French EBCDIC, and be told when a customer's outstanding balance exceeds its credit limit.",
+      "lede": "An IBM i customer master, CLIENTS, CCSID 297: 30 customers.\n- transferred in binary: no record delimiter, packed fields, every line dead-lettered with its cause;\n- the IBM i's own export, CPYTOIMPF, read with encoding: IBM297;\n- the next day: two customers over their limit, two decisions.",
+      "tags": {
+        "domain": [
+          "Credit",
+          "IBM i",
+          "EBCDIC"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-06",
+      "evidenceDigest": "sha256:5d9093d9f2460cf74d79fac7d5a4cd6855f0d60064442a76127643f822a811f7"
+    },
+    {
       "slug": "business-log-orders",
       "title": "Failed orders hidden in the logs",
       "goal": "Tie each error in the application log to its order, its customer and its current status, to know which customers to call back.",
