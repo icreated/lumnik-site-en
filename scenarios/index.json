@@ -390,6 +390,26 @@
       "evidenceDigest": "sha256:99d22064292dcb6ead4b52f4aad94bc309eba96a715569fa6118df21f934095f"
     },
     {
+      "slug": "firebird-delphi-stock",
+      "title": "Firebird (Delphi): refused over JDBC, read through its export",
+      "goal": "Read a Delphi application's Firebird database, and be told when an article falls under its reorder threshold.",
+      "lede": "A Delphi stock application on Firebird 5: 40 articles, a WIN1252 database.\n- jdbc-generic has no Firebird dialect: the apply refuses, and says what is installed;\n- the export the shop already schedules, isql, is read by csv-file;\n- a day of sales: three articles under their threshold, three reorder decisions.",
+      "tags": {
+        "domain": [
+          "Stock",
+          "Delphi",
+          "Firebird"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-06",
+      "evidenceDigest": "sha256:cb21f3ce44c2c0edc7405e65d1eb3eb9fede9e703e365adaf6d08de6ee7a7279"
+    },
+    {
       "slug": "gmao-candy-line-incident",
       "title": "A critical incident is left without a technician",
       "goal": "Warn the maintenance manager as soon as a critical incident has no technician.",
@@ -427,6 +447,26 @@
       "edition": "open",
       "replayedAt": "2026-11-03",
       "evidenceDigest": "sha256:81638f79c0711724f257732f97137d1f82ac49f579adc0b3e542755e2ce3593c"
+    },
+    {
+      "slug": "hl7-analyser-results",
+      "title": "HL7 v2: the analyser result above its range, flagged or not",
+      "goal": "Read the HL7 v2 messages two analysers drop for the LIMS, and be told when a result is above its reference range.",
+      "lede": "Two chemistry analysers, HL7 v2.5.1 ORU^R01: segments ended by a lone carriage return.\n- csv-file reads one segment per row, MSH, PID, OBR, OBX;\n- the sample is carried down onto each result;\n- a Process compares the value with the range sent beside it, whatever the flag.",
+      "tags": {
+        "domain": [
+          "Laboratory",
+          "HL7",
+          "Analysers"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-06",
+      "evidenceDigest": "sha256:de011b8d735c0b7daa0eae0a8d568491da26d4dcaf06ccfcc92d84a486994be8"
     },
     {
       "slug": "import-export",
@@ -544,6 +584,27 @@
       "edition": "open",
       "replayedAt": "2026-11-03",
       "evidenceDigest": "sha256:8e656db00ebb0aca2931ed304badf23420b48475f36260614a93aa9e561b8677"
+    },
+    {
+      "slug": "lims-expired-calibrations",
+      "title": "Expired calibrations: the results measured on an out-of-date instrument",
+      "goal": "Flag every lab result measured outside its instrument's calibration validity (ISO 17025), from the register and the LIMS as they export.",
+      "lede": "A metrology register and a LIMS, two CSV exports: 6 instruments, 144 results.\n- an Entity joins the register onto every result;\n- a Process compares two columns of the joined row: measured_at after valid_until;\n- the register changes: the results already there are judged again.",
+      "tags": {
+        "domain": [
+          "Laboratory",
+          "ISO 17025",
+          "Metrology"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-06",
+      "evidenceDigest": "sha256:fc46f83260ffc482e80ae0b19ad93aac0d6fafd4b69a18994ea87b6a0e1da7d7"
     },
     {
       "slug": "marketplace-order-items",
