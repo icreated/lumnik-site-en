@@ -296,6 +296,26 @@
       "evidenceDigest": "sha256:5267b7d7ff4f6add37ece37a8f8681d9a40db27b81af171db51123c4aaadc7df"
     },
     {
+      "slug": "domino-quality-complaints",
+      "title": "Lotus Notes: quality complaints read through the Domino Data Service",
+      "goal": "Read a Notes view without touching the database, check the view's count, and be told of a critical complaint nobody has taken on.",
+      "lede": "A valve manufacturer's quality department has tracked its customer complaints in a Lotus Notes database for twenty years. The Domino Data Service exposes it as JSON.\n- start and count, the view's count in Content-Range;\n- a multi-value field: a string with one name, a list with several;\n- two critical complaints with no owner, two decisions.",
+      "tags": {
+        "domain": [
+          "Quality",
+          "Lotus Notes",
+          "Domino"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-07",
+      "evidenceDigest": "sha256:f3857547ce5547539c6bbbf3ce7c682eabd14ee011e44e4faa1cf9127856af06"
+    },
+    {
       "slug": "edi-flat-order-lines",
       "title": "The order lines of a flat EDI file read at their place",
       "goal": "Read the order lines of a fixed-width EDI file as columns, with no mapping tool.",
