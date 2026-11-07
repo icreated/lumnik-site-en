@@ -1389,6 +1389,27 @@
       "evidenceDigest": "sha256:2b3ff54db7df095b8ff9531a6a89d679651c8827fe8bfc48c27c989ddd11501c"
     },
     {
+      "slug": "struts-displaytag-export",
+      "title": "Struts 1 without an API: the screen's CSV export, read as it comes out",
+      "goal": "Read a Struts 1 application whose only output is its screen's CSV export, and be told when a customer return has waited for a part for more than 30 days.",
+      "lede": "A pump manufacturer handles its customer returns in a Struts 1 intranet written in 2007: Tomcat, JSP, DisplayTag. No API; the screen has a CSV export link, and a scheduled job fetches it every night.\n- no header, ISO-8859-1, a quote escaped by a backslash;\n- amounts grouped by a no-break space: \"2 310,00\";\n- the next day, the closed returns leave the table, seven returns waiting for a part raise a decision.",
+      "tags": {
+        "domain": [
+          "After-sales",
+          "Struts 1",
+          "Legacy Java",
+          "CSV export"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-07",
+      "evidenceDigest": "sha256:d274ec6ef1eb0a7fe16a3c55f8fc1a5a1829d604c4fc11b08dc08a3378011eb0"
+    },
+    {
       "slug": "supplier-master-edi",
       "title": "The supplier file goes to EDI in ASCII with a stable id",
       "goal": "Send EDI the suppliers in the form it requires, with an id that does not change.",
