@@ -509,6 +509,26 @@
       "evidenceDigest": "sha256:de011b8d735c0b7daa0eae0a8d568491da26d4dcaf06ccfcc92d84a486994be8"
     },
     {
+      "slug": "hrms-qc-mass-accuracy",
+      "title": "High-resolution mass spectrometry: the QC drifts to 3.84 ppm, the samples after it know",
+      "goal": "Read the QC export of an LC-HRMS screening without losing a decimal, and flag every sample acquired after a QC outside its mass tolerance.",
+      "lede": "An environmental laboratory screens micropollutants in water on an Orbitrap. The transients and spectra stay on the instrument; lumnik reads what the processing software exports.\n- a key;value block, a header over two lines, n.d. and < LOD in the intensity column;\n- every m/z kept with its five decimals;\n- the air conditioning fails: the QC reads 3.84 ppm, the four samples after it raise a decision.",
+      "tags": {
+        "domain": [
+          "Laboratory",
+          "Mass spectrometry",
+          "Quality control"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-07",
+      "evidenceDigest": "sha256:b8f7c09c87dcb4bfb057f78f149fa3466d80ae6e88b9ad6bc305ce40cabc0928"
+    },
+    {
       "slug": "import-export",
       "title": "The catalogue leaves for the partner in the partner's format",
       "goal": "Deliver the product catalogue to a partner in the format it imposes, with no conversion code.",
