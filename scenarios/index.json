@@ -175,6 +175,27 @@
       "evidenceDigest": "sha256:ad98251130ee5f08373937d5fdfd0a3d030450d15289a5ae0816d3602945c732"
     },
     {
+      "slug": "dates-across-sources",
+      "title": "Three systems, one receipt date: the 00:30 batch and the plant's day",
+      "goal": "Fuse into one entity a batch's arrival date as the LIMS, the ERP and the carrier give it, and keep in dispute only the real disagreements.",
+      "lede": "A plant receives its batches of raw material. Three systems say when: the LIMS scans the sample (an instant), the ERP books the receipt (a date), the carrier writes \"Livré le\" in a CSV (text).\n- read as they are, the carrier's text makes the column text: twelve batches in dispute;\n- typed, a date meets a time at the UTC day: the night shift's batch is in dispute;\n- with zone: Europe/Paris, one dispute is left, the real typing mistake.",
+      "tags": {
+        "domain": [
+          "Receiving",
+          "LIMS",
+          "ERP",
+          "Dates and time zones"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-07",
+      "evidenceDigest": "sha256:578db2240c7172e95ec92a1c92d13a3647f514da85918aaa9e399e7b1b94115d"
+    },
+    {
       "slug": "deal-in-the-pocket",
       "title": "The €240,000 deal that confirms itself during dinner",
       "goal": "Tell the sales engineer on their phone as soon as the CRM marks a deal ready to confirm, with the line, the parts and the catalogue at hand, and have one tap on Traiter move the CRM and send the customer email.",
