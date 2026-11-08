@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oracle and BLOB: the drawing refused, the view that weighs it, the PDF lost overnight — lumnik</title>
+<meta name="description" content="Read a PLM&#x27;s drawing register on Oracle without reading the drawings themselves, and know the same morning that a released drawing lost its file. An engineering office keeps its drawings in a PLM on Oracle: one row per revision, the PDF in a BLOB. The hub does not read a BLOB: the table is refused as it is, column named; The DBA adds a view without the drawing, its size in bytes instead; Overnight, the archive migration copies two released revisions back without their PDF: two decisions.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/oracle-blob-drawings/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/oracle-blob-drawings/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>Oracle and BLOB: the drawing refused, the view that weighs it, the PDF lost overnight</h1>
+    <p class="goal"><strong>Goal</strong> Read a PLM&#x27;s drawing register on Oracle without reading the drawings themselves, and know the same morning that a released drawing lost its file.</p>
+    <p class="lede">An engineering office keeps its drawings in a PLM on Oracle: one row per revision, the PDF in a BLOB.</p><ul class="lede-list"><li>the hub does not read a BLOB: the table is refused as it is, column named;</li><li>the DBA adds a view without the drawing, its size in bytes instead;</li><li>overnight, the archive migration copies two released revisions back without their PDF: two decisions.</li></ul>
+    <ul class="tags"><li class="tag edition edition-pro"><a href="https://docs.lumnik.io/editions/">lumnik Pro</a></li><li class="tag">Engineering</li><li class="tag">PLM</li><li class="tag">Oracle</li><li class="tag">BLOB</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
+  </section>
+  <div role="tablist" class="page-tabs" aria-label="Oracle and BLOB: the drawing refused, the view that weighs it, the PDF lost overnight">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-lab" data-step="lab" aria-current="step"><span class="num">1 · PLM</span><span class="sub">Oracle</span></a><a href="#step-refused" data-step="refused"><span class="num">2 · Refused</span><span class="sub">BLOB</span></a><a href="#step-view" data-step="view"><span class="num">3 · View</span><span class="sub">weighed</span></a><a href="#step-read" data-step="read"><span class="num">4 · Read</span><span class="sub">jdbc-generic</span></a><a href="#step-rule" data-step="rule"><span class="num">5 · Declare</span><span class="sub">Process</span></a><a href="#step-archive" data-step="archive"><span class="num">6 · Overnight</span><span class="sub">2 decisions</span></a></nav>
+  <section class="step" id="step-lab" aria-labelledby="lab-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="lab-title">The drawing register, on Oracle 23ai</h2>
+      <p>Thirteen revisions of eight drawings. Each row carries its PDF.</p><ul class="prose-list"><li>CONTENT BLOB: the drawing itself, 614 to 625 bytes here</li><li>DESCRIPTION CLOB: what changes from one revision to the next</li><li>MODIFIED_AT: the PLM writes it on every change</li><li>a HUB_READER account, read-only</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The draft</strong><p>PL-1008 A is still being drawn: no file yet, 0 bytes. That is not a loss.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The table is the PLM&#x27;s own, with its BLOB.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="PLM"><button type="button" role="tab" id="lab-commands-tab" data-view="commands" aria-controls="lab-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="lab-result-tab" data-view="result" aria-controls="lab-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="lab-commands" aria-labelledby="lab-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm secret set SCENARIO_PLM_PASSWORD_A -</span>
+<span class="out">Created secret &quot;SCENARIO_PLM_PASSWORD_A&quot;</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="lab-result" aria-labelledby="lab-result-tab" tabindex="0" hidden><dl class="facts"><dt>Oracle</dt><dd>DESCRIPTION										CLOB</dd><dt>Oracle</dt><dd>CONTENT										BLOB</dd><dt>Oracle</dt><dd>PL-1004  A   Bride d&#x27;accouplement     OBSOLETE	PL-1004-A.pdf	       623</dd><dt>Oracle</dt><dd>PL-1004  B   Bride d&#x27;accouplement     OBSOLETE	PL-1004-B.pdf	       623</dd><dt>Oracle</dt><dd>PL-1004  C   Bride d&#x27;accouplement     RELEASED	PL-1004-C.pdf	       623</dd><dt>Oracle</dt><dd>PL-1007  A   Pignon Z=23	      OBSOLETE	PL-1007-A.pdf	       614</dd><dt>Oracle</dt><dd>PL-1007  B   Pignon Z=23	      RELEASED	PL-1007-B.pdf	       614</dd><dt>Oracle</dt><dd>PL-1008  A   Entretoise 	      DRAFT	PL-1008-A.pdf		 0</dd></dl><p class="sources">evidence: replay.log, sources.txt, discover-table.txt, add-refused.txt, discover-views.txt, drawings.txt, empty-files.txt, inbox.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-refused" aria-labelledby="refused-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="refused-title">The table as it is: refused, column named</h2>
+      <p>The Oracle provider reads scalars and CLOB, not a BLOB.</p><ul class="prose-list"><li>discover lists CONTENT BLOB under UNSUPPORTED</li><li>add refuses the table and says why</li><li>ROWS -1: Oracle has no statistics on the table yet</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>A limit, not a failure</strong><p>The hub does not pretend to read the BLOB. It says which one, before the first run.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An unreadable column is refused by name, before any ingestion.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Refused"><button type="button" role="tab" id="refused-commands-tab" data-view="commands" aria-controls="refused-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="refused-result-tab" data-view="result" aria-controls="refused-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="refused-commands" aria-labelledby="refused-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm source jdbc discover --password-stdin --url jdbc:oracle:thin:@//plm-oracle:1521/FREEPDB1 --user HUB_READER --schema PLM</span>
+<span class="out">SCHEMA     NAME                            ROWS  COLS PK                   WATERMARK       UNSUPPORTED
+PLM        DOC_REVISION                      -1    10 ID                   MODIFIED_AT     CONTENT BLOB</span>
+
+<span class="cmd"><span class="prompt">$</span> lm source jdbc add scenario-plm-a --password-stdin --url jdbc:oracle:thin:@//plm-oracle:1521/FREEPDB1 --user HUB_READER --schema PLM --tables DOC_REVISION</span>
+<span class="note">Error: API error 400: table PLM.DOC_REVISION cannot be ingested: column CONTENT has unsupported Oracle type BLOB — v1 reads scalars and CLOB</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="refused-result" aria-labelledby="refused-result-tab" tabindex="0" hidden><dl class="facts"><dt>lm source jdbc discover</dt><dd>PLM · DOC_REVISION · -1 · 10 · ID · MODIFIED_AT · CONTENT · BLOB</dd><dt>lm source jdbc add</dt><dd>API error 400: table PLM.DOC_REVISION cannot be ingested: column CONTENT has unsupported Oracle type BLOB — v1 reads scalars and CLOB</dd></dl><p class="sources">evidence: replay.log, sources.txt, discover-table.txt, add-refused.txt, discover-views.txt, drawings.txt, empty-files.txt, inbox.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-view" aria-labelledby="view-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="view-title">A view without the drawing, its size instead</h2>
+      <p>The Oracle DBA adds a view and grants it to HUB_READER.</p><ul class="prose-list"><li>DBMS_LOB.GETLENGTH(CONTENT): the PDF&#x27;s size, in bytes</li><li>RTRIM(REV): without the CHAR(2)&#x27;s padding blank</li><li>discover --include-views lists it: UNSUPPORTED empty, PK empty (a view has none)</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Weighed, not read</strong><p>The PDF&#x27;s bytes never cross the hub. Only its size leaves Oracle.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The gesture around a BLOB is checked before the manifest is written.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="View"><button type="button" role="tab" id="view-source-tab" data-view="source" aria-controls="view-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="view-commands-tab" data-view="commands" aria-controls="view-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="view-result-tab" data-view="result" aria-controls="view-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="view-source" aria-labelledby="view-source-tab" tabindex="0"><figure class="source"><figcaption>view.sql</figcaption><pre class="code">-- What the DBA adds: the register without the drawing itself, its size in bytes instead; REV without the padding of its CHAR(2).
+CREATE VIEW V_DOC_REVISION AS
+  SELECT ID, DOC_NO, RTRIM(REV) AS REV, TITLE, STATUS, RELEASED_AT, DESCRIPTION, FILE_NAME,
+         NVL(DBMS_LOB.GETLENGTH(CONTENT), 0) AS CONTENT_BYTES, MODIFIED_AT
+  FROM DOC_REVISION;
+GRANT SELECT ON V_DOC_REVISION TO HUB_READER;</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="view-commands" aria-labelledby="view-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm source jdbc discover --password-stdin --url jdbc:oracle:thin:@//plm-oracle:1521/FREEPDB1 --user HUB_READER --schema PLM --include-views</span>
+<span class="out">SCHEMA     NAME                            ROWS  COLS PK                   WATERMARK       UNSUPPORTED
+PLM        DOC_REVISION                      -1    10 ID                   MODIFIED_AT     CONTENT BLOB
+PLM        V_DOC_REVISION                     0    10                      MODIFIED_AT     -</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="view-result" aria-labelledby="view-result-tab" tabindex="0" hidden><dl class="facts"><dt>lm source jdbc discover</dt><dd>PLM · DOC_REVISION · -1 · 10 · ID · MODIFIED_AT · CONTENT · BLOB</dd><dt>lm source jdbc discover</dt><dd>PLM · V_DOC_REVISION · 0 · 10 · MODIFIED_AT · -</dd></dl><p class="sources">evidence: replay.log, sources.txt, discover-table.txt, add-refused.txt, discover-views.txt, drawings.txt, empty-files.txt, inbox.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-read" aria-labelledby="read-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="read-title">Thirteen revisions, the size of every file</h2>
+      <p>The jdbc-generic connector reads the view.</p><ul class="prose-list"><li>mode: watermark on MODIFIED_AT: a changed row is read again</li><li>pk_columns: [ID], declared, since the view has no key</li><li>rename: Oracle&#x27;s names in lower case in the hub</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Why not full</strong><p>In full mode the hub resumes after the last key read: a row changed in place is never read again. Tonight&#x27;s loss would have gone unseen.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An Oracle register with a CLOB arrives whole, the BLOB aside.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="read-manifest-tab" data-view="manifest" aria-controls="read-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="read-commands-tab" data-view="commands" aria-controls="read-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="read-result-tab" data-view="result" aria-controls="read-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="read-manifest" aria-labelledby="read-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/10-drawings.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-plm-drawings-a</span><span class="line">  <span class="key">connector_type</span>: jdbc-generic</span><span class="line">  <span class="key">scopes</span>: [engineering-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">connection</span>:</span><span class="line">    <span class="key">url</span>: jdbc:oracle:thin:@//plm-oracle:1521/FREEPDB1</span><span class="line">    <span class="key">user</span>: HUB_READER</span><span class="line">    <span class="key">password_env</span>: SCENARIO_PLM_PASSWORD_A</span><span class="line">  <span class="key">defaults</span>:</span><span class="line">    <span class="key">schema</span>: PLM</span><span class="line">  <span class="key">source</span>:</span><span class="line">    <span class="key">tables</span>:</span><span class="line">      <span class="dash">-</span> <span class="key">name</span>: V_DOC_REVISION            <span class="comment"># the view: DOC_REVISION holds a BLOB, refused</span></span><span class="line">        <span class="key">mode</span>: watermark                 <span class="comment"># full never reads an updated row again</span></span><span class="line hl">        <span class="key">watermark_column</span>: MODIFIED_AT</span><span class="line">        <span class="key">pk_columns</span>: [ID]</span><span class="line">        <span class="key">target</span>: scenario_plm_drawings_a</span><span class="line">        <span class="key">rename</span>:</span><span class="line">          <span class="key">ID</span>: revision_id</span><span class="line">          <span class="key">DOC_NO</span>: doc_no</span><span class="line">          <span class="key">REV</span>: rev</span><span class="line">          <span class="key">TITLE</span>: title</span><span class="line">          <span class="key">STATUS</span>: status</span><span class="line">          <span class="key">RELEASED_AT</span>: released_at</span><span class="line">          <span class="key">DESCRIPTION</span>: description</span><span class="line">          <span class="key">FILE_NAME</span>: file_name</span><span class="line">          <span class="key">CONTENT_BYTES</span>: content_bytes</span><span class="line">          <span class="key">MODIFIED_AT</span>: modified_at</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="read-commands" aria-labelledby="read-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-drawings.yaml</span>
+<span class="out">Applied connector &quot;scenario-plm-drawings-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-plm-drawings-a</span>
+<span class="out">run scheduled: 971be24a-9fd1-4de0-96b5-87fe605695f4</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 971be24a-9fd1-4de0-96b5-87fe605695f4</span>
+<span class="out">ID        CONNECTOR                ENDPOINT        STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+971be24a  scenario-plm-drawings-a  V_DOC_REVISION  Completed  13  13   0        0             2026-11-08 10:23  2026-11-08 10:23  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="read-result" aria-labelledby="read-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-plm-drawings-a/V_DOC_REVISION</dt><dd>Completed · IN 13 · OUT 13 · SKIPPED 0</dd><dt>hub</dt><dd>PL-1001 · A · OBSOLETE · 2017-03-02 10:12:00+00 · PL-1001-A.pdf · 617 · Première diffusion</dd><dt>hub</dt><dd>PL-1001 · B · RELEASED · 2021-06-14 15:40:00+00 · PL-1001-B.pdf · 617 · Perçages Ø 8,5 au lieu de Ø 8</dd><dt>hub</dt><dd>PL-1002 · A · RELEASED · 2018-09-25 09:05:00+00 · PL-1002-A.pdf · 625 · Première diffusion</dd><dt>hub</dt><dd>PL-1003 · A · OBSOLETE · 2016-01-11 11:30:00+00 · PL-1003-A.pdf · 618 · Première diffusion</dd><dt>hub</dt><dd>PL-1003 · B · RELEASED · 2020-02-03 08:45:00+00 · PL-1003-B.pdf · 618 · Tolérance h6 sur la portée de roulement</dd><dt>hub</dt><dd>PL-1004 · A · OBSOLETE · 2015-05-19 14:00:00+00 · PL-1004-A.pdf · 623 · Première diffusion</dd><dt>hub</dt><dd>PL-1004 · B · OBSOLETE · 2017-11-07 16:20:00+00 · PL-1004-B.pdf · 623 · Matière S355 au lieu de S235</dd><dt>hub</dt><dd>PL-1004 · C · RELEASED · 2018-04-30 10:00:00+00 · PL-1004-C.pdf · 623 · Quatre trous au lieu de six</dd><dt>hub</dt><dd>PL-1005 · A · RELEASED · 2022-08-29 13:15:00+00 · PL-1005-A.pdf · 622 · Première diffusion</dd><dt>hub</dt><dd>PL-1006 · A · RELEASED · 2023-03-21 09:50:00+00 · PL-1006-A.pdf · 622 · Première diffusion</dd><dt>hub</dt><dd>PL-1007 · A · OBSOLETE · 2014-10-06 10:40:00+00 · PL-1007-A.pdf · 614 · Première diffusion</dd><dt>hub</dt><dd>PL-1007 · B · RELEASED · 2016-12-12 17:05:00+00 · PL-1007-B.pdf · 614 · Denture rectifiée</dd><dt>hub</dt><dd>PL-1008 · A · DRAFT ·  · PL-1008-A.pdf · 0 · En cours de dessin</dd></dl><p class="sources">evidence: replay.log, sources.txt, discover-table.txt, add-refused.txt, discover-views.txt, drawings.txt, empty-files.txt, inbox.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-rule" aria-labelledby="rule-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="rule-title">A released drawing whose file is empty</h2>
+      <p>The Process listens to the connector&#x27;s table.</p><ul class="prose-list"><li>status=RELEASED: a draft without a file is normal</li><li>content_bytes=0: the PDF is empty</li><li>key: doc_no, the decision carries the drawing number</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The draft is not counted</strong><p>PL-1008 A has been at 0 bytes since the first run: without status=RELEASED, the rule would flag it every night.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An engineering office&#x27;s rule is written in two conditions.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Declare"><button type="button" role="tab" id="rule-manifest-tab" data-view="manifest" aria-controls="rule-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="rule-commands-tab" data-view="commands" aria-controls="rule-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="rule-result-tab" data-view="result" aria-controls="rule-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="rule-manifest" aria-labelledby="rule-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-file-lost.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-plm-file-lost-a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: engineering-a</span><span class="line">  <span class="key">on</span>: { event: data.row.changed, table: connector.t_scenario_plm_drawings_a }</span><span class="line">  <span class="key">when</span>:</span><span class="line">    - <span class="str">&quot;status=RELEASED&quot;</span></span><span class="line hl">    - <span class="str">&quot;content_bytes=0&quot;</span>                <span class="comment"># a released drawing whose PDF is empty</span></span><span class="line">  <span class="key">emit</span>:</span><span class="line">    <span class="key">type</span>: decision.drawing-file-lost-a</span><span class="line">    <span class="key">message</span>: <span class="str">&quot;{doc_no} rev {rev} ({title}) is released since {released_at} and its file {file_name} is empty — find the PDF before the workshop asks for it&quot;</span></span><span class="line">    <span class="key">key</span>: doc_no</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="rule-commands" aria-labelledby="rule-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm process apply -f manifests/20-file-lost.yaml</span>
+<span class="out">Applied process &quot;scenario-plm-file-lost-a&quot; → table connector.t_scenario_plm_drawings_a, emits decision.drawing-file-lost-a</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="rule-result" aria-labelledby="rule-result-tab" tabindex="0" hidden><dl class="facts"><dt>lm process apply</dt><dd>Applied process &quot;scenario-plm-file-lost-a&quot; → table connector.t_scenario_plm_drawings_a, emits decision.drawing-file-lost-a</dd></dl><p class="sources">evidence: replay.log, sources.txt, discover-table.txt, add-refused.txt, discover-views.txt, drawings.txt, empty-files.txt, inbox.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-archive" aria-labelledby="archive-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="archive-title">The archive migration loses two PDFs</h2>
+      <p>The PDFs move to the new document store. Two never arrive, and their rows come back with an empty BLOB.</p><ul class="prose-list"><li>the PLM stamps MODIFIED_AT: the next run reads those two rows again, IN 2</li><li>PL-1004 C and PL-1007 B are released, at 0 bytes: two decisions</li><li>PL-1008 A, the draft, stays at 0 bytes without a decision</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The message</strong><p>Drawing, revision, title, release date, file name: enough to find it before the workshop asks.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A released drawing without its file is flagged the same morning, without the hub reading a single PDF.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Overnight"><button type="button" role="tab" id="archive-source-tab" data-view="source" aria-controls="archive-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="archive-commands-tab" data-view="commands" aria-controls="archive-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="archive-result-tab" data-view="result" aria-controls="archive-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="archive-source" aria-labelledby="archive-source-tab" tabindex="0"><figure class="source"><figcaption>archive.sql</figcaption><pre class="code">-- The night&#x27;s archive migration: the PDFs move to the new document store, two of them never arrive,
+-- and the rows are copied back with an empty BLOB. The PLM stamps MODIFIED_AT, as on every write.
+UPDATE DOC_REVISION SET CONTENT = EMPTY_BLOB(), MODIFIED_AT = TIMESTAMP &#x27;2026-11-08 02:14:00&#x27; WHERE (DOC_NO, REV) IN ((&#x27;PL-1004&#x27;, &#x27;C &#x27;), (&#x27;PL-1007&#x27;, &#x27;B &#x27;));
+COMMIT;</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="archive-commands" aria-labelledby="archive-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-plm-drawings-a</span>
+<span class="out">run scheduled: 192ef43d-7375-4cd9-9f39-9b5224212f86</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 192ef43d-7375-4cd9-9f39-9b5224212f86</span>
+<span class="out">ID        CONNECTOR                ENDPOINT        STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+192ef43d  scenario-plm-drawings-a  V_DOC_REVISION  Completed  2   2    0        0             2026-11-08 10:23  2026-11-08 10:23  yes</span>
+
+<span class="cmd"><span class="prompt">$</span> lm inbox --process scenario-plm-file-lost-a</span>
+<span class="out">ID     WHEN      PROCESS                   MESSAGE                                                                                                                                                         ENTITY_KEY
+25844  just now  scenario-plm-file-lost-a  PL-1007 rev B (Pignon Z=23) is released since 2016-12-12T17:05:00Z and its file PL-1007-B.pdf is empty — find the PDF before the workshop asks for it           PL-1007
+25843  just now  scenario-plm-file-lost-a  PL-1004 rev C (Bride d&#x27;accouplement) is released since 2018-04-30T10:00:00Z and its file PL-1004-C.pdf is empty — find the PDF before the workshop asks for it  PL-1004</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="archive-result" aria-labelledby="archive-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-plm-drawings-a/V_DOC_REVISION</dt><dd>Completed · IN 2 · OUT 2 · SKIPPED 0</dd><dt>hub</dt><dd>PL-1004 · C · RELEASED · PL-1004-C.pdf · 0</dd><dt>hub</dt><dd>PL-1007 · B · RELEASED · PL-1007-B.pdf · 0</dd><dt>hub</dt><dd>PL-1008 · A · DRAFT · PL-1008-A.pdf · 0</dd><dt>lm inbox</dt><dd>PL-1004 rev C (Bride d&#x27;accouplement) is released since 2018-04-30T10:00:00Z and its file PL-1004-C.pdf is empty — find the PDF before the workshop asks for it</dd><dt>lm inbox</dt><dd>PL-1007 rev B (Pignon Z=23) is released since 2016-12-12T17:05:00Z and its file PL-1007-B.pdf is empty — find the PDF before the workshop asks for it</dd></dl><p class="sources">evidence: replay.log, sources.txt, discover-table.txt, add-refused.txt, discover-views.txt, drawings.txt, empty-files.txt, inbox.json · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>The hub does not read a BLOB: not the PDF, not its content, not a checksum. A view gives its size; a corrupt but non-empty PDF passes.</li><li>The view is the Oracle DBA&#x27;s gesture: the hub does not create it.</li><li>Watermark mode assumes the PLM stamps MODIFIED_AT. A write that does not touch it is not read again.</li><li>The rule only sees losses to come: a drawing already empty at the first run is read before the Process exists.</li><li>Replayed on Oracle 23ai Free. lumnik Pro only: the Open edition has no Oracle provider.</li><li>Drawings, revisions and dates synthetic; the PDFs are real one-page PDFs.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Engineering · PLM</p><h2>The drawings live in Oracle.</h2><p class="brief-lead">One row per revision, the PDF in a BLOB.</p><p class="brief-note">CONTENT BLOB</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>The hub does not read a BLOB.</h2><ul class="brief-list tone-cyan"><li>The table is refused, column named.</li><li>And an empty PDF shows nowhere.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The PLM&#x27;s table stays as it is.</h2><ul class="brief-list tone-green"><li>The PLM keeps writing its drawings.</li><li>No PDF leaves Oracle.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>NVL(DBMS_LOB.GETLENGTH(CONTENT), 0)
+  AS CONTENT_BYTES</code></pre><h2>A view: the drawing weighed, not read.</h2><ul class="brief-list tone-green"><li>mode: watermark on MODIFIED_AT.</li><li>One rule: released and 0 bytes.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What was fixed</p><h2>discover --include-views shows the view (#1890).</h2><ul class="brief-list tone-green"><li>ROWS -1 for a table never analyzed (#1891).</li><li>PL-1004 C and PL-1007 B: two decisions.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <section class="try"><p>This scenario needs lumnik Pro.</p><a class="try-button" href="../../editions.html">See the editions →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
