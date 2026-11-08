@@ -668,6 +668,28 @@
       "evidenceDigest": "sha256:011475bb49e03bdfe8a987e15f9e9e98503d0adb249c38a7c2dfca69b03616f6"
     },
     {
+      "slug": "legacy-desktop-exports",
+      "title": "Progress, FoxPro, Access: three dinosaurs, one machine register",
+      "goal": "Read three workshops' machine registers as their old databases export them, without touching a file, and bring them together in one register.",
+      "lede": "An industrial group has three workshops, and each keeps its machines in its own desktop database, installed twenty or thirty years ago.\n- Nord exports from Progress OpenEdge, Est from FoxPro for DOS, Sud from Access;\n- each format asks for its gesture: ? for unknown, -1 for yes, a midnight time, a two-digit year;\n- FoxPro's export, read without its code page, is guessed as windows-1252: the run says so and stops on the É of \"Électroérosion\";\n- together, the three registers make 17 machines and one dispute: the grinder that moved from Est to Sud.",
+      "tags": {
+        "domain": [
+          "Maintenance",
+          "Progress OpenEdge",
+          "FoxPro",
+          "Access",
+          "Encoding"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-08",
+      "evidenceDigest": "sha256:abb31b7e9eaf867527da726e4b788292590ef7f20f19acf58dafa483073a74fc"
+    },
+    {
       "slug": "legacy-sales-grafana",
       "title": "A frozen ERP feeds a real Grafana dashboard",
       "goal": "Give management an up-to-date sales dashboard from the exports of an ERP nobody touches any more.",
