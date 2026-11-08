@@ -772,6 +772,27 @@
       "evidenceDigest": "sha256:685bc56997af89e6bdb01b2338fd7620781a5b38fce39ef42ec83a57cec72adb"
     },
     {
+      "slug": "oracle-blob-drawings",
+      "title": "Oracle and BLOB: the drawing refused, the view that weighs it, the PDF lost overnight",
+      "goal": "Read a PLM's drawing register on Oracle without reading the drawings themselves, and know the same morning that a released drawing lost its file.",
+      "lede": "An engineering office keeps its drawings in a PLM on Oracle: one row per revision, the PDF in a BLOB.\n- the hub does not read a BLOB: the table is refused as it is, column named;\n- the DBA adds a view without the drawing, its size in bytes instead;\n- overnight, the archive migration copies two released revisions back without their PDF: two decisions.",
+      "tags": {
+        "domain": [
+          "Engineering",
+          "PLM",
+          "Oracle",
+          "BLOB"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-08",
+      "evidenceDigest": "sha256:07079647ba331839e427cb402e5d819fb414f476abcdf1c5b3f1385406044a38"
+    },
+    {
       "slug": "orders-where-they-sleep",
       "title": "Auditing how long orders stay in each status",
       "goal": "Know how long each order stays in each status, and which ones stop moving.",
