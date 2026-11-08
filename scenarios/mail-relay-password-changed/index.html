@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The SMTP relay changed its password: three cold-room alerts do not leave, the on-call desk knows — lumnik</title>
+<meta name="description" content="Mail a cold room&#x27;s temperature excursions, know the same day that a mail did not leave and why, then send it again without a duplicate. A pharmaceutical wholesaler stores its medicines between 2 and 8 °C in two cold rooms. The data logger exports its readings once a day; an excursion is mailed to the quality lead, through the company&#x27;s SMTP relay. On Monday, the alert of CF-2 leaves; Overnight, IT changes the sending account&#x27;s password, the hub keeps the old one; On Tuesday, the compressor of CF-1 stops: three mails given up, the on-call desk told by a webhook, the ERROR column says what to fix.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/mail-relay-password-changed/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/mail-relay-password-changed/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>The SMTP relay changed its password: three cold-room alerts do not leave, the on-call desk knows</h1>
+    <p class="goal"><strong>Goal</strong> Mail a cold room&#x27;s temperature excursions, know the same day that a mail did not leave and why, then send it again without a duplicate.</p>
+    <p class="lede">A pharmaceutical wholesaler stores its medicines between 2 and 8 °C in two cold rooms. The data logger exports its readings once a day; an excursion is mailed to the quality lead, through the company&#x27;s SMTP relay.</p><ul class="lede-list"><li>on Monday, the alert of CF-2 leaves;</li><li>overnight, IT changes the sending account&#x27;s password, the hub keeps the old one;</li><li>on Tuesday, the compressor of CF-1 stops: three mails given up, the on-call desk told by a webhook, the ERROR column says what to fix.</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Pharmacy</li><li class="tag">Cold chain</li><li class="tag">Mail</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
+  </section>
+  <div role="tablist" class="page-tabs" aria-label="The SMTP relay changed its password: three cold-room alerts do not leave, the on-call desk knows">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-monday" data-step="monday" aria-current="step"><span class="num">1 · Monday</span><span class="sub">1 mail</span></a><a href="#step-night" data-step="night"><span class="num">2 · Overnight</span><span class="sub">relay</span></a><a href="#step-tuesday" data-step="tuesday"><span class="num">3 · Tuesday</span><span class="sub">3 given up</span></a><a href="#step-fix" data-step="fix"><span class="num">4 · Fix</span><span class="sub">replay</span></a></nav>
+  <section class="step" id="step-monday" aria-labelledby="monday-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="monday-title">The excursion of CF-2 is mailed</h2>
+      <p>The hub sends through the company&#x27;s relay, with the alertes-qualite account.</p><ul class="prose-list"><li>the csv-file connector reads the day&#x27;s export: 48 readings, one per room and per hour</li><li>the Process raises a decision above 8 °C</li><li>a rule mails it to the quality lead; a webhook waits for given-up mails</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The subject is the sentence</strong><p>The quality lead reads the room, the temperature, the hour and the probe in the inbox, not an event name.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An excursion reaches the quality lead&#x27;s inbox, its sentence as the subject.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Monday"><button type="button" role="tab" id="monday-source-tab" data-view="source" aria-controls="monday-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="monday-manifest-tab" data-view="manifest" aria-controls="monday-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="monday-commands-tab" data-view="commands" aria-controls="monday-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="monday-result-tab" data-view="result" aria-controls="monday-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="monday-source" aria-labelledby="monday-source-tab" tabindex="0"><figure class="source"><figcaption>cold-rooms-20261108.csv</figcaption><pre class="code">reading_id;room;probe;read_at;temp_c
+CF-1-2026110800;CF-1;PT100-0412;2026-11-08 00:00;4.7
+CF-2-2026110800;CF-2;PT100-0418;2026-11-08 00:00;6.1
+CF-1-2026110801;CF-1;PT100-0412;2026-11-08 01:00;5.3
+CF-2-2026110801;CF-2;PT100-0418;2026-11-08 01:00;5.2
+CF-1-2026110802;CF-1;PT100-0412;2026-11-08 02:00;6.0
+CF-2-2026110802;CF-2;PT100-0418;2026-11-08 02:00;5.8
+CF-1-2026110803;CF-1;PT100-0412;2026-11-08 03:00;5.2
+CF-2-2026110803;CF-2;PT100-0418;2026-11-08 03:00;5.4
+CF-1-2026110804;CF-1;PT100-0412;2026-11-08 04:00;4.0
+CF-2-2026110804;CF-2;PT100-0418;2026-11-08 04:00;6.2
+CF-1-2026110805;CF-1;PT100-0412;2026-11-08 05:00;5.8
+CF-2-2026110805;CF-2;PT100-0418;2026-11-08 05:00;4.0
+CF-1-2026110806;CF-1;PT100-0412;2026-11-08 06:00;6.0
+CF-2-2026110806;CF-2;PT100-0418;2026-11-08 06:00;4.8
+CF-1-2026110807;CF-1;PT100-0412;2026-11-08 07:00;4.9
+CF-2-2026110807;CF-2;PT100-0418;2026-11-08 07:00;4.8
+CF-1-2026110808;CF-1;PT100-0412;2026-11-08 08:00;5.5
+CF-2-2026110808;CF-2;PT100-0418;2026-11-08 08:00;4.6
+CF-1-2026110809;CF-1;PT100-0412;2026-11-08 09:00;4.9</pre><p class="source-more">… 29 more lines</p></figure><figure class="source"><figcaption>cold-rooms-20261109.csv</figcaption><pre class="code">reading_id;room;probe;read_at;temp_c
+CF-1-2026110900;CF-1;PT100-0412;2026-11-09 00:00;3.9
+CF-2-2026110900;CF-2;PT100-0418;2026-11-09 00:00;4.8
+CF-1-2026110901;CF-1;PT100-0412;2026-11-09 01:00;4.2
+CF-2-2026110901;CF-2;PT100-0418;2026-11-09 01:00;4.4
+CF-1-2026110902;CF-1;PT100-0412;2026-11-09 02:00;4.2
+CF-2-2026110902;CF-2;PT100-0418;2026-11-09 02:00;3.8
+CF-1-2026110903;CF-1;PT100-0412;2026-11-09 03:00;4.5
+CF-2-2026110903;CF-2;PT100-0418;2026-11-09 03:00;4.7
+CF-1-2026110904;CF-1;PT100-0412;2026-11-09 04:00;5.2
+CF-2-2026110904;CF-2;PT100-0418;2026-11-09 04:00;6.1
+CF-1-2026110905;CF-1;PT100-0412;2026-11-09 05:00;5.2
+CF-2-2026110905;CF-2;PT100-0418;2026-11-09 05:00;4.1
+CF-1-2026110906;CF-1;PT100-0412;2026-11-09 06:00;4.2
+CF-2-2026110906;CF-2;PT100-0418;2026-11-09 06:00;4.5
+CF-1-2026110907;CF-1;PT100-0412;2026-11-09 07:00;4.0
+CF-2-2026110907;CF-2;PT100-0418;2026-11-09 07:00;4.5
+CF-1-2026110908;CF-1;PT100-0412;2026-11-09 08:00;4.2
+CF-2-2026110908;CF-2;PT100-0418;2026-11-09 08:00;5.5
+CF-1-2026110909;CF-1;PT100-0412;2026-11-09 09:00;4.3</pre><p class="source-more">… 29 more lines</p></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="monday-manifest" aria-labelledby="monday-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-cold-rooms.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-relay-cold-rooms-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [quality-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/mail-relay-password-changed/a/cold-rooms-*.csv   <span class="comment"># one file per day from the data logger</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">    <span class="key">encoding</span>: UTF-8</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line">  <span class="key">after_process</span>: none</span></code></pre><div class="file"><span class="filename">manifests/20-excursion.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-relay-excursion-a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: quality-a</span><span class="line">  <span class="key">on</span>: { event: data.row.changed, table: connector.t_scenario_relay_cold_rooms_a }</span><span class="line">  <span class="key">when</span>:</span><span class="line hl">    - <span class="str">&quot;temp_c&gt;8&quot;</span>                       <span class="comment"># storage range 2-8 °C</span></span><span class="line">  <span class="key">emit</span>:</span><span class="line">    <span class="key">type</span>: decision.cold-room-excursion-a</span><span class="line">    <span class="key">message</span>: <span class="str">&quot;Chambre froide {room}: {temp_c} °C à {read_at} (sonde {probe}) — hors de la plage 2-8 °C, bloquer les lots stockés&quot;</span></span><span class="line">    <span class="key">key</span>: reading_id</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="monday-commands" aria-labelledby="monday-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-cold-rooms.yaml</span>
+<span class="out">Applied connector &quot;scenario-relay-cold-rooms-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-relay-cold-rooms-a</span>
+<span class="out">run scheduled: 36e6aa3c-7668-4af7-a54f-82475efe6759</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 36e6aa3c-7668-4af7-a54f-82475efe6759</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+36e6aa3c  scenario-relay-cold-rooms-a  default   Completed  48  48   0        0             2026-11-08 21:55  2026-11-08 21:55  yes</span>
+
+<span class="cmd"><span class="prompt">$</span> lm process apply -f manifests/20-excursion.yaml</span>
+<span class="out">Applied process &quot;scenario-relay-excursion-a&quot; → table connector.t_scenario_relay_cold_rooms_a, emits decision.cold-room-excursion-a</span>
+
+<span class="cmd"><span class="prompt">$</span> lm notify add --events decision.cold-room-excursion-a --to qualite-a@pharma-depot.example --template decision-alert</span>
+<span class="out">rule 1017: decision.cold-room-excursion-a → qualite-a@pharma-depot.example</span>
+
+<span class="cmd"><span class="prompt">$</span> lm integration add relay-watch-a --url http://relay-watch-a:8080/on-call --events notification.mail.given-up --secret-stdin</span>
+<span class="out">registered: relay-watch-a (id 1053) — forwards subscribed events from now on</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-relay-cold-rooms-a</span>
+<span class="out">run scheduled: e7517abf-29f2-492a-bc13-8f6fe9da1224</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get e7517abf-29f2-492a-bc13-8f6fe9da1224</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+e7517abf  scenario-relay-cold-rooms-a  default   Completed  48  48   0        0             2026-11-08 21:55  2026-11-08 21:55  yes</span>
+<span class="note">• 1 file(s) unchanged since they were last read — not read again</span>
+
+<span class="cmd"><span class="prompt">$</span> lm notify deliveries</span>
+<span class="out">ID  RECIPIENT                        EVENT                            STATUS          ATTEMPTS  WHEN              ERROR
+11  qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  given up: send  3         2026-11-08 21:18  authentication refused (SMTP 535)
+10  qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  given up: send  3         2026-11-08 21:18  authentication refused (SMTP 535)
+9   qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  given up: send  3         2026-11-08 21:18  authentication refused (SMTP 535)
+7   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  given up: send  3         2026-11-08 21:13  authentication refused (SMTP 535)
+6   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  given up: send  3         2026-11-08 21:13  authentication refused (SMTP 535)
+5   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  given up: send  3         2026-11-08 21:13  authentication refused (SMTP 535)
+16  qualite-a@pharma-depot.example   decision.cold-room-excursion-a   sent            1         2026-11-08 21:55  
+15  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            4         2026-11-08 21:20  
+14  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            4         2026-11-08 21:20  
+13  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            4         2026-11-08 21:20  
+12  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            1         2026-11-08 21:19  
+8   qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  sent            1         2026-11-08 21:17  
+4   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  sent            1         2026-11-08 21:12  
+3   qualite@example.com              decision.trial-mail-excursion    sent            4         2026-11-08 17:15  
+2   qualite@example.com              decision.trial-mail-excursion    sent            4         2026-11-08 17:15  
+1   qualite@example.com              decision.trial-mail-excursion    sent            1         2026-11-08 17:08  </span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="monday-result" aria-labelledby="monday-result-tab" tabindex="0" hidden><dl class="facts"><dt>operator</dt><dd>$ docker compose up -d hub   # LUMNIK_SMTP_HOST=relay-a LUMNIK_SMTP_USERNAME=alertes-qualite LUMNIK_SMTP_PASSWORD=(the summer one)</dd><dt>scenario-relay-cold-rooms-a/default</dt><dd>Completed · IN 48 · OUT 48 · SKIPPED 0</dd><dt>scenario-relay-cold-rooms-a/default</dt><dd>Completed · IN 48 · OUT 48 · SKIPPED 0</dd><dt>lm notify deliveries</dt><dd>16 · sent · 1 attempt</dd><dt>relay</dt><dd>qualite-a@pharma-depot.example  Chambre froide CF-2: 8.6 °C à 2026-11-09 10:00 (sonde PT100-0418) — hors de la plage 2-8 °C, bloque…</dd></dl><p class="sources">evidence: replay.log, hub-monday.txt, deliveries-monday.txt, relay-inbox-monday.txt, relay-tuesday.txt, inbox-tuesday.txt, deliveries-tuesday.txt, webhook-received.txt, hub-fixed.txt, replay.txt, replay-sent.txt, deliveries-fixed.txt, relay-inbox-fixed.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-night" aria-labelledby="night-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="night-title">IT changes the sending account&#x27;s password</h2>
+      <p>The password policy asks for a change every season.</p><ul class="prose-list"><li>the relay accepts only the new one</li><li>the hub keeps the old one: nobody thought of it</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>A service account</strong><p>The sending account is nobody&#x27;s: its password changes without the person who put it in the hub knowing.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The failure comes neither from the hub nor from the data: from a setting changed elsewhere.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Overnight"><button type="button" role="tab" id="night-result-tab" data-view="result" aria-controls="night-result" aria-selected="true" tabindex="0">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-result" id="night-result" aria-labelledby="night-result-tab" tabindex="0"><dl class="facts"><dt>IT</dt><dd>$ relay: alertes-qualite now logs in with the new password only</dd></dl><p class="sources">evidence: replay.log, hub-monday.txt, deliveries-monday.txt, relay-inbox-monday.txt, relay-tuesday.txt, inbox-tuesday.txt, deliveries-tuesday.txt, webhook-received.txt, hub-fixed.txt, replay.txt, replay-sent.txt, deliveries-fixed.txt, relay-inbox-fixed.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-tuesday" aria-labelledby="tuesday-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="tuesday-title">The compressor of CF-1 stops: three mails given up, the on-call desk told</h2>
+      <p>Three readings above 8 °C between 2 and 4 a.m.: three decisions, three mails.</p><ul class="prose-list"><li>each mail is tried three times, then given up</li><li>the ERROR column says authentication refused (SMTP 535): the relay refuses the password</li><li>the on-call desk&#x27;s webhook receives one notification.mail.given-up per mail, with its ID</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The gesture is in the message</strong><p>SMTP 535: fix LUMNIK_SMTP_PASSWORD. An unreachable relay would say relay unreachable: fix the host or the network.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A mail that does not leave is known the same day, by a road other than mail, with what to fix.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Tuesday"><button type="button" role="tab" id="tuesday-source-tab" data-view="source" aria-controls="tuesday-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="tuesday-commands-tab" data-view="commands" aria-controls="tuesday-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="tuesday-result-tab" data-view="result" aria-controls="tuesday-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="tuesday-source" aria-labelledby="tuesday-source-tab" tabindex="0"><figure class="source"><figcaption>cold-rooms-20261110.csv</figcaption><pre class="code">reading_id;room;probe;read_at;temp_c
+CF-1-2026111000;CF-1;PT100-0412;2026-11-10 00:00;4.1
+CF-2-2026111000;CF-2;PT100-0418;2026-11-10 00:00;5.1
+CF-1-2026111001;CF-1;PT100-0412;2026-11-10 01:00;6.2
+CF-2-2026111001;CF-2;PT100-0418;2026-11-10 01:00;6.0
+CF-1-2026111002;CF-1;PT100-0412;2026-11-10 02:00;8.4
+CF-2-2026111002;CF-2;PT100-0418;2026-11-10 02:00;5.1
+CF-1-2026111003;CF-1;PT100-0412;2026-11-10 03:00;9.7
+CF-2-2026111003;CF-2;PT100-0418;2026-11-10 03:00;4.5
+CF-1-2026111004;CF-1;PT100-0412;2026-11-10 04:00;10.3
+CF-2-2026111004;CF-2;PT100-0418;2026-11-10 04:00;3.8
+CF-1-2026111005;CF-1;PT100-0412;2026-11-10 05:00;3.9
+CF-2-2026111005;CF-2;PT100-0418;2026-11-10 05:00;6.0
+CF-1-2026111006;CF-1;PT100-0412;2026-11-10 06:00;4.5
+CF-2-2026111006;CF-2;PT100-0418;2026-11-10 06:00;3.9
+CF-1-2026111007;CF-1;PT100-0412;2026-11-10 07:00;5.8
+CF-2-2026111007;CF-2;PT100-0418;2026-11-10 07:00;3.9
+CF-1-2026111008;CF-1;PT100-0412;2026-11-10 08:00;4.2
+CF-2-2026111008;CF-2;PT100-0418;2026-11-10 08:00;4.9
+CF-1-2026111009;CF-1;PT100-0412;2026-11-10 09:00;4.5</pre><p class="source-more">… 29 more lines</p></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="tuesday-commands" aria-labelledby="tuesday-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-relay-cold-rooms-a</span>
+<span class="out">run scheduled: c64679ea-62e9-49e6-8427-175fcb962132</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get c64679ea-62e9-49e6-8427-175fcb962132</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+c64679ea  scenario-relay-cold-rooms-a  default   Completed  48  48   0        0             2026-11-08 21:55  2026-11-08 21:55  yes</span>
+<span class="note">• 1 file(s) unchanged since they were last read — not read again</span>
+
+<span class="cmd"><span class="prompt">$</span> lm inbox</span>
+<span class="out">ID     WHEN       PROCESS                      MESSAGE                                                                                                                                                          ENTITY_KEY
+26581  just now   scenario-relay-excursion-a   Chambre froide CF-1: 10.3 °C à 2026-11-10 04:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                           CF-1-2026111004
+26580  just now   scenario-relay-excursion-a   Chambre froide CF-1: 9.7 °C à 2026-11-10 03:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-1-2026111003
+26579  just now   scenario-relay-excursion-a   Chambre froide CF-1: 8.4 °C à 2026-11-10 02:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-1-2026111002
+26528  just now   scenario-relay-excursion-a   Chambre froide CF-2: 8.6 °C à 2026-11-09 10:00 (sonde PT100-0418) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-2-2026110910
+26456  35min      scenario-relay-excursion-m3  Chambre froide CF-1: 10.3 °C à 2026-11-10 04:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                           CF-1-2026111004
+26455  35min      scenario-relay-excursion-m3  Chambre froide CF-1: 9.7 °C à 2026-11-10 03:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-1-2026111003
+26454  35min      scenario-relay-excursion-m3  Chambre froide CF-1: 8.4 °C à 2026-11-10 02:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-1-2026111002
+26403  36min      scenario-relay-excursion-m3  Chambre froide CF-2: 8.6 °C à 2026-11-09 10:00 (sonde PT100-0418) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-2-2026110910
+26347  38min      scenario-relay-excursion-m2  Chambre froide CF-1: 10.3 °C à 2026-11-10 04:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                           CF-1-2026111004
+26346  38min      scenario-relay-excursion-m2  Chambre froide CF-1: 9.7 °C à 2026-11-10 03:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-1-2026111003
+26345  38min      scenario-relay-excursion-m2  Chambre froide CF-1: 8.4 °C à 2026-11-10 02:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-1-2026111002
+26294  38min      scenario-relay-excursion-m2  Chambre froide CF-2: 8.6 °C à 2026-11-09 10:00 (sonde PT100-0418) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-2-2026110910
+26236  43min      scenario-relay-excursion-m1  Chambre froide CF-1: 10.3 °C à 2026-11-10 04:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                           CF-1-2026111004
+26235  43min      scenario-relay-excursion-m1  Chambre froide CF-1: 9.7 °C à 2026-11-10 03:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-1-2026111003
+26234  43min      scenario-relay-excursion-m1  Chambre froide CF-1: 8.4 °C à 2026-11-10 02:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-1-2026111002
+26183  43min      scenario-relay-excursion-m1  Chambre froide CF-2: 8.6 °C à 2026-11-09 10:00 (sonde PT100-0418) — hors de la plage 2-8 °C, bloquer les lots stockés                                            CF-2-2026110910
+26034  4h         trial-mail-excursion         Chambre CF-2: 12.0 °C à 2026-11-10 07:00                                                                                                                         R6
+26028  4h         trial-mail-excursion         Chambre CF-2: 11.0 °C à 2026-11-10 06:00                                                                                                                         R5
+26024  4h         trial-mail-excursion         Chambre CF-1: 10.2 °C à 2026-11-09 09:00                                                                                                                         R4
+26020  4h         trial-mail-excursion         Chambre CF-1: 9.8 °C à 2026-11-09 08:00                                                                                                                          R3
+25844  11h        scenario-plm-file-lost-a     PL-1007 rev B (Pignon Z=23) is released since 2016-12-12T17:05:00Z and its file PL-1007-B.pdf is empty — find the PDF before the workshop asks for it            PL-1007
+25843  11h        scenario-plm-file-lost-a     PL-1004 rev C (Bride d&#x27;accouplement) is released since 2018-04-30T10:00:00Z and its file PL-1004-C.pdf is empty — find the PDF before the workshop asks for it   PL-1004
+25833  11h        scenario-plm-file-lost-t     PL-1007 rev B  (Pignon Z=23) is released since 2016-12-12T17:05:00Z and its file PL-1007-B.pdf is empty — find the PDF before the workshop asks for it           PL-1007
+25832  11h        scenario-plm-file-lost-t     PL-1004 rev C  (Bride d&#x27;accouplement) is released since 2018-04-30T10:00:00Z and its file PL-1004-C.pdf is empty — find the PDF before the workshop asks for it  PL-1004
+25492  yesterday  scenario-struts-waiting-a    RMA-26-0022 (Hydro Saône, Pressostat PR-6): waiting for a part for 43 days                                                                                       RMA-26-0022
+25491  yesterday  scenario-struts-waiting-a    RMA-26-0017 (Plomberie Garnier SARL, Pressostat PR-6): waiting for a part for 50 days                                                                            RMA-26-0017
+25490  yesterday  scenario-struts-waiting-a    RMA-26-0013 (Thermique de l&#x27;Ouest, Surpresseur S-3): waiting for a part for 56 days                                                                              RMA-26-0013
+25489  yesterday  scenario-struts-waiting-a    RMA-26-0010 (Hydro Saône, Carte électronique CE-12): waiting for a part for 64 days                                                                              RMA-26-0010
+25488  yesterday  scenario-struts-waiting-a    RMA-26-0008 (Thermique de l&#x27;Ouest, Surpresseur S-3): waiting for a part for 67 days                                                                              RMA-26-0008
+25487  yesterday  scenario-struts-waiting-a    RMA-26-0007 (Côté Jardin Négoce, Carte électronique CE-12): waiting for a part for 69 days                                                                       RMA-26-0007
+25486  yesterday  scenario-struts-waiting-a    RMA-26-0006 (Quincaillerie Bérard, Carte électronique CE-12): waiting for a part for 70 days                                                                     RMA-26-0006
+25350  yesterday  scenario-domino-critical-a   RQ-26-0061: critical complaint from Fromagerie Vercors on Vanne papillon DN80, received 2026-11-05T18:00:00Z, nobody assigned                                    RQ-26-0061
+25349  yesterday  scenario-domino-critical-a   RQ-26-0059: critical complaint from Pâtes Léonard on Clapet anti-retour DN65, received 2026-11-05T16:00:00Z, nobody assigned                                     RQ-26-0059
+25337  yesterday  scenario-domino-critical-w1  RQ-26-0061: critical complaint from Fromagerie Vercors on Vanne papillon DN80, received 2026-11-05T18:00:00Z, nobody assigned                                    RQ-26-0061
+25336  yesterday  scenario-domino-critical-w1  RQ-26-0059: critical complaint from Pâtes Léonard on Clapet anti-retour DN65, received 2026-11-05T16:00:00Z, nobody assigned                                     RQ-26-0059
+25178  yesterday  scenario-hrms-qc-a           W-26-0422 (injection 12): the QC before it reads 3.84 ppm, acceptance 3.0 ppm                                                                                    W-26-0422
+25177  yesterday  scenario-hrms-qc-a           W-26-0421 (injection 11): the QC before it reads 3.84 ppm, acceptance 3.0 ppm                                                                                    W-26-0421
+25176  yesterday  scenario-hrms-qc-a           W-26-0420 (injection 10): the QC before it reads 3.84 ppm, acceptance 3.0 ppm                                                                                    W-26-0420
+25175  yesterday  scenario-hrms-qc-a           W-26-0419 (injection 9): the QC before it reads 3.84 ppm, acceptance 3.0 ppm                                                                                     W-26-0419
+25102  yesterday  scenario-hrms-qc-w1          W-26-0422 (injection 12): the QC before it reads 3.84 ppm, acceptance 3.0 ppm                                                                                    W-26-0422
+25101  yesterday  scenario-hrms-qc-w1          W-26-0421 (injection 11): the QC before it reads 3.84 ppm, acceptance 3.0 ppm                                                                                    W-26-0421
+25100  yesterday  scenario-hrms-qc-w1          W-26-0420 (injection 10): the QC before it reads 3.84 ppm, acceptance 3.0 ppm                                                                                    W-26-0420
+25099  yesterday  scenario-hrms-qc-w1          W-26-0419 (injection 9): the QC before it reads 3.84 ppm, acceptance 3.0 ppm                                                                                     W-26-0419
+25026  yesterday  scenario-hrms-qc-t1          W-26-0422, acquired 2026-11-06T15:48:00Z: the QC before it reads 3.84 ppm (acceptance 3.0 ppm)                                                                   W-26-0422
+25025  yesterday  scenario-hrms-qc-t1          W-26-0421, acquired 2026-11-06T15:30:00Z: the QC before it reads 3.84 ppm (acceptance 3.0 ppm)                                                                   W-26-0421
+25024  yesterday  scenario-hrms-qc-t1          W-26-0420, acquired 2026-11-06T15:12:00Z: the QC before it reads 3.84 ppm (acceptance 3.0 ppm)                                                                   W-26-0420
+25023  yesterday  scenario-hrms-qc-t1          W-26-0419, acquired 2026-11-06T14:54:00Z: the QC before it reads 3.84 ppm (acceptance 3.0 ppm)                                                                   W-26-0419
+24950  yesterday  scenario-wcf-late-a          CV-26-0023 Électro-Diesel: promised 2026-11-19, confirmed 2026-12-01 by Lyon — call the customer before they call                                                CV-26-0023
+24949  yesterday  scenario-wcf-late-a          CV-26-0016 Moto Évasion: promised 2026-11-14, confirmed 2026-11-18 by Lyon — call the customer before they call                                                  CV-26-0016
+24948  yesterday  scenario-wcf-late-a          CV-26-0007 Agri-Méca: promised 2026-11-05, confirmed 2026-11-14 by Lyon — call the customer before they call                                                     CV-26-0007</span>
+<span class="note">note: result hit the limit of 50 — there may be more</span>
+
+<span class="cmd"><span class="prompt">$</span> lm notify deliveries</span>
+<span class="out">ID  RECIPIENT                        EVENT                            STATUS          ATTEMPTS  WHEN              ERROR
+19  qualite-a@pharma-depot.example   decision.cold-room-excursion-a   given up: send  3         2026-11-08 21:56  authentication refused (SMTP 535)
+18  qualite-a@pharma-depot.example   decision.cold-room-excursion-a   given up: send  3         2026-11-08 21:56  authentication refused (SMTP 535)
+17  qualite-a@pharma-depot.example   decision.cold-room-excursion-a   given up: send  3         2026-11-08 21:56  authentication refused (SMTP 535)
+11  qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  given up: send  3         2026-11-08 21:18  authentication refused (SMTP 535)
+10  qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  given up: send  3         2026-11-08 21:18  authentication refused (SMTP 535)
+9   qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  given up: send  3         2026-11-08 21:18  authentication refused (SMTP 535)
+7   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  given up: send  3         2026-11-08 21:13  authentication refused (SMTP 535)
+6   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  given up: send  3         2026-11-08 21:13  authentication refused (SMTP 535)
+5   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  given up: send  3         2026-11-08 21:13  authentication refused (SMTP 535)
+16  qualite-a@pharma-depot.example   decision.cold-room-excursion-a   sent            1         2026-11-08 21:55  
+15  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            4         2026-11-08 21:20  
+14  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            4         2026-11-08 21:20  
+13  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            4         2026-11-08 21:20  
+12  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            1         2026-11-08 21:19  
+8   qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  sent            1         2026-11-08 21:17  
+4   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  sent            1         2026-11-08 21:12  
+3   qualite@example.com              decision.trial-mail-excursion    sent            4         2026-11-08 17:15  
+2   qualite@example.com              decision.trial-mail-excursion    sent            4         2026-11-08 17:15  
+1   qualite@example.com              decision.trial-mail-excursion    sent            1         2026-11-08 17:08  </span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="tuesday-result" aria-labelledby="tuesday-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-relay-cold-rooms-a/default</dt><dd>Completed · IN 48 · OUT 48 · SKIPPED 0</dd><dt>lm notify deliveries</dt><dd>19 · given up: send · 3 attempts · authentication refused (SMTP 535)</dd><dt>lm notify deliveries</dt><dd>18 · given up: send · 3 attempts · authentication refused (SMTP 535)</dd><dt>lm notify deliveries</dt><dd>17 · given up: send · 3 attempts · authentication refused (SMTP 535)</dd><dt>lm notify deliveries</dt><dd>16 · sent · 1 attempt</dd><dt>on-call webhook</dt><dd>X-Lumnik-Event: notification.mail.given-up  {&quot;failure&quot;:&quot;authentication refused (SMTP 535)&quot;,&quot;rule_id&quot;:1017,&quot;event_type&quot;:&quot;decision.cold-room-excursion-a&quot;,&quot;delivery_id&quot;:17}</dd><dt>on-call webhook</dt><dd>X-Lumnik-Event: notification.mail.given-up  {&quot;failure&quot;:&quot;authentication refused (SMTP 535)&quot;,&quot;rule_id&quot;:1017,&quot;event_type&quot;:&quot;decision.cold-room-excursion-a&quot;,&quot;delivery_id&quot;:18}</dd><dt>on-call webhook</dt><dd>X-Lumnik-Event: notification.mail.given-up  {&quot;failure&quot;:&quot;authentication refused (SMTP 535)&quot;,&quot;rule_id&quot;:1017,&quot;event_type&quot;:&quot;decision.cold-room-excursion-a&quot;,&quot;delivery_id&quot;:19}</dd></dl><p class="sources">evidence: replay.log, hub-monday.txt, deliveries-monday.txt, relay-inbox-monday.txt, relay-tuesday.txt, inbox-tuesday.txt, deliveries-tuesday.txt, webhook-received.txt, hub-fixed.txt, replay.txt, replay-sent.txt, deliveries-fixed.txt, relay-inbox-fixed.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-fix" aria-labelledby="fix-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="fix-title">The new password, then the three mails sent again</h2>
+      <p>The operator sets the new password and restarts the hub.</p><ul class="prose-list"><li>lm notify replay on each ID the on-call desk received: sent</li><li>the three alerts reach the quality lead</li><li>sending a mail that already left is refused: no duplicate</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The same mail, not a second one</strong><p>The replay takes up the given-up mail: the quality lead receives each alert once.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A given-up mail is sent again as it was, once.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Fix"><button type="button" role="tab" id="fix-commands-tab" data-view="commands" aria-controls="fix-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="fix-result-tab" data-view="result" aria-controls="fix-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="fix-commands" aria-labelledby="fix-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm notify replay 17</span>
+<span class="out">delivery 17: sent</span>
+
+<span class="cmd"><span class="prompt">$</span> lm notify replay 18</span>
+<span class="out">delivery 18: sent</span>
+
+<span class="cmd"><span class="prompt">$</span> lm notify replay 19</span>
+<span class="out">delivery 19: sent</span>
+
+<span class="cmd"><span class="prompt">$</span> lm notify replay 16</span>
+<span class="note">Error: API error 409: this mail was sent; it is not sent twice</span>
+
+<span class="cmd"><span class="prompt">$</span> lm notify deliveries</span>
+<span class="out">ID  RECIPIENT                        EVENT                            STATUS          ATTEMPTS  WHEN              ERROR
+11  qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  given up: send  3         2026-11-08 21:18  authentication refused (SMTP 535)
+10  qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  given up: send  3         2026-11-08 21:18  authentication refused (SMTP 535)
+9   qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  given up: send  3         2026-11-08 21:18  authentication refused (SMTP 535)
+7   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  given up: send  3         2026-11-08 21:13  authentication refused (SMTP 535)
+6   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  given up: send  3         2026-11-08 21:13  authentication refused (SMTP 535)
+5   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  given up: send  3         2026-11-08 21:13  authentication refused (SMTP 535)
+19  qualite-a@pharma-depot.example   decision.cold-room-excursion-a   sent            4         2026-11-08 21:56  
+18  qualite-a@pharma-depot.example   decision.cold-room-excursion-a   sent            4         2026-11-08 21:56  
+17  qualite-a@pharma-depot.example   decision.cold-room-excursion-a   sent            4         2026-11-08 21:56  
+16  qualite-a@pharma-depot.example   decision.cold-room-excursion-a   sent            1         2026-11-08 21:55  
+15  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            4         2026-11-08 21:20  
+14  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            4         2026-11-08 21:20  
+13  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            4         2026-11-08 21:20  
+12  qualite-m3@pharma-depot.example  decision.cold-room-excursion-m3  sent            1         2026-11-08 21:19  
+8   qualite-m2@pharma-depot.example  decision.cold-room-excursion-m2  sent            1         2026-11-08 21:17  
+4   qualite-m1@pharma-depot.example  decision.cold-room-excursion-m1  sent            1         2026-11-08 21:12  
+3   qualite@example.com              decision.trial-mail-excursion    sent            4         2026-11-08 17:15  
+2   qualite@example.com              decision.trial-mail-excursion    sent            4         2026-11-08 17:15  
+1   qualite@example.com              decision.trial-mail-excursion    sent            1         2026-11-08 17:08  </span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="fix-result" aria-labelledby="fix-result-tab" tabindex="0" hidden><dl class="facts"><dt>operator</dt><dd>$ docker compose up -d hub   # LUMNIK_SMTP_HOST=relay-a LUMNIK_SMTP_USERNAME=alertes-qualite LUMNIK_SMTP_PASSWORD=(the new one)</dd><dt>lm notify replay</dt><dd>delivery 17: sent</dd><dt>lm notify replay</dt><dd>delivery 18: sent</dd><dt>lm notify replay</dt><dd>delivery 19: sent</dd><dt>lm notify replay</dt><dd>Error: API error 409: this mail was sent; it is not sent twice</dd><dt>lm notify deliveries</dt><dd>19 · sent · 4 attempts</dd><dt>lm notify deliveries</dt><dd>18 · sent · 4 attempts</dd><dt>lm notify deliveries</dt><dd>17 · sent · 4 attempts</dd><dt>lm notify deliveries</dt><dd>16 · sent · 1 attempt</dd><dt>relay</dt><dd>qualite-a@pharma-depot.example  Chambre froide CF-1: 8.4 °C à 2026-11-10 02:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloque…</dd><dt>relay</dt><dd>qualite-a@pharma-depot.example  Chambre froide CF-1: 9.7 °C à 2026-11-10 03:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloque…</dd><dt>relay</dt><dd>qualite-a@pharma-depot.example  Chambre froide CF-1: 10.3 °C à 2026-11-10 04:00 (sonde PT100-0412) — hors de la plage 2-8 °C, bloqu…</dd></dl><p class="sources">evidence: replay.log, hub-monday.txt, deliveries-monday.txt, relay-inbox-monday.txt, relay-tuesday.txt, inbox-tuesday.txt, deliveries-tuesday.txt, webhook-received.txt, hub-fixed.txt, replay.txt, replay-sent.txt, deliveries-fixed.txt, relay-inbox-fixed.txt · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>The replayed mail arrives after the outage: here, hours after the excursion. The hub does not block the lots; it tells.</li><li>A changed password gives up every mail: one event per mail, not one per outage.</li><li>The webhook carries the mail&#x27;s ID and the cause, never the alert&#x27;s text: the on-call desk knows a mail must be sent again, not what it said.</li><li>Mails are sent again one by one.</li><li>Passwords change in the hub&#x27;s configuration, with a restart.</li><li>Readings, rooms and probes synthetic; the relay is a local Mailpit.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Cold rooms · 2-8 °C</p><h2>An excursion is mailed.</h2><p class="brief-lead">To the quality lead, through the company&#x27;s SMTP relay.</p><p class="brief-note">temp_c&gt;8</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>The relay changes its password. The hub keeps the old one.</h2><ul class="brief-list tone-cyan"><li>Three alerts of CF-1 do not leave.</li><li>The quality lead receives nothing, and does not know there was something to receive.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The relay and the data logger stay as they are.</h2><ul class="brief-list tone-green"><li>The export is the data logger&#x27;s own.</li><li>The hub logs in to the relay like any other software.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>lm integration add relay-watch \
+  --events notification.mail.given-up</code></pre><h2>A given-up mail tells the on-call desk.</h2><ul class="brief-list tone-green"><li>Then the new password.</li><li>And lm notify replay for each mail.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What was fixed</p><h2>A refused password and a dead relay read the same (#1905).</h2><ul class="brief-list tone-green"><li>A given-up mail is an event (#1906).</li><li>The mail&#x27;s subject is the decision&#x27;s sentence (#1910).</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
