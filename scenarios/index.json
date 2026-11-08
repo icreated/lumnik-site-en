@@ -21,6 +21,27 @@
       "evidenceDigest": "sha256:981df85c035ea063812782f3883ea735606a6b50701634a41562310dbf149729"
     },
     {
+      "slug": "ai-switched-off",
+      "title": "The AI switched off for an audit: switched off is not absent",
+      "goal": "Switch the hub's AI off without changing edition or losing data, keep reading the sources, and know what to redo when it is switched back on.",
+      "lede": "A hospital pharmacy sends the hub its dispensing orders every day. The data protection officer asks for the AI to be switched off for the length of an audit.\n- the operator sets LUMNIK_AI_ENABLED=false and restarts the hub: rag and llm stay installed, said INACTIVE;\n- ask, search and chat answer the same sentence; the corpus is kept, and the hub says so;\n- the files are still read; a lifecycle declared during the audit is not indexed, and the apply says so.",
+      "tags": {
+        "domain": [
+          "Hospital pharmacy",
+          "Compliance",
+          "AI",
+          "Operations"
+        ],
+        "kinds": [
+          "Connector",
+          "Workflow"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-08",
+      "evidenceDigest": "sha256:8844614cf57d6d22a5c1a93652d3511566228fb5c28d7d6233b40593d2dc6ba4"
+    },
+    {
       "slug": "app-inventory-urls",
       "title": "An application inventory with hand-typed URLs",
       "goal": "Split each URL into server, port and environment, to know what runs on a server and what is still in staging.",
