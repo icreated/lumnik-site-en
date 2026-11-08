@@ -751,6 +751,26 @@
       "evidenceDigest": "sha256:fc46f83260ffc482e80ae0b19ad93aac0d6fafd4b69a18994ea87b6a0e1da7d7"
     },
     {
+      "slug": "mail-relay-password-changed",
+      "title": "The SMTP relay changed its password: three cold-room alerts do not leave, the on-call desk knows",
+      "goal": "Mail a cold room's temperature excursions, know the same day that a mail did not leave and why, then send it again without a duplicate.",
+      "lede": "A pharmaceutical wholesaler stores its medicines between 2 and 8 °C in two cold rooms. The data logger exports its readings once a day; an excursion is mailed to the quality lead, through the company's SMTP relay.\n- on Monday, the alert of CF-2 leaves;\n- overnight, IT changes the sending account's password, the hub keeps the old one;\n- on Tuesday, the compressor of CF-1 stops: three mails given up, the on-call desk told by a webhook, the ERROR column says what to fix.",
+      "tags": {
+        "domain": [
+          "Pharmacy",
+          "Cold chain",
+          "Mail"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-08",
+      "evidenceDigest": "sha256:b2a7b1957e5154ba20f0c57d83199c45c5113241b54008421ed33974ec7b9a3a"
+    },
+    {
       "slug": "marketplace-order-items",
       "title": "One row per item to pick with model colour and size",
       "goal": "Turn a marketplace export into one row per item, to pick the stock.",
