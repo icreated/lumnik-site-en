@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The AI switched off for an audit: switched off is not absent — lumnik</title>
+<meta name="description" content="Switch the hub&#x27;s AI off without changing edition or losing data, keep reading the sources, and know what to redo when it is switched back on. A hospital pharmacy sends the hub its dispensing orders every day. The data protection officer asks for the AI to be switched off for the length of an audit. The operator sets LUMNIK_AI_ENABLED=false and restarts the hub: rag and llm stay installed, said INACTIVE; Ask, search and chat answer the same sentence; the corpus is kept, and the hub says so; The files are still read; a lifecycle declared during the audit is not indexed, and the apply says so.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/ai-switched-off/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/ai-switched-off/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>The AI switched off for an audit: switched off is not absent</h1>
+    <p class="goal"><strong>Goal</strong> Switch the hub&#x27;s AI off without changing edition or losing data, keep reading the sources, and know what to redo when it is switched back on.</p>
+    <p class="lede">A hospital pharmacy sends the hub its dispensing orders every day. The data protection officer asks for the AI to be switched off for the length of an audit.</p><ul class="lede-list"><li>the operator sets LUMNIK_AI_ENABLED=false and restarts the hub: rag and llm stay installed, said INACTIVE;</li><li>ask, search and chat answer the same sentence; the corpus is kept, and the hub says so;</li><li>the files are still read; a lifecycle declared during the audit is not indexed, and the apply says so.</li></ul>
+    <ul class="tags"><li class="tag edition edition-pro"><a href="https://docs.lumnik.io/editions/">lumnik Pro</a></li><li class="tag">Hospital pharmacy</li><li class="tag">Compliance</li><li class="tag">AI</li><li class="tag">Operations</li><li class="tag kind">Connector</li><li class="tag kind">Workflow</li></ul>
+  </section>
+  <div role="tablist" class="page-tabs" aria-label="The AI switched off for an audit: switched off is not absent">
+    <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
+    <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
+  </div>
+  <div role="tabpanel" class="page-panel" id="walkthrough" aria-labelledby="walkthrough-tab">
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-on" data-step="on" aria-current="step"><span class="num">1 · On</span><span class="sub">before the audit</span></a><a href="#step-off" data-step="off"><span class="num">2 · Off</span><span class="sub">the audit</span></a><a href="#step-audit" data-step="audit"><span class="num">3 · During</span><span class="sub">reading goes on</span></a><a href="#step-back" data-step="back"><span class="num">4 · Back on</span><span class="sub">after the audit</span></a></nav>
+  <section class="step" id="step-on" aria-labelledby="on-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="on-title">The first day, the AI on</h2>
+      <p>The dispensing software drops one file a day.</p><ul class="prose-list"><li>a csv-file connector reads dispensing-*.csv, one file after the other</li><li>six orders: delivered, prepared, one cancelled</li><li>rag and llm are ACTIVE; the tenant&#x27;s corpus counts its chunks</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Two counters</strong><p>chunks: what this hub indexed since it started. stored_chunks: what the store keeps for you.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The starting point: a pharmacy read, an AI in service.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="On"><button type="button" role="tab" id="on-source-tab" data-view="source" aria-controls="on-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="on-manifest-tab" data-view="manifest" aria-controls="on-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="on-commands-tab" data-view="commands" aria-controls="on-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="on-result-tab" data-view="result" aria-controls="on-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="on-source" aria-labelledby="on-source-tab" tabindex="0"><figure class="source"><figcaption>dispensing-20261107.csv</figcaption><pre class="code">order_no;ward;item;status;qty
+PH-26-0411;Cardiologie;Amiodarone 200 mg;DELIVREE;60
+PH-26-0412;Pédiatrie;Paracétamol sirop 2,4 %;DELIVREE;4
+PH-26-0413;Réanimation;Noradrénaline 8 mg/4 ml;PREPAREE;20
+PH-26-0414;Oncologie;Ondansétron 8 mg;DELIVREE;30
+PH-26-0415;Gériatrie;Enoxaparine 4000 UI;ANNULEE;14
+PH-26-0416;Chirurgie;Céfazoline 2 g;PREPAREE;12</pre></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="on-manifest" aria-labelledby="on-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-dispensing.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-aioff-dispensing-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [pharmacy-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/ai-switched-off/a/dispensing-*.csv   <span class="comment"># one file per day from the dispensing system</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">    <span class="key">encoding</span>: UTF-8</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line">  <span class="key">after_process</span>: none</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="on-commands" aria-labelledby="on-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f manifests/10-dispensing.yaml</span>
+<span class="out">Applied connector &quot;scenario-aioff-dispensing-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-aioff-dispensing-a</span>
+<span class="out">run scheduled: c485dde0-c283-4f18-b718-4ca98e597834</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get c485dde0-c283-4f18-b718-4ca98e597834</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+c485dde0  scenario-aioff-dispensing-a  default   Completed  6   6    0        0             2026-11-08 14:13  2026-11-08 14:13  yes</span>
+
+<span class="cmd"><span class="prompt">$</span> lm module list</span>
+<span class="out">NAME       VERSION  SCHEMA              STATUS  REASON
+core       0.1.0    Platform            ACTIVE  
+identity   0.1.0    Identity &amp; Tenancy  ACTIVE  
+llm        0.1.0    Model provider      ACTIVE  
+rag        0.1.0    Platform RAG        ACTIVE  
+search_pg  0.1.0    PostgreSQL search   ACTIVE  </span>
+
+<span class="cmd"><span class="prompt">$</span> lm rag status</span>
+<span class="out">indexed: true
+chunks: 9
+indexed_at: 2026-11-08T13:12:45.463345716Z
+provider: ollama-nomic
+embedding_model: nomic-embed-text
+stored_chunks: 27</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="on-result" aria-labelledby="on-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-aioff-dispensing-a/default</dt><dd>Completed · IN 6 · OUT 6 · SKIPPED 0</dd><dt>lm module list</dt><dd>llm        0.1.0    Model provider      ACTIVE</dd><dt>lm module list</dt><dd>rag        0.1.0    Platform RAG        ACTIVE</dd><dt>lm rag status</dt><dd>indexed: true</dd><dt>lm rag status</dt><dd>stored_chunks: 27</dd></dl><p class="sources">evidence: replay.log, modules-on.txt, rag-on.txt, restart-off.txt, modules-off.txt, refused-off.txt, rag-off.txt, workflow-off.txt, chunks-off.txt, dispensing.txt, restart-on.txt, modules-back.txt, chunks-back.txt, workflow-on.txt, search-back.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-off" aria-labelledby="off-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="off-title">LUMNIK_AI_ENABLED=false, the hub restarted</h2>
+      <p>The operator changes one setting and restarts the hub, nothing else.</p><ul class="prose-list"><li>lm module list: rag and llm INACTIVE, reason disabled:lumnik.ai.enabled</li><li>lm ask, lm rag search, lm scopes: the same sentence, saying what is off and who turns it back on</li><li>lm rag status: ai: switched off, chunks: 0, and stored_chunks: the corpus kept</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Inactive is not absent</strong><p>An Open edition does not have these modules: they are not listed. Here they are installed, switched off, and say so.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>An AI switched off shows as switched off, not as a failure or an empty corpus.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Off"><button type="button" role="tab" id="off-commands-tab" data-view="commands" aria-controls="off-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="off-result-tab" data-view="result" aria-controls="off-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="off-commands" aria-labelledby="off-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm module list</span>
+<span class="out">NAME       VERSION  SCHEMA              STATUS    REASON
+core       0.1.0    Platform            ACTIVE    
+identity   0.1.0    Identity &amp; Tenancy  ACTIVE    
+llm        0.1.0    Model provider      INACTIVE  disabled:lumnik.ai.enabled
+rag        0.1.0    Platform RAG        INACTIVE  disabled:lumnik.ai.enabled
+search_pg  0.1.0    PostgreSQL search   ACTIVE    </span>
+
+<span class="cmd"><span class="prompt">$</span> lm ask --scope pharmacy-a &quot;combien de commandes délivrées hier ?&quot;</span>
+<span class="note">Error: this hub has the AI switched off (LUMNIK_AI_ENABLED=false): lm module list shows rag INACTIVE; the operator turns it back on</span>
+
+<span class="cmd"><span class="prompt">$</span> lm rag search &quot;noradrénaline&quot;</span>
+<span class="note">Error: this hub has the AI switched off (LUMNIK_AI_ENABLED=false): lm module list shows rag INACTIVE; the operator turns it back on</span>
+
+<span class="cmd"><span class="prompt">$</span> lm scopes</span>
+<span class="note">Error: this hub has the AI switched off (LUMNIK_AI_ENABLED=false): lm module list shows rag INACTIVE; the operator turns it back on</span>
+
+<span class="cmd"><span class="prompt">$</span> lm rag status</span>
+<span class="out">ai: switched off (LUMNIK_AI_ENABLED=false)
+indexed: false
+chunks: 0
+indexed_at: -
+provider: none
+embedding_model: none
+stored_chunks: 27</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="off-result" aria-labelledby="off-result-tab" tabindex="0" hidden><dl class="facts"><dt>operator</dt><dd>$ LUMNIK_AI_ENABLED=false docker compose up -d hub   # hub recreated, healthy</dd><dt>lm module list</dt><dd>llm        0.1.0    Model provider      INACTIVE  disabled:lumnik.ai.enabled</dd><dt>lm module list</dt><dd>rag        0.1.0    Platform RAG        INACTIVE  disabled:lumnik.ai.enabled</dd><dt>lm ask · lm rag search · lm scopes</dt><dd>this hub has the AI switched off (LUMNIK_AI_ENABLED=false): lm module list shows rag INACTIVE; the operator turns it back on</dd><dt>lm rag status</dt><dd>ai: switched off (LUMNIK_AI_ENABLED=false)</dd><dt>lm rag status</dt><dd>chunks: 0</dd><dt>lm rag status</dt><dd>stored_chunks: 27</dd></dl><p class="sources">evidence: replay.log, modules-on.txt, rag-on.txt, restart-off.txt, modules-off.txt, refused-off.txt, rag-off.txt, workflow-off.txt, chunks-off.txt, dispensing.txt, restart-on.txt, modules-back.txt, chunks-back.txt, workflow-on.txt, search-back.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-audit" aria-labelledby="audit-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="audit-title">The second day read; a lifecycle declared, not indexed</h2>
+      <p>The audit does not stop the pharmacy.</p><ul class="prose-list"><li>the next day&#x27;s file is read: three orders, PH-26-0413 now delivered</li><li>a Workflow declares the lifecycle: entered, prepared, delivered, cancelled</li><li>the apply checks it against the data and warns: not indexed for chat</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The check happens</strong><p>&quot;the data matches the declaration&quot;: the statuses read follow the declared lifecycle. Only the indexing for chat waits.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Without the AI, the hub reads, checks, and says what it did not do.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="During"><button type="button" role="tab" id="audit-source-tab" data-view="source" aria-controls="audit-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="audit-manifest-tab" data-view="manifest" aria-controls="audit-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="audit-commands-tab" data-view="commands" aria-controls="audit-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="audit-result-tab" data-view="result" aria-controls="audit-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="audit-source" aria-labelledby="audit-source-tab" tabindex="0"><figure class="source"><figcaption>dispensing-20261108.csv</figcaption><pre class="code">order_no;ward;item;status;qty
+PH-26-0417;Cardiologie;Furosémide 40 mg;SAISIE;28
+PH-26-0418;Réanimation;Propofol 1 %;PREPAREE;10
+PH-26-0413;Réanimation;Noradrénaline 8 mg/4 ml;DELIVREE;20</pre></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="audit-manifest" aria-labelledby="audit-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/20-dispensing-lifecycle.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Workflow</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-aioff-dispensing-a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: pharmacy-a</span><span class="line">  <span class="key">provenance</span>: declared</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">table</span>: connector.t_scenario_aioff_dispensing_a</span><span class="line">    <span class="key">column</span>: status</span><span class="line">  <span class="key">states</span>:</span><span class="line">    - { code: SAISIE, label: <span class="str">&quot;Saisie par le service&quot;</span>, initial: true }</span><span class="line">    - { code: PREPAREE, label: <span class="str">&quot;Préparée par la pharmacie&quot;</span> }</span><span class="line">    - { code: DELIVREE, label: <span class="str">&quot;Délivrée au service&quot;</span>, terminal: true }</span><span class="line">    - { code: ANNULEE, label: <span class="str">&quot;Annulée&quot;</span>, terminal: true }</span><span class="line">  <span class="key">transitions</span>:</span><span class="line">    - { from: [SAISIE], to: PREPAREE }</span><span class="line">    - { from: [PREPAREE], to: DELIVREE }</span><span class="line">    - { from: [SAISIE, PREPAREE], to: ANNULEE }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="audit-commands" aria-labelledby="audit-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-aioff-dispensing-a</span>
+<span class="out">run scheduled: 7581fac3-b112-4484-8ba9-0bc941f57178</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 7581fac3-b112-4484-8ba9-0bc941f57178</span>
+<span class="out">ID        CONNECTOR                    ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+7581fac3  scenario-aioff-dispensing-a  default   Completed  3   3    0        0             2026-11-08 14:13  2026-11-08 14:13  yes</span>
+
+<span class="cmd"><span class="prompt">$</span> lm workflow apply -f manifests/20-dispensing-lifecycle.yaml</span>
+<span class="out">Applied workflow &quot;scenario-aioff-dispensing-a&quot; → connector.t_scenario_aioff_dispensing_a.status, scope pharmacy-a
+  the data matches the declaration</span>
+<span class="note">warning: not indexed for chat: the AI is switched off (LUMNIK_AI_ENABLED=false); apply it again once it is on</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="audit-result" aria-labelledby="audit-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-aioff-dispensing-a/default</dt><dd>Completed · IN 3 · OUT 3 · SKIPPED 0</dd><dt>lm workflow apply</dt><dd>warning: not indexed for chat: the AI is switched off (LUMNIK_AI_ENABLED=false); apply it again once it is on</dd><dt>lm workflow apply</dt><dd>Applied workflow &quot;scenario-aioff-dispensing-a&quot; → connector.t_scenario_aioff_dispensing_a.status, scope pharmacy-a</dd><dt>lm workflow apply</dt><dd>the data matches the declaration</dd><dt>hub</dt><dd>chunks of pharmacy-a: 0</dd></dl><p class="sources">evidence: replay.log, modules-on.txt, rag-on.txt, restart-off.txt, modules-off.txt, refused-off.txt, rag-off.txt, workflow-off.txt, chunks-off.txt, dispensing.txt, restart-on.txt, modules-back.txt, chunks-back.txt, workflow-on.txt, search-back.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-back" aria-labelledby="back-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="back-title">The AI back on: the corpus is there, the lifecycle once applied again</h2>
+      <p>The audit over, the operator sets true and restarts.</p><ul class="prose-list"><li>rag and llm ACTIVE again</li><li>the lifecycle declared during the audit still has no chunk</li><li>applied again, it is indexed: lm rag search finds it first</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>What to redo</strong><p>What the apply flagged during the audit, and nothing else: the kept data comes back as it was.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Switching back on loses nothing and guesses nothing: what is missing was said when it went missing.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Back on"><button type="button" role="tab" id="back-commands-tab" data-view="commands" aria-controls="back-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="back-result-tab" data-view="result" aria-controls="back-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="back-commands" aria-labelledby="back-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm module list</span>
+<span class="out">NAME       VERSION  SCHEMA              STATUS  REASON
+core       0.1.0    Platform            ACTIVE  
+identity   0.1.0    Identity &amp; Tenancy  ACTIVE  
+llm        0.1.0    Model provider      ACTIVE  
+rag        0.1.0    Platform RAG        ACTIVE  
+search_pg  0.1.0    PostgreSQL search   ACTIVE  </span>
+
+<span class="cmd"><span class="prompt">$</span> lm workflow apply -f manifests/20-dispensing-lifecycle.yaml</span>
+<span class="out">Applied workflow &quot;scenario-aioff-dispensing-a&quot; → connector.t_scenario_aioff_dispensing_a.status, scope pharmacy-a
+  the data matches the declaration</span>
+
+<span class="cmd"><span class="prompt">$</span> lm rag search &quot;cycle de vie des commandes de la pharmacie, préparée, délivrée&quot;</span>
+<span class="out">SCORE  SOURCE                                SNIPPET
+0.698  workflow/scenario-aioff-dispensing-a  Workflow scenario-aioff-dispensing-a — cycle de vie de la colonne status de la t…
+0.667  workflow/order-line-cycle-f           Workflow order-line-cycle-f — cycle de vie de la colonne stage de la table conne…
+0.656  workflow/acme-order-lifecycle         Workflow acme-order-lifecycle — cycle de vie de la colonne status de la table co…
+0.652  workflow/order-lifecycle              Workflow order-lifecycle — cycle de vie de la colonne status de la table connect…
+0.647  workflow/scenario-order-sleep-d       Workflow scenario-order-sleep-d — cycle de vie de la colonne status de la table …</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="back-result" aria-labelledby="back-result-tab" tabindex="0" hidden><dl class="facts"><dt>operator</dt><dd>$ LUMNIK_AI_ENABLED=true docker compose up -d hub   # hub recreated, healthy</dd><dt>lm module list</dt><dd>llm        0.1.0    Model provider      ACTIVE</dd><dt>lm module list</dt><dd>rag        0.1.0    Platform RAG        ACTIVE</dd><dt>hub</dt><dd>chunks of pharmacy-a before the apply: 0</dd><dt>hub</dt><dd>chunks of pharmacy-a after the apply: 1</dd><dt>lm workflow apply</dt><dd>Applied workflow &quot;scenario-aioff-dispensing-a&quot; → connector.t_scenario_aioff_dispensing_a.status, scope pharmacy-a</dd><dt>lm workflow apply</dt><dd>the data matches the declaration</dd><dt>lm rag search</dt><dd>0.698  workflow/scenario-aioff-dispensing-a  Workflow scenario-aioff-dispensing-a — cycle de vie de la colonne status de la t…</dd></dl><p class="sources">evidence: replay.log, modules-on.txt, rag-on.txt, restart-off.txt, modules-off.txt, refused-off.txt, rag-off.txt, workflow-off.txt, chunks-off.txt, dispensing.txt, restart-on.txt, modules-back.txt, chunks-back.txt, workflow-on.txt, search-back.txt · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>The setting applies to the whole hub: the AI cannot be switched off for one scope only.</li><li>The hub must be restarted, once to switch off, once to switch back on.</li><li>During the audit nothing is indexed for chat: not a Workflow, not a connector described again, not a file loaded by lm csv ingest. They must be applied again.</li><li>lm rag reindex rebuilds only the platform corpus, not the scopes&#x27;.</li><li>A search by a user without a scope reads every lifecycle of the tenant, not only the pharmacy&#x27;s.</li><li>Orders, wards and quantities synthetic.</li></ul></section>
+  </div>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Hospital pharmacy · audit</p><h2>The DPO asks for the AI to be switched off.</h2><p class="brief-lead">For the length of an audit. Without changing edition, without losing data.</p><p class="brief-note">LUMNIK_AI_ENABLED=false</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>Switched off looked like absent.</h2><ul class="brief-list tone-cyan"><li>rag status said chunks: 0, provider: none.</li><li>A lifecycle declared during the audit stayed out of chat, without a word.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The same image, the same data.</h2><ul class="brief-list tone-green"><li>The jars stay, the rag schema stays migrated.</li><li>The day&#x27;s files are read as before.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>LUMNIK_AI_ENABLED=false</code></pre><h2>One setting, one restart.</h2><ul class="brief-list tone-green"><li>Then true when the audit ends.</li><li>And the lifecycle applied a second time.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What was fixed</p><h2>rag status says ai: switched off and what it keeps (#1895).</h2><ul class="brief-list tone-green"><li>The workflow apply warns it does not index (#1896).</li><li>One sentence for ask, search and chat (#1894).</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <section class="try"><p>This scenario needs lumnik Pro.</p><a class="try-button" href="../../editions.html">See the editions →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
