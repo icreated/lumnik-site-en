@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Every line of a SAP ORDERS05 IDoc gets its customer order back — lumnik</title>
-<meta name="description" content="Read a SAP customer&#x27;s order IDocs, one row per order line, with no middleware. A customer&#x27;s SAP writes its orders as ORDERS05 IDocs, in a flat file. The order sits at the top of the IDoc, the article further down. Sixteen records cut at their position; Each line with its order, quantity and unit; An IDoc with no order does not take the previous one&#x27;s.">
+<title>SAP ORDERS05: an IDoc where the article does not carry its order — lumnik</title>
+<meta name="description" content="Read each order line of a SAP IDoc with its article, its quantity and its order number, without taking the previous IDoc&#x27;s. A customer&#x27;s SAP writes its orders as ORDERS05 IDocs, in a flat file. The order sits at the top of the IDoc, the article further down. Sixteen records cut at their position; Each line with its order, quantity and unit; An IDoc with no order does not take the previous one&#x27;s.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/sap-idoc-orders/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>Every line of a SAP ORDERS05 IDoc gets its customer order back</h1>
-    <p class="goal"><strong>Goal</strong> Read a SAP customer&#x27;s order IDocs, one row per order line, with no middleware.</p>
+    <h1>SAP ORDERS05: an IDoc where the article does not carry its order</h1>
+    <p class="goal"><strong>Goal</strong> Read each order line of a SAP IDoc with its article, its quantity and its order number, without taking the previous IDoc&#x27;s.</p>
     <p class="lede">A customer&#x27;s SAP writes its orders as ORDERS05 IDocs, in a flat file. The order sits at the top of the IDoc, the article further down.</p><ul class="lede-list"><li>sixteen records cut at their position;</li><li>each line with its order, quantity and unit;</li><li>an IDoc with no order does not take the previous one&#x27;s.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Order desk</li><li class="tag">EDI</li><li class="tag">SAP</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="Every line of a SAP ORDERS05 IDoc gets its customer order back">
+  <div role="tablist" class="page-tabs" aria-label="SAP ORDERS05: an IDoc where the article does not carry its order">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>

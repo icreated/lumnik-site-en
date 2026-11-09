@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HPLC report: the impurity over its limit, read from the instrument&#x27;s export — lumnik</title>
-<meta name="description" content="Read the injection reports an HPLC exports, units glued and decimal commas, and be told when an impurity exceeds its specification. An HPLC&#x27;s acquisition software exports one report per injection: UTF-16, a header block, then the peaks. Csv-file reads it line by line and carries the sample onto each peak; Regex-extract cuts each value from its unit: 0,21% becomes 0.21 and %; An impurity above 0.15 %: one decision.">
+<title>HPLC: an impurity over its limit in the injection report — lumnik</title>
+<meta name="description" content="Read the injection reports an HPLC exports, with their glued units and decimal commas, and be told when an impurity exceeds its specification. An HPLC&#x27;s acquisition software exports one report per injection: UTF-16, a header block, then the peaks. Csv-file reads it line by line and carries the sample onto each peak; Regex-extract cuts each value from its unit: 0,21% becomes 0.21 and %; An impurity above 0.15 %: one decision.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/chromatograph-report/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>HPLC report: the impurity over its limit, read from the instrument&#x27;s export</h1>
-    <p class="goal"><strong>Goal</strong> Read the injection reports an HPLC exports, units glued and decimal commas, and be told when an impurity exceeds its specification.</p>
+    <h1>HPLC: an impurity over its limit in the injection report</h1>
+    <p class="goal"><strong>Goal</strong> Read the injection reports an HPLC exports, with their glued units and decimal commas, and be told when an impurity exceeds its specification.</p>
     <p class="lede">An HPLC&#x27;s acquisition software exports one report per injection: UTF-16, a header block, then the peaks.</p><ul class="lede-list"><li>csv-file reads it line by line and carries the sample onto each peak;</li><li>regex-extract cuts each value from its unit: 0,21% becomes 0.21 and %;</li><li>an impurity above 0.15 %: one decision.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Laboratory</li><li class="tag">HPLC</li><li class="tag">Pharmacy</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="HPLC report: the impurity over its limit, read from the instrument&#x27;s export">
+  <div role="tablist" class="page-tabs" aria-label="HPLC: an impurity over its limit in the injection report">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>

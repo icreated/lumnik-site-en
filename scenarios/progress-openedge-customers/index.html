@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Progress OpenEdge: the 1999 order that must not become 2099 — lumnik</title>
-<meta name="description" content="Read a Progress ERP&#x27;s EXPORT files, two-digit years included, and be told when a dormant customer is reactivated. A Progress OpenEdge ERP exports its Customer table with ABL&#x27;s EXPORT: a .d file, 40 customers. Spaces, quoted strings, ? for unknown, yes/no, ISO-8859-1; MM/DD/YY: a two-digit year must say its century, or validate refuses; The reactivation campaign: two customers with no order since 1999 and 2003, two decisions.">
+<title>OpenEdge: the 1999 order that must not become 2099 — lumnik</title>
+<meta name="description" content="Read an OpenEdge ERP&#x27;s customer export with every year in its century, and be told when a dormant customer is reactivated, to check its credit before the first delivery. A Progress OpenEdge ERP exports its Customer table with ABL&#x27;s EXPORT: a .d file, 40 customers. Spaces, quoted strings, ? for unknown, yes/no, ISO-8859-1; MM/DD/YY: a two-digit year must say its century, or validate refuses; The reactivation campaign: two customers with no order since 1999 and 2003, two decisions.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/progress-openedge-customers/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>Progress OpenEdge: the 1999 order that must not become 2099</h1>
-    <p class="goal"><strong>Goal</strong> Read a Progress ERP&#x27;s EXPORT files, two-digit years included, and be told when a dormant customer is reactivated.</p>
+    <h1>OpenEdge: the 1999 order that must not become 2099</h1>
+    <p class="goal"><strong>Goal</strong> Read an OpenEdge ERP&#x27;s customer export with every year in its century, and be told when a dormant customer is reactivated, to check its credit before the first delivery.</p>
     <p class="lede">A Progress OpenEdge ERP exports its Customer table with ABL&#x27;s EXPORT: a .d file, 40 customers.</p><ul class="lede-list"><li>spaces, quoted strings, ? for unknown, yes/no, ISO-8859-1;</li><li>MM/DD/YY: a two-digit year must say its century, or validate refuses;</li><li>the reactivation campaign: two customers with no order since 1999 and 2003, two decisions.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Sales</li><li class="tag">Progress</li><li class="tag">OpenEdge</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="Progress OpenEdge: the 1999 order that must not become 2099">
+  <div role="tablist" class="page-tabs" aria-label="OpenEdge: the 1999 order that must not become 2099">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>
@@ -35,7 +35,7 @@
       <h2 id="lab-title">The Customer table, as ABL exports it</h2>
       <p>FOR EACH Customer: EXPORT Customer. One customer per line.</p><ul class="prose-list"><li>one space between fields, strings in quotes, an inner quote doubled</li><li>? for the unknown value</li><li>dates MM/DD/YY, logicals yes/no, ISO-8859-1</li></ul>
     </div>
-    <ol class="points"><li><span class="n">1</span><div><strong>-yy 1950</strong><p>Progress reads 99 as 1999 and 26 as 2026: its default century window starts in 1950.</p></div></li></ol>
+    <ol class="points"><li><span class="n">1</span><div><strong>-yy 1950</strong><p>OpenEdge reads 99 as 1999 and 26 as 2026: its default century window starts in 1950.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>The ERP&#x27;s own export is the source, as it comes.</p></div>
   </aside>
   <div class="views">
@@ -73,10 +73,10 @@ Fix errors above before running &#x27;lm apply -f manifests/09-customers-draft.y
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="read-title">40 customers, every year in its century</h2>
-      <p>csv-file reads the .d file as a delimited file.</p><ul class="prose-list"><li>delimiter: a space, the quotes kept as quotes</li><li>null_values: [&quot;?&quot;]</li><li>century-from: 1950, Progress&#x27;s own window</li></ul>
+      <p>csv-file reads the .d file as a delimited file.</p><ul class="prose-list"><li>delimiter: a space, the quotes kept as quotes</li><li>null_values: [&quot;?&quot;]</li><li>century-from: 1950, OpenEdge&#x27;s own window</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>Quotes and accents</strong><p>Atelier &quot;&quot;Le Piston&quot;&quot; becomes Atelier &quot;Le Piston&quot;; Mâcon, Hébert, Séverin are intact.</p></div></li></ol>
-    <div class="proves"><h3>What this step proves</h3><p>A Progress export is read without a line of 4GL.</p></div>
+    <div class="proves"><h3>What this step proves</h3><p>An OpenEdge export is read without a line of 4GL.</p></div>
   </aside>
   <div class="views">
     <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="read-manifest-tab" data-view="manifest" aria-controls="read-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="read-commands-tab" data-view="commands" aria-controls="read-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="read-result-tab" data-view="result" aria-controls="read-result" aria-selected="false" tabindex="-1">Result</button></div>
@@ -133,8 +133,8 @@ e1abff2f  scenario-progress-a  default   Completed  40  40   0        0         
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>The rule&#x27;s date is written in the manifest: &quot;a year&quot; is not computed from today.</li><li>Each day&#x27;s export is kept: the table holds one row per customer per export.</li><li>An array field (EXTENT) is exported as several fields: each needs its own column name.</li><li>Synthetic customers, dates and balances.</li></ul></section>
   </div>
-  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Sales · Progress</p><h2>The customers live in a Progress ERP.</h2><p class="brief-lead">Its export writes years on two digits.</p><p class="brief-note">03/14/99</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>98 used to become 2098.</h2><ul class="brief-list tone-cyan"><li>Silently, without a cell error.</li><li>A 1999 order was never &quot;over a year old&quot;.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The ERP stays as it is.</h2><ul class="brief-list tone-green"><li>Its EXPORT, as ABL writes it.</li><li>No conversion, no 4GL code.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>formats: [&quot;MM/dd/yy&quot;]
-century-from: 1950</code></pre><h2>The window Progress itself uses.</h2><ul class="brief-list tone-green"><li>Without it, validate refuses.</li><li>With it, 99 is 1999.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What was fixed</p><h2>A two-digit year says its century (#1857).</h2><ul class="brief-list tone-green"><li>Two reactivated customers: two decisions.</li><li>Before, they read 2099 and 2003.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Sales · OpenEdge</p><h2>The customers live in an OpenEdge ERP.</h2><p class="brief-lead">Its export writes years on two digits.</p><p class="brief-note">03/14/99</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>98 used to become 2098.</h2><ul class="brief-list tone-cyan"><li>Silently, without a cell error.</li><li>A 1999 order was never &quot;over a year old&quot;.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The ERP stays as it is.</h2><ul class="brief-list tone-green"><li>Its EXPORT, as ABL writes it.</li><li>No conversion, no 4GL code.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>formats: [&quot;MM/dd/yy&quot;]
+century-from: 1950</code></pre><h2>The window OpenEdge itself uses.</h2><ul class="brief-list tone-green"><li>Without it, validate refuses.</li><li>With it, 99 is 1999.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What was fixed</p><h2>A two-digit year says its century (#1857).</h2><ul class="brief-list tone-green"><li>Two reactivated customers: two decisions.</li><li>Before, they read 2099 and 2003.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
   <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>

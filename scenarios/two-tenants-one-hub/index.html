@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Two customers write to the same table and each reads only their own rows — lumnik</title>
-<meta name="description" content="Host two customers on one hub without either being able to read, count or open the other&#x27;s data. Two integrators of two customers apply the same files on the same hub: same connector, same entity, same table. Each loads their orders, under the same numbers. Each reads back 240 or 60 rows, never the other&#x27;s. The same question gives the same SQL and two answers. The other&#x27;s run answers 404.">
+<title>Two customers in the same table — lumnik</title>
+<meta name="description" content="Load two customers&#x27; orders into the same table, so that each reads and counts only its own. Two integrators of two customers apply the same files on the same hub: same connector, same entity, same table. Each loads their orders, under the same numbers. Each reads back 240 or 60 rows, never the other&#x27;s. The same question gives the same SQL and two answers. The other&#x27;s run answers 404.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/two-tenants-one-hub/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>Two customers write to the same table and each reads only their own rows</h1>
-    <p class="goal"><strong>Goal</strong> Host two customers on one hub without either being able to read, count or open the other&#x27;s data.</p>
+    <h1>Two customers in the same table</h1>
+    <p class="goal"><strong>Goal</strong> Load two customers&#x27; orders into the same table, so that each reads and counts only its own.</p>
     <p class="lede">Two integrators of two customers apply the same files on the same hub: same connector, same entity, same table. Each loads their orders, under the same numbers.</p><ul class="lede-list"><li>each reads back 240 or 60 rows, never the other&#x27;s</li><li>the same question gives the same SQL and two answers</li><li>the other&#x27;s run answers 404</li></ul>
     <ul class="tags"><li class="tag edition edition-pro"><a href="https://docs.lumnik.io/editions/">lumnik Pro</a></li><li class="tag">Security</li><li class="tag">Purchasing</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="Two customers write to the same table and each reads only their own rows">
+  <div role="tablist" class="page-tabs" aria-label="Two customers in the same table">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Scenario</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>

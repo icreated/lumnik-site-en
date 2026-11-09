@@ -3,25 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The SMTP relay changed its password: three cold-room alerts do not leave, the on-call desk knows — lumnik</title>
+<title>Cold-room alerts blocked by a changed SMTP password — lumnik</title>
 <meta name="description" content="Mail a cold room&#x27;s temperature excursions, know the same day that a mail did not leave and why, then send it again without a duplicate. A pharmaceutical wholesaler stores its medicines between 2 and 8 °C in two cold rooms. The data logger exports its readings once a day; an excursion is mailed to the quality lead, through the company&#x27;s SMTP relay. On Monday, the alert of CF-2 leaves; Overnight, IT changes the sending account&#x27;s password, the hub keeps the old one; On Tuesday, the compressor of CF-1 stops: three mails given up, the on-call desk told by a webhook, the ERROR column says what to fix.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
 <link rel="canonical" href="https://lumnik.io/scenarios/mail-relay-password-changed/">
+<link rel="alternate" hreflang="fr" href="https://lumnik.fr/scenarios/mail-relay-password-changed/">
 <link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/mail-relay-password-changed/">
+<link rel="alternate" hreflang="x-default" href="https://lumnik.io/scenarios/mail-relay-password-changed/">
 </head>
 <body>
 <header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
-<span class="meta"><a href="../">All scenarios</a></span></header>
+<span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/mail-relay-password-changed/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>The SMTP relay changed its password: three cold-room alerts do not leave, the on-call desk knows</h1>
+    <h1>Cold-room alerts blocked by a changed SMTP password</h1>
     <p class="goal"><strong>Goal</strong> Mail a cold room&#x27;s temperature excursions, know the same day that a mail did not leave and why, then send it again without a duplicate.</p>
     <p class="lede">A pharmaceutical wholesaler stores its medicines between 2 and 8 °C in two cold rooms. The data logger exports its readings once a day; an excursion is mailed to the quality lead, through the company&#x27;s SMTP relay.</p><ul class="lede-list"><li>on Monday, the alert of CF-2 leaves;</li><li>overnight, IT changes the sending account&#x27;s password, the hub keeps the old one;</li><li>on Tuesday, the compressor of CF-1 stops: three mails given up, the on-call desk told by a webhook, the ERROR column says what to fix.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Pharmacy</li><li class="tag">Cold chain</li><li class="tag">Mail</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="The SMTP relay changed its password: three cold-room alerts do not leave, the on-call desk knows">
+  <div role="tablist" class="page-tabs" aria-label="Cold-room alerts blocked by a changed SMTP password">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>

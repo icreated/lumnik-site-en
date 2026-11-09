@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>One row per item to pick with model colour and size — lumnik</title>
-<meta name="description" content="Turn a marketplace export into one row per item, to pick the stock. The marketplace export gives one row per order. The items are packed into one cell, and each reference packs model, colour and size. One row per item, even when two are identical; The reference cut into model, colour and size; A file whose column was renamed is refused.">
+<title>All the items of an order packed into one cell — lumnik</title>
+<meta name="description" content="Split a marketplace export into one row per item to pick, with model, colour and size, and refuse an export whose column was renamed. The marketplace export gives one row per order. The items are packed into one cell, and each reference packs model, colour and size. One row per item, even when two are identical; The reference cut into model, colour and size; A file whose column was renamed is refused.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/marketplace-order-items/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>One row per item to pick with model colour and size</h1>
-    <p class="goal"><strong>Goal</strong> Turn a marketplace export into one row per item, to pick the stock.</p>
+    <h1>All the items of an order packed into one cell</h1>
+    <p class="goal"><strong>Goal</strong> Split a marketplace export into one row per item to pick, with model, colour and size, and refuse an export whose column was renamed.</p>
     <p class="lede">The marketplace export gives one row per order. The items are packed into one cell, and each reference packs model, colour and size.</p><ul class="lede-list"><li>one row per item, even when two are identical;</li><li>the reference cut into model, colour and size;</li><li>a file whose column was renamed is refused.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Logistics</li><li class="tag">E-commerce</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="One row per item to pick with model colour and size">
+  <div role="tablist" class="page-tabs" aria-label="All the items of an order packed into one cell">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>
@@ -93,7 +93,7 @@ CMD-1006;Garnier;TSH-ROUGE-L|SWEAT-BLEU-MARINE-L</pre></figure></div><div role="
   <aside class="explain">
     <div class="explain-intro">
       <h2 id="read-title">One line per item to pick</h2>
-      <p>Eleven items for seven orders. CMD-1003 orders the same T-shirt twice: item_no makes two rows.</p><ul class="prose-list"><li>CASQ-NOIR: no size, the cell stays empty</li><li>BLEU-MARINE: the size becomes MARINE, counted</li></ul>
+      <p>Eleven items for six orders. CMD-1003 orders the same T-shirt twice: item_no makes two rows.</p><ul class="prose-list"><li>CASQ-NOIR: no size, the cell stays empty</li><li>BLEU-MARINE: the size becomes MARINE, counted</li></ul>
     </div>
     <ol class="points"><li><span class="n">1</span><div><strong>item_no</strong><p>The item&#x27;s rank in the order.</p></div></li></ol>
     <div class="proves"><h3>What this step proves</h3><p>Every ordered item is a line, even when two are identical.</p></div>
@@ -145,7 +145,7 @@ CMD-1006;Garnier;TSH-ROUGE-L|SWEAT-BLEU-MARINE-L</pre></figure></div><div role="
 </section>
   <section class="limits"><h2>Limits</h2><ul><li>A colour holding a dash, like BLEU-MARINE, shifts the size: split counts the cell but does not correct it.</li><li>OUT counts the orders written; the number of items is read in the table.</li><li>Two identical lines in the file itself land as one row.</li><li>Synthetic orders.</li></ul></section>
   </div>
-  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Logistics · marketplace</p><h2>Orders come from the marketplace.</h2><p class="brief-lead">Logistics wants one row per item.</p><p class="brief-note">Seven orders, eleven items</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>Everything is packed into one cell.</h2><ul class="brief-list tone-cyan"><li>Several items per order.</li><li>Model, colour, size in one reference.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The export stays as it is.</h2><ul class="brief-list tone-green"><li>The marketplace&#x27;s file.</li><li>No script beside it.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The trap</p><h2>Two identical T-shirts.</h2><ul class="brief-list tone-cyan"><li>Same order, same reference.</li><li>Without a rank, the table keeps one.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>split-row: { by: items, position: item_no }</code></pre><h2>One line.</h2><ul class="brief-list tone-green"><li>One item, one row, its rank.</li><li>A malformed reference is counted.</li><li>A 39-line scenario, two manifests.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The next day</p><h2>The column is renamed: refused.</h2><ul class="brief-list tone-cyan"><li>The run names the missing column.</li><li>Yesterday&#x27;s rows stay.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>A hyphenated colour shifts the size.</h2><ul class="brief-list tone-green"><li>BLEU-MARINE gives the size MARINE.</li><li>The cell is counted, not fixed.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
+  <article role="tabpanel" class="page-panel brief" id="brief" aria-labelledby="brief-tab"><section class="brief-slide"><p class="brief-kicker">Logistics · marketplace</p><h2>Orders come from the marketplace.</h2><p class="brief-lead">Logistics wants one row per item.</p><p class="brief-note">Six orders, eleven items</p></section><section class="brief-slide"><p class="brief-kicker">The problem</p><h2>Everything is packed into one cell.</h2><ul class="brief-list tone-cyan"><li>Several items per order.</li><li>Model, colour, size in one reference.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What is not changed</p><h2>The export stays as it is.</h2><ul class="brief-list tone-green"><li>The marketplace&#x27;s file.</li><li>No script beside it.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The trap</p><h2>Two identical T-shirts.</h2><ul class="brief-list tone-cyan"><li>Same order, same reference.</li><li>Without a rank, the table keeps one.</li></ul></section><section class="brief-slide"><p class="brief-kicker">What had to be written</p><pre class="brief-code"><code>split-row: { by: items, position: item_no }</code></pre><h2>One line.</h2><ul class="brief-list tone-green"><li>One item, one row, its rank.</li><li>A malformed reference is counted.</li><li>A 39-line scenario, two manifests.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The next day</p><h2>The column is renamed: refused.</h2><ul class="brief-list tone-cyan"><li>The run names the missing column.</li><li>Yesterday&#x27;s rows stay.</li></ul></section><section class="brief-slide"><p class="brief-kicker">The limit</p><h2>A hyphenated colour shifts the size.</h2><ul class="brief-list tone-green"><li>BLEU-MARINE gives the size MARINE.</li><li>The cell is counted, not fixed.</li></ul></section><section class="brief-slide"><p class="brief-kicker">Try it</p><h2>The scenario replays locally.</h2><p>Every step is published with its output.</p></section></article>
   <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
 </main>
 <script src="../assets/scenario.js" defer></script>

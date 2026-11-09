@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Spring Slice: an article deleted mid-read lands on no page — lumnik</title>
-<meta name="description" content="Read every article of a Spring Boot catalogue through its API, and know when one may be missing. A Spring Boot controller returning the repository&#x27;s Slice, and 130 articles. Quiet: all 130, stopped on $.last; 5000 per page asked: Spring serves 2000, the read stays complete; An article deleted mid-read: the Slice has no total, one article is lost without a signal; The same deletion under the Page: the total moves, the list is read again.">
+<title>Spring Slice: an article deleted mid-read makes another one go unread — lumnik</title>
+<meta name="description" content="Read every article of a Spring Boot API that returns a Slice, know that a deletion during the read loses one without a signal, and that a Page reads the list again. A Spring Boot controller returning the repository&#x27;s Slice, and 130 articles. Quiet: all 130, stopped on $.last; 5000 per page asked: Spring serves 2000, the read stays complete; An article deleted mid-read: the Slice has no total, one article is lost without a signal; The same deletion under the Page: the total moves, the list is read again.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/rest-spring-slice/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>Spring Slice: an article deleted mid-read lands on no page</h1>
-    <p class="goal"><strong>Goal</strong> Read every article of a Spring Boot catalogue through its API, and know when one may be missing.</p>
+    <h1>Spring Slice: an article deleted mid-read makes another one go unread</h1>
+    <p class="goal"><strong>Goal</strong> Read every article of a Spring Boot API that returns a Slice, know that a deletion during the read loses one without a signal, and that a Page reads the list again.</p>
     <p class="lede">A Spring Boot controller returning the repository&#x27;s Slice, and 130 articles.</p><ul class="lede-list"><li>quiet: all 130, stopped on $.last;</li><li>5000 per page asked: Spring serves 2000, the read stays complete;</li><li>an article deleted mid-read: the Slice has no total, one article is lost without a signal;</li><li>the same deletion under the Page: the total moves, the list is read again.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Catalogue</li><li class="tag">Spring Boot</li><li class="tag kind">Connector</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="Spring Slice: an article deleted mid-read lands on no page">
+  <div role="tablist" class="page-tabs" aria-label="Spring Slice: an article deleted mid-read makes another one go unread">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>

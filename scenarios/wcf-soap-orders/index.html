@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SOAP WCF and WS-Security: the password rotated, the Fault says so — lumnik</title>
-<meta name="description" content="Read a WCF service protected by a UsernameToken, survive the rotation of its password, and be told when an order is confirmed past its promised date. A distributor exposes its open orders through a WCF service: HTTPS under the company&#x27;s CA, a UsernameToken inside the envelope. The CA and the password live in lm secret, never in the manifest; The password rotates: over HTTP/2 the Fault is lost, over HTTP/1.1 it names the cause; Three orders confirmed past their promised date, three decisions.">
+<title>WCF: the orders confirmed past the promised date — lumnik</title>
+<meta name="description" content="Read a WCF service&#x27;s open orders behind WS-Security, be told of each order confirmed past the promised date, and know when its password rotated. A distributor exposes its open orders through a WCF service: HTTPS under the company&#x27;s CA, a UsernameToken inside the envelope. The CA and the password live in lm secret, never in the manifest; The password rotates: over HTTP/2 the Fault is lost, over HTTP/1.1 it names the cause; Three orders confirmed past their promised date, three decisions.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/wcf-soap-orders/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>SOAP WCF and WS-Security: the password rotated, the Fault says so</h1>
-    <p class="goal"><strong>Goal</strong> Read a WCF service protected by a UsernameToken, survive the rotation of its password, and be told when an order is confirmed past its promised date.</p>
+    <h1>WCF: the orders confirmed past the promised date</h1>
+    <p class="goal"><strong>Goal</strong> Read a WCF service&#x27;s open orders behind WS-Security, be told of each order confirmed past the promised date, and know when its password rotated.</p>
     <p class="lede">A distributor exposes its open orders through a WCF service: HTTPS under the company&#x27;s CA, a UsernameToken inside the envelope.</p><ul class="lede-list"><li>the CA and the password live in lm secret, never in the manifest;</li><li>the password rotates: over HTTP/2 the Fault is lost, over HTTP/1.1 it names the cause;</li><li>three orders confirmed past their promised date, three decisions.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Sales</li><li class="tag">SOAP</li><li class="tag">WCF</li><li class="tag">WS-Security</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="SOAP WCF and WS-Security: the password rotated, the Fault says so">
+  <div role="tablist" class="page-tabs" aria-label="WCF: the orders confirmed past the promised date">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>
