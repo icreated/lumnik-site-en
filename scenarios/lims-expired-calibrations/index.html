@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Expired calibrations: the results measured on an out-of-date instrument — lumnik</title>
-<meta name="description" content="Flag every lab result measured outside its instrument&#x27;s calibration validity (ISO 17025), from the register and the LIMS as they export. A metrology register and a LIMS, two CSV exports: 6 instruments, 144 results. An Entity joins the register onto every result; A Process compares two columns of the joined row: measured_at after valid_until; The register changes: the results already there are judged again.">
+<title>Results measured on an instrument out of calibration — lumnik</title>
+<meta name="description" content="Link every LIMS result to its instrument&#x27;s calibration certificate, and be told when it was measured after the end of validity, even when the register changes afterwards. A metrology register and a LIMS, two CSV exports: 6 instruments, 144 results. An Entity joins the register onto every result; A Process compares two columns of the joined row: measured_at after valid_until; The register changes: the results already there are judged again.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/lims-expired-calibrations/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>Expired calibrations: the results measured on an out-of-date instrument</h1>
-    <p class="goal"><strong>Goal</strong> Flag every lab result measured outside its instrument&#x27;s calibration validity (ISO 17025), from the register and the LIMS as they export.</p>
+    <h1>Results measured on an instrument out of calibration</h1>
+    <p class="goal"><strong>Goal</strong> Link every LIMS result to its instrument&#x27;s calibration certificate, and be told when it was measured after the end of validity, even when the register changes afterwards.</p>
     <p class="lede">A metrology register and a LIMS, two CSV exports: 6 instruments, 144 results.</p><ul class="lede-list"><li>an Entity joins the register onto every result;</li><li>a Process compares two columns of the joined row: measured_at after valid_until;</li><li>the register changes: the results already there are judged again.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Laboratory</li><li class="tag">ISO 17025</li><li class="tag">Metrology</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li><li class="tag kind">Process</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="Expired calibrations: the results measured on an out-of-date instrument">
+  <div role="tablist" class="page-tabs" aria-label="Results measured on an instrument out of calibration">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>

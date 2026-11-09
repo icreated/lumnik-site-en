@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HL7 v2: the analyser result above its range, flagged or not — lumnik</title>
-<meta name="description" content="Read the HL7 v2 messages two analysers drop for the LIMS, and be told when a result is above its reference range. Two chemistry analysers, HL7 v2.5.1 ORU^R01: segments ended by a lone carriage return. Csv-file reads one segment per row, MSH, PID, OBR, OBX; The sample is carried down onto each result; A Process compares the value with the range sent beside it, whatever the flag.">
+<title>HL7 v2: a result above its range that the analyser does not flag — lumnik</title>
+<meta name="description" content="Read the HL7 v2 results of two analysers, and be told when a value is above the reference range sent with it, even with no abnormal flag. Two chemistry analysers, HL7 v2.5.1 ORU^R01: segments ended by a lone carriage return. Csv-file reads one segment per row, MSH, PID, OBR, OBX; The sample is carried down onto each result; A Process compares the value with the range sent beside it, whatever the flag.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/hl7-analyser-results/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>HL7 v2: the analyser result above its range, flagged or not</h1>
-    <p class="goal"><strong>Goal</strong> Read the HL7 v2 messages two analysers drop for the LIMS, and be told when a result is above its reference range.</p>
+    <h1>HL7 v2: a result above its range that the analyser does not flag</h1>
+    <p class="goal"><strong>Goal</strong> Read the HL7 v2 results of two analysers, and be told when a value is above the reference range sent with it, even with no abnormal flag.</p>
     <p class="lede">Two chemistry analysers, HL7 v2.5.1 ORU^R01: segments ended by a lone carriage return.</p><ul class="lede-list"><li>csv-file reads one segment per row, MSH, PID, OBR, OBX;</li><li>the sample is carried down onto each result;</li><li>a Process compares the value with the range sent beside it, whatever the flag.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Laboratory</li><li class="tag">HL7</li><li class="tag">Analysers</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="HL7 v2: the analyser result above its range, flagged or not">
+  <div role="tablist" class="page-tabs" aria-label="HL7 v2: a result above its range that the analyser does not flag">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>

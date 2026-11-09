@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stripe: every customer read without writing the pagination — lumnik</title>
-<meta name="description" content="Read every customer of a Stripe account, page after page, without writing the paging. Stripe pages by cursor: each page says has_more, the next is asked for with starting_after, the last customer&#x27;s id. lumnik has a preset of the same name: Pagination: { kind: stripe }: 25 customers in 3 requests; The next day, 5 new customers: 30 rows, one per customer.">
+<title>Stripe: the customers paged by cursor — lumnik</title>
+<meta name="description" content="Read every customer of a Stripe account page by page with starting_after, and keep one row per customer under its Stripe id, even when new ones arrive. Stripe pages by cursor: each page says has_more, the next is asked for with starting_after, the last customer&#x27;s id. lumnik has a preset of the same name: Pagination: { kind: stripe }: 25 customers in 3 requests; The next day, 5 new customers: 30 rows, one per customer.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/rest-stripe-customers/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>Stripe: every customer read without writing the pagination</h1>
-    <p class="goal"><strong>Goal</strong> Read every customer of a Stripe account, page after page, without writing the paging.</p>
+    <h1>Stripe: the customers paged by cursor</h1>
+    <p class="goal"><strong>Goal</strong> Read every customer of a Stripe account page by page with starting_after, and keep one row per customer under its Stripe id, even when new ones arrive.</p>
     <p class="lede">Stripe pages by cursor: each page says has_more, the next is asked for with starting_after, the last customer&#x27;s id. lumnik has a preset of the same name:</p><ul class="lede-list"><li>pagination: { kind: stripe }: 25 customers in 3 requests;</li><li>the next day, 5 new customers: 30 rows, one per customer.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Billing</li><li class="tag">Payment</li><li class="tag">Stripe</li><li class="tag kind">Connector</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="Stripe: every customer read without writing the pagination">
+  <div role="tablist" class="page-tabs" aria-label="Stripe: the customers paged by cursor">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>

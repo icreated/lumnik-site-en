@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>An EDIFACT ORDERS message read again order line by order line — lumnik</title>
-<meta name="description" content="Read an EDIFACT order segment by segment, then line by line, with no EDI tool. The buyer sends an ORDERS message on a single line. Segments end with an apostrophe. An apostrophe in a label is written ?&#x27;. Fourteen segments, in order; « Bâche d&#x27;hiver » whole; Two order lines, each with its order and its EAN.">
+<title>EDIFACT ORDERS: the whole message on a single line — lumnik</title>
+<meta name="description" content="Split an EDIFACT ORDERS message into segments, then read each order line with its order number, its EAN and its quantity. The buyer sends an ORDERS message on a single line. Segments end with an apostrophe. An apostrophe in a label is written ?&#x27;. Fourteen segments, in order; « Bâche d&#x27;hiver » whole; Two order lines, each with its order and its EAN.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/edifact-orders/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>An EDIFACT ORDERS message read again order line by order line</h1>
-    <p class="goal"><strong>Goal</strong> Read an EDIFACT order segment by segment, then line by line, with no EDI tool.</p>
+    <h1>EDIFACT ORDERS: the whole message on a single line</h1>
+    <p class="goal"><strong>Goal</strong> Split an EDIFACT ORDERS message into segments, then read each order line with its order number, its EAN and its quantity.</p>
     <p class="lede">The buyer sends an ORDERS message on a single line. Segments end with an apostrophe. An apostrophe in a label is written ?&#x27;.</p><ul class="lede-list"><li>fourteen segments, in order;</li><li>« Bâche d&#x27;hiver » whole;</li><li>two order lines, each with its order and its EAN.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Purchasing</li><li class="tag">EDI</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="An EDIFACT ORDERS message read again order line by order line">
+  <div role="tablist" class="page-tabs" aria-label="EDIFACT ORDERS: the whole message on a single line">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>

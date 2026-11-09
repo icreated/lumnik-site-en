@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sequelize: the service announces 260 orders for 130 — lumnik</title>
-<meta name="description" content="Read every order of a Node service through its API without believing a wrong total. An Express and Sequelize service, 130 orders and their lines, read by offset and limit. Quiet: all 130, each page&#x27;s count checked; With the lines, no distinct: the count says 260, the run refuses; With distinct: true: 130 of 130; An order deleted mid-read: the list is read again.">
+<meta name="description" content="Read the orders of a Node service page by page, checking the announced total, and refuse the read when it announces more orders than it returns. An Express and Sequelize service, 130 orders and their lines, read by offset and limit. Quiet: all 130, each page&#x27;s count checked; With the lines, no distinct: the count says 260, the run refuses; With distinct: true: 130 of 130; An order deleted mid-read: the list is read again.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -19,7 +19,7 @@
 <main>
   <section class="hero">
     <h1>Sequelize: the service announces 260 orders for 130</h1>
-    <p class="goal"><strong>Goal</strong> Read every order of a Node service through its API without believing a wrong total.</p>
+    <p class="goal"><strong>Goal</strong> Read the orders of a Node service page by page, checking the announced total, and refuse the read when it announces more orders than it returns.</p>
     <p class="lede">An Express and Sequelize service, 130 orders and their lines, read by offset and limit.</p><ul class="lede-list"><li>quiet: all 130, each page&#x27;s count checked;</li><li>with the lines, no distinct: the count says 260, the run refuses;</li><li>with distinct: true: 130 of 130;</li><li>an order deleted mid-read: the list is read again.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Sales</li><li class="tag">Sequelize</li><li class="tag kind">Connector</li></ul>
   </section>

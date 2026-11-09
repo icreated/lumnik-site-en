@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Three systems, one receipt date: the 00:30 batch and the plant&#x27;s day — lumnik</title>
-<meta name="description" content="Fuse into one entity a batch&#x27;s arrival date as the LIMS, the ERP and the carrier give it, and keep in dispute only the real disagreements. A plant receives its batches of raw material. Three systems say when: the LIMS scans the sample (an instant), the ERP books the receipt (a date), the carrier writes &quot;Livré le&quot; in a CSV (text). Read as they are, the carrier&#x27;s text makes the column text: twelve batches in dispute; Typed, a date meets a time at the UTC day: the night shift&#x27;s batch is in dispute; With zone: Europe/Paris, one dispute is left, the real typing mistake.">
+<title>One batch receipt date written three ways — lumnik</title>
+<meta name="description" content="Compare a batch&#x27;s receipt date in the LIMS, the ERP and the carrier&#x27;s report on the plant&#x27;s day, to keep only typing mistakes in dispute. A plant receives its batches of raw material. Three systems say when: the LIMS scans the sample (an instant), the ERP books the receipt (a date), the carrier writes &quot;Livré le&quot; in a CSV (text). Read as they are, the carrier&#x27;s text makes the column text: twelve batches in dispute; Typed, a date meets a time at the UTC day: the night shift&#x27;s batch is in dispute; With zone: Europe/Paris, one dispute is left, the real typing mistake.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="../assets/scenario.css">
@@ -18,12 +18,12 @@
 <span class="meta"><a href="../">All scenarios</a> · <a class="lang" href="https://lumnik.fr/scenarios/dates-across-sources/" hreflang="fr" lang="fr">Français</a></span></header>
 <main>
   <section class="hero">
-    <h1>Three systems, one receipt date: the 00:30 batch and the plant&#x27;s day</h1>
-    <p class="goal"><strong>Goal</strong> Fuse into one entity a batch&#x27;s arrival date as the LIMS, the ERP and the carrier give it, and keep in dispute only the real disagreements.</p>
+    <h1>One batch receipt date written three ways</h1>
+    <p class="goal"><strong>Goal</strong> Compare a batch&#x27;s receipt date in the LIMS, the ERP and the carrier&#x27;s report on the plant&#x27;s day, to keep only typing mistakes in dispute.</p>
     <p class="lede">A plant receives its batches of raw material. Three systems say when: the LIMS scans the sample (an instant), the ERP books the receipt (a date), the carrier writes &quot;Livré le&quot; in a CSV (text).</p><ul class="lede-list"><li>read as they are, the carrier&#x27;s text makes the column text: twelve batches in dispute;</li><li>typed, a date meets a time at the UTC day: the night shift&#x27;s batch is in dispute;</li><li>with zone: Europe/Paris, one dispute is left, the real typing mistake.</li></ul>
     <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Receiving</li><li class="tag">LIMS</li><li class="tag">ERP</li><li class="tag">Dates and time zones</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
   </section>
-  <div role="tablist" class="page-tabs" aria-label="Three systems, one receipt date: the 00:30 batch and the plant&#x27;s day">
+  <div role="tablist" class="page-tabs" aria-label="One batch receipt date written three ways">
     <button type="button" role="tab" id="walkthrough-tab" aria-controls="walkthrough" aria-selected="true" tabindex="0">Walkthrough</button>
     <button type="button" role="tab" id="brief-tab" aria-controls="brief" aria-selected="false" tabindex="-1">Essentials</button>
   </div>
