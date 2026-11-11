@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>An unapproved hotfix in k8s prod stops the pipeline — lumnik</title>
+<meta property="og:title" content="An unapproved hotfix in k8s prod stops the pipeline">
 <meta name="description" content="Block a release when a pod runs a version the release board did not approve, with an exit code a CI understands. The catalogue of approved versions is a CSV. What really runs is in the cluster. lumnik reads each pod&#x27;s image through the Kubernetes API and joins it to the catalogue: The approved version passes; A hotfix pushed with kubectl set image makes the gate return exit code 1: CI stops the pipeline; After the rollback, the same command passes again.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">

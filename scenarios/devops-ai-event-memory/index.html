@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kubernetes erases its events after one hour — lumnik</title>
+<meta property="og:title" content="Kubernetes erases its events after one hour">
 <meta name="description" content="Ask which deployments had a BackOff event after Kubernetes erased those events, and get the list kubectl gave during the incident. Kubernetes keeps its events for one hour. A deployment repaired at dawn has no history by morning: A new pod, Running, 0 restarts; No Warning event left. lumnik reads the events while they exist and keeps them; Ask still answers when kubectl no longer knows.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
