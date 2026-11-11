@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HPLC: an impurity over its limit in the injection report — lumnik</title>
+<title>HPLC impurity limit in an injection report — lumnik</title>
+<meta property="og:title" content="HPLC: an impurity over its limit in the injection report">
 <meta name="description" content="Read the injection reports an HPLC exports, with their glued units and decimal commas, and be told when an impurity exceeds its specification. An HPLC&#x27;s acquisition software exports one report per injection: UTF-16, a header block, then the peaks. Csv-file reads it line by line and carries the sample onto each peak; Regex-extract cuts each value from its unit: 0,21% becomes 0.21 and %; An impurity above 0.15 %: one decision.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">

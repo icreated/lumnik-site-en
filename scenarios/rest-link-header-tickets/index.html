@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gitea: a closed ticket stays open if only open ones are read — lumnik</title>
+<title>Follow Gitea pagination through HTTP Link headers — lumnik</title>
+<meta property="og:title" content="Gitea: a closed ticket stays open if only open ones are read">
 <meta name="description" content="Follow a Gitea forge&#x27;s open tickets, paged by its Link header, without keeping open a ticket support has closed. Support tracks its customer tickets in Gitea. Its API pages like GitHub&#x27;s: the next page is in the Link header. lumnik follows the header, page after page: Reading state=open leaves the tickets closed since open in the hub: they leave the API&#x27;s filter; Reading every state, by what changed since the last run, keeps the hub true: 57 open, as Gitea says.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
