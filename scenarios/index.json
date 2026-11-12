@@ -117,6 +117,27 @@
       "evidenceDigest": "sha256:6f73d03fb6625de25984e6b2924f6e7c03f5f5cf21edca050c953442f42b7717"
     },
     {
+      "slug": "cfa-billed-after-rupture",
+      "title": "Apprenticeship: an OPCO installment invoiced after the contract was broken",
+      "goal": "Join every OPCO invoice line to the training centre's contract register, and be told when the invoiced period runs past the contract's rupture, even when the rupture is entered after the invoice.",
+      "lede": "A business school's apprenticeship training centre (CFA), two CSV exports: 36 apprenticeship contracts, 40 OPCO invoice lines.\n- an Entity joins the contract onto every invoice line;\n- a Process compares two columns of the joined row: period_end after rupture_on;\n- two ruptures reach the register late: the invoices already sent are judged again.",
+      "tags": {
+        "domain": [
+          "Education",
+          "Apprenticeship",
+          "OPCO invoicing"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-11",
+      "evidenceDigest": "sha256:b78ed82daad422cc84d2ca1de2a41e068bbdfa0e786caa2c619bb96a62671e29"
+    },
+    {
       "slug": "cfonb-bank-statement",
       "title": "A CFONB statement with the sign hidden in the last digit",
       "goal": "Read each movement of the CFONB 120 statement with its sign and its statement, and its complements (payer, invoice) when it has some, to reconcile the statement line by line.",
