@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Read a REST pagination cursor from an HTTP header — lumnik</title>
-<meta property="og:title" content="The carrier&#x27;s API takes the page cursor only in a header">
+<title>The carrier&#x27;s API takes the page cursor only in a header — lumnik</title>
 <meta name="description" content="Read every tracking event of a carrier to know each parcel&#x27;s latest status, when its API expects the page cursor in a header. A carrier&#x27;s tracking API pages by cursor. It reads it from the X-Next-Cursor header, and nowhere else: Sent as a query parameter, the default, the cursor never arrives: the API returns the first page and says there are more; the run fails and says why; One line, cursor_binding: header, and the 1,200 events go through, 12 pages.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
