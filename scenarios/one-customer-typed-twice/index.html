@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One customer typed twice found by its GPS point in the legacy export — lumnik</title>
+<meta name="description" content="Find the customer accounts opened twice for the same shop, which the ERP cannot see because the address is typed another way, with the answer&#x27;s SQL. The legacy ERP compares typed addresses: &quot;12 rue Garibaldi&quot; and &quot;12, r. Garibaldi – Bât B&quot; make two customers, two credit lines, two dunning runs. Each account also carries a GPS point. By the address: no pair. By the place: 3 pairs within 50 m. A person decides: the same place is not always the same customer.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/one-customer-typed-twice/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/one-customer-typed-twice/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>One customer typed twice found by its GPS point in the legacy export</h1>
+    <p class="goal"><strong>Goal</strong> Find the customer accounts opened twice for the same shop, which the ERP cannot see because the address is typed another way, with the answer&#x27;s SQL.</p>
+    <p class="lede">The legacy ERP compares typed addresses: &quot;12 rue Garibaldi&quot; and &quot;12, r. Garibaldi – Bât B&quot; make two customers, two credit lines, two dunning runs. Each account also carries a GPS point.</p><ul class="lede-list"><li>by the address: no pair</li><li>by the place: 3 pairs within 50 m</li><li>a person decides: the same place is not always the same customer</li></ul>
+    <ul class="tags"><li class="tag edition edition-pro"><a href="https://docs.lumnik.io/editions/">lumnik Pro</a></li><li class="tag">Sales</li><li class="tag">Geography</li><li class="tag">AI</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-load" data-step="load" aria-current="step"><span class="num">1 · Load</span><span class="sub">17 accounts</span></a><a href="#step-points" data-step="points"><span class="num">2 · Declare</span><span class="sub">the account&#x27;s point</span></a><a href="#step-typed" data-step="typed"><span class="num">3 · Compare the address</span><span class="sub">no pair</span></a><a href="#step-place" data-step="place"><span class="num">4 · Compare the place</span><span class="sub">3 pairs, 6 accounts</span></a></nav>
+  <section class="step" id="step-load" aria-labelledby="load-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="load-title">The customer accounts export, coordinates read at the door</h2>
+      <p>One CSV file, one connector. The coordinates arrive with a decimal comma.</p><ul class="prose-list"><li>parse-coordinates: reads latitude and longitude together, as numbers</li><li>within: south, west, north, east. The rectangle of metropolitan France</li><li>reason: the column that says why a point was emptied</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>17 = 17</strong><p>Every account is written, with or without a point.</p></div></li><li><span class="n">2</span><div><strong>C-016</strong><p>0;0, outside the rectangle: emptied and counted.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Coordinates become numbers at the door; an unusable point is emptied with its reason.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Load"><button type="button" role="tab" id="load-source-tab" data-view="source" aria-controls="load-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="load-manifest-tab" data-view="manifest" aria-controls="load-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="load-commands-tab" data-view="commands" aria-controls="load-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="load-result-tab" data-view="result" aria-controls="load-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="load-source" aria-labelledby="load-source-tab" tabindex="0"><figure class="source"><figcaption>accounts.csv</figcaption><pre class="code">code_client;raison_sociale;adresse;ville;latitude;longitude
+C-001;Boulangerie des Pentes;12 rue Garibaldi;Lyon;45,76020;4,85230
+C-002;Garage du Tonkin;31 avenue Salvador Allende;Villeurbanne;45,77190;4,89020
+C-003;Pharmacie de la Part-Dieu;Centre commercial Part-Dieu, niveau 1;Lyon;45,76090;4,85640
+C-004;Optique Bouchut;17 rue du Docteur Bouchut;Lyon;45,76105;4,85665
+C-005;Fleurs Saint-Jean;4 place Saint-Jean;Lyon;45,76080;4,82720
+C-006;Librairie du Vieux Lyon;7 place Saint-Jean;Lyon;45,76140;4,82680
+C-007;Menuiserie Berliet;8 rue Berliet;Saint-Priest;45,69650;4,94450
+C-008;Brasserie des Brotteaux;2 place Jules Ferry;Lyon;45,76660;4,85960
+C-009;Quincaillerie de la Croix-Rousse;5 boulevard de la Croix-Rousse;Lyon;45,77450;4,83180
+C-010;Cave de Gerland;40 avenue Tony Garnier;Lyon;45,73060;4,83180
+C-011;Boulang. des Pentes;12, r. Garibaldi – Bât B;LYON;45,76025;4,85234
+C-012;Imprimerie de Vaise;18 rue de Bourgogne;Lyon;45,77420;4,80510
+C-013;Primeur de Monplaisir;90 avenue des Frères Lumière;Lyon;45,74560;4,87050
+C-014;Atelier vélo Confluence;3 cours Charlemagne;Lyon;45,74280;4,81720
+C-015;SARL Garage Tonkin;31 av. S. Allende;VILLEURBANNE;45,77202;4,89035
+C-016;Menuiserie Berliet SAS;8, rue Marius Berliet;Saint-Priest;0;0
+C-017;Traiteur de la Guillotière;25 rue de Marseille;Lyon;45,75280;4,84270</pre></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="load-manifest" aria-labelledby="load-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-accounts.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-accounts-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [accounts-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/one-customer-typed-twice/a/accounts.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line hl">      - parse-coordinates:</span><span class="line">          <span class="key">lat</span>: latitude</span><span class="line">          <span class="key">lon</span>: longitude</span><span class="line hl">          <span class="key">within</span>: [41.0, -5.5, 51.5, 10.0]   <span class="comment"># south, west, north, east: mainland France</span></span><span class="line hl">          <span class="key">reason</span>: coord_issue                 <span class="comment"># why a pair was emptied</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="load-commands" aria-labelledby="load-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-accounts.yaml</span>
+<span class="out">Applied connector &quot;scenario-accounts-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-accounts-a</span>
+<span class="out">run scheduled: 639fcac8-48d5-4cf3-a536-944d90f7fcd9</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 639fcac8-48d5-4cf3-a536-944d90f7fcd9</span>
+<span class="out">ID        CONNECTOR            ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+639fcac8  scenario-accounts-a  default   Completed  17  17   0        0             2026-11-14 00:07  2026-11-14 00:07  no</span>
+<span class="note">⚠ 1 cell(s) not delivered as declared (a hook, or a promoted value of the wrong type) — the rows were still written</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="load-result" aria-labelledby="load-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-accounts-a</dt><dd>Completed · IN 17 · OUT 17 · cell_errors 1</dd></dl><p class="sources">evidence: replay.log, accounts.txt, accounts.json, places.txt, run-scenario-accounts-a.txt, run-scenario-accounts-a.json, 01-address.txt, 01-address.json, 02-place.txt, 02-place.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-points" aria-labelledby="points-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="points-title">The customer account says where its point is</h2>
+      <p>The account declares its GPS point.</p><ul class="prose-list"><li>points: a name, the latitude column, the longitude column</li><li>only an entity that declares a point can be measured</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>16 points out of 17</strong><p>C-016 will be compared with no account.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The hub knows which columns make a point, and which accounts have none.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Declare"><button type="button" role="tab" id="points-manifest-tab" data-view="manifest" aria-controls="points-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="points-commands-tab" data-view="commands" aria-controls="points-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="points-result-tab" data-view="result" aria-controls="points-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="points-manifest" aria-labelledby="points-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-account.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">kind</span>: Entity</span><span class="line"><span class="key">name</span>: account_a</span><span class="line"><span class="key">label</span>: Compte client</span><span class="line"><span class="key">description</span>: <span class="str">&quot;A customer account of the ERP, with the address as typed and the GPS point of the shop; coord_issue says why a point was set aside.&quot;</span></span><span class="line"><span class="key">match</span>: [customer_no]</span><span class="line"><span class="key">scopes</span>: [accounts-a]</span><span class="line"><span class="key">columns</span>:</span><span class="line">  <span class="key">customer_no</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Code client&quot;</span></span><span class="line">  <span class="key">name</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Raison sociale&quot;</span></span><span class="line">  <span class="key">address</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Adresse&quot;</span></span><span class="line">  <span class="key">city</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Ville&quot;</span></span><span class="line">  <span class="key">latitude</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Latitude&quot;</span></span><span class="line">  <span class="key">longitude</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Longitude&quot;</span></span><span class="line">  <span class="key">coord_issue</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Coordonnées: remarque&quot;</span></span><span class="line"><span class="key">sources</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_accounts_a</span><span class="line">    <span class="key">map</span>:</span><span class="line">      <span class="key">code_client</span>: customer_no</span><span class="line">      <span class="key">raison_sociale</span>: name</span><span class="line">      <span class="key">adresse</span>: address</span><span class="line">      <span class="key">ville</span>: city</span><span class="line">      <span class="key">latitude</span>: latitude</span><span class="line">      <span class="key">longitude</span>: longitude</span><span class="line">      <span class="key">coord_issue</span>: coord_issue</span><span class="line hl"><span class="key">points</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">name</span>: shop          <span class="comment"># the chat may measure a distance from this point</span></span><span class="line hl">    <span class="key">lat</span>: latitude</span><span class="line hl">    <span class="key">lon</span>: longitude</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="points-commands" aria-labelledby="points-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm entity apply -f 20-account.yaml</span>
+<span class="out">Applied entity &quot;account_a&quot; → connector.&quot;v_account_a&quot;</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity get account_a</span>
+<span class="out">CUSTOMER_NO  NAME                              ADDRESS                                CITY          LATITUDE  LONGITUDE  COORD_ISSUE                _CONFLICTS
+C-001        Boulangerie des Pentes            12 rue Garibaldi                       Lyon          45.7602   4.8523                                {}
+C-002        Garage du Tonkin                  31 avenue Salvador Allende             Villeurbanne  45.7719   4.8902                                {}
+C-003        Pharmacie de la Part-Dieu         Centre commercial Part-Dieu, niveau 1  Lyon          45.7609   4.8564                                {}
+C-004        Optique Bouchut                   17 rue du Docteur Bouchut              Lyon          45.76105  4.85665                               {}
+C-005        Fleurs Saint-Jean                 4 place Saint-Jean                     Lyon          45.7608   4.8272                                {}
+C-006        Librairie du Vieux Lyon           7 place Saint-Jean                     Lyon          45.7614   4.8268                                {}
+C-007        Menuiserie Berliet                8 rue Berliet                          Saint-Priest  45.6965   4.9445                                {}
+C-008        Brasserie des Brotteaux           2 place Jules Ferry                    Lyon          45.7666   4.8596                                {}
+C-009        Quincaillerie de la Croix-Rousse  5 boulevard de la Croix-Rousse         Lyon          45.7745   4.8318                                {}
+C-010        Cave de Gerland                   40 avenue Tony Garnier                 Lyon          45.7306   4.8318                                {}
+C-011        Boulang. des Pentes               12, r. Garibaldi – Bât B               LYON          45.76025  4.85234                               {}
+C-012        Imprimerie de Vaise               18 rue de Bourgogne                    Lyon          45.7742   4.8051                                {}
+C-013        Primeur de Monplaisir             90 avenue des Frères Lumière           Lyon          45.7456   4.8705                                {}
+C-014        Atelier vélo Confluence           3 cours Charlemagne                    Lyon          45.7428   4.8172                                {}
+C-015        SARL Garage Tonkin                31 av. S. Allende                      VILLEURBANNE  45.77202  4.89035                               {}
+C-016        Menuiserie Berliet SAS            8, rue Marius Berliet                  Saint-Priest                       outside the declared area  {}
+C-017        Traiteur de la Guillotière        25 rue de Marseille                    Lyon          45.7528   4.8427                                {}</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="points-result" aria-labelledby="points-result-tab" tabindex="0" hidden><dl class="facts"><dt>points</dt><dd>16 / 17</dd><dt>C-016</dt><dd>outside the declared area</dd></dl><p class="sources">evidence: replay.log, accounts.txt, accounts.json, places.txt, run-scenario-accounts-a.txt, run-scenario-accounts-a.json, 01-address.txt, 01-address.json, 02-place.txt, 02-place.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-typed" aria-labelledby="typed-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="typed-title">By the typed address no account has a twin</h2>
+      <p>The comparison the ERP can make: two equal addresses.</p><ul class="prose-list"><li>no row: no address is typed the same way twice</li><li>the answer does not say &quot;no duplicate&quot;: it says the query may have missed the question</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Two strings</strong><p>&quot;12 rue Garibaldi&quot; and &quot;12, r. Garibaldi – Bât B&quot; are not equal.</p></div></li><li><span class="n">2</span><div><strong>No row, with its doubt</strong><p>abstained: true, in the JSON as in the sentence.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Comparing strings does not find a customer typed twice.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Compare the address"><button type="button" role="tab" id="typed-commands-tab" data-view="commands" aria-controls="typed-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="typed-result-tab" data-view="result" aria-controls="typed-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="typed-commands" aria-labelledby="typed-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm ask --scope accounts-a --lang fr &quot;Pour chaque client, quels autres clients ont la même adresse que lui ?&quot;</span>
+<span class="out">La requête n&#x27;a renvoyé aucune ligne. Il peut n&#x27;y en avoir réellement aucune, ou la requête n&#x27;a pas saisi votre question — vérifiez le SQL avant d&#x27;affirmer qu&#x27;il n&#x27;y en a pas.
+  data as of: 2026-11-13T23:07:34.864615Z (last completed run)
+
+  no rows returned
+
+  SQL: SELECT 
+    a1.customer_no AS client_no,
+    a2.customer_no AS other_client_no
+FROM 
+    &quot;connector&quot;.&quot;v_account_a&quot; a1
+JOIN 
+    &quot;connector&quot;.&quot;v_account_a&quot; a2
+ON 
+    a1.address = a2.address
+WHERE 
+    a1.customer_no &lt;&gt; a2.customer_no
+LIMIT 500</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="typed-result" aria-labelledby="typed-result-tab" tabindex="0" hidden><dl class="facts"><dt>Pour chaque client, quels autres clients ont la même adresse que lui ?</dt><dd>La requête n&#x27;a renvoyé aucune ligne. Il peut n&#x27;y en avoir réellement aucune, ou la requête n&#x27;a pas saisi votre question — vérifiez le SQL avant d&#x27;affirmer qu&#x27;il n&#x27;y en a pas.</dd><dt>SQL · 01-address</dt><dd>SELECT a1.customer_no AS client_no, a2.customer_no AS other_client_no FROM &quot;connector&quot;.&quot;v_account_a&quot; a1 JOIN &quot;connector&quot;.&quot;v_account_a&quot; a2 ON a1.address = a2.address WHERE a1.customer_no &lt;&gt; a2.customer_no LIMIT 500</dd></dl><p class="sources">evidence: replay.log, accounts.txt, accounts.json, places.txt, run-scenario-accounts-a.txt, run-scenario-accounts-a.json, 01-address.txt, 01-address.json, 02-place.txt, 02-place.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-place" aria-labelledby="place-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="place-title">3 pairs of accounts within 50 m of each other</h2>
+      <p>The answer shows its SQL: the account is joined to itself, and connector.distance_m measures between the two points.</p><ul class="prose-list"><li>C-001 and C-011, 6 m apart: the same bakery</li><li>C-002 and C-015, 18 m apart: the same garage</li><li>C-003 and C-004, 26 m apart: a pharmacy and an optician in the same mall</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>A person decides</strong><p>The same place is not always the same customer: the mall shows it.</p></div></li><li><span class="n">2</span><div><strong>Computed apart</strong><p>data/places.py, run by the replay, gives the same pairs.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The place finds what the address hides, and the list is checked against an independent computation.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Compare the place"><button type="button" role="tab" id="place-commands-tab" data-view="commands" aria-controls="place-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="place-result-tab" data-view="result" aria-controls="place-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="place-commands" aria-labelledby="place-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm ask --scope accounts-a --lang fr &quot;Pour chaque client, quels autres clients sont à moins de 50 m de lui ?&quot;</span>
+<span class="out">Il y a 6 clients qui sont à moins de 50 mètres les uns des autres. Les clients sont : C-001, C-011, C-002, C-015, C-003 et C-004.
+  data as of: 2026-11-13T23:07:34.864615Z (last completed run)
+
+  CLIENT_NO  OTHER_CLIENT_NO  DISTANCE
+  C-001      C-011            6.367093799771765
+  C-002      C-015            17.70304207137143
+  C-003      C-004            25.579703208345745
+  C-004      C-003            25.579703208345745
+  C-011      C-001            6.367093799771765
+  C-015      C-002            17.70304207137143
+  6 rows returned
+
+  SQL: SELECT 
+    a1.customer_no AS client_no,
+    a2.customer_no AS other_client_no,
+    connector.distance_m(a1.latitude, a1.longitude, a2.latitude, a2.longitude) AS distance
+FROM 
+    &quot;connector&quot;.&quot;v_account_a&quot; a1
+JOIN 
+    &quot;connector&quot;.&quot;v_account_a&quot; a2
+ON 
+    a1.customer_no &lt;&gt; a2.customer_no
+WHERE 
+    connector.distance_m(a1.latitude, a1.longitude, a2.latitude, a2.longitude) &lt;= 50
+LIMIT 500</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="place-result" aria-labelledby="place-result-tab" tabindex="0" hidden><dl class="facts"><dt>Pour chaque client, quels autres clients sont à moins de 50 m de lui ?</dt><dd>6 · C-001 C-002 C-003 C-004 C-011 C-015</dd><dt>C-001 · C-011</dt><dd>6.4 m</dd><dt>C-002 · C-015</dt><dd>17.7 m</dd><dt>C-003 · C-004</dt><dd>25.6 m</dd><dt>SQL · 02-place</dt><dd>SELECT a1.customer_no AS client_no, a2.customer_no AS other_client_no, connector.distance_m(a1.latitude, a1.longitude, a2.latitude, a2.longitude) AS distance FROM &quot;connector&quot;.&quot;v_account_a&quot; a1 JOIN &quot;connector&quot;.&quot;v_account_a&quot; a2 ON a1.customer_no &lt;&gt; a2.customer_no WHERE connector.distance_m(a1.latitude, a1.longitude, a2.latitude, a2.longitude) &lt;= 50 LIMIT 500</dd></dl><p class="sources">evidence: replay.log, accounts.txt, accounts.json, places.txt, run-scenario-accounts-a.txt, run-scenario-accounts-a.json, 01-address.txt, 01-address.json, 02-place.txt, 02-place.json · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>C-016 is the joinery of C-007, typed a second time with 0;0. With no point, it is compared with nothing: the place only finds accounts that have one.</li><li>The wording matters. While preparing the scenario on an isolated hub, &quot;Which customers are less than 50 m from another customer?&quot; got an abstention from the model (qwen2.5-coder:7b), with no SQL. &quot;For each customer, which other customers are less than 50 m from it?&quot; is translated right. Both were asked in French.</li><li>Each pair comes back twice, once from each side: 6 rows for 3 pairs.</li><li>50 m is a choice. In a dense area two different customers are closer; on a large site the same customer can be further apart.</li><li>Synthetic accounts.</li></ul></section>
+  <section class="try"><p>This scenario needs lumnik Pro.</p><a class="try-button" href="../../editions.html">See the editions →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
