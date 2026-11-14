@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The customer invoiced after its establishment closed found by place in the legacy export — lumnik</title>
+<meta name="description" content="Offer each ERP customer the SIRET of its establishment, and spot the ones INSEE says are closed, by crossing the customer export with INSEE&#x27;s public files through the GPS point. With e-invoicing, the customer&#x27;s SIREN becomes a mandatory mention. The legacy export has no reliable SIRET; INSEE publishes every establishment with its state and its GPS point. No common key: the link is the place. 5 customers get an active SIRET within 30 m. 3 closed establishments within 30 m of a customer, each for a person to read. One customer is still invoiced after the closure, with no active establishment beside it.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/customer-closed-at-insee/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/customer-closed-at-insee/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>The customer invoiced after its establishment closed found by place in the legacy export</h1>
+    <p class="goal"><strong>Goal</strong> Offer each ERP customer the SIRET of its establishment, and spot the ones INSEE says are closed, by crossing the customer export with INSEE&#x27;s public files through the GPS point.</p>
+    <p class="lede">With e-invoicing, the customer&#x27;s SIREN becomes a mandatory mention. The legacy export has no reliable SIRET; INSEE publishes every establishment with its state and its GPS point. No common key: the link is the place.</p><ul class="lede-list"><li>5 customers get an active SIRET within 30 m</li><li>3 closed establishments within 30 m of a customer, each for a person to read</li><li>one customer is still invoiced after the closure, with no active establishment beside it</li></ul>
+    <ul class="tags"><li class="tag edition edition-pro"><a href="https://docs.lumnik.io/editions/">lumnik Pro</a></li><li class="tag">Invoicing</li><li class="tag">Geography</li><li class="tag">AI</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-load" data-step="load" aria-current="step"><span class="num">1 · Load</span><span class="sub">8 customers, 13 establishments</span></a><a href="#step-declare" data-step="declare"><span class="num">2 · Declare</span><span class="sub">two points, one SIRET</span></a><a href="#step-active" data-step="active"><span class="num">3 · Active</span><span class="sub">5 SIRETs suggested</span></a><a href="#step-closed" data-step="closed"><span class="num">4 · Closed</span><span class="sub">3 establishments</span></a><a href="#step-wording" data-step="wording"><span class="num">5 · Word</span><span class="sub">the right list or none</span></a></nav>
+  <section class="step" id="step-load" aria-labelledby="load-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="load-title">The customer export and two INSEE files, each as delivered</h2>
+      <p>Three CSV files, one connector each.</p><ul class="prose-list"><li>customers.csv: the ERP, with a decimal comma and the date of the last invoice</li><li>sirene-geolocalisation.csv: INSEE&#x27;s format. It gives y_latitude and x_longitude in degrees, beside Lambert 93</li><li>sirene-etablissements.csv: the Sirene stock, 54 comma-separated columns</li><li>parse-coordinates: reads each pair as numbers; within: the rectangle of metropolitan France</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>8 = 8, 13 = 13, 13 = 13</strong><p>Every row of the three files is written.</p></div></li><li><span class="n">2</span><div><strong>C-107</strong><p>0;0, outside the rectangle: emptied and counted.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>INSEE&#x27;s files are read as published, with no projection to convert.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Load"><button type="button" role="tab" id="load-source-tab" data-view="source" aria-controls="load-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="load-manifest-tab" data-view="manifest" aria-controls="load-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="load-commands-tab" data-view="commands" aria-controls="load-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="load-result-tab" data-view="result" aria-controls="load-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="load-source" aria-labelledby="load-source-tab" tabindex="0"><figure class="source"><figcaption>customers.csv</figcaption><pre class="code">code_client;raison_sociale;adresse;ville;latitude;longitude;derniere_facture
+C-101;Boulang. des Pentes;12, r. Garibaldi – Bât B;LYON;45,76020;4,85230;2026-10-15
+C-102;Garage du Tonkin;31 avenue Salvador Allende;Villeurbanne;45,77190;4,89020;2026-10-28
+C-103;Pharmacie de la Part-Dieu;Centre commercial Part-Dieu, niveau 1;Lyon;45,76090;4,85640;2026-10-21
+C-104;Fleurs Saint-Jean;4 place Saint-Jean;Lyon;45,76080;4,82720;2026-10-30
+C-105;Cave de Gerland;40 avenue Tony Garnier;Lyon;45,73060;4,83180;2026-10-17
+C-106;Imprimerie de Vaise;18 rue de Bourgogne;Lyon;45,77420;4,80510;2026-09-30
+C-107;Menuiserie Berliet;8, rue Marius Berliet;Saint-Priest;0;0;2026-10-09
+C-108;Traiteur de la Guillotière;25 rue de Marseille;Lyon;45,75280;4,84270;2026-10-24</pre></figure><figure class="source"><figcaption>sirene-geolocalisation.csv</figcaption><pre class="code">siret;x;y;qualite_xy;epsg;plg_qp24;plg_iris;plg_zus;plg_qp15;plg_qva;plg_code_commune;distance_precision;qualite_qp24;qualite_iris;qualite_zus;qualite_qp15;qualite_qva;y_latitude;x_longitude
+91234567100012;843966.33;6519537.06;11;2154;HZ;0104;CSZ;HZ;CSZ;69386;;1;1;&quot;&quot;;1;&quot;&quot;;45.760240000;4.8523000000
+92345678200015;846885.01;6520907.01;11;2154;HZ;0104;CSZ;HZ;CSZ;69266;;1;1;&quot;&quot;;1;&quot;&quot;;45.771950000;4.8902600000
+93456789300024;844283.09;6519623.37;11;2154;HZ;0104;CSZ;HZ;CSZ;69383;;1;1;&quot;&quot;;1;&quot;&quot;;45.760950000;4.8564000000
+94567890400011;844302.25;6519634.93;11;2154;HZ;0104;CSZ;HZ;CSZ;69383;;1;1;&quot;&quot;;1;&quot;&quot;;45.761050000;4.8566500000
+95678901500010;842526.83;6520254.36;11;2154;HZ;0104;CSZ;HZ;CSZ;69385;;1;1;&quot;&quot;;1;&quot;&quot;;45.767000000;4.8340000000
+95678901500028;842014.32;6519557.11;11;2154;HZ;0104;CSZ;HZ;CSZ;69385;;1;1;&quot;&quot;;1;&quot;&quot;;45.760830000;4.8272000000
+96789012600013;842453.28;6516220.42;11;2154;HZ;0104;CSZ;HZ;CSZ;69387;;1;1;&quot;&quot;;1;&quot;&quot;;45.730700000;4.8318500000
+97890123700019;842453.28;6516220.42;11;2154;HZ;0104;CSZ;HZ;CSZ;69387;;1;1;&quot;&quot;;1;&quot;&quot;;45.730700000;4.8318500000
+98901234800017;840277.29;6521057.83;22;2154;HZ;0104;CSZ;HZ;CSZ;69389;120.4;1;1;&quot;&quot;;1;&quot;&quot;;45.774700000;4.8053000000
+99012345900016;843239.56;6518695.83;11;2154;HZ;0104;CSZ;HZ;CSZ;69387;;1;1;&quot;&quot;;1;&quot;&quot;;45.752820000;4.8427000000
+91234098700010;846879.72;6520933.54;11;2154;HZ;0104;CSZ;HZ;CSZ;69266;;1;1;&quot;&quot;;1;&quot;&quot;;45.772190000;4.8902000000
+92340187600015;843238.80;6518728.02;11;2154;HZ;0104;CSZ;HZ;CSZ;69387;;1;1;&quot;&quot;;1;&quot;&quot;;45.753110000;4.8427000000
+90123456000014;851305.27;6512633.10;11;2154;HZ;0104;CSZ;HZ;CSZ;69290;;1;1;&quot;&quot;;1;&quot;&quot;;45.696500000;4.9445000000</pre></figure><figure class="source"><figcaption>sirene-etablissements.csv</figcaption><pre class="code">siren,nic,siret,statutDiffusionEtablissement,dateCreationEtablissement,trancheEffectifsEtablissement,anneeEffectifsEtablissement,activitePrincipaleRegistreMetiersEtablissement,dateDernierTraitementEtablissement,etablissementSiege,nombrePeriodesEtablissement,complementAdresseEtablissement,numeroVoieEtablissement,indiceRepetitionEtablissement,dernierNumeroVoieEtablissement,indiceRepetitionDernierNumeroVoieEtablissement,typeVoieEtablissement,libelleVoieEtablissement,codePostalEtablissement,libelleCommuneEtablissement,libelleCommuneEtrangerEtablissement,distributionSpecialeEtablissement,codeCommuneEtablissement,codeCedexEtablissement,libelleCedexEtablissement,codePaysEtrangerEtablissement,libellePaysEtrangerEtablissement,identifiantAdresseEtablissement,coordonneeLambertAbscisseEtablissement,coordonneeLambertOrdonneeEtablissement,complementAdresse2Etablissement,numeroVoie2Etablissement,indiceRepetition2Etablissement,typeVoie2Etablissement,libelleVoie2Etablissement,codePostal2Etablissement,libelleCommune2Etablissement,libelleCommuneEtranger2Etablissement,distributionSpeciale2Etablissement,codeCommune2Etablissement,codeCedex2Etablissement,libelleCedex2Etablissement,codePaysEtranger2Etablissement,libellePaysEtranger2Etablissement,dateDebut,etatAdministratifEtablissement,enseigne1Etablissement,enseigne2Etablissement,enseigne3Etablissement,denominationUsuelleEtablissement,activitePrincipaleEtablissement,nomenclatureActivitePrincipaleEtablissement,caractereEmployeurEtablissement,activitePrincipaleNAF25Etablissement
+912345671,00012,91234567100012,O,2010-01-01,,,,2026-10-28T09:12:44,true,2,,12,,,,RUE,GARIBALDI,69006,LYON 6E ARRONDISSEMENT,,,69386,,,,,,,,,,,,,,,,,,,,,,2026-06-30,F,BOULANGERIE DES PENTES,,,,10.71C,NAFRev2,N,
+923456782,00015,92345678200015,O,2011-03-01,,,,2026-10-28T09:12:44,true,1,,31,,,,AV,SALVADOR ALLENDE,69100,VILLEURBANNE,,,69266,,,,,,,,,,,,,,,,,,,,,,2011-03-01,A,GARAGE DU TONKIN,,,,45.20A,NAFRev2,N,
+934567893,00024,93456789300024,O,2008-09-15,,,,2026-10-28T09:12:44,true,1,,17,,,,RUE,DU DOCTEUR BOUCHUT,69003,LYON 3E ARRONDISSEMENT,,,69383,,,,,,,,,,,,,,,,,,,,,,2008-09-15,A,PHARMACIE DE LA PART-DIEU,,,,47.73Z,NAFRev2,N,
+945678904,00011,94567890400011,O,2010-01-01,,,,2026-10-28T09:12:44,true,2,,17,,,,RUE,DU DOCTEUR BOUCHUT,69003,LYON 3E ARRONDISSEMENT,,,69383,,,,,,,,,,,,,,,,,,,,,,2025-12-31,F,OPTIQUE BOUCHUT,,,,47.78A,NAFRev2,N,
+956789015,00010,95678901500010,O,2010-01-01,,,,2026-10-28T09:12:44,false,2,,2,,,,RUE,SAINT-JEAN,69005,LYON 5E ARRONDISSEMENT,,,69385,,,,,,,,,,,,,,,,,,,,,,2024-01-31,F,FLEURS SAINT-JEAN,,,,47.76Z,NAFRev2,N,
+956789015,00028,95678901500028,O,2024-02-01,,,,2026-10-28T09:12:44,true,1,,4,,,,PL,SAINT-JEAN,69005,LYON 5E ARRONDISSEMENT,,,69385,,,,,,,,,,,,,,,,,,,,,,2024-02-01,A,FLEURS SAINT-JEAN,,,,47.76Z,NAFRev2,N,
+967890126,00013,96789012600013,O,2010-01-01,,,,2026-10-28T09:12:44,true,2,,40,,,,AV,TONY GARNIER,69007,LYON 7E ARRONDISSEMENT,,,69387,,,,,,,,,,,,,,,,,,,,,,2026-03-31,F,CAVE DE GERLAND,,,,47.25Z,NAFRev2,N,
+978901237,00019,97890123700019,O,2026-04-01,,,,2026-10-28T09:12:44,true,1,,40,,,,AV,TONY GARNIER,69007,LYON 7E ARRONDISSEMENT,,,69387,,,,,,,,,,,,,,,,,,,,,,2026-04-01,A,CAVE DE GERLAND,,,LES VINS DE GERLAND,47.25Z,NAFRev2,N,
+989012348,00017,98901234800017,O,2002-05-02,,,,2026-10-28T09:12:44,true,1,,18,,,,RUE,DE BOURGOGNE,69009,LYON 9E ARRONDISSEMENT,,,69389,,,,,,,,,,,,,,,,,,,,,,2002-05-02,A,IMPRIMERIE DE VAISE,,,,18.12Z,NAFRev2,N,
+990123459,00016,99012345900016,O,2015-10-12,,,,2026-10-28T09:12:44,true,1,,25,,,,RUE,DE MARSEILLE,69007,LYON 7E ARRONDISSEMENT,,,69387,,,,,,,,,,,,,,,,,,,,,,2015-10-12,A,TRAITEUR DE LA GUILLOTIERE,,,,56.21Z,NAFRev2,N,
+912340987,00010,91234098700010,O,2019-06-03,,,,2026-10-28T09:12:44,true,1,,29,,,,AV,SALVADOR ALLENDE,69100,VILLEURBANNE,,,69266,,,,,,,,,,,,,,,,,,,,,,2019-06-03,A,BOUCHERIE DU TONKIN,,,,47.22Z,NAFRev2,N,
+923401876,00015,92340187600015,O,2010-01-01,,,,2026-10-28T09:12:44,true,2,,21,,,,RUE,DE MARSEILLE,69007,LYON 7E ARRONDISSEMENT,,,69387,,,,,,,,,,,,,,,,,,,,,,2025-09-30,F,PRESSING DE MARSEILLE,,,,96.01B,NAFRev2,N,
+901234560,00014,90123456000014,O,1998-01-05,,,,2026-10-28T09:12:44,true,1,,8,,,,RUE,MARIUS BERLIET,69800,SAINT-PRIEST,,,69290,,,,,,,,,,,,,,,,,,,,,,1998-01-05,A,MENUISERIE BERLIET,,,,16.23Z,NAFRev2,N,</pre></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="load-manifest" aria-labelledby="load-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-customers.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-erp-customers-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [billing-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/customer-closed-at-insee/a/customers.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line hl">      - parse-coordinates:</span><span class="line hl">          <span class="key">lat</span>: latitude</span><span class="line">          <span class="key">lon</span>: longitude</span><span class="line hl">          <span class="key">within</span>: [41.0, -5.5, 51.5, 10.0]   <span class="comment"># south, west, north, east: metropolitan France</span></span><span class="line">          <span class="key">reason</span>: coord_issue                 <span class="comment"># why a pair was emptied</span></span></code></pre><div class="file"><span class="filename">manifests/11-insee-geolocation.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-insee-geoloc-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [billing-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/customer-closed-at-insee/a/sirene-geolocalisation.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line hl">      - parse-coordinates:</span><span class="line hl">          <span class="key">lat</span>: y_latitude                     <span class="comment"># INSEE gives degrees too, beside its Lambert 93 x and y</span></span><span class="line">          <span class="key">lon</span>: x_longitude</span><span class="line hl">          <span class="key">within</span>: [41.0, -5.5, 51.5, 10.0]</span><span class="line">          <span class="key">reason</span>: coord_issue</span></code></pre><div class="file"><span class="filename">manifests/12-insee-establishments.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-insee-sirene-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [billing-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: local</span><span class="line">    <span class="key">path</span>: /tmp/lumnik-scenario/customer-closed-at-insee/a/sirene-etablissements.csv</span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;,&quot;</span></span><span class="line">  <span class="key">after_process</span>: none</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="load-commands" aria-labelledby="load-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-customers.yaml</span>
+<span class="out">Applied connector &quot;scenario-erp-customers-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm apply -f 11-insee-geolocation.yaml</span>
+<span class="out">Applied connector &quot;scenario-insee-geoloc-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm apply -f 12-insee-establishments.yaml</span>
+<span class="out">Applied connector &quot;scenario-insee-sirene-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-erp-customers-a</span>
+<span class="out">run scheduled: a8ef8760-922a-436a-9b96-8881c8ce558d</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get a8ef8760-922a-436a-9b96-8881c8ce558d</span>
+<span class="out">ID        CONNECTOR                 ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+a8ef8760  scenario-erp-customers-a  default   Completed  8   8    0        0             2026-11-14 02:07  2026-11-14 02:07  no</span>
+<span class="note">⚠ 1 cell(s) not delivered as declared (a hook, or a promoted value of the wrong type) — the rows were still written</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-insee-geoloc-a</span>
+<span class="out">run scheduled: 9ffc9642-fe1c-4d67-8290-f3c31ac569f8</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 9ffc9642-fe1c-4d67-8290-f3c31ac569f8</span>
+<span class="out">ID        CONNECTOR                ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+9ffc9642  scenario-insee-geoloc-a  default   Completed  13  13   0        0             2026-11-14 02:07  2026-11-14 02:07  no</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-insee-sirene-a</span>
+<span class="out">run scheduled: beb94e1b-3eaa-4c20-a293-08953e985984</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get beb94e1b-3eaa-4c20-a293-08953e985984</span>
+<span class="out">ID        CONNECTOR                ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+beb94e1b  scenario-insee-sirene-a  default   Completed  13  13   0        0             2026-11-14 02:07  2026-11-14 02:07  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="load-result" aria-labelledby="load-result-tab" tabindex="0" hidden><dl class="facts"><dt>scenario-erp-customers-a</dt><dd>Completed · IN 8 · OUT 8 · cell_errors 1</dd><dt>scenario-insee-geoloc-a</dt><dd>Completed · IN 13 · OUT 13 · cell_errors 0</dd><dt>scenario-insee-sirene-a</dt><dd>Completed · IN 13 · OUT 13 · cell_errors 0</dd></dl><p class="sources">evidence: replay.log, insee.txt, customers.json, establishments.txt, establishments.json, run-scenario-erp-customers-a.txt, run-scenario-erp-customers-a.json, run-scenario-insee-geoloc-a.txt, run-scenario-insee-geoloc-a.json, run-scenario-insee-sirene-a.txt, run-scenario-insee-sirene-a.json, 01-active.txt, 01-active.json, 02-closed.txt, 02-closed.json, 03-another.txt, 03-another.json, 04-insee.txt, 04-insee.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-declare" aria-labelledby="declare-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="declare-title">The customer and the INSEE establishment say where their point is</h2>
+      <p>The customer declares its point. The establishment joins INSEE&#x27;s two files by SIRET: the state and the sign on one side, the point on the other.</p><ul class="prose-list"><li>match: siret, the key both INSEE files share</li><li>sources: the stock, then the geolocation</li><li>points: a name, the latitude column, the longitude column</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>7 points out of 8</strong><p>C-107 will be compared with nothing.</p></div></li><li><span class="n">2</span><div><strong>13 establishments</strong><p>Each with its state, A active or F closed, and its point.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Two INSEE files become one record per establishment, which the chat can measure.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Declare"><button type="button" role="tab" id="declare-manifest-tab" data-view="manifest" aria-controls="declare-manifest" aria-selected="true" tabindex="0">Manifests</button><button type="button" role="tab" id="declare-commands-tab" data-view="commands" aria-controls="declare-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="declare-result-tab" data-view="result" aria-controls="declare-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-manifest" id="declare-manifest" aria-labelledby="declare-manifest-tab" tabindex="0"><div class="file"><span class="filename">manifests/20-customer.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">kind</span>: Entity</span><span class="line"><span class="key">name</span>: client_a</span><span class="line"><span class="key">label</span>: Client</span><span class="line"><span class="key">description</span>: <span class="str">&quot;A customer account of the ERP, with the date of its last invoice and the GPS point of its shop; coord_issue says why a point was set aside.&quot;</span></span><span class="line hl"><span class="key">match</span>: [customer_no]</span><span class="line"><span class="key">scopes</span>: [billing-a]</span><span class="line"><span class="key">columns</span>:</span><span class="line">  <span class="key">customer_no</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Code client&quot;</span></span><span class="line">  <span class="key">name</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Raison sociale&quot;</span></span><span class="line">  <span class="key">address</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Adresse&quot;</span></span><span class="line">  <span class="key">city</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Ville&quot;</span></span><span class="line">  <span class="key">latitude</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Latitude&quot;</span></span><span class="line">  <span class="key">longitude</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Longitude&quot;</span></span><span class="line">  <span class="key">coord_issue</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Coordonnées: remarque&quot;</span></span><span class="line">  <span class="key">last_invoice</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Dernière facture&quot;</span></span><span class="line hl"><span class="key">sources</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_erp_customers_a</span><span class="line">    <span class="key">map</span>:</span><span class="line">      <span class="key">code_client</span>: customer_no</span><span class="line">      <span class="key">raison_sociale</span>: name</span><span class="line">      <span class="key">adresse</span>: address</span><span class="line">      <span class="key">ville</span>: city</span><span class="line">      <span class="key">latitude</span>: latitude</span><span class="line">      <span class="key">longitude</span>: longitude</span><span class="line">      <span class="key">coord_issue</span>: coord_issue</span><span class="line">      <span class="key">derniere_facture</span>: last_invoice</span><span class="line hl"><span class="key">points</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">name</span>: shop          <span class="comment"># the chat may measure a distance from this point</span></span><span class="line">    <span class="key">lat</span>: latitude</span><span class="line">    <span class="key">lon</span>: longitude</span></code></pre><div class="file"><span class="filename">manifests/21-establishment.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">kind</span>: Entity</span><span class="line"><span class="key">name</span>: etablissement_a</span><span class="line"><span class="key">label</span>: Établissement INSEE</span><span class="line"><span class="key">description</span>: <span class="str">&quot;An establishment of the INSEE Sirene register: its SIRET, its sign, whether it is active or closed, and where INSEE places it.&quot;</span></span><span class="line hl"><span class="key">match</span>: [siret]</span><span class="line"><span class="key">scopes</span>: [billing-a]</span><span class="line"><span class="key">columns</span>:</span><span class="line">  <span class="key">siret</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;SIRET&quot;</span></span><span class="line">  <span class="key">sign</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Enseigne&quot;</span></span><span class="line">  <span class="key">state</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;État administratif (A actif, F fermé)&quot;</span></span><span class="line">  <span class="key">period_start</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Début de la période en cours (dateDebut)&quot;</span></span><span class="line">  <span class="key">street</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Voie&quot;</span></span><span class="line">  <span class="key">commune</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Commune&quot;</span></span><span class="line">  <span class="key">latitude</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Latitude&quot;</span></span><span class="line">  <span class="key">longitude</span>:</span><span class="line">    <span class="key">label</span>: <span class="str">&quot;Longitude&quot;</span></span><span class="line hl"><span class="key">sources</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_insee_sirene_a           <span class="comment"># the stock: state, sign, address</span></span><span class="line">    <span class="key">map</span>:</span><span class="line">      <span class="key">siret</span>: siret</span><span class="line">      <span class="key">enseigne1Etablissement</span>: sign</span><span class="line">      <span class="key">etatAdministratifEtablissement</span>: state</span><span class="line">      <span class="key">dateDebut</span>: period_start</span><span class="line">      <span class="key">libelleVoieEtablissement</span>: street</span><span class="line">      <span class="key">libelleCommuneEtablissement</span>: commune</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_insee_geoloc_a           <span class="comment"># the geolocation: the point, by SIRET</span></span><span class="line">    <span class="key">map</span>:</span><span class="line">      <span class="key">siret</span>: siret</span><span class="line">      <span class="key">y_latitude</span>: latitude</span><span class="line">      <span class="key">x_longitude</span>: longitude</span><span class="line hl"><span class="key">points</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">name</span>: site</span><span class="line">    <span class="key">lat</span>: latitude</span><span class="line">    <span class="key">lon</span>: longitude</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="declare-commands" aria-labelledby="declare-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm entity apply -f 20-customer.yaml</span>
+<span class="out">Applied entity &quot;client_a&quot; → connector.&quot;v_client_a&quot;</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity apply -f 21-establishment.yaml</span>
+<span class="out">Applied entity &quot;etablissement_a&quot; → connector.&quot;v_etablissement_a&quot;</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity get etablissement_a</span>
+<span class="out">SIRET           SIGN                        STATE  PERIOD_START  STREET              COMMUNE                 LATITUDE  LONGITUDE  _CONFLICTS
+90123456000014  MENUISERIE BERLIET          A      1998-01-05    MARIUS BERLIET      SAINT-PRIEST            45.6965   4.9445     {}
+91234098700010  BOUCHERIE DU TONKIN         A      2019-06-03    SALVADOR ALLENDE    VILLEURBANNE            45.77219  4.8902     {}
+91234567100012  BOULANGERIE DES PENTES      F      2026-06-30    GARIBALDI           LYON 6E ARRONDISSEMENT  45.76024  4.8523     {}
+92340187600015  PRESSING DE MARSEILLE       F      2025-09-30    DE MARSEILLE        LYON 7E ARRONDISSEMENT  45.75311  4.8427     {}
+92345678200015  GARAGE DU TONKIN            A      2011-03-01    SALVADOR ALLENDE    VILLEURBANNE            45.77195  4.89026    {}
+93456789300024  PHARMACIE DE LA PART-DIEU   A      2008-09-15    DU DOCTEUR BOUCHUT  LYON 3E ARRONDISSEMENT  45.76095  4.8564     {}
+94567890400011  OPTIQUE BOUCHUT             F      2025-12-31    DU DOCTEUR BOUCHUT  LYON 3E ARRONDISSEMENT  45.76105  4.85665    {}
+95678901500010  FLEURS SAINT-JEAN           F      2024-01-31    SAINT-JEAN          LYON 5E ARRONDISSEMENT  45.767    4.834      {}
+95678901500028  FLEURS SAINT-JEAN           A      2024-02-01    SAINT-JEAN          LYON 5E ARRONDISSEMENT  45.76083  4.8272     {}
+96789012600013  CAVE DE GERLAND             F      2026-03-31    TONY GARNIER        LYON 7E ARRONDISSEMENT  45.7307   4.83185    {}
+97890123700019  CAVE DE GERLAND             A      2026-04-01    TONY GARNIER        LYON 7E ARRONDISSEMENT  45.7307   4.83185    {}
+98901234800017  IMPRIMERIE DE VAISE         A      2002-05-02    DE BOURGOGNE        LYON 9E ARRONDISSEMENT  45.7747   4.8053     {}
+99012345900016  TRAITEUR DE LA GUILLOTIERE  A      2015-10-12    DE MARSEILLE        LYON 7E ARRONDISSEMENT  45.75282  4.8427     {}</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="declare-result" aria-labelledby="declare-result-tab" tabindex="0" hidden><dl class="facts"><dt>points</dt><dd>7 / 8</dd><dt>C-107</dt><dd>outside the declared area</dd><dt>establishments</dt><dd>A 8 · F 5</dd></dl><p class="sources">evidence: replay.log, insee.txt, customers.json, establishments.txt, establishments.json, run-scenario-erp-customers-a.txt, run-scenario-erp-customers-a.json, run-scenario-insee-geoloc-a.txt, run-scenario-insee-geoloc-a.json, run-scenario-insee-sirene-a.txt, run-scenario-insee-sirene-a.json, 01-active.txt, 01-active.json, 02-closed.txt, 02-closed.json, 03-another.txt, 03-another.json, 04-insee.txt, 04-insee.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-active" aria-labelledby="active-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="active-title">For each customer the active establishments within 30 m</h2>
+      <p>The answer shows its SQL: the customer is joined to the establishment, connector.distance_m measures between their two points, the state is A.</p><ul class="prose-list"><li>C-105: the SIRET of another SIREN, at the same point as the one in the next step</li><li>C-106: none. INSEE places the print shop 58 m away, at random along its street</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The SIRET to invoice</strong><p>A lead for the mandatory mention, which a person checks.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The place links two sources with no common key, and the list is checked against an independent computation: data/insee.py, run by the replay.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Active"><button type="button" role="tab" id="active-commands-tab" data-view="commands" aria-controls="active-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="active-result-tab" data-view="result" aria-controls="active-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="active-commands" aria-labelledby="active-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm ask --scope billing-a --lang fr &quot;Pour chaque client, quels établissements actifs sont à moins de 30 m de lui ?&quot;</span>
+<span class="out">Il y a 5 établissements actifs à moins de 30 mètres de chaque client. Les détails sont les suivants :
+
+1. **Client : C-102, Nom : Garage du Tonkin, Établissement : 92345678200015, Signe : GARAGE DU TONKIN**
+2. **Client : C-103, Nom : Pharmacie de la Part-Dieu, Établissement : 93456789300024, Signe : PHARMACIE DE LA PART-DIEU**
+3. **Client : C-104, Nom : Fleurs Saint-Jean, Établissement : 95678901500028, Signe : FLEURS SAINT-JEAN**
+4. **Client : C-105, Nom : Cave de Gerland, Établissement : 97890123700019, Signe : CAVE DE GERLAND**
+5. **Client : C-108, Nom : Traiteur de la Guillotière, Établissement : 99012345900016, Signe : TRAITEUR DE LA GUILLOTIERE**
+
+Total : 5 établissements
+  data as of: 2026-11-14T01:07:05.150191Z (last completed run)
+
+  CUSTOMER_NO  NAME                        SIRET           SIGN
+  C-102        Garage du Tonkin            92345678200015  GARAGE DU TONKIN
+  C-103        Pharmacie de la Part-Dieu   93456789300024  PHARMACIE DE LA PART-DIEU
+  C-104        Fleurs Saint-Jean           95678901500028  FLEURS SAINT-JEAN
+  C-105        Cave de Gerland             97890123700019  CAVE DE GERLAND
+  C-108        Traiteur de la Guillotière  99012345900016  TRAITEUR DE LA GUILLOTIERE
+  5 rows returned
+
+  SQL: SELECT 
+    c.&quot;customer_no&quot;,
+    c.&quot;name&quot;,
+    e.&quot;siret&quot;,
+    e.&quot;sign&quot;
+FROM 
+    &quot;connector&quot;.&quot;v_client_a&quot; c
+JOIN 
+    &quot;connector&quot;.&quot;v_etablissement_a&quot; e
+ON 
+    connector.distance_m(c.&quot;latitude&quot;, c.&quot;longitude&quot;, e.&quot;latitude&quot;, e.&quot;longitude&quot;) &lt;= 30
+WHERE 
+    e.&quot;state&quot; = &#x27;A&#x27;
+LIMIT 500</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="active-result" aria-labelledby="active-result-tab" tabindex="0" hidden><dl class="facts"><dt>Pour chaque client, quels établissements actifs sont à moins de 30 m de lui ?</dt><dd>5</dd><dt>C-102</dt><dd>92345678200015 · GARAGE DU TONKIN</dd><dt>C-103</dt><dd>93456789300024 · PHARMACIE DE LA PART-DIEU</dd><dt>C-104</dt><dd>95678901500028 · FLEURS SAINT-JEAN</dd><dt>C-105</dt><dd>97890123700019 · CAVE DE GERLAND</dd><dt>C-108</dt><dd>99012345900016 · TRAITEUR DE LA GUILLOTIERE</dd><dt>SQL · 01-active</dt><dd>SELECT c.&quot;customer_no&quot;, c.&quot;name&quot;, e.&quot;siret&quot;, e.&quot;sign&quot; FROM &quot;connector&quot;.&quot;v_client_a&quot; c JOIN &quot;connector&quot;.&quot;v_etablissement_a&quot; e ON connector.distance_m(c.&quot;latitude&quot;, c.&quot;longitude&quot;, e.&quot;latitude&quot;, e.&quot;longitude&quot;) &lt;= 30 WHERE e.&quot;state&quot; = &#x27;A&#x27; LIMIT 500</dd></dl><p class="sources">evidence: replay.log, insee.txt, customers.json, establishments.txt, establishments.json, run-scenario-erp-customers-a.txt, run-scenario-erp-customers-a.json, run-scenario-insee-geoloc-a.txt, run-scenario-insee-geoloc-a.json, run-scenario-insee-sirene-a.txt, run-scenario-insee-sirene-a.json, 01-active.txt, 01-active.json, 02-closed.txt, 02-closed.json, 03-another.txt, 03-another.json, 04-insee.txt, 04-insee.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-closed" aria-labelledby="closed-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="closed-title">For each customer the closed establishments within 30 m</h2>
+      <p>Three pairs:</p><ul class="prose-list"><li>C-101 and the bakery, 4 m apart: closed, current period since 2026-06-30, no active establishment beside it. Last ERP invoice: 2026-10-15</li><li>C-103 and an optician, 26 m apart: another sign. The pharmacy itself is active</li><li>C-105 and the former wine shop, 12 m apart: another SIREN is active at the same point. The SIREN to invoice changed</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Invoiced after the closure</strong><p>dateDebut opens the establishment&#x27;s current period, here closed: the closure is on that date or before. The ERP&#x27;s date is the last invoice.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A customer invoiced after its establishment closed shows up, with no common key between the ERP and INSEE.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Closed"><button type="button" role="tab" id="closed-commands-tab" data-view="commands" aria-controls="closed-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="closed-result-tab" data-view="result" aria-controls="closed-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="closed-commands" aria-labelledby="closed-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm ask --scope billing-a --lang fr &quot;Pour chaque client, quels établissements fermés sont à moins de 30 m de lui ?&quot;</span>
+<span class="out">Il y a 3 établissements fermés à moins de 30 m de chaque client. Les détails sont les suivants :
+
+1. **Boulang. des Pentes** (SIRET : 91234567100012)
+2. **Pharmacie de la Part-Dieu** (SIRET : 94567890400011)
+3. **Cave de Gerland** (SIRET : 96789012600013)
+  data as of: 2026-11-14T01:07:05.150191Z (last completed run)
+
+  CUSTOMER_NO  NAME                       SIRET           SIGN
+  C-101        Boulang. des Pentes        91234567100012  BOULANGERIE DES PENTES
+  C-103        Pharmacie de la Part-Dieu  94567890400011  OPTIQUE BOUCHUT
+  C-105        Cave de Gerland            96789012600013  CAVE DE GERLAND
+  3 rows returned
+
+  SQL: SELECT 
+    c.&quot;customer_no&quot;,
+    c.&quot;name&quot;,
+    e.&quot;siret&quot;,
+    e.&quot;sign&quot;
+FROM 
+    &quot;connector&quot;.&quot;v_client_a&quot; c
+JOIN 
+    &quot;connector&quot;.&quot;v_etablissement_a&quot; e
+ON 
+    connector.distance_m(c.&quot;latitude&quot;, c.&quot;longitude&quot;, e.&quot;latitude&quot;, e.&quot;longitude&quot;) &lt;= 30
+WHERE 
+    e.&quot;state&quot; = &#x27;F&#x27;
+LIMIT 500</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="closed-result" aria-labelledby="closed-result-tab" tabindex="0" hidden><dl class="facts"><dt>Pour chaque client, quels établissements fermés sont à moins de 30 m de lui ?</dt><dd>3</dd><dt>C-101</dt><dd>91234567100012 · BOULANGERIE DES PENTES</dd><dt>C-103</dt><dd>94567890400011 · OPTIQUE BOUCHUT</dd><dt>C-105</dt><dd>96789012600013 · CAVE DE GERLAND</dd><dt>SQL · 02-closed</dt><dd>SELECT c.&quot;customer_no&quot;, c.&quot;name&quot;, e.&quot;siret&quot;, e.&quot;sign&quot; FROM &quot;connector&quot;.&quot;v_client_a&quot; c JOIN &quot;connector&quot;.&quot;v_etablissement_a&quot; e ON connector.distance_m(c.&quot;latitude&quot;, c.&quot;longitude&quot;, e.&quot;latitude&quot;, e.&quot;longitude&quot;) &lt;= 30 WHERE e.&quot;state&quot; = &#x27;F&#x27; LIMIT 500</dd></dl><p class="sources">evidence: replay.log, insee.txt, customers.json, establishments.txt, establishments.json, run-scenario-erp-customers-a.txt, run-scenario-erp-customers-a.json, run-scenario-insee-geoloc-a.txt, run-scenario-insee-geoloc-a.json, run-scenario-insee-sirene-a.txt, run-scenario-insee-sirene-a.json, 01-active.txt, 01-active.json, 02-closed.txt, 02-closed.json, 03-another.txt, 03-another.json, 04-insee.txt, 04-insee.json · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-wording" aria-labelledby="wording-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="wording-title">Two other wordings with no other list</h2>
+      <p>The model&#x27;s path varies with the scope&#x27;s card: the right list, its own abstention, or a query the guard refuses before it runs. The replay requires the right list or none.</p><ul class="prose-list"><li>&quot;… d&#x27;un établissement fermé?&quot;: here, the model&#x27;s abstention, with no SQL</li><li>&quot;… quels établissements INSEE…?&quot;: here, the 8 pairs within 30 m, as data/insee.py has them</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The result shows what came</strong><p>A list, compared with data/insee.py, or the abstention sentence.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A wording translated wrong does not give another list: the right one, or none.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Word"><button type="button" role="tab" id="wording-commands-tab" data-view="commands" aria-controls="wording-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="wording-result-tab" data-view="result" aria-controls="wording-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="wording-commands" aria-labelledby="wording-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm ask --scope billing-a --lang fr &quot;Quels clients sont à moins de 30 m d&#x27;un établissement fermé ?&quot;</span>
+<span class="out">Je ne peux pas répondre à partir des données disponibles pour ce périmètre — la question ne correspond pas au schéma déclaré.</span>
+
+<span class="cmd"><span class="prompt">$</span> lm ask --scope billing-a --lang fr &quot;Pour chaque client, quels établissements INSEE sont à moins de 30 m de lui ?&quot;</span>
+<span class="out">Il y a 8 établissements INSEE à moins de 30 mètres de chaque client. Les clients sont : Boulang. des Pentes, Garage du Tonkin, Pharmacie de la Part-Dieu, Fleur Saint-Jean, Cave de Gerland et Traiteur de la Guillotière.
+  data as of: 2026-11-14T01:07:05.150191Z (last completed run)
+
+  CUSTOMER_NO  NAME                        SIRET           SIGN
+  C-101        Boulang. des Pentes         91234567100012  BOULANGERIE DES PENTES
+  C-102        Garage du Tonkin            92345678200015  GARAGE DU TONKIN
+  C-103        Pharmacie de la Part-Dieu   93456789300024  PHARMACIE DE LA PART-DIEU
+  C-103        Pharmacie de la Part-Dieu   94567890400011  OPTIQUE BOUCHUT
+  C-104        Fleurs Saint-Jean           95678901500028  FLEURS SAINT-JEAN
+  C-105        Cave de Gerland             96789012600013  CAVE DE GERLAND
+  C-105        Cave de Gerland             97890123700019  CAVE DE GERLAND
+  C-108        Traiteur de la Guillotière  99012345900016  TRAITEUR DE LA GUILLOTIERE
+  8 rows returned
+
+  SQL: SELECT 
+    c.&quot;customer_no&quot;,
+    c.&quot;name&quot;,
+    e.&quot;siret&quot;,
+    e.&quot;sign&quot;
+FROM 
+    &quot;connector&quot;.&quot;v_client_a&quot; c
+JOIN 
+    &quot;connector&quot;.&quot;v_etablissement_a&quot; e
+ON 
+    connector.distance_m(c.&quot;latitude&quot;, c.&quot;longitude&quot;, e.&quot;latitude&quot;, e.&quot;longitude&quot;) &lt;= 30
+LIMIT 500</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="wording-result" aria-labelledby="wording-result-tab" tabindex="0" hidden><dl class="facts"><dt>Quels clients sont à moins de 30 m d&#x27;un établissement fermé ?</dt><dd>Je ne peux pas répondre à partir des données disponibles pour ce périmètre — la question ne correspond pas au schéma déclaré.</dd><dt>Pour chaque client, quels établissements INSEE sont à moins de 30 m de lui ?</dt><dd>8 · C-101:91234567100012 C-102:92345678200015 C-103:93456789300024 C-103:94567890400011 C-104:95678901500028 C-105:96789012600013 C-105:97890123700019 C-108:99012345900016</dd></dl><p class="sources">evidence: replay.log, insee.txt, customers.json, establishments.txt, establishments.json, run-scenario-erp-customers-a.txt, run-scenario-erp-customers-a.json, run-scenario-insee-geoloc-a.txt, run-scenario-insee-geoloc-a.json, run-scenario-insee-sirene-a.txt, run-scenario-insee-sirene-a.json, 01-active.txt, 01-active.json, 02-closed.txt, 02-closed.json, 03-another.txt, 03-another.json, 04-insee.txt, 04-insee.json · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>The wording matters, and the model&#x27;s (qwen2.5-coder:7b) path varies with the card: across the preparation rehearsals, &quot;… d&#x27;un établissement fermé?&quot; got an abstention with no SQL, a query the guard refused, or the right list. The guard refuses a measure made through a sub-query, even a right one. All questions were asked in French.</li><li>INSEE&#x27;s point is not always the door. With qualite_xy 12 the street is sure but the position along it is random; with 22 the street itself is only probable: within 120.4 m for C-106&#x27;s print shop.</li><li>The link is the place, not the name: &quot;Boulang. des Pentes&quot; and &quot;BOULANGERIE DES PENTES&quot; are compared by eye. In a shopping centre, 30 m covers dozens of establishments: the list becomes a list of candidates.</li><li>The answer&#x27;s sentence is written by the model: here it says &quot;of each customer&quot; when two customers have none, mixes a customer&#x27;s name with the SIRET next door, misspells a sign. The table and the SQL are what counts.</li><li>The national files, 1.1 GB and 2.9 GB compressed, were not loaded: their volume is not measured here.</li><li>INSEE announces the end of the geolocation CSV in the second half of 2027, for Parquet only, which csv-file does not read.</li><li>The November 2026 file codes the state A or F. The Sirene V4 API splits it into several codes.</li><li>Invented establishments and SIRETs: they fail the Luhn check on purpose, none is real. The files keep INSEE&#x27;s real format.</li></ul></section>
+  <section class="try"><p>This scenario needs lumnik Pro.</p><a class="try-button" href="../../editions.html">See the editions →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
