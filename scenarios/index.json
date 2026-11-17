@@ -238,6 +238,26 @@
       "evidenceDigest": "sha256:ad98251130ee5f08373937d5fdfd0a3d030450d15289a5ae0816d3602945c732"
     },
     {
+      "slug": "customer-closed-at-insee",
+      "title": "The customer invoiced after its establishment closed found by place in the legacy export",
+      "goal": "Offer each ERP customer the SIRET of its establishment, and spot the ones INSEE says are closed, by crossing the customer export with INSEE's public files through the GPS point.",
+      "lede": "With e-invoicing, the customer's SIREN becomes a mandatory mention. The legacy export has no reliable SIRET; INSEE publishes every establishment with its state and its GPS point. No common key: the link is the place.\n- 5 customers get an active SIRET within 30 m\n- 3 closed establishments within 30 m of a customer, each for a person to read\n- one customer is still invoiced after the closure, with no active establishment beside it",
+      "tags": {
+        "domain": [
+          "Invoicing",
+          "Geography",
+          "AI"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-14",
+      "evidenceDigest": "sha256:7bf98381406254119d5347c729a14c2e3f007bc16fd74f07829a593d5ba55aea"
+    },
+    {
       "slug": "customers-near-the-depot",
       "title": "The customers within 20 km of the depot measured from the legacy export",
       "goal": "Ask which customers are within 20 km of a depot and get the list measured from the ERP's coordinates, with its SQL, or a doubt when the centre cannot be found, never an invented figure.",
