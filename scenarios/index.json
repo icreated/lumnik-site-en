@@ -976,6 +976,26 @@
       "evidenceDigest": "sha256:b480783fa4804a91c2db3b7f6906db0d7983031d81a64149119cbce138306271"
     },
     {
+      "slug": "pool-filter-pressure",
+      "title": "The filter pressure rises while the pump runs: lumnik says where to go and what to check",
+      "goal": "Get a visit to make, with the customer, the last backwash and the filter model, when a pool filter's pressure passes that filter's own limit while filtration runs.",
+      "lede": "A pool professional follows a fleet of pools in MyIndygo. One filter is clogging: its pressure rises, but only while filtration runs. The customer, the contract, the last backwash and the installed filter live in three other tools.\n- four sources, four REST connectors\n- one record per filtration module\n- one decision, for the only pool above its filter's limit with the pump running",
+      "tags": {
+        "domain": [
+          "Pools",
+          "Maintenance"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-20",
+      "evidenceDigest": "sha256:1c6db9c7e305e1e745954e2b67b60cebf581624c94bc3352e26b01fab0a0a9c0"
+    },
+    {
       "slug": "progress-openedge-customers",
       "title": "OpenEdge: the 1999 order that must not become 2099",
       "goal": "Read an OpenEdge ERP's customer export with every year in its century, and be told when a dormant customer is reactivated, to check its credit before the first delivery.",
