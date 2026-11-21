@@ -343,6 +343,26 @@
       "evidenceDigest": "sha256:65ea9cbf324f2bd40f57749950607cf94d4e7c39e26e30b34a31c04f93da2e99"
     },
     {
+      "slug": "delivered-far-from-address",
+      "title": "Marked delivered 2 km from the address",
+      "goal": "Spot each parcel marked delivered far from its address, or with no scan position, as soon as the carrier's file arrives.",
+      "lede": "\"Parcel marked delivered, never received\" recurs before the e-commerce mediator, and the seller owes a conforming delivery. The proof-of-delivery file holds the address's position and the scan's on one row. Nobody compares them: lumnik does.\n- the distance measured at the door by the operator's script\n- beyond 200 m: a decision\n- with no scan position: another",
+      "tags": {
+        "domain": [
+          "E-commerce",
+          "Transport",
+          "Geography"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:48225a9df096060c3df8d51c425f24fad8286194ed4e9705f7a409df4e85c4cc"
+    },
+    {
       "slug": "delivery-date-two-warehouses",
       "title": "A delivery date each warehouse works out differently",
       "goal": "Compute for each order the delivery date each warehouse can keep, with one working-day rule written once and set per warehouse (country, lead time, closed days).",

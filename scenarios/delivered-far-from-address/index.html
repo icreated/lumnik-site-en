@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marked delivered 2 km from the address — lumnik</title>
+<meta name="description" content="Spot each parcel marked delivered far from its address, or with no scan position, as soon as the carrier&#x27;s file arrives. &quot;Parcel marked delivered, never received&quot; recurs before the e-commerce mediator, and the seller owes a conforming delivery. The proof-of-delivery file holds the address&#x27;s position and the scan&#x27;s on one row. Nobody compares them: lumnik does. The distance measured at the door by the operator&#x27;s script. Beyond 200 m: a decision. With no scan position: another.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/delivered-far-from-address/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/delivered-far-from-address/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>Marked delivered 2 km from the address</h1>
+    <p class="goal"><strong>Goal</strong> Spot each parcel marked delivered far from its address, or with no scan position, as soon as the carrier&#x27;s file arrives.</p>
+    <p class="lede">&quot;Parcel marked delivered, never received&quot; recurs before the e-commerce mediator, and the seller owes a conforming delivery. The proof-of-delivery file holds the address&#x27;s position and the scan&#x27;s on one row. Nobody compares them: lumnik does.</p><ul class="lede-list"><li>the distance measured at the door by the operator&#x27;s script</li><li>beyond 200 m: a decision</li><li>with no scan position: another</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">E-commerce</li><li class="tag">Transport</li><li class="tag">Geography</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-day1" data-step="day1" aria-current="step"><span class="num">1 · Declare</span><span class="sub">Script + two rules</span></a><a href="#step-day2" data-step="day2"><span class="num">2 · Decide</span><span class="sub">The second day</span></a></nav>
+  <section class="step" id="step-day1" aria-labelledby="day1-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="day1-title">The distance measured at the door</h2>
+      <p>The carrier drops its proofs of delivery over SFTP. The operator&#x27;s script measures the distance between the scan and the address.</p><ul class="prose-list"><li>kotlin: distance_m, in metres (haversine)</li><li>distance_m&gt;200: beyond a building&#x27;s entrance or a GPS error</li><li>distance_issue=no scan position: with no position, no distance can raise the row</li><li>the first day lands before the rules</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The script named</strong><p>The run names the script and its SHA-256.</p></div></li><li><span class="n">2</span><div><strong>First day</strong><p>CL-90012 at 753 m: landed before the rules, nothing decided.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A distance is computed once, at the door.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Declare"><button type="button" role="tab" id="day1-source-tab" data-view="source" aria-controls="day1-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="day1-manifest-tab" data-view="manifest" aria-controls="day1-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="day1-commands-tab" data-view="commands" aria-controls="day1-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="day1-result-tab" data-view="result" aria-controls="day1-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="day1-source" aria-labelledby="day1-source-tab" tabindex="0"><figure class="source"><figcaption>pod-2026-11-20.csv</figcaption><pre class="code">tracking_no;recipient;address;address_lat;address_lon;scan_lat;scan_lon;scanned_at;status
+CL-90011;M. Bernard;14 rue Paul Bert, Lyon;45.75780;4.84320;45.75795;4.84305;2026-11-20 10:12;LIVRE
+CL-90012;Mme Faure;3 place Bellecour, Lyon;45.75780;4.83200;45.76210;4.83950;2026-11-20 11:40;LIVRE</pre></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="day1-manifest" aria-labelledby="day1-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/scan-distance.kts</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line">// Operator-provided: how far from the delivery address the driver&#x27;s scan was taken, in metres (haversine, the Earth</span><span class="line">// as a sphere of 6,371,008.8 m). A point missing or out of range gives no distance, and distance_issue says why.</span><span class="line">@Suppress(<span class="str">&quot;UNCHECKED_CAST&quot;</span>)</span><span class="line">val cells = bindings[<span class="str">&quot;cells&quot;</span>] as MutableMap&lt;String, Any?&gt;</span><span class="line">fun coord(name: String, limit: Double): Double? =</span><span class="line">    (cells[name] as String?)?.trim()?.replace(&#x27;,&#x27;, &#x27;.&#x27;)?.toDoubleOrNull()?.takeIf { kotlin.math.abs(it) &lt;= limit }</span><span class="line">val lat1 = coord(<span class="str">&quot;address_lat&quot;</span>, 90.0); val lon1 = coord(<span class="str">&quot;address_lon&quot;</span>, 180.0)</span><span class="line">val lat2 = coord(<span class="str">&quot;scan_lat&quot;</span>, 90.0); val lon2 = coord(<span class="str">&quot;scan_lon&quot;</span>, 180.0)</span><span class="line">if (lat1 == null || lon1 == null || lat2 == null || lon2 == null) {</span><span class="line">    cells[<span class="str">&quot;distance_m&quot;</span>] = null</span><span class="line">    cells[<span class="str">&quot;distance_issue&quot;</span>] = if (lat2 == null || lon2 == null) <span class="str">&quot;no scan position&quot;</span> else <span class="str">&quot;no address position&quot;</span></span><span class="line">} else {</span><span class="line">    val r = 6_371_008.8</span><span class="line">    val dLat = Math.toRadians(lat2 - lat1); val dLon = Math.toRadians(lon2 - lon1)</span><span class="line">    val a = Math.pow(Math.sin(dLat / 2), 2.0) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.pow(Math.sin(dLon / 2), 2.0)</span><span class="line">    cells[<span class="str">&quot;distance_m&quot;</span>] = Math.round(2 * r * Math.asin(Math.sqrt(a))).toString()</span><span class="line">    cells[<span class="str">&quot;distance_issue&quot;</span>] = null</span><span class="line">}</span></code></pre><div class="file"><span class="filename">manifests/10-pod.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-pod-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [livraison-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: sftp</span><span class="line">    <span class="key">host</span>: host.docker.internal</span><span class="line">    <span class="key">port</span>: 2230</span><span class="line">    <span class="key">user</span>: transporteur</span><span class="line">    <span class="key">path</span>: /pod/pod-*.csv</span><span class="line">    <span class="key">password_env</span>: SCENARIO_POD_A_SFTP</span><span class="line">    <span class="comment"># The fingerprint the carrier&#x27;s server presents, read out of band (ssh-keyscan | ssh-keygen -lf -).</span></span><span class="line">    <span class="key">host_key_fingerprint</span>: <span class="str">&quot;SHA256:FINGERPRINT_READ_AT_REPLAY&quot;</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">    <span class="key">encoding</span>: UTF-8</span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line hl">      <span class="dash">-</span> <span class="key">kotlin</span>:</span><span class="line">          <span class="key">script</span>: hooks:scan-distance-a.kts       <span class="comment"># the operator&#x27;s script: metres between the scan and the address</span></span><span class="line">      - parse-number: { column: distance_m, integer: true }</span></code></pre><div class="file"><span class="filename">manifests/20-far-from-address.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-pod-far-a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: livraison-a</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">event</span>: data.row.changed</span><span class="line">    <span class="key">table</span>: connector.t_scenario_pod_a</span><span class="line hl">  <span class="key">when</span>:</span><span class="line">    - status=LIVRE</span><span class="line">    - distance_m&gt;200          <span class="comment"># beyond what a building&#x27;s entrance or a GPS error explains</span></span><span class="line">  <span class="key">emit</span>:</span><span class="line">    <span class="key">type</span>: decision.pod-far-a</span><span class="line">    <span class="key">key</span>: tracking_no</span><span class="line">    <span class="key">message</span>: <span class="str">&quot;{tracking_no} for {recipient}, {address}: marked delivered {distance_m} m from the address — ask the carrier for its proof&quot;</span></span><span class="line">    <span class="key">fields</span>: [scanned_at, scan_lat, scan_lon]</span></code></pre><div class="file"><span class="filename">manifests/30-no-scan-position.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-pod-noscan-a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: livraison-a</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">event</span>: data.row.changed</span><span class="line">    <span class="key">table</span>: connector.t_scenario_pod_a</span><span class="line hl">  <span class="key">when</span>:</span><span class="line">    - status=LIVRE</span><span class="line">    - distance_issue=no scan position   <span class="comment"># no position: no distance can raise it, so it is raised for that</span></span><span class="line">  <span class="key">emit</span>:</span><span class="line">    <span class="key">type</span>: decision.pod-noscan-a</span><span class="line">    <span class="key">key</span>: tracking_no</span><span class="line">    <span class="key">message</span>: <span class="str">&quot;{tracking_no} for {recipient}, {address}: marked delivered with no scan position — the proof has no place&quot;</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="day1-commands" aria-labelledby="day1-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm hook scripts</span>
+<span class="out">NAME                 SIZE  SHA256
+cfonb-amount-b.kts   784   3f94b73a8a923324f6750648e230e3d91026299ed636627a4562b14552d493ba
+cfonb-amount-c.kts   784   3f94b73a8a923324f6750648e230e3d91026299ed636627a4562b14552d493ba
+coordinates-c.kts    5076  cc87f4a8e8ccbb38f3306d4dce5a013dab984c36a8cd72afd72e8bd142504542
+ean-check-b.kts      477   58c3d6b83a0df5c9ae779aada8604f6bd850db7c52ca258b5bc6dc45fd8ea23c
+ean-check-c.kts      477   58c3d6b83a0df5c9ae779aada8604f6bd850db7c52ca258b5bc6dc45fd8ea23c
+ean-check-d.kts      477   58c3d6b83a0df5c9ae779aada8604f6bd850db7c52ca258b5bc6dc45fd8ea23c
+ean-draft-b.kts      476   c8692d84859f810de8903ded14a03a1ec4db93e1282aa88b4fb9f5e42b6586ea
+ean-draft-c.kts      476   c8692d84859f810de8903ded14a03a1ec4db93e1282aa88b4fb9f5e42b6586ea
+ean-draft-d.kts      526   90a58aae66c5feec5e52017e90d86b9ee93e46ce7d97dc0c1eb4b5faefb636a7
+promised-date-b.kts  1407  44ceece5d17c40d337374d02f942aef41b092b6708ff7dbc48efc8b43aef1ac9
+scan-distance-a.kts  1223  5d678bbeef4433366b672de42bd162c8a79944c9932ccd5fafa6828e8768a398
+shipping-fee-c.kts   333   c1c59e5c7b81302d5a284c9c722ca8cacaca0fe859c8ae1c393cd1d54a1ad9ad
+shipping-fee-p.kts   333   c1c59e5c7b81302d5a284c9c722ca8cacaca0fe859c8ae1c393cd1d54a1ad9ad</span>
+
+<span class="cmd"><span class="prompt">$</span> lm apply -f 10-pod.yaml</span>
+<span class="out">Applied connector &quot;scenario-pod-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-pod-a</span>
+<span class="out">run scheduled: 4d39da22-913d-47df-b8e4-54c0c5200128</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 4d39da22-913d-47df-b8e4-54c0c5200128 --wait-evaluated</span>
+<span class="out">ID        CONNECTOR       ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+4d39da22  scenario-pod-a  default   Completed  2   2    0        0             2026-11-21 23:38  2026-11-21 23:38  yes</span>
+<span class="note">• script hooks:scan-distance-a.kts  sha256 5d678bbeef4433366b672de42bd162c8a79944c9932ccd5fafa6828e8768a398</span>
+
+<span class="cmd"><span class="prompt">$</span> lm process apply -f 20-far-from-address.yaml</span>
+<span class="out">Applied process &quot;scenario-pod-far-a&quot; → table connector.t_scenario_pod_a, emits decision.pod-far-a</span>
+
+<span class="cmd"><span class="prompt">$</span> lm process apply -f 30-no-scan-position.yaml</span>
+<span class="out">Applied process &quot;scenario-pod-noscan-a&quot; → table connector.t_scenario_pod_a, emits decision.pod-noscan-a</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="day1-result" aria-labelledby="day1-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>IN 2 · OUT 2</dd><dt>decisions</dt><dd>0: these rows came before the rules</dd></dl><p class="sources">evidence: replay.log, 00-check-distances.txt, 00-hook-scripts.txt, 01-far.json, 02-noscan.json, run-day1.txt, run-day2.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-day2" aria-labelledby="day2-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="day2-title">CL-90022 at 2,275 m, CL-90024 with no position</h2>
+      <p>The second file arrives. Each suspicious delivery gives a decision.</p><ul class="prose-list"><li>CL-90022: 2,275 m from the address, ask the carrier for its proof</li><li>CL-90024: no scan position</li><li>CL-90021 at 20 m and CL-90023 at 118 m: nothing</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Checked apart</strong><p>data/check_distances.py computes the same distances, with its own code.</p></div></li><li><span class="n">2</span><div><strong>Not a verdict</strong><p>The decision asks for the proof, it does not accuse.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Only deliveries far from the address, or with no position, raise a decision.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Decide"><button type="button" role="tab" id="day2-source-tab" data-view="source" aria-controls="day2-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="day2-commands-tab" data-view="commands" aria-controls="day2-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="day2-result-tab" data-view="result" aria-controls="day2-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="day2-source" aria-labelledby="day2-source-tab" tabindex="0"><figure class="source"><figcaption>pod-2026-11-21.csv</figcaption><pre class="code">tracking_no;recipient;address;address_lat;address_lon;scan_lat;scan_lon;scanned_at;status
+CL-90021;Mme Girard;8 rue de la République, Lyon;45.76270;4.83570;45.76281;4.83590;2026-11-21 09:05;LIVRE
+CL-90022;M. Chevalier;22 cours Lafayette, Lyon;45.76350;4.85230;45.77920;4.87110;2026-11-21 09:48;LIVRE
+CL-90023;Mme Roussel;5 quai Saint-Antoine, Lyon;45.76390;4.83010;45.76470;4.83110;2026-11-21 10:31;LIVRE
+CL-90024;M. Leclerc;40 avenue Berthelot, Lyon;45.74540;4.84280;;;2026-11-21 11:02;LIVRE</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="day2-commands" aria-labelledby="day2-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-pod-a</span>
+<span class="out">run scheduled: b62ef203-40b2-409c-80ff-1fdc245757b9</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get b62ef203-40b2-409c-80ff-1fdc245757b9 --wait-evaluated</span>
+<span class="out">ID        CONNECTOR       ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+b62ef203  scenario-pod-a  default   Completed  4   4    0        0             2026-11-21 23:38  2026-11-21 23:38  yes</span>
+<span class="note">• script hooks:scan-distance-a.kts  sha256 5d678bbeef4433366b672de42bd162c8a79944c9932ccd5fafa6828e8768a398</span>
+
+<span class="cmd"><span class="prompt">$</span> lm inbox --process scenario-pod-far-a</span>
+<span class="out">ID     WHEN      PROCESS             MESSAGE                                                                                                                        ENTITY_KEY
+31773  just now  scenario-pod-far-a  CL-90022 for M. Chevalier, 22 cours Lafayette, Lyon: marked delivered 2275 m from the address — ask the carrier for its proof  CL-90022</span>
+
+<span class="cmd"><span class="prompt">$</span> lm inbox --process scenario-pod-noscan-a</span>
+<span class="out">ID     WHEN      PROCESS                MESSAGE                                                                                                              ENTITY_KEY
+31774  just now  scenario-pod-noscan-a  CL-90024 for M. Leclerc, 40 avenue Berthelot, Lyon: marked delivered with no scan position — the proof has no place  CL-90024</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="day2-result" aria-labelledby="day2-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>IN 4 · OUT 4</dd><dt>CL-90021</dt><dd>20 m</dd><dt>CL-90022</dt><dd>2275 m</dd><dt>CL-90023</dt><dd>118 m</dd><dt>CL-90024</dt><dd>no scan position</dd><dt>&gt; 200 m</dt><dd>CL-90022 for M. Chevalier, 22 cours Lafayette, Lyon: marked delivered 2275 m from the address — ask the carrier for its proof</dd><dt>no scan</dt><dd>CL-90024 for M. Leclerc, 40 avenue Berthelot, Lyon: marked delivered with no scan position — the proof has no place</dd></dl><p class="sources">evidence: replay.log, 00-check-distances.txt, 00-hook-scripts.txt, 01-far.json, 02-noscan.json, run-day1.txt, run-day2.txt · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>No transformer measures a distance: it needs the operator&#x27;s script, installed in the hooks directory.</li><li>200 m is a choice: a large site, a locker or a relay point needs its own threshold.</li><li>A far scan is not a fraud: the decision asks for the proof.</li><li>The mediator&#x27;s report gives no figure on these cases: this proof is weaker than others.</li><li>Six synthetic deliveries in Lyon.</li></ul></section>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
