@@ -1891,6 +1891,26 @@
       "evidenceDigest": "sha256:a7606c4a38ca66439c86c2ac8750ba35c026ff5a2461acca4170b7f64cefa132"
     },
     {
+      "slug": "urbanism-tacit-permit",
+      "title": "A permit about to be granted by the town hall's silence",
+      "goal": "Be warned seven days before an undecided planning application becomes a tacit decision, by its type and its legal period.",
+      "lede": "A town hall instructs planning applications. With no decision notified in the period, silence counts as a non-opposition or a tacit permit. A town hall that loses track of a file has decided without meaning to: the warning is worth something only before.\n- the period in months, computed at the door by the operator's script\n- the warning seven days before the deadline\n- the ABF exception written once",
+      "tags": {
+        "domain": [
+          "Local government",
+          "Urban planning",
+          "Public sector"
+        ],
+        "kinds": [
+          "Connector",
+          "Workflow"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:8281a8f7264ed149f8d55e8d0fdd4097da13aa84af280bb05d4b5e40e4d92d5f"
+    },
+    {
       "slug": "wcf-soap-orders",
       "title": "WCF: the orders confirmed past the promised date",
       "goal": "Read a WCF service's open orders behind WS-Security, be told of each order confirmed past the promised date, and know when its password rotated.",
