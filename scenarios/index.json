@@ -913,6 +913,25 @@
       "evidenceDigest": "sha256:69ef587c0021ffa045f4e926ee84334d73dd1ec689ec4ea45b27d1b1ad66f639"
     },
     {
+      "slug": "odoo-product-name-json",
+      "title": "Odoo read from its PostgreSQL: the product name is a JSON",
+      "goal": "Read the products of a real Odoo 18 straight from its database, see what really lands, and get each product's French name.",
+      "lede": "Since Odoo 16 a translated field is one JSON per row, one key per language. Every report written against the old text column broke. An integrator reading Odoo's database meets it at product_template.name.\n- read as it is: the name lands as JSON text\n- the French name asked: Ask abstains\n- a DBA's view, in a schema of its own: four French names",
+      "tags": {
+        "domain": [
+          "ERP",
+          "Odoo",
+          "AI"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:6ab2a968d81ee3859cf465a2674de0d8fec1be1637f99fb643ebe21e7b28058d"
+    },
+    {
       "slug": "one-app-per-metier",
       "title": "A technician sees only the maintenance app",
       "goal": "Give maintenance and purchasing each their own app on the same hub, so that a technician reads their work orders without opening a supplier invoice or acknowledging a purchasing decision.",
