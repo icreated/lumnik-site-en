@@ -913,10 +913,29 @@
       "evidenceDigest": "sha256:69ef587c0021ffa045f4e926ee84334d73dd1ec689ec4ea45b27d1b1ad66f639"
     },
     {
+      "slug": "odoo-json2-partners",
+      "title": "Odoo 19's JSON-2 API: the page is read from the body",
+      "goal": "Read the 250 contacts of a real Odoo 19 through its JSON-2 API, page by page, with no database opened.",
+      "lede": "Odoo 19 replaces XML-RPC and JSON-RPC, removed in Odoo 22, with POST /json/2/<model>/<method>. Every existing integration has to move, and Odoo Online does not open its database: the API is its only door. JSON-2 reads offset and limit from the JSON body only.\n- body: the domain, fields and order Odoo expects\n- param_binding: body writes offset and limit into the body\n- three requests, 250 contacts, none twice",
+      "tags": {
+        "domain": [
+          "ERP",
+          "Odoo",
+          "API"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:84fedacbeeef72925e31375968eb7f54080b5080879d8c69ee2e1b4678a2a6ab"
+    },
+    {
       "slug": "odoo-product-name-json",
       "title": "Odoo read from its PostgreSQL: the product name is a JSON",
-      "goal": "Read the products of a real Odoo 18 straight from its database, see what really lands, and get each product's French name.",
-      "lede": "Since Odoo 16 a translated field is one JSON per row, one key per language. Every report written against the old text column broke. An integrator reading Odoo's database meets it at product_template.name.\n- read as it is: the name lands as JSON text\n- the French name asked: Ask abstains\n- a DBA's view, in a schema of its own: four French names",
+      "goal": "Read the products of a real Odoo 18 straight from its database and get each product's French name, without writing anything in Odoo.",
+      "lede": "Since Odoo 16 a translated field is one JSON per row, one key per language. Every report written against the old text column broke. An integrator reading Odoo's database meets it at product_template.name.\n- the name lands as JSON text, every language kept\n- promote reads the fr_FR key into a column of its own, with en_US as the fallback\n- the question in natural language gives the four French names",
       "tags": {
         "domain": [
           "ERP",
@@ -929,7 +948,7 @@
       },
       "edition": "pro",
       "replayedAt": "2026-11-21",
-      "evidenceDigest": "sha256:ae510178af68b582e75a073f55bf789b31bbf7108476f9bc3d6fa12d25e3442a"
+      "evidenceDigest": "sha256:03b861eb9502a08f2cce60a4699587f69185694e79fed2c8a79a4493b7e8fad6"
     },
     {
       "slug": "odoo-quotation-expired",

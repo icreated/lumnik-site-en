@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Odoo 19&#x27;s JSON-2 API: the page is read from the body — lumnik</title>
+<meta name="description" content="Read the 250 contacts of a real Odoo 19 through its JSON-2 API, page by page, with no database opened. Odoo 19 replaces XML-RPC and JSON-RPC, removed in Odoo 22, with POST /json/2/&lt;model&gt;/&lt;method&gt;. Every existing integration has to move, and Odoo Online does not open its database: the API is its only door. JSON-2 reads offset and limit from the JSON body only. Body: the domain, fields and order Odoo expects. Param_binding: body writes offset and limit into the body. Three requests, 250 contacts, none twice.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/odoo-json2-partners/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/odoo-json2-partners/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>Odoo 19&#x27;s JSON-2 API: the page is read from the body</h1>
+    <p class="goal"><strong>Goal</strong> Read the 250 contacts of a real Odoo 19 through its JSON-2 API, page by page, with no database opened.</p>
+    <p class="lede">Odoo 19 replaces XML-RPC and JSON-RPC, removed in Odoo 22, with POST /json/2/&lt;model&gt;/&lt;method&gt;. Every existing integration has to move, and Odoo Online does not open its database: the API is its only door. JSON-2 reads offset and limit from the JSON body only.</p><ul class="lede-list"><li>body: the domain, fields and order Odoo expects</li><li>param_binding: body writes offset and limit into the body</li><li>three requests, 250 contacts, none twice</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">ERP</li><li class="tag">Odoo</li><li class="tag">API</li><li class="tag kind">Connector</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-read" data-step="read" aria-current="step"><span class="num">1 · Read</span><span class="sub">JSON-2 + offset</span></a></nav>
+  <section class="step" id="step-read" aria-labelledby="read-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="read-title">250 contacts in three pages</h2>
+      <p>A real Odoo 19 runs in Docker. An API key opens JSON-2. 250 contacts are created through JSON-2 itself.</p><ul class="prose-list"><li>body: the domain ref =like LUM-%, the fields, the order</li><li>param_binding: body, offset and limit go into the body</li><li>X-Odoo-Database: the database addressed</li><li>the last page, short, ends the read</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Counted by Odoo</strong><p>Its log shows three search_read.</p></div></li><li><span class="n">2</span><div><strong>Counted by lumnik</strong><p>The run says IN 250, OUT 250.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The page goes where the API reads it.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="read-source-tab" data-view="source" aria-controls="read-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="read-manifest-tab" data-view="manifest" aria-controls="read-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="read-commands-tab" data-view="commands" aria-controls="read-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="read-result-tab" data-view="result" aria-controls="read-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="read-source" aria-labelledby="read-source-tab" tabindex="0"><figure class="source"><figcaption>odoo-requests.txt</figcaption><pre class="code">POST /json/2/res.partner/search_read HTTP/1.1 200
+POST /json/2/res.partner/search_read HTTP/1.1 200
+POST /json/2/res.partner/search_read HTTP/1.1 200</pre></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="read-manifest" aria-labelledby="read-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-partners.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-odoo-json2-a</span><span class="line">  <span class="key">connector_type</span>: rest-generic</span><span class="line">  <span class="key">scopes</span>: [crm-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">base_url</span>: http://host.docker.internal:18072</span><span class="line">  <span class="key">auth</span>:</span><span class="line">    <span class="key">kind</span>: bearer</span><span class="line">    <span class="key">token_env</span>: SCENARIO_ODOO_JSON2_A_KEY   <span class="comment"># an Odoo API key, Preferences → Account Security</span></span><span class="line">  <span class="key">headers</span>:</span><span class="line hl">    - { name: X-Odoo-Database, value: scen }</span><span class="line">  <span class="key">endpoints</span>:</span><span class="line">    <span class="dash">-</span> <span class="key">id</span>: partners</span><span class="line">      <span class="key">method</span>: POST</span><span class="line">      <span class="key">path</span>: /json/2/res.partner/search_read</span><span class="line hl">      <span class="key">body</span>:                                <span class="comment"># sent as JSON: JSON-2 reads its arguments from the body</span></span><span class="line">        <span class="key">domain</span>: [[ref, <span class="str">&quot;=like&quot;</span>, <span class="str">&quot;LUM-%&quot;</span>]]</span><span class="line">        <span class="key">fields</span>: [name, ref, city, email]</span><span class="line">        <span class="key">order</span>: id</span><span class="line">      <span class="key">pagination</span>:</span><span class="line">        <span class="key">kind</span>: offset</span><span class="line hl">        <span class="key">param_binding</span>: body                <span class="comment"># offset and limit written into the body, page after page</span></span><span class="line">        <span class="key">offset_param</span>: offset</span><span class="line">        <span class="key">limit_param</span>: limit</span><span class="line">        <span class="key">limit</span>: 100</span><span class="line">        <span class="key">response_path</span>: $</span><span class="line">      <span class="key">target</span>:</span><span class="line">        <span class="key">kind</span>: hybrid</span><span class="line">        <span class="key">table</span>: connector.scenario_odoo_partners_a</span><span class="line">        <span class="key">unique_key</span>: $.id</span><span class="line">        <span class="key">promote</span>:</span><span class="line">          - { name: partner_id, path: $.id, type: bigint }</span><span class="line">          - { name: name, path: $.name, type: text }</span><span class="line">          - { name: ref, path: $.ref, type: text }</span><span class="line">          - { name: city, path: $.city, type: text }</span><span class="line">          - { name: email, path: $.email, type: text }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="read-commands" aria-labelledby="read-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-partners.yaml</span>
+<span class="out">Applied connector &quot;scenario-odoo-json2-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm source rest test scenario-odoo-json2-a</span>
+<span class="out">ENDPOINT  METHOD  STATUS  ITEMS  VERDICT
+partners  POST    200     100    ok</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-odoo-json2-a</span>
+<span class="out">run scheduled: b9261716-4cca-4b81-adfe-dd87617fc5a7</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get b9261716-4cca-4b81-adfe-dd87617fc5a7 --wait-evaluated</span>
+<span class="out">ID        CONNECTOR              ENDPOINT  STATUS     IN   OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+b9261716  scenario-odoo-json2-a  partners  Completed  250  250  0        0             2026-11-21 18:40  2026-11-21 18:40  yes</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="read-result" aria-labelledby="read-result-tab" tabindex="0" hidden><dl class="facts"><dt>pre-flight</dt><dd>POST 200 · 100 items · ok</dd><dt>Odoo&#x27;s log</dt><dd>3 × POST /json/2/res.partner/search_read 200</dd><dt>run</dt><dd>IN 250 · OUT 250 · DEAD-LETTERS 0</dd></dl><p class="sources">evidence: replay.log, 01-seed.txt, 02-preflight.txt, 03-run.json, 04-odoo-requests.txt · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>The API key is minted by Odoo&#x27;s shell: a user creates it in Preferences, Account Security.</li><li>No watermark yet: each run reads the domain whole.</li><li>Odoo 18 and older have no JSON-2: read their PostgreSQL (odoo-product-name-json).</li><li>Before icreated/lumnik#2123, offset and limit went into the URL, which Odoo ignores: every page answered everything.</li><li>250 synthetic contacts.</li></ul></section>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
