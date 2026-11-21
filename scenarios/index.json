@@ -540,6 +540,26 @@
       "evidenceDigest": "sha256:70336c22436e96e4fbc85464a773bb62e4830def557b57dcf444e84337e773c4"
     },
     {
+      "slug": "einvoice-not-taken-in-charge",
+      "title": "An e-invoice made available never taken in charge",
+      "goal": "Know which e-invoice reached the buyer a week ago without being taken in charge, from the approved platform's lifecycle statuses.",
+      "lede": "Since 1 September 2026 every French company receives its invoices through an approved platform. Each invoice carries lifecycle statuses: Déposée, Mise à disposition, Prise en charge, Encaissée… An invoice that reached the buyer (203) and was never taken in charge (204) will not be paid on time.\n- the status codes declared once, as a Workflow\n- an unknown code reported at apply\n- the invoice left in 203 for a week: a decision",
+      "tags": {
+        "domain": [
+          "E-invoicing",
+          "Finance",
+          "Tax"
+        ],
+        "kinds": [
+          "Connector",
+          "Workflow"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:9017e5dc4cc4e08be5d0a1010205865e7cca1bfd3ed8122bef6e7e788502ec8c"
+    },
+    {
       "slug": "entity-resolution",
       "title": "One customer in two systems with no shared id",
       "goal": "Match ERP accounts and CRM contacts by email, flag as ambiguous a contact whose email points at two accounts, and keep the decision of the person who settles it.",
