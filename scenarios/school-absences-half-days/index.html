@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four unjustified half-days in a month: the school must act — lumnik</title>
+<meta name="description" content="Know from the monthly export which pupils reach four unjustified half-days of absence, and which pass ten, without opening the school software&#x27;s report. From four unjustified half-days in a month, the head convenes the family. Beyond ten, the academic director (Dasen) is informed. The school software counts, but the count stays in a report. The monthly export arrives over SFTP. Two Processes, one per threshold. One decision per pupil and threshold crossed.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/school-absences-half-days/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/school-absences-half-days/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>Four unjustified half-days in a month: the school must act</h1>
+    <p class="goal"><strong>Goal</strong> Know from the monthly export which pupils reach four unjustified half-days of absence, and which pass ten, without opening the school software&#x27;s report.</p>
+    <p class="lede">From four unjustified half-days in a month, the head convenes the family. Beyond ten, the academic director (Dasen) is informed. The school software counts, but the count stays in a report.</p><ul class="lede-list"><li>the monthly export arrives over SFTP</li><li>two Processes, one per threshold</li><li>one decision per pupil and threshold crossed</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Education</li><li class="tag">Public sector</li><li class="tag kind">Connector</li><li class="tag kind">Process</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-october" data-step="october" aria-current="step"><span class="num">1 · Declare</span><span class="sub">October + two thresholds</span></a><a href="#step-november" data-step="november"><span class="num">2 · Decide</span><span class="sub">November</span></a></nav>
+  <section class="step" id="step-october" aria-labelledby="october-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="october-title">October&#x27;s export, then two thresholds</h2>
+      <p>The school software drops its monthly export on an SFTP server. October lands first, then the two rules are declared.</p><ul class="prose-list"><li>delimiter: the export&#x27;s semicolon</li><li>demi_journees_non_justifiees&gt;=4: the family is convened</li><li>demi_journees_non_justifiees&gt;10: the Dasen is informed</li><li>key: eleve_id, the decision carries the pupil</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The software&#x27;s count</strong><p>lumnik reads the figure as exported.</p></div></li><li><span class="n">2</span><div><strong>October</strong><p>Hugo Perrin had 4: those rows precede the rules, nothing is decided.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A legal threshold is declared in one line.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Declare"><button type="button" role="tab" id="october-source-tab" data-view="source" aria-controls="october-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="october-manifest-tab" data-view="manifest" aria-controls="october-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="october-commands-tab" data-view="commands" aria-controls="october-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="october-result-tab" data-view="result" aria-controls="october-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="october-source" aria-labelledby="october-source-tab" tabindex="0"><figure class="source"><figcaption>absences-2026-10.csv</figcaption><pre class="code">eleve_id;eleve;classe;mois;demi_journees_non_justifiees;demi_journees_justifiees
+E-1041;Lina Garnier;4e B;2026-10;1;2
+E-1042;Hugo Perrin;4e B;2026-10;4;0
+E-1043;Jade Collin;4e B;2026-10;0;6
+E-1044;Noah Lemaire;4e B;2026-10;2;1
+E-1045;Zoé Brunet;4e B;2026-10;0;0</pre></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="october-manifest" aria-labelledby="october-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-absences.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-absences-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [vie-scolaire-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: sftp</span><span class="line">    <span class="key">host</span>: host.docker.internal</span><span class="line">    <span class="key">port</span>: 2225</span><span class="line">    <span class="key">user</span>: viesco</span><span class="line">    <span class="key">path</span>: /exports/absences-*.csv</span><span class="line">    <span class="key">password_env</span>: SCENARIO_ABSENCES_A_SFTP</span><span class="line">    <span class="comment"># The fingerprint the school&#x27;s server presents, read out of band (ssh-keyscan | ssh-keygen -lf -).</span></span><span class="line">    <span class="key">host_key_fingerprint</span>: <span class="str">&quot;SHA256:FINGERPRINT_READ_AT_REPLAY&quot;</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">    <span class="key">encoding</span>: UTF-8</span><span class="line">  <span class="key">after_process</span>: none</span></code></pre><div class="file"><span class="filename">manifests/20-four-half-days.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-absences-four-a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: vie-scolaire-a</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">event</span>: data.row.changed</span><span class="line">    <span class="key">table</span>: connector.t_scenario_absences_a</span><span class="line hl">  <span class="key">when</span>:</span><span class="line">    - demi_journees_non_justifiees&gt;=4   <span class="comment"># Code de l&#x27;éducation: from four unjustified half-days in a month</span></span><span class="line">  <span class="key">emit</span>:</span><span class="line">    <span class="key">type</span>: decision.absences-four-a</span><span class="line hl">    <span class="key">key</span>: eleve_id</span><span class="line">    <span class="key">message</span>: <span class="str">&quot;{eleve} ({classe}): {demi_journees_non_justifiees} half-days unjustified in {mois}: the head convenes the family&quot;</span></span></code></pre><div class="file"><span class="filename">manifests/30-more-than-ten.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Process</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-absences-ten-a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: vie-scolaire-a</span><span class="line">  <span class="key">on</span>:</span><span class="line">    <span class="key">event</span>: data.row.changed</span><span class="line">    <span class="key">table</span>: connector.t_scenario_absences_a</span><span class="line hl">  <span class="key">when</span>:</span><span class="line">    - demi_journees_non_justifiees&gt;10   <span class="comment"># more than ten: the academic director (Dasen) is informed</span></span><span class="line">  <span class="key">emit</span>:</span><span class="line">    <span class="key">type</span>: decision.absences-ten-a</span><span class="line hl">    <span class="key">key</span>: eleve_id</span><span class="line">    <span class="key">message</span>: <span class="str">&quot;{eleve} ({classe}): {demi_journees_non_justifiees} half-days unjustified in {mois}: the Dasen is informed&quot;</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="october-commands" aria-labelledby="october-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-absences.yaml</span>
+<span class="out">Applied connector &quot;scenario-absences-a&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-absences-a</span>
+<span class="out">run scheduled: 06075a63-7925-4ca0-9b2a-99fe2146010f</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 06075a63-7925-4ca0-9b2a-99fe2146010f --wait-evaluated</span>
+<span class="out">ID        CONNECTOR            ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+06075a63  scenario-absences-a  default   Completed  5   5    0        0             2026-11-21 11:02  2026-11-21 11:02  yes</span>
+
+<span class="cmd"><span class="prompt">$</span> lm process apply -f 20-four-half-days.yaml</span>
+<span class="out">Applied process &quot;scenario-absences-four-a&quot; → table connector.t_scenario_absences_a, emits decision.absences-four-a</span>
+
+<span class="cmd"><span class="prompt">$</span> lm process apply -f 30-more-than-ten.yaml</span>
+<span class="out">Applied process &quot;scenario-absences-ten-a&quot; → table connector.t_scenario_absences_a, emits decision.absences-ten-a</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="october-result" aria-labelledby="october-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>IN 5 · OUT 5</dd><dt>decisions</dt><dd>0: the rules came after these rows</dd></dl><p class="sources">evidence: replay.log, 01-four.json, 02-ten.json, run-october.txt, run-november.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-november" aria-labelledby="november-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="november-title">November: three decisions for two pupils</h2>
+      <p>November&#x27;s export arrives. Each threshold crossed gives a decision.</p><ul class="prose-list"><li>Lina Garnier: 5, the family is convened</li><li>Hugo Perrin: 12, the family is convened and the Dasen informed</li><li>Jade Collin: 9 half-days, all justified: nothing</li><li>Noah Lemaire: 3: nothing</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Justified</strong><p>A justified absence does not count.</p></div></li><li><span class="n">2</span><div><strong>Two thresholds</strong><p>Hugo Perrin crosses both: two decisions.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>Only pupils past a threshold raise a decision.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Decide"><button type="button" role="tab" id="november-source-tab" data-view="source" aria-controls="november-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="november-commands-tab" data-view="commands" aria-controls="november-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="november-result-tab" data-view="result" aria-controls="november-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="november-source" aria-labelledby="november-source-tab" tabindex="0"><figure class="source"><figcaption>absences-2026-11.csv</figcaption><pre class="code">eleve_id;eleve;classe;mois;demi_journees_non_justifiees;demi_journees_justifiees
+E-1041;Lina Garnier;4e B;2026-11;5;0
+E-1042;Hugo Perrin;4e B;2026-11;12;1
+E-1043;Jade Collin;4e B;2026-11;0;9
+E-1044;Noah Lemaire;4e B;2026-11;3;0
+E-1045;Zoé Brunet;4e B;2026-11;0;1</pre></figure></div><div role="tabpanel" class="view-panel view-panel-commands" id="november-commands" aria-labelledby="november-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm connector run scenario-absences-a</span>
+<span class="out">run scheduled: bef0b156-0def-4c39-ab0f-a767cad168c3</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get bef0b156-0def-4c39-ab0f-a767cad168c3 --wait-evaluated</span>
+<span class="out">ID        CONNECTOR            ENDPOINT  STATUS     IN  OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+bef0b156  scenario-absences-a  default   Completed  5   5    0        0             2026-11-21 11:02  2026-11-21 11:02  yes</span>
+
+<span class="cmd"><span class="prompt">$</span> lm inbox --process scenario-absences-four-a</span>
+<span class="out">ID     WHEN      PROCESS                   MESSAGE                                                                                ENTITY_KEY
+31355  just now  scenario-absences-four-a  Hugo Perrin (4e B): 12 half-days unjustified in 2026-11: the head convenes the family  E-1042
+31354  just now  scenario-absences-four-a  Lina Garnier (4e B): 5 half-days unjustified in 2026-11: the head convenes the family  E-1041</span>
+
+<span class="cmd"><span class="prompt">$</span> lm inbox --process scenario-absences-ten-a</span>
+<span class="out">ID     WHEN      PROCESS                  MESSAGE                                                                         ENTITY_KEY
+31356  just now  scenario-absences-ten-a  Hugo Perrin (4e B): 12 half-days unjustified in 2026-11: the Dasen is informed  E-1042</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="november-result" aria-labelledby="november-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>IN 5 · OUT 5</dd><dt>≥ 4</dt><dd>Lina Garnier (4e B): 5 half-days unjustified in 2026-11: the head convenes the family</dd><dt>≥ 4</dt><dd>Hugo Perrin (4e B): 12 half-days unjustified in 2026-11: the head convenes the family</dd><dt>&gt; 10</dt><dd>Hugo Perrin (4e B): 12 half-days unjustified in 2026-11: the Dasen is informed</dd></dl><p class="sources">evidence: replay.log, 01-four.json, 02-ten.json, run-october.txt, run-november.txt · transform v1</p></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>lumnik does not sum half-days: the count must come from the export.</li><li>Pupils are minors: synthetic names. The connector&#x27;s scope bounds who reads them.</li><li>Who is told at four differs by academy circular: the decision follows the national page.</li><li>No message is sent: the decision lands in the team&#x27;s inbox.</li><li>Synthetic data.</li></ul></section>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
