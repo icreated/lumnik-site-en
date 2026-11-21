@@ -754,6 +754,26 @@
       "evidenceDigest": "sha256:400faba3dd0f1e5917b581ab68329cb495867651a8e3e0564af130e8f8eae0e5"
     },
     {
+      "slug": "invoice-payment-deadlines",
+      "title": "An invoice past its deadline: 30 days, 50 for a hospital, 30 days end of month",
+      "goal": "Be alerted to each unpaid invoice past its deadline, computed at the door by customer: 30 days for a public buyer, 50 for a hospital, 30 days end of month for a private customer.",
+      "lede": "The deadline is not a date on the invoice: it is computed from reception, and the rule depends on the customer. A public buyer pays within 30 days, a public health establishment within 50. A private customer, here, at 30 days end of month.\n- the operator's script computes due_on at the door\n- a Workflow declares the deadline\n- one decision per unpaid invoice past it",
+      "tags": {
+        "domain": [
+          "Finance",
+          "Collections",
+          "Public procurement"
+        ],
+        "kinds": [
+          "Connector",
+          "Workflow"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:028043a7e92088c05cbf53d18bba8037cfc99368328f59791142f95b5d4e2de0"
+    },
+    {
       "slug": "invoices-dead-letters",
       "title": "An invoice with a mistyped amount waits for its fix in the ERP",
       "goal": "Set aside each mistyped invoice with the value that was read, instead of writing it without an amount, and follow its dead letter until the fix in the ERP.",
@@ -1772,6 +1792,25 @@
       "edition": "open",
       "replayedAt": "2026-10-22",
       "evidenceDigest": "sha256:2b3ff54db7df095b8ff9531a6a89d679651c8827fe8bfc48c27c989ddd11501c"
+    },
+    {
+      "slug": "sqlserver-bcp-export",
+      "title": "SQL Server read through its own export: bcp",
+      "goal": "Read the orders of a SQL Server database although lumnik has no dialect for it: through the bcp export, a shifted line set aside with its reason.",
+      "lede": "The .NET world keeps its data in SQL Server. jdbc-generic speaks PostgreSQL and Oracle: asked for jdbc:sqlserver, it refuses before any connection and says what it has. The working path is SQL Server's export tool, bcp.\n- the refusal, named, at validate\n- bcp: no header, no quoting\n- a ; in a name shifts the line: it is set aside",
+      "tags": {
+        "domain": [
+          "ERP",
+          "Microsoft",
+          "Database"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:e710f9511d13fa0b1195f95cd4cceb6254340f9072fe6d4a8715656130f0ebbd"
     },
     {
       "slug": "struts-displaytag-export",
