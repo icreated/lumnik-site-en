@@ -674,6 +674,26 @@
       "evidenceDigest": "sha256:81638f79c0711724f257732f97137d1f82ac49f579adc0b3e542755e2ce3593c"
     },
     {
+      "slug": "gtfs-school-bus-stop",
+      "title": "GTFS: a school bus stop no trip serves",
+      "goal": "Read a school line's GTFS feed as published and find the stop no trip serves, with the query that proves it.",
+      "lede": "Transport authorities publish their timetables as GTFS: CSV files, stops.txt and stop_times.txt among them. Two defects pass a quick look: a temporary stop left in the file, and a stop time naming a missing stop.\n- two files, two connectors, over SFTP\n- the unserved stop found in natural language, with its SQL\n- the orphan stop time found too, through a NOT EXISTS",
+      "tags": {
+        "domain": [
+          "Transport",
+          "Education",
+          "AI"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:70cd09bc78196a1a5ec203aa17a5f90ea52552f31abb99ab4d96d24e958d461b"
+    },
+    {
       "slug": "hl7-analyser-results",
       "title": "HL7 v2: a result above its range that the analyser does not flag",
       "goal": "Read the HL7 v2 results of two analysers, and be told when a value is above the reference range sent with it, even with no abnormal flag.",
