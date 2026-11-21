@@ -595,6 +595,26 @@
       "evidenceDigest": "sha256:99d22064292dcb6ead4b52f4aad94bc309eba96a715569fa6118df21f934095f"
     },
     {
+      "slug": "fec-entries",
+      "title": "The FEC handed to the tax auditor: two entries do not balance",
+      "goal": "Read the FEC as the accountant hands it over, set aside the line with an unreadable amount, and learn which entries do not balance, with the query that proves it.",
+      "lede": "Every French company that keeps its accounts on a computer hands its FEC to the tax auditor: 18 fields in a fixed order, one file per fiscal year. A missing or non-compliant file costs €5,000, once per audit.\n- decimal comma and YYYYMMDD dates declared in the connector\n- a line with an unreadable debit set aside, with its reason\n- one question in natural language: two unbalanced entries, and the SQL",
+      "tags": {
+        "domain": [
+          "Accounting",
+          "Tax",
+          "AI"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:8e20692f3be62bed55750d613d090990980882765bf9f0497eb519a627ff825c"
+    },
+    {
       "slug": "firebird-delphi-stock",
       "title": "Firebird: a Delphi application's articles under their stock threshold",
       "goal": "Read a Delphi application's articles through the isql export of its Firebird database, and be told when an article falls under its reorder threshold.",
@@ -891,6 +911,65 @@
       "edition": "open",
       "replayedAt": "2026-11-03",
       "evidenceDigest": "sha256:69ef587c0021ffa045f4e926ee84334d73dd1ec689ec4ea45b27d1b1ad66f639"
+    },
+    {
+      "slug": "odoo-json2-partners",
+      "title": "Odoo 19's JSON-2 API: the page is read from the body",
+      "goal": "Read the 250 contacts of a real Odoo 19 through its JSON-2 API, page by page, with no database opened.",
+      "lede": "Odoo 19 replaces XML-RPC and JSON-RPC, removed in Odoo 22, with POST /json/2/<model>/<method>. Every existing integration has to move, and Odoo Online does not open its database: the API is its only door. JSON-2 reads offset and limit from the JSON body only.\n- body: the domain, fields and order Odoo expects\n- param_binding: body writes offset and limit into the body\n- three requests, 250 contacts, none twice",
+      "tags": {
+        "domain": [
+          "ERP",
+          "Odoo",
+          "API"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:84fedacbeeef72925e31375968eb7f54080b5080879d8c69ee2e1b4678a2a6ab"
+    },
+    {
+      "slug": "odoo-product-name-json",
+      "title": "Odoo read from its PostgreSQL: the product name is a JSON",
+      "goal": "Read the products of a real Odoo 18 straight from its database and get each product's French name, without writing anything in Odoo.",
+      "lede": "Since Odoo 16 a translated field is one JSON per row, one key per language. Every report written against the old text column broke. An integrator reading Odoo's database meets it at product_template.name.\n- the name lands as JSON text, every language kept\n- promote reads the fr_FR key into a column of its own, with en_US as the fallback\n- the question in natural language gives the four French names",
+      "tags": {
+        "domain": [
+          "ERP",
+          "Odoo",
+          "AI"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:03b861eb9502a08f2cce60a4699587f69185694e79fed2c8a79a4493b7e8fad6"
+    },
+    {
+      "slug": "odoo-quotation-expired",
+      "title": "An Odoo quotation sent expired and still unanswered",
+      "goal": "Be alerted to the Odoo quotation sent to a customer, past its validity date and still unanswered, without touching Odoo.",
+      "lede": "Odoo gives each quotation a validity date. The customer does not answer, the date passes, and the quotation stays \"Quotation sent\". Odoo shows it as expired when someone opens it, and tells no one.\n- four quotations in a real Odoo 18\n- a Workflow declares Odoo's states and the validity_date deadline\n- one decision: the only quotation sent and expired",
+      "tags": {
+        "domain": [
+          "ERP",
+          "Odoo",
+          "Sales"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Workflow"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:731183e2f61f940cd858628771f8eb413b242823faea61442de37d22d64c2ac8"
     },
     {
       "slug": "one-app-per-metier",
@@ -1540,6 +1619,25 @@
       "edition": "open",
       "replayedAt": "2026-11-05",
       "evidenceDigest": "sha256:8f092ded88b6a56f611309587aa93bf603b20a90241c7328e4d82864b50e61c3"
+    },
+    {
+      "slug": "school-absences-half-days",
+      "title": "Four unjustified half-days in a month: the school must act",
+      "goal": "Know from the monthly export which pupils reach four unjustified half-days of absence, and which pass ten, without opening the school software's report.",
+      "lede": "From four unjustified half-days in a month, the head convenes the family. Beyond ten, the academic director (Dasen) is informed. The school software counts, but the count stays in a report.\n- the monthly export arrives over SFTP\n- two Processes, one per threshold\n- one decision per pupil and threshold crossed",
+      "tags": {
+        "domain": [
+          "Education",
+          "Public sector"
+        ],
+        "kinds": [
+          "Connector",
+          "Process"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:a348d2d7c7c4436525e5454b10af9e22de820f7afd75116da56e38f758acb213"
     },
     {
       "slug": "senaite-culture-plates",
