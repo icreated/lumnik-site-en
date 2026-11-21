@@ -932,6 +932,27 @@
       "evidenceDigest": "sha256:ae510178af68b582e75a073f55bf789b31bbf7108476f9bc3d6fa12d25e3442a"
     },
     {
+      "slug": "odoo-quotation-expired",
+      "title": "An Odoo quotation sent expired and still unanswered",
+      "goal": "Be alerted to the Odoo quotation sent to a customer, past its validity date and still unanswered, without touching Odoo.",
+      "lede": "Odoo gives each quotation a validity date. The customer does not answer, the date passes, and the quotation stays \"Quotation sent\". Odoo shows it as expired when someone opens it, and tells no one.\n- four quotations in a real Odoo 18\n- a Workflow declares Odoo's states and the validity_date deadline\n- one decision: the only quotation sent and expired",
+      "tags": {
+        "domain": [
+          "ERP",
+          "Odoo",
+          "Sales"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Workflow"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:731183e2f61f940cd858628771f8eb413b242823faea61442de37d22d64c2ac8"
+    },
+    {
       "slug": "one-app-per-metier",
       "title": "A technician sees only the maintenance app",
       "goal": "Give maintenance and purchasing each their own app on the same hub, so that a technician reads their work orders without opening a supplier invoice or acknowledging a purchasing decision.",
