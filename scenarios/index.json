@@ -595,6 +595,26 @@
       "evidenceDigest": "sha256:99d22064292dcb6ead4b52f4aad94bc309eba96a715569fa6118df21f934095f"
     },
     {
+      "slug": "fec-entries",
+      "title": "The FEC handed to the tax auditor: two entries do not balance",
+      "goal": "Read the FEC as the accountant hands it over, set aside the line with an unreadable amount, and learn which entries do not balance, with the query that proves it.",
+      "lede": "Every French company that keeps its accounts on a computer hands its FEC to the tax auditor: 18 fields in a fixed order, one file per fiscal year. A missing or non-compliant file costs €5,000, once per audit.\n- decimal comma and YYYYMMDD dates declared in the connector\n- a line with an unreadable debit set aside, with its reason\n- one question in natural language: two unbalanced entries, and the SQL",
+      "tags": {
+        "domain": [
+          "Accounting",
+          "Tax",
+          "AI"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity"
+        ]
+      },
+      "edition": "pro",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:8e20692f3be62bed55750d613d090990980882765bf9f0497eb519a627ff825c"
+    },
+    {
       "slug": "firebird-delphi-stock",
       "title": "Firebird: a Delphi application's articles under their stock threshold",
       "goal": "Read a Delphi application's articles through the isql export of its Firebird database, and be told when an article falls under its reorder threshold.",
