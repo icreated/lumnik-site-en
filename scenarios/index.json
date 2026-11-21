@@ -1774,6 +1774,25 @@
       "evidenceDigest": "sha256:2b3ff54db7df095b8ff9531a6a89d679651c8827fe8bfc48c27c989ddd11501c"
     },
     {
+      "slug": "sqlserver-bcp-export",
+      "title": "SQL Server read through its own export: bcp",
+      "goal": "Read the orders of a SQL Server database although lumnik has no dialect for it: through the bcp export, a shifted line set aside with its reason.",
+      "lede": "The .NET world keeps its data in SQL Server. jdbc-generic speaks PostgreSQL and Oracle: asked for jdbc:sqlserver, it refuses before any connection and says what it has. The working path is SQL Server's export tool, bcp.\n- the refusal, named, at validate\n- bcp: no header, no quoting\n- a ; in a name shifts the line: it is set aside",
+      "tags": {
+        "domain": [
+          "ERP",
+          "Microsoft",
+          "Database"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:e710f9511d13fa0b1195f95cd4cceb6254340f9072fe6d4a8715656130f0ebbd"
+    },
+    {
       "slug": "struts-displaytag-export",
       "title": "Struts 1 without an API: the customer returns waiting for a part",
       "goal": "Read the customer returns through the screen's CSV export, the application's only output, and be told when a return has waited for a part for more than 30 days.",
