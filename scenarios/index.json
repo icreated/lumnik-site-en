@@ -933,6 +933,25 @@
       "evidenceDigest": "sha256:69ef587c0021ffa045f4e926ee84334d73dd1ec689ec4ea45b27d1b1ad66f639"
     },
     {
+      "slug": "odata-v4-next-link",
+      "title": "OData v4 paged by the server: lumnik follows @odata.nextLink",
+      "goal": "Read the 120 customers of an OData v4 service paged by the server, as Business Central pages, in pages of 20 asked with Prefer, without losing one.",
+      "lede": "Business Central pages its OData answers on the server, and a client asks for smaller pages with Prefer: odata.maxpagesize. The next page is not a parameter the client computes: it is @odata.nextLink, a URL the server hands back.\n- a real ASP.NET Core OData v4 service\n- the odata-v4 preset, the $count total as witness\n- six pages of 20, 120 customers",
+      "tags": {
+        "domain": [
+          "ERP",
+          "API",
+          "Microsoft"
+        ],
+        "kinds": [
+          "Connector"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-21",
+      "evidenceDigest": "sha256:9e67fa1c13405fe9f0d73e7e4a01d677da91d08113b29accf52136d57a2aa1e1"
+    },
+    {
       "slug": "odoo-json2-partners",
       "title": "Odoo 19's JSON-2 API: the page is read from the body",
       "goal": "Read the 250 contacts of a real Odoo 19 through its JSON-2 API, page by page, with no database opened.",
