@@ -677,7 +677,7 @@
       "slug": "gtfs-school-bus-stop",
       "title": "GTFS: a school bus stop no trip serves",
       "goal": "Read a school line's GTFS feed as published and find the stop no trip serves, with the query that proves it.",
-      "lede": "Transport authorities publish their timetables as GTFS: CSV files, stops.txt and stop_times.txt among them. Two defects pass a quick look: a temporary stop left in the file, and a stop time naming a missing stop.\n- two files, two connectors, over SFTP\n- the unserved stop found in natural language, with its SQL\n- the orphan stop time: Ask abstains, its trip shows it",
+      "lede": "Transport authorities publish their timetables as GTFS: CSV files, stops.txt and stop_times.txt among them. Two defects pass a quick look: a temporary stop left in the file, and a stop time naming a missing stop.\n- two files, two connectors, over SFTP\n- the unserved stop found in natural language, with its SQL\n- the orphan stop time found too, through a NOT EXISTS",
       "tags": {
         "domain": [
           "Transport",
@@ -691,7 +691,7 @@
       },
       "edition": "pro",
       "replayedAt": "2026-11-21",
-      "evidenceDigest": "sha256:e5f579537b18662476c21d7120e97a4dfca5715ff5a6538c3478754ab02118a1"
+      "evidenceDigest": "sha256:1b2b84f382668eefa21fa3bfaf4d1febea5b7fec74b13a8dd4f33925dbdb91b5"
     },
     {
       "slug": "hl7-analyser-results",
