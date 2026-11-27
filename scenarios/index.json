@@ -910,7 +910,7 @@
       },
       "edition": "open",
       "replayedAt": "2026-11-27",
-      "evidenceDigest": "sha256:db7b77a6c87ae71d64f3b163a2036c14187fd02d53e5fb69bbaff8a28d058114"
+      "evidenceDigest": "sha256:26c755d59429711eada4823f2ddcbb4a3257906b77336a8d158754ffcc0326f8"
     },
     {
       "slug": "legacy-desktop-exports",
@@ -1739,6 +1739,27 @@
       "edition": "open",
       "replayedAt": "2026-11-05",
       "evidenceDigest": "sha256:8f092ded88b6a56f611309587aa93bf603b20a90241c7328e4d82864b50e61c3"
+    },
+    {
+      "slug": "school-absence-hours-by-motive",
+      "title": "Legacy school software: three medical motives make 85 % of the hours of absence",
+      "goal": "Know which absence motives carry most of the lesson hours lost over the first term.",
+      "lede": "A middle school of 420 pupils exports its term's absences, one line per absence. Everybody believes the hours go to unjustified absences. Nobody has summed the hours by motive.\n- an A, B, C classing of the motives by hours lost\n- the number of absences beside the hours\n- « non justifiée », the most frequent motive: in B",
+      "tags": {
+        "domain": [
+          "Education",
+          "School life",
+          "Absences"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Metric"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-27",
+      "evidenceDigest": "sha256:bfdf20c107dfcf7e50ede06fc14e39a05f56dc0f6c7d0f3a85a123daf218654f"
     },
     {
       "slug": "school-absences-half-days",

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legacy school software: three medical motives make 85 % of the hours of absence — lumnik</title>
+<meta name="description" content="Know which absence motives carry most of the lesson hours lost over the first term. A middle school of 420 pupils exports its term&#x27;s absences, one line per absence. Everybody believes the hours go to unjustified absences. Nobody has summed the hours by motive. An A, B, C classing of the motives by hours lost. The number of absences beside the hours. « non justifiée », the most frequent motive: in B.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/school-absence-hours-by-motive/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/school-absence-hours-by-motive/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>Legacy school software: three medical motives make 85 % of the hours of absence</h1>
+    <p class="goal"><strong>Goal</strong> Know which absence motives carry most of the lesson hours lost over the first term.</p>
+    <p class="lede">A middle school of 420 pupils exports its term&#x27;s absences, one line per absence. Everybody believes the hours go to unjustified absences. Nobody has summed the hours by motive.</p><ul class="lede-list"><li>an A, B, C classing of the motives by hours lost</li><li>the number of absences beside the hours</li><li>« non justifiée », the most frequent motive: in B</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Education</li><li class="tag">School life</li><li class="tag">Absences</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li><li class="tag kind">Metric</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-declare" data-step="declare" aria-current="step"><span class="num">1 · Declare</span><span class="sub">Entity + Metric</span></a><a href="#step-read" data-step="read"><span class="num">2 · Read</span><span class="sub">Class A</span></a></nav>
+  <section class="step" id="step-declare" aria-labelledby="declare-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="declare-title">The motives classed by hours lost</h2>
+      <p>The export arrives over SFTP: one line per absence, with the motive typed at the desk and the lesson hours lost. The metric sums, per motive, the hours and the absences.</p><ul class="prose-list"><li>by: [motif]: the pupil is not a column of the metric</li><li>preset: abc: A, the motives of the first 80 % of the hours; B, up to 95 %; C, the rest</li><li>absences: count: rows: the number of absences on the same line</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>By hours</strong><p>A motive is in A while the motives before it carry less than 80 % of the hours.</p></div></li><li><span class="n">2</span><div><strong>No child on the card</strong><p>The metric groups by motive only: it never shows a pupil.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A question about the whole school is declared in a few lines, over an export as it is.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Declare"><button type="button" role="tab" id="declare-source-tab" data-view="source" aria-controls="declare-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="declare-manifest-tab" data-view="manifest" aria-controls="declare-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="declare-commands-tab" data-view="commands" aria-controls="declare-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="declare-result-tab" data-view="result" aria-controls="declare-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="declare-source" aria-labelledby="declare-source-tab" tabindex="0"><figure class="source"><figcaption>absences-t1.csv</figcaption><pre class="code">absence;eleve_id;classe;date;motif;heures
+A-00001;E-2017;6e A;2026-09-01;non justifiée;1
+A-00002;E-2033;6e A;2026-09-01;maladie;3
+A-00003;E-2048;3e D;2026-09-01;malade;7
+A-00004;E-2066;6e B;2026-09-01;non justifiée;1
+A-00005;E-2089;4e A;2026-09-01;RDV médical;4
+A-00006;E-2105;4e A;2026-09-01;non justifiée;1
+A-00007;E-2113;6e A;2026-09-01;transport;1
+A-00008;E-2119;5e C;2026-09-01;malade;4
+A-00009;E-2123;4e C;2026-09-01;malade;3
+A-00010;E-2138;4e B;2026-09-01;malade;7
+A-00011;E-2160;3e D;2026-09-01;sport compétition;4
+A-00012;E-2174;3e B;2026-09-01;RDV médical;3
+A-00013;E-2193;6e A;2026-09-01;malade;7
+A-00014;E-2206;3e B;2026-09-01;non justifiée;1
+A-00015;E-2231;5e C;2026-09-01;malade;4
+A-00016;E-2231;5e C;2026-09-01;malade;7
+A-00017;E-2242;6e B;2026-09-01;RDV médical;2
+A-00018;E-2249;4e A;2026-09-01;maladie;4
+A-00019;E-2006;5e B;2026-09-02;non justifiée;1</pre><p class="source-more">… 801 more lines</p></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="declare-manifest" aria-labelledby="declare-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/10-viesco.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-college-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [college-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: sftp</span><span class="line">    <span class="key">host</span>: host.docker.internal</span><span class="line">    <span class="key">port</span>: 2234</span><span class="line">    <span class="key">user</span>: viesco</span><span class="line">    <span class="key">path</span>: /exports/absences-t1.csv</span><span class="line">    <span class="key">password_env</span>: SCENARIO_COLLEGE_A_SFTP</span><span class="line">    <span class="comment"># The fingerprint the school&#x27;s server presents, read out of band (ssh-keyscan | ssh-keygen -lf -).</span></span><span class="line">    <span class="key">host_key_fingerprint</span>: <span class="str">&quot;SHA256:FINGERPRINT_READ_AT_REPLAY&quot;</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">    <span class="key">encoding</span>: UTF-8</span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line">      - parse-number: { column: heures, decimal-separator: <span class="str">&quot;.&quot;</span> }</span></code></pre><div class="file"><span class="filename">manifests/20-absence.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">kind</span>: Entity</span><span class="line"><span class="key">name</span>: ScenarioCollegeAbsencesA</span><span class="line"><span class="key">match</span>: [absence]</span><span class="line"><span class="key">scopes</span>: [college-a]</span><span class="line"><span class="key">sources</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_college_a</span><span class="line">    <span class="key">map</span>:</span><span class="line">      <span class="key">absence</span>: absence</span><span class="line">      <span class="key">eleve_id</span>: eleve_id</span><span class="line">      <span class="key">classe</span>: classe</span><span class="line">      <span class="key">date</span>: date</span><span class="line">      <span class="key">motif</span>: motif</span><span class="line">      <span class="key">heures</span>: heures</span></code></pre><div class="file"><span class="filename">manifests/30-motifs.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Metric</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario_college_motifs_a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: college-a</span><span class="line">  <span class="key">title</span>: Heures perdues par motif</span><span class="line">  <span class="key">description</span>: Les motifs d&#x27;absence du premier trimestre, classés A, B, C par heures de cours perdues.</span><span class="line">  <span class="key">source</span>:</span><span class="line">    <span class="key">entity</span>: ScenarioCollegeAbsencesA</span><span class="line hl">  <span class="key">by</span>: [motif]                          <span class="comment"># the motive as typed at the desk: no pupil reaches the metric</span></span><span class="line">  <span class="key">measures</span>:</span><span class="line">    <span class="key">heures</span>:   { sum: heures, unit: h }</span><span class="line hl">    <span class="key">absences</span>: { count: rows }</span><span class="line">  <span class="key">across</span>:</span><span class="line hl">    <span class="key">motif_abc</span>: { preset: abc, of: heures }   <span class="comment"># pareto by hours: A, the motives of the first 80 % of the hours</span></span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="declare-commands" aria-labelledby="declare-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm apply -f 10-viesco.yaml</span>
+<span class="out">Applied connector &quot;scenario-college-d1127&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-college-d1127</span>
+<span class="out">run scheduled: d686442f-90ac-421e-9eac-66f25bf90934</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get d686442f-90ac-421e-9eac-66f25bf90934 --wait-evaluated</span>
+<span class="out">ID        CONNECTOR               ENDPOINT  STATUS     IN   OUT  SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+d686442f  scenario-college-d1127  default   Completed  820  820  0        0             2026-11-27 21:24  2026-11-27 21:24  yes</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity apply -f 20-absence.yaml</span>
+<span class="out">Applied entity &quot;ScenarioCollegeAbsencesD1127&quot; → connector.&quot;v_scenariocollegeabsencesd1127&quot;</span>
+
+<span class="cmd"><span class="prompt">$</span> lm metric apply -f 30-motifs.yaml</span>
+<span class="out">Applied metric &quot;scenario_college_motifs_d1127&quot; (definition version 1)</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="declare-result" aria-labelledby="declare-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>IN 820 · OUT 820 · cell errors 0</dd></dl><p class="sources">evidence: replay.log, 00-check-pareto.txt, 01-run.json, 05-class-a.json, 04-metric.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-read" aria-labelledby="read-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="read-title">Three medical motives, typed three ways</h2>
+      <p>Three motives carry 85.15 % of the term&#x27;s hours.</p><ul class="prose-list"><li>malade (ill): 1,160 h</li><li>maladie (illness): 905 h</li><li>RDV médical (medical appointment): 498 h</li><li>« non justifiée » (unjustified) is in B: 236 h, 7.84 % of the hours</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>The most frequent is not the heaviest</strong><p>« non justifiée »: 210 absences of 820, an hour each most often. It is the motive the desk types most, and it weighs little in hours.</p></div></li><li><span class="n">2</span><div><strong>Checked apart</strong><p>data/check_pareto.py classes the motives with its own code: class A and its share are the same.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The action plan starts from where the hours go: health before truancy.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="read-commands-tab" data-view="commands" aria-controls="read-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="read-result-tab" data-view="result" aria-controls="read-result" aria-selected="false" tabindex="-1">Result</button><button type="button" role="tab" id="read-screenshots-tab" data-view="screenshots" aria-controls="read-screenshots" aria-selected="false" tabindex="-1">Screenshots</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="read-commands" aria-labelledby="read-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm metric get scenario_college_motifs_d1127</span>
+<span class="out">Heures perdues par motif
+
+MOTIF              HEURES  ABSENCES  MOTIF_ABC  MOTIF_ABC_BEFORE     MOTIF_ABC_COUNT  MOTIF_ABC_COUNT_SHARE  MOTIF_ABC_SHARE      MOTIF_ABC_POPULATION  MOTIF_ABC_UNCLASSIFIED  _DISPUTED
+convocation        22      9         C          98.6378737541528239  3                37.5000000000000000    3.2890365448504983   8                     0                       0
+famille            112     19        B          92.9900332225913621  2                25.0000000000000000    11.5614617940199336  8                     0                       0
+malade             1160    199       A          0                    3                37.5000000000000000    85.1495016611295681  8                     0                       0
+maladie            905     155       A          38.5382059800664452  3                37.5000000000000000    85.1495016611295681  8                     0                       0
+non justifiée      236     210       B          85.1495016611295681  2                25.0000000000000000    11.5614617940199336  8                     0                       0
+RDV médical        498     178       A          68.6046511627906977  3                37.5000000000000000    85.1495016611295681  8                     0                       0
+sport compétition  19      6         C          99.3687707641196013  3                37.5000000000000000    3.2890365448504983   8                     0                       0
+transport          58      44        C          96.7109634551495017  3                37.5000000000000000    3.2890365448504983   8                     0                       0
+
+  heures: h
+  motif_abc_before: %
+  motif_abc_count_share: %
+  motif_abc_share: %
+  heures = sum(heures), by motif
+  absences = count(rows), by motif
+  motif_abc = pareto(heures, bounds [80, 95], labels [A, B, C]) over every group, prior mass, null and ≤ 0 unclassified
+  data as of: 2026-11-27T20:24:33.543169Z (last completed run)</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="read-result" aria-labelledby="read-result-tab" tabindex="0" hidden><dl class="facts"><dt>A · malade</dt><dd>1160 h · 199 absences</dd><dt>A · maladie</dt><dd>905 h · 155 absences</dd><dt>A · RDV médical</dt><dd>498 h · 178 absences</dd><dt>share A</dt><dd>85.15 %</dd><dt>share B</dt><dd>11.56 %</dd><dt>share C</dt><dd>3.29 %</dd><dt>B · non justifiée</dt><dd>236 h · 210 absences</dd><dt>check_pareto.py</dt><dd>RDV médical · malade · maladie</dd></dl><p class="sources">evidence: replay.log, 00-check-pareto.txt, 01-run.json, 05-class-a.json, 04-metric.txt · transform v1</p></div><div role="tabpanel" class="view-panel view-panel-screenshots" id="read-screenshots" aria-labelledby="read-screenshots-tab" tabindex="0" hidden><figure class="shot"><img src="evidence/screenshots/class-a-open.png" alt="The metric in the Metrics tab: A open on malade, maladie and RDV médical, the hours and the absences on each line" loading="lazy"><figcaption>The metric in the Metrics tab: A open on malade, maladie and RDV médical, the hours and the absences on each line</figcaption></figure></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>No synonym is detected: lumnik shows three motives side by side in A; it does not say they are one cause and merges nothing. If the school decides so, a lookup at the door writes one motive.</li><li>Hours as declared: lumnik does not recompute them from the timetable.</li><li>No pupil: the metric says neither who is absent nor which pupil to follow.</li><li>No trend: one term as one total. Motives entering or leaving A wait for the metrics&#x27; history.</li><li>420 pupil ids and 820 absences, synthetic.</li></ul></section>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>
