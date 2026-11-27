@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legacy request-tracking software: four types of request make 83 % of a town hall&#x27;s processing time — lumnik</title>
+<meta name="description" content="Know which types of request concentrate the processing time, from opening to closing. A town hall exports its requests, one line per request, with the day it was opened and the day it was closed. Everybody believes the time goes to civil status, half the requests. Nobody has summed the days by type. The duration computed at the door by the operator&#x27;s script. An A, B, C classing of the types by processing days. « acte d&#x27;état civil » (civil-status certificate), the most frequent type: in B.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=Fraunces:opsz,wght@9..144,400..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/scenario.css">
+<link rel="canonical" href="https://lumnik.io/scenarios/town-hall-request-durations/">
+<link rel="alternate" hreflang="en" href="https://lumnik.io/scenarios/town-hall-request-durations/">
+</head>
+<body>
+<header class="top"><a class="brand" href="../../index.html">lumnik<span class="dot">.</span> <span class="crumb">/ scenarios</span></a>
+<span class="meta"><a href="../">All scenarios</a></span></header>
+<main>
+  <section class="hero">
+    <h1>Legacy request-tracking software: four types of request make 83 % of a town hall&#x27;s processing time</h1>
+    <p class="goal"><strong>Goal</strong> Know which types of request concentrate the processing time, from opening to closing.</p>
+    <p class="lede">A town hall exports its requests, one line per request, with the day it was opened and the day it was closed. Everybody believes the time goes to civil status, half the requests. Nobody has summed the days by type.</p><ul class="lede-list"><li>the duration computed at the door by the operator&#x27;s script</li><li>an A, B, C classing of the types by processing days</li><li>« acte d&#x27;état civil » (civil-status certificate), the most frequent type: in B</li></ul>
+    <ul class="tags"><li class="tag edition edition-open"><a href="https://docs.lumnik.io/editions/">lumnik Open</a></li><li class="tag">Local government</li><li class="tag">Citizen requests</li><li class="tag">Requests</li><li class="tag kind">Connector</li><li class="tag kind">Entity</li><li class="tag kind">Metric</li></ul>
+  </section>
+  <nav class="steps-nav" aria-label="Steps"><a href="#step-declare" data-step="declare" aria-current="step"><span class="num">1 · Declare</span><span class="sub">Script + Metric</span></a><a href="#step-read" data-step="read"><span class="num">2 · Read</span><span class="sub">Class A</span></a></nav>
+  <section class="step" id="step-declare" aria-labelledby="declare-title">
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="declare-title">A duration computed at the door, a classing by type</h2>
+      <p>The export arrives over SFTP: one line per request, dates written dd/mm/yyyy. The operator&#x27;s script computes the days from opening to closing. The metric sums, per type, the days and the requests.</p><ul class="prose-list"><li>jours: nothing for a request still open, not zero</li><li>by: [type]: opening a class shows types, not files</li><li>preset: abc: A, the types of the first 80 % of the days</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>A duration, not a delay</strong><p>From opening to closing. No deadline is declared: nothing is late.</p></div></li><li><span class="n">2</span><div><strong>The operator&#x27;s script</strong><p>The manifest names a script of the hub&#x27;s hooks directory. A date in another shape is counted unreadable, not guessed.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>A duration the export does not carry is computed at the door, with the software untouched.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Declare"><button type="button" role="tab" id="declare-source-tab" data-view="source" aria-controls="declare-source" aria-selected="true" tabindex="0">Data</button><button type="button" role="tab" id="declare-manifest-tab" data-view="manifest" aria-controls="declare-manifest" aria-selected="false" tabindex="-1">Manifests</button><button type="button" role="tab" id="declare-commands-tab" data-view="commands" aria-controls="declare-commands" aria-selected="false" tabindex="-1">Commands</button><button type="button" role="tab" id="declare-result-tab" data-view="result" aria-controls="declare-result" aria-selected="false" tabindex="-1">Result</button></div>
+    <div role="tabpanel" class="view-panel view-panel-source" id="declare-source" aria-labelledby="declare-source-tab" tabindex="0"><figure class="source"><figcaption>demandes.csv</figcaption><pre class="code">demande;type;service;ouverte_le;cloturee_le
+D26-00001;acte d&#x27;état civil;état civil;02/01/2026;04/01/2026
+D26-00002;acte d&#x27;état civil;état civil;02/01/2026;03/01/2026
+D26-00003;acte d&#x27;état civil;état civil;02/01/2026;04/01/2026
+D26-00004;acte d&#x27;état civil;état civil;02/01/2026;03/01/2026
+D26-00005;inscription scolaire;affaires scolaires;02/01/2026;06/01/2026
+D26-00006;réclamation voirie;services techniques;02/01/2026;04/03/2026
+D26-00007;réclamation voirie;services techniques;02/01/2026;15/02/2026
+D26-00008;titre d&#x27;identité;état civil;02/01/2026;21/01/2026
+D26-00009;titre d&#x27;identité;état civil;02/01/2026;18/01/2026
+D26-00010;titre d&#x27;identité;état civil;02/01/2026;18/01/2026
+D26-00011;acte d&#x27;état civil;état civil;03/01/2026;04/01/2026
+D26-00012;acte d&#x27;état civil;état civil;03/01/2026;04/01/2026
+D26-00013;acte d&#x27;état civil;état civil;03/01/2026;04/01/2026
+D26-00014;acte d&#x27;état civil;état civil;03/01/2026;05/01/2026
+D26-00015;inscription scolaire;affaires scolaires;03/01/2026;08/01/2026
+D26-00016;recensement citoyen;état civil;03/01/2026;04/01/2026
+D26-00017;recensement citoyen;état civil;03/01/2026;04/01/2026
+D26-00018;titre d&#x27;identité;état civil;03/01/2026;27/01/2026
+D26-00019;acte d&#x27;état civil;état civil;04/01/2026;05/01/2026</pre><p class="source-more">… 3316 more lines</p></figure></div><div role="tabpanel" class="view-panel view-panel-manifest" id="declare-manifest" aria-labelledby="declare-manifest-tab" tabindex="0" hidden><div class="file"><span class="filename">manifests/duree-traitement.kts</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line">// Operator-provided: a request&#x27;s processing duration, in days, from its opening to its closing.</span><span class="line">// The software writes dates as dd/mm/yyyy. A request still open has no closing date: no duration yet, not zero.</span><span class="line">// A date in any other shape is declared unreadable: counted, not guessed.</span><span class="line">@Suppress(<span class="str">&quot;UNCHECKED_CAST&quot;</span>)</span><span class="line">val cells = bindings[<span class="str">&quot;cells&quot;</span>] as MutableMap&lt;String, Any?&gt;</span><span class="line">val french = java.time.format.DateTimeFormatter.ofPattern(<span class="str">&quot;dd/MM/uuuu&quot;</span>)</span><span class="line">    .withResolverStyle(java.time.format.ResolverStyle.STRICT)</span><span class="line">fun day(text: Any?): java.time.LocalDate? =</span><span class="line">    text?.toString()?.trim()?.takeIf { it.isNotEmpty() }?.let { java.time.LocalDate.parse(it, french) }</span><span class="line">try {</span><span class="line">    val opened = day(cells[<span class="str">&quot;ouverte_le&quot;</span>])</span><span class="line">    val closed = day(cells[<span class="str">&quot;cloturee_le&quot;</span>])</span><span class="line">    cells[<span class="str">&quot;jours&quot;</span>] = if (opened == null || closed == null) null</span><span class="line">                     else java.time.temporal.ChronoUnit.DAYS.between(opened, closed).toString()</span><span class="line">} catch (e: java.time.format.DateTimeParseException) {</span><span class="line">    (bindings[<span class="str">&quot;unreadable&quot;</span>] as Runnable).run()</span><span class="line">}</span></code></pre><div class="file"><span class="filename">manifests/10-demandes.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: connectors.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Connector</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario-mairie-a</span><span class="line">  <span class="key">connector_type</span>: csv-file</span><span class="line">  <span class="key">scopes</span>: [mairie-a]</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">transport</span>:</span><span class="line">    <span class="key">kind</span>: sftp</span><span class="line">    <span class="key">host</span>: host.docker.internal</span><span class="line">    <span class="key">port</span>: 2236</span><span class="line">    <span class="key">user</span>: gru</span><span class="line">    <span class="key">path</span>: /exports/demandes.csv</span><span class="line">    <span class="key">password_env</span>: SCENARIO_MAIRIE_A_SFTP</span><span class="line">    <span class="comment"># The fingerprint the export server presents, read out of band (ssh-keyscan | ssh-keygen -lf -).</span></span><span class="line">    <span class="key">host_key_fingerprint</span>: <span class="str">&quot;SHA256:FINGERPRINT_READ_AT_REPLAY&quot;</span></span><span class="line">  <span class="key">parser</span>:</span><span class="line">    <span class="key">has_header</span>: true</span><span class="line">    <span class="key">delimiter</span>: <span class="str">&quot;;&quot;</span></span><span class="line">    <span class="key">encoding</span>: UTF-8</span><span class="line">  <span class="key">after_process</span>: none</span><span class="line">  <span class="key">mapping</span>:</span><span class="line">    <span class="key">cell</span>:</span><span class="line hl">      <span class="dash">-</span> <span class="key">kotlin</span>:</span><span class="line">          <span class="key">script</span>: hooks:duree-traitement-a.kts   <span class="comment"># the operator&#x27;s script: days from opening to closing</span></span><span class="line">      - parse-number: { column: jours, decimal-separator: <span class="str">&quot;.&quot;</span> }</span></code></pre><div class="file"><span class="filename">manifests/20-demande.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">kind</span>: Entity</span><span class="line"><span class="key">name</span>: ScenarioMairieDemandesA</span><span class="line"><span class="key">match</span>: [demande]</span><span class="line"><span class="key">scopes</span>: [mairie-a]</span><span class="line"><span class="key">sources</span>:</span><span class="line">  <span class="dash">-</span> <span class="key">table</span>: t_scenario_mairie_a</span><span class="line">    <span class="key">map</span>:</span><span class="line">      <span class="key">demande</span>: demande</span><span class="line">      <span class="key">type</span>: type</span><span class="line">      <span class="key">service</span>: service</span><span class="line">      <span class="key">ouverte_le</span>: ouverte_le</span><span class="line">      <span class="key">cloturee_le</span>: cloturee_le</span><span class="line">      <span class="key">jours</span>: jours</span></code></pre><div class="file"><span class="filename">manifests/30-types.yaml</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code yaml"><code><span class="line"><span class="key">apiVersion</span>: apps.lumnik.io/v1</span><span class="line"><span class="key">kind</span>: Metric</span><span class="line"><span class="key">metadata</span>:</span><span class="line">  <span class="key">name</span>: scenario_mairie_types_a</span><span class="line"><span class="key">spec</span>:</span><span class="line">  <span class="key">scope</span>: mairie-a</span><span class="line">  <span class="key">title</span>: Temps de traitement par type de demande</span><span class="line">  <span class="key">description</span>: Les types de demande classés A, B, C par jours de traitement, de l&#x27;ouverture à la clôture, janvier à octobre 2026.</span><span class="line">  <span class="key">source</span>:</span><span class="line">    <span class="key">entity</span>: ScenarioMairieDemandesA</span><span class="line hl">  <span class="key">by</span>: [type]                           <span class="comment"># the type of request: a request itself is read in Fiches</span></span><span class="line">  <span class="key">measures</span>:</span><span class="line">    <span class="key">jours</span>:    { sum: jours, unit: j }   <span class="comment"># closed requests only: an open one has no duration yet</span></span><span class="line">    <span class="key">demandes</span>: { count: rows }</span><span class="line">  <span class="key">across</span>:</span><span class="line hl">    <span class="key">type_abc</span>: { preset: abc, of: jours }</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-commands" id="declare-commands" aria-labelledby="declare-commands-tab" tabindex="0" hidden><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm hook scripts</span>
+<span class="out">NAME                        SIZE  SHA256
+cfonb-amount-b.kts          784   3f94b73a8a923324f6750648e230e3d91026299ed636627a4562b14552d493ba
+cfonb-amount-c.kts          784   3f94b73a8a923324f6750648e230e3d91026299ed636627a4562b14552d493ba
+coordinates-c.kts           5076  cc87f4a8e8ccbb38f3306d4dce5a013dab984c36a8cd72afd72e8bd142504542
+duree-traitement-n1127.kts  1008  e6bafc91788033658dee4859e5ada6c51cfe757cb6a9e21ad45ea34ce071457d
+ean-check-b.kts             477   58c3d6b83a0df5c9ae779aada8604f6bd850db7c52ca258b5bc6dc45fd8ea23c
+ean-check-c.kts             477   58c3d6b83a0df5c9ae779aada8604f6bd850db7c52ca258b5bc6dc45fd8ea23c
+ean-check-d.kts             477   58c3d6b83a0df5c9ae779aada8604f6bd850db7c52ca258b5bc6dc45fd8ea23c
+ean-draft-b.kts             476   c8692d84859f810de8903ded14a03a1ec4db93e1282aa88b4fb9f5e42b6586ea
+ean-draft-c.kts             476   c8692d84859f810de8903ded14a03a1ec4db93e1282aa88b4fb9f5e42b6586ea
+ean-draft-d.kts             526   90a58aae66c5feec5e52017e90d86b9ee93e46ce7d97dc0c1eb4b5faefb636a7
+promised-date-b.kts         1407  44ceece5d17c40d337374d02f942aef41b092b6708ff7dbc48efc8b43aef1ac9
+shipping-fee-c.kts          333   c1c59e5c7b81302d5a284c9c722ca8cacaca0fe859c8ae1c393cd1d54a1ad9ad
+shipping-fee-p.kts          333   c1c59e5c7b81302d5a284c9c722ca8cacaca0fe859c8ae1c393cd1d54a1ad9ad</span>
+
+<span class="cmd"><span class="prompt">$</span> lm apply -f 10-demandes.yaml</span>
+<span class="out">Applied connector &quot;scenario-mairie-n1127&quot; — 1 endpoint</span>
+
+<span class="cmd"><span class="prompt">$</span> lm connector run scenario-mairie-n1127</span>
+<span class="out">run scheduled: 09b7edd2-8663-42d9-a02b-6fb98b546844</span>
+
+<span class="cmd"><span class="prompt">$</span> lm run get 09b7edd2-8663-42d9-a02b-6fb98b546844 --wait-evaluated</span>
+<span class="out">ID        CONNECTOR              ENDPOINT  STATUS     IN    OUT   SKIPPED  DEAD-LETTERS  STARTED           ENDED             EVALUATED
+09b7edd2  scenario-mairie-n1127  default   Completed  3335  3335  0        0             2026-11-27 22:59  2026-11-27 22:59  yes</span>
+<span class="note">• script hooks:duree-traitement-n1127.kts  sha256 e6bafc91788033658dee4859e5ada6c51cfe757cb6a9e21ad45ea34ce071457d</span>
+
+<span class="cmd"><span class="prompt">$</span> lm entity apply -f 20-demande.yaml</span>
+<span class="out">Applied entity &quot;ScenarioMairieDemandesN1127&quot; → connector.&quot;v_scenariomairiedemandesn1127&quot;</span>
+
+<span class="cmd"><span class="prompt">$</span> lm metric apply -f 30-types.yaml</span>
+<span class="out">Applied metric &quot;scenario_mairie_types_n1127&quot; (definition version 1)</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="declare-result" aria-labelledby="declare-result-tab" tabindex="0" hidden><dl class="facts"><dt>run</dt><dd>IN 3335 · OUT 3335 · cell errors 0</dd></dl><p class="sources">evidence: replay.log, 00-check-types.txt, 01-hook-scripts.txt, 02-run.json, 06-class-a.json, 05-metric.txt · transform v1</p></div>
+  </div>
+</section>
+<section class="step" id="step-read" aria-labelledby="read-title" data-inactive>
+  <aside class="explain">
+    <div class="explain-intro">
+      <h2 id="read-title">Four types, one of them nobody watched</h2>
+      <p>Four types carry 82.64 % of the 39,080 processing days.</p><ul class="prose-list"><li>titre d&#x27;identité (identity documents): 11,564 d, 604 requests</li><li>réclamation voirie (road complaints): 10,578 d, 227 requests</li><li>permis de construire (building permits): 5,530 d, 67 requests</li><li>déclaration préalable (prior declarations): 4,624 d, 144 requests</li></ul>
+    </div>
+    <ol class="points"><li><span class="n">1</span><div><strong>Civil status in B</strong><p>« acte d&#x27;état civil »: 44.56 % of the requests, 3.79 % of the days.</p></div></li><li><span class="n">2</span><div><strong>Road complaints</strong><p>6.81 % of the requests, 27.07 % of the days: 51.6 days on average for a closed one.</p></div></li></ol>
+    <div class="proves"><h3>What this step proves</h3><p>The look turns to the road complaints&#x27; circuit, not to the front desk.</p></div>
+  </aside>
+  <div class="views">
+    <div role="tablist" class="view-tabs" aria-label="Read"><button type="button" role="tab" id="read-commands-tab" data-view="commands" aria-controls="read-commands" aria-selected="true" tabindex="0">Commands</button><button type="button" role="tab" id="read-result-tab" data-view="result" aria-controls="read-result" aria-selected="false" tabindex="-1">Result</button><button type="button" role="tab" id="read-screenshots-tab" data-view="screenshots" aria-controls="read-screenshots" aria-selected="false" tabindex="-1">Screenshots</button></div>
+    <div role="tabpanel" class="view-panel view-panel-commands" id="read-commands" aria-labelledby="read-commands-tab" tabindex="0"><pre class="code terminal"><code><span class="cmd"><span class="prompt">$</span> lm metric get scenario_mairie_types_n1127</span>
+<span class="out">Temps de traitement par type de demande
+
+TYPE                          JOURS  DEMANDES  TYPE_ABC  TYPE_ABC_BEFORE      TYPE_ABC_COUNT  TYPE_ABC_COUNT_SHARE  TYPE_ABC_SHARE       TYPE_ABC_POPULATION  TYPE_ABC_UNCLASSIFIED  _DISPUTED
+acte d&#x27;état civil             1481   1486      B         91.9600818833162743  3               30.0000000000000000   13.1090071647901740  10                   0                      0
+certificat d&#x27;urbanisme        1910   72        B         82.6407369498464688  3               30.0000000000000000   13.1090071647901740  10                   0                      0
+déclaration préalable         4624   144       A         70.8085977482088025  4               40.0000000000000000   82.6407369498464688  10                   0                      0
+inscription liste électorale  711    178       C         97.9247697031729785  3               30.0000000000000000   4.2502558853633572   10                   0                      0
+inscription scolaire          1732   318       B         87.5281473899692938  3               30.0000000000000000   13.1090071647901740  10                   0                      0
+location de salle             850    89        C         95.7497441146366428  3               30.0000000000000000   4.2502558853633572   10                   0                      0
+permis de construire          5530   67        A         56.6581371545547595  4               40.0000000000000000   82.6407369498464688  10                   0                      0
+recensement citoyen           100    150       C         99.7441146366427840  3               30.0000000000000000   4.2502558853633572   10                   0                      0
+réclamation voirie            10578  227       A         29.5905834186284545  4               40.0000000000000000   82.6407369498464688  10                   0                      0
+titre d&#x27;identité              11564  604       A         0                    4               40.0000000000000000   82.6407369498464688  10                   0                      0
+
+  jours: j
+  type_abc_before: %
+  type_abc_count_share: %
+  type_abc_share: %
+  jours = sum(jours), by type
+  demandes = count(rows), by type
+  type_abc = pareto(jours, bounds [80, 95], labels [A, B, C]) over every group, prior mass, null and ≤ 0 unclassified
+  data as of: 2026-11-27T21:59:28.460920Z (last completed run)</span></code></pre></div><div role="tabpanel" class="view-panel view-panel-result" id="read-result" aria-labelledby="read-result-tab" tabindex="0" hidden><dl class="facts"><dt>A · titre d&#x27;identité</dt><dd>11564 days · 604 requests</dd><dt>A · réclamation voirie</dt><dd>10578 days · 227 requests</dd><dt>A · permis de construire</dt><dd>5530 days · 67 requests</dd><dt>A · déclaration préalable</dt><dd>4624 days · 144 requests</dd><dt>share A</dt><dd>82.64 %</dd><dt>share B</dt><dd>13.11 %</dd><dt>share C</dt><dd>4.25 %</dd><dt>B · acte d&#x27;état civil</dt><dd>1481 days · 1486 requests</dd><dt>check_types.py</dt><dd>déclaration préalable · permis de construire · réclamation voirie · titre d&#x27;identité</dd></dl><p class="sources">evidence: replay.log, 00-check-types.txt, 01-hook-scripts.txt, 02-run.json, 06-class-a.json, 05-metric.txt · transform v1</p></div><div role="tabpanel" class="view-panel view-panel-screenshots" id="read-screenshots" aria-labelledby="read-screenshots-tab" tabindex="0" hidden><figure class="shot"><img src="evidence/screenshots/class-a-open.png" alt="The metric in the Metrics tab: A open on four types of request, the days and the requests on each line" loading="lazy"><figcaption>The metric in the Metrics tab: A open on four types of request, the days and the requests on each line</figcaption></figure></div>
+  </div>
+</section>
+  <section class="limits"><h2>Limits</h2><ul><li>A duration, not a delay: no deadline is declared. Holding each type to its deadline is a further step.</li><li>The 65 requests still open count as requests, not as days: a long-open road complaint does not weigh yet.</li><li>Calendar days, weekends and closures included.</li><li>Not a workload: a request waiting for the applicant counts its days too.</li><li>No trend: ten months as one total.</li><li>3,335 requests, synthetic.</li></ul></section>
+  <section class="try"><p>This scenario runs on lumnik Open, free and open source.</p><a class="try-button" href="../../try.html">Try lumnik Open →</a></section>
+</main>
+<script src="../assets/scenario.js" defer></script>
+</body>
+</html>

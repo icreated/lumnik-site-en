@@ -1956,6 +1956,27 @@
       "evidenceDigest": "sha256:da72848c7a8284282d09de7dff01b18683d12ec376bf6ef77aa57f80a195948a"
     },
     {
+      "slug": "town-hall-request-durations",
+      "title": "Legacy request-tracking software: four types of request make 83 % of a town hall's processing time",
+      "goal": "Know which types of request concentrate the processing time, from opening to closing.",
+      "lede": "A town hall exports its requests, one line per request, with the day it was opened and the day it was closed. Everybody believes the time goes to civil status, half the requests. Nobody has summed the days by type.\n- the duration computed at the door by the operator's script\n- an A, B, C classing of the types by processing days\n- « acte d'état civil » (civil-status certificate), the most frequent type: in B",
+      "tags": {
+        "domain": [
+          "Local government",
+          "Citizen requests",
+          "Requests"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Metric"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-27",
+      "evidenceDigest": "sha256:193e87b7b1f0d84cd5c667c6f0ad9487d677270cbd03a6d9132852ecbe9d67f3"
+    },
+    {
       "slug": "two-systems-one-member",
       "title": "The portal has the right address and the contract system the right plan",
       "goal": "Take a member's address from the portal and their plan from the contract system, and keep the list of disagreements until the source settles them.",
