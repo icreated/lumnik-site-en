@@ -892,6 +892,27 @@
       "evidenceDigest": "sha256:011475bb49e03bdfe8a987e15f9e9e98503d0adb249c38a7c2dfca69b03616f6"
     },
     {
+      "slug": "lab-instruments-quartile",
+      "title": "Three legacy LIMS: the quarter of instruments behind half of the non-conforming lots",
+      "goal": "Know, in each site, which instruments are in the upper quartile of non-conforming lots, and review them first.",
+      "lede": "Three sites export a monthly QC report from their LIMS. Everybody believes the instruments to review are the oldest. Nobody has compared six months of reports, site by site.\n- a quartile by number of instruments, within each site\n- the lots analysed beside the non-conforming ones\n- each site's oldest instrument: in Q1",
+      "tags": {
+        "domain": [
+          "Laboratories",
+          "LIMS",
+          "Quality"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Metric"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-27",
+      "evidenceDigest": "sha256:db7b77a6c87ae71d64f3b163a2036c14187fd02d53e5fb69bbaff8a28d058114"
+    },
+    {
       "slug": "legacy-desktop-exports",
       "title": "One machine register spread across three legacy databases",
       "goal": "Bring three workshops' OpenEdge, FoxPro and Access exports together in one machine register, each read in its own format and encoding, and see the only machine where two registers disagree.",
