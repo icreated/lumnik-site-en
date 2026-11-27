@@ -219,6 +219,27 @@
       "evidenceDigest": "sha256:18872fe713e49ae8f6f57150ad67f8f2f66a2df6e68080ddd00426700c52724f"
     },
     {
+      "slug": "complaints-vs-revenue-concentration",
+      "title": "Legacy helpdesk and ERP: three of the eight customers who complain most weigh 0.41 % of revenue",
+      "goal": "See whether the customers who concentrate complaints are those who concentrate revenue.",
+      "lede": "A distributor exports its tickets from the helpdesk and its invoices from the ERP. Everybody believes complaints follow revenue. The two have never been set side by side.\n- two metrics, one per export, classed A, B, C by customer\n- both cards in the same Metrics tab\n- the comparison made by the reader, not by lumnik",
+      "tags": {
+        "domain": [
+          "Customer service",
+          "Helpdesk",
+          "ERP"
+        ],
+        "kinds": [
+          "Connector",
+          "Entity",
+          "Metric"
+        ]
+      },
+      "edition": "open",
+      "replayedAt": "2026-11-27",
+      "evidenceDigest": "sha256:eb40f598dfa345f903fec458a10f6f567a653972c52e4ec99a38db16f35b4d16"
+    },
+    {
       "slug": "crm-contacts-reachable",
       "title": "A CRM export with broken accents and wrong emails",
       "goal": "Take over a legacy CRM's contacts with a repaired name, an international phone and a valid email, and set aside those whose email cannot be read.",
